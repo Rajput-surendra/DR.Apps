@@ -51,8 +51,8 @@ class _CommonSliderState extends State<CommonSlider> {
             Uri url = Uri.parse(widget.link);
             if (!await launchUrl(
               url,
-              mode: LaunchMode.inAppWebView,
-              webViewConfiguration: const WebViewConfiguration(enableJavaScript: false),
+              // mode: LaunchMode.inAppWebView,
+              // webViewConfiguration: const WebViewConfiguration(enableJavaScript: false),
             )) {
               throw Exception('Could not launch $url');
             }

@@ -243,17 +243,13 @@ class _HospitalState extends State<Hospital> {
         final reslut = await response.stream.bytesToString();
         print('____assadsdddsa______${reslut}_________');
         var finalResult = jsonDecode(reslut);
-        int?  otp = finalResult['data']['otp'];
+        int? otp = finalResult['data']['otp'];
         String?  mobile = finalResult['data']['mobile'];
-
         msg = finalResult['message'];
-
-        print('my resistration message====${msg}');
         Fluttertoast.showToast(msg: finalResult['message']);
-
         if (!finalResult['error']) {
           Fluttertoast.showToast(msg: finalResult['message']);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp.toString(),mobile:mobile)));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
         }
         setState(() {
           isLoading = false;
@@ -440,59 +436,103 @@ class _HospitalState extends State<Hospital> {
                   ),
                 ),
                 const SizedBox(height: 20,),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Btn(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width/2.8,
-                      title: isLoading ? "Please wait......" : 'Add',
-                      color: colors.secondary,
-                      onPress: () {
-                        if(_formKey.currentState!.validate()){
-                         Fluttertoast.showToast(msg: 'Data Add Successfully');
-                         if (_formKey.currentState!.validate()) {
-                           days = results!.join(",");
-                           clinicListForJson.add({
-                             "days":days,
-                             "clinic_name":clinicNameC.text,
-                             "morning_shift":"${_selectedTime!.format(context)} - ${_selectedTime1?.format(context)}",
-                             "evening_shift":"${_selectedTimeNew!.format(context)} - ${_selectedTimeOld!.format(context)}",
-                             "addresses":addressC.text,
-                             "appoint_number":numberC.text,
-                           });
 
-                           print('${clinicListForJson.length}______________length');
-                           print('${clinicListForJson.first}______________');
-
-                           clinicListForJson.forEach((element) {print(element);});
-                           print('${clinicListForJson.first}__________0');
-                           addressC.clear();
-                           results?.clear();
-                           numberC.clear();
-                           _selectedTime = null;
-                           _selectedTime1 = null;
-                           _selectedTimeNew = null;
-                           _selectedTimeOld = null;
-
-                         } else {
-                           Fluttertoast.showToast(
-                               msg: "Fill All field ",
-                               toastLength: Toast.LENGTH_SHORT,
-                               gravity: ToastGravity.BOTTOM,
-                               timeInSecForIosWeb: 1,
-                               backgroundColor: colors.secondary,
-                               textColor: Colors.white,
-                               fontSize: 16.0
-                           );
-                           //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-                         }
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Btn(
+                          height: 50,
+                          title: isLoading ? "Please wait......" : 'Submit',
+                          color: colors.secondary,
+                          onPress: () {
+                            if(clinicListForJson.isEmpty){
+                              Fluttertoast.showToast(msg: "Please add hospital Details");
+                            }
+                            else{
+                              registration();
+                            }
+                            // else if (_formKey.currentState!.validate()) {
+                            //   days = results!.join(",");
+                            //   clinicListForJson.add(json.encode({
+                            //     "days":days,
+                            //     "clinic_name":clinicNameC.text,
+                            //     "morning_shift":"${_selectedTime!.format(context)} - ${_selectedTime1?.format(context)}",
+                            //     "evening_shift":"${_selectedTimeNew!.format(context)} - ${_selectedTimeOld!.format(context)}",
+                            //     "addresses":addressC.text,
+                            //     "appoint_number":numberC.text,
+                            //   }));
+                            //   print('my encoded json is --------${encodeClinicForJson}');
+                            // } else {
+                            //   Fluttertoast.showToast(
+                            //       msg: "Fill All field ",
+                            //       toastLength: Toast.LENGTH_SHORT,
+                            //       gravity: ToastGravity.BOTTOM,
+                            //       timeInSecForIosWeb: 1,
+                            //       backgroundColor: colors.secondary,
+                            //       textColor: Colors.white,
+                            //       fontSize: 16.0
+                            //   );
+                            // }
 
 
+                          }),
+                    ),
+                    SizedBox(width: 5,),
+                    Expanded(
+                      child: Btn(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width/2.8,
+                          title: isLoading ? "Please wait......" : 'Add',
+                          color: colors.secondary,
+                          onPress: () {
+                            if(_formKey.currentState!.validate()){
+                              Fluttertoast.showToast(msg: 'Data Add Successfully');
+                              if (_formKey.currentState!.validate()) {
+                                days = results!.join(",");
+                                clinicListForJson.add({
+                                  "days":days,
+                                  "clinic_name":clinicNameC.text,
+                                  "morning_shift":"${_selectedTime!.format(context)} - ${_selectedTime1?.format(context)}",
+                                  "evening_shift":"${_selectedTimeNew!.format(context)} - ${_selectedTimeOld!.format(context)}",
+                                  "addresses":addressC.text,
+                                  "appoint_number":numberC.text,
+                                });
 
-                        }
-                      }),
-                ),
-                SizedBox(height: 20,),
+                                print('${clinicListForJson.length}______________length');
+                                print('${clinicListForJson.first}______________');
+
+                                clinicListForJson.forEach((element) {print(element);});
+                                print('${clinicListForJson.first}__________0');
+                                addressC.clear();
+                                results?.clear();
+                                numberC.clear();
+                                _selectedTime = null;
+                                _selectedTime1 = null;
+                                _selectedTimeNew = null;
+                                _selectedTimeOld = null;
+
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "Fill All field ",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: colors.secondary,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0
+                                );
+                                //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                              }
+
+
+
+                            }
+                          }),
+                    ),
+                  ],
+                )
+
                 /////////////////////////Hospital///////////////////////////////////
                 // SizedBox(height: 20,),
                 // const Text("Hospital",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 18),),
@@ -560,48 +600,7 @@ class _HospitalState extends State<Hospital> {
                 //   ),
                 // ),
                 // SizedBox(height: 20,),
-                Center(
-                  child: Btn(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width/1.0,
-                      title: isLoading ? "Please wait......" : 'Submit',
-                      color: colors.secondary,
-                      onPress: () {
-                        if(clinicListForJson.isNotEmpty){
-                          registration();
-                          print('my resistration msg------${msg}');
 
-                          Fluttertoast.showToast(msg: msg.toString());
-
-                        }
-                        else if (_formKey.currentState!.validate()) {
-                          days = results!.join(",");
-                        clinicListForJson.add(json.encode({
-                        "days":days,
-                        "clinic_name":clinicNameC.text,
-                        "morning_shift":"${_selectedTime!.format(context)} - ${_selectedTime1?.format(context)}",
-                        "evening_shift":"${_selectedTimeNew!.format(context)} - ${_selectedTimeOld!.format(context)}",
-                        "addresses":addressC.text,
-                        "appoint_number":numberC.text,
-                        }));
-                         print('my encoded json is --------${encodeClinicForJson}');
-                        } else {
-                            Fluttertoast.showToast(
-                                msg: "Fill All field ",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: colors.secondary,
-                                textColor: Colors.white,
-                                fontSize: 16.0
-                            );
-                            //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-
-                        }
-
-
-                      }),
-                ),
               ],
             ),
           ),
@@ -611,7 +610,8 @@ class _HospitalState extends State<Hospital> {
   }
   Widget select() {
     return InkWell(
-      onTap:_selectedItems2 == null ? (){
+      onTap:
+      _selectedItems2 == null ? (){
         Fluttertoast.showToast(msg: 'Please Select Days',backgroundColor: colors.secondary);
       }: () {
       setState(() {

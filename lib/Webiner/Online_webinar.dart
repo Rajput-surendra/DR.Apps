@@ -52,6 +52,7 @@ class _OnlineWebinarState extends State<OnlineWebinar> {
       'roll': '$Roll',
       'speciality_id': localId==null || localId== '' ?  id ?? '' : localId
     });
+    print("OnlineWebinar--------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -260,7 +261,7 @@ class _OnlineWebinarState extends State<OnlineWebinar> {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       // reverse: true,
-                      itemCount: webinarModel!.data?.length,
+                      itemCount: webinarModel!.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return  OnlineWebinarListCard(index: getWebnDataList.length, getWebinarDataList: getWebnDataList[index],); //webinarCard(index);
                       }),

@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
@@ -183,359 +184,389 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: colors.primary,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 0.75),
-                child: Container(
-                    height: MediaQuery.of(context).size.height/3.0,
-                    child: Image.asset("assets/splash/splashimages.png",scale: 6.2,)),
-              ),
-              Container(
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                      color: colors.whiteTemp,
-                     // borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10))
-                  ),
+      child: WillPopScope(
+        onWillPop: () async {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Confirm Exit"),
+                  content: Text("Are you sure you want to exit?"),
+                  actions: <Widget>[
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: colors.primary),
+                      child: Text("YES"),
+                      onPressed: () {
+                        SystemNavigator.pop();
+                      },
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: colors.primary),
+                      child: Text("NO"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+          return true;
+        },
+        child: Scaffold(
+          backgroundColor: colors.primary,
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 0.75),
+                  child: Container(
+                      height: MediaQuery.of(context).size.height/3.0,
+                      child: Image.asset("assets/splash/splashimages.png",scale: 6.2,)),
+                ),
+                Container(
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        color: colors.whiteTemp,
+                       // borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10))
+                    ),
 
-                  height: MediaQuery.of(context).size.height/1.30,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20,),
-                      Text("Login",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 35),),
-                      SizedBox(height: 15,),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Radio(
-                            value: 1,
-                            fillColor: MaterialStateColor.resolveWith(
-                                    (states) =>  colors.secondary),
-                            activeColor:  colors.secondary,
-                            groupValue: _value,
-                            onChanged: (int? value) {
-                              setState(() {
-                                _value = value!;
-                                isMobile = false;
-                              });
-                            },
-                          ),
-                          Text(
-                            "Email",
-                            style: TextStyle(
-                                color: colors.secondary, fontSize: 21),
-                          ),
-                          SizedBox(height: 10,),
-                          Radio(
-                              value: 2,
+                    height: MediaQuery.of(context).size.height/1.30,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20,),
+                        Text("Login",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 35),),
+                        SizedBox(height: 15,),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Radio(
+                              value: 1,
                               fillColor: MaterialStateColor.resolveWith(
-                                      (states) => colors.secondary),
-                              activeColor:   colors.secondary,
+                                      (states) =>  colors.secondary),
+                              activeColor:  colors.secondary,
                               groupValue: _value,
                               onChanged: (int? value) {
                                 setState(() {
                                   _value = value!;
-                                  isMobile = true;
+                                  isMobile = false;
                                 });
-                              }),
-                          // SizedBox(width: 10.0,),
-                          const Text(
-                            "Mobile No",
-                            style: TextStyle(
-                                color:  colors.secondary, fontSize: 21),
-                          ),
-                        ],
-                      ),
-                      isMobile == false
-                          ? Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20.0, bottom: 10, left: 20, right: 20),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              Card(
-                                shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)) ,
-                                elevation:4,
-                                child: Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: colors.whiteTemp,
-                                    //Theme.of(context).colorScheme.gray,
-                                  ),
-                                  child: Center(
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.emailAddress,
-                                      controller: emailController,
-                                      validator: (msg) {
-                                        if (msg!.isEmpty) {
-                                          return "Please Enter Valid Email id!";
-                                        }
-                                      },
-                                      decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        counterText: "",
-                                        contentPadding: EdgeInsets.only(
-                                            left: 15, top: 15),
-                                        hintText: "Enter Email",hintStyle: TextStyle(color: colors.secondary),
-                                        // labelText: "Enter Email id",
-                                        prefixIcon: Icon(
-                                          Icons.email,
-                                          color: colors.secondary,
-                                          size: 24,
-                                        ),
-                                        // border: OutlineInputBorder(
-                                        //   borderRadius: BorderRadius.circular(10),
-                                        // ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Card(
-                                shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                elevation: 4,
-                                child: Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
+                              },
+                            ),
+                            Text(
+                              "Email",
+                              style: TextStyle(
+                                  color: colors.secondary, fontSize: 21),
+                            ),
+                            SizedBox(height: 10,),
+                            Radio(
+                                value: 2,
+                                fillColor: MaterialStateColor.resolveWith(
+                                        (states) => colors.secondary),
+                                activeColor:   colors.secondary,
+                                groupValue: _value,
+                                onChanged: (int? value) {
+                                  setState(() {
+                                    _value = value!;
+                                    isMobile = true;
+                                  });
+                                }),
+                            // SizedBox(width: 10.0,),
+                            const Text(
+                              "Mobile No",
+                              style: TextStyle(
+                                  color:  colors.secondary, fontSize: 21),
+                            ),
+                          ],
+                        ),
+                        isMobile == false
+                            ? Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20.0, bottom: 10, left: 20, right: 20),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                Card(
+                                  shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)) ,
+                                  elevation:4,
+                                  child: Container(
+                                    height: 60,
+                                    decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
-                                      color:colors.whiteTemp ),
-                                  child: Center(
-                                    child: TextFormField(
-                                      obscureText: _isObscure,
-                                      controller: passwordController,
-                                      // obscureText: _isHidden ? true : false,
-                                      keyboardType: TextInputType.text,
-                                      validator: (msg) {
-                                        if (msg!.isEmpty) {
-                                          return "Please Enter Valid Password!";
-                                        }
-                                      },
-                                      // maxLength: 10,
-                                      decoration: InputDecoration(
+                                      color: colors.whiteTemp,
+                                      //Theme.of(context).colorScheme.gray,
+                                    ),
+                                    child: Center(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.emailAddress,
+                                        controller: emailController,
+                                        validator: (msg) {
+                                          if (msg!.isEmpty) {
+                                            return "Please Enter Valid Email id!";
+                                          }
+                                        },
+                                        decoration: const InputDecoration(
                                           border: InputBorder.none,
                                           counterText: "",
-                                          contentPadding: const EdgeInsets.only(
+                                          contentPadding: EdgeInsets.only(
                                               left: 15, top: 15),
-                                          hintText: "Password",hintStyle: TextStyle(color: colors.secondary),
-                                          prefixIcon: const Icon(
-                                            Icons.lock,
+                                          hintText: "Enter Email",hintStyle: TextStyle(color: colors.secondary),
+                                          // labelText: "Enter Email id",
+                                          prefixIcon: Icon(
+                                            Icons.email,
                                             color: colors.secondary,
                                             size: 24,
-
                                           ),
-                                          suffixIcon: IconButton(
-                                              icon: Icon(
-                                                _isObscure ? Icons.visibility : Icons.visibility_off,color: colors.secondary,),
-                                              onPressed: () {
-                                                setState(() {
-                                                  _isObscure = !_isObscure;
-                                                });
-                                              })
+                                          // border: OutlineInputBorder(
+                                          //   borderRadius: BorderRadius.circular(10),
+                                          // ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                UpdatePassword()));
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.end,
-                                    children: const [
-                                      Text(
-                                        "Forgot Password?",
-                                        style: TextStyle(
-                                            color: colors.secondary,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Card(
+                                  shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                  elevation: 4,
+                                  child: Container(
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color:colors.whiteTemp ),
+                                    child: Center(
+                                      child: TextFormField(
+                                        obscureText: _isObscure,
+                                        controller: passwordController,
+                                        // obscureText: _isHidden ? true : false,
+                                        keyboardType: TextInputType.text,
+                                        validator: (msg) {
+                                          if (msg!.isEmpty) {
+                                            return "Please Enter Valid Password!";
+                                          }
+                                        },
+                                        // maxLength: 10,
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            counterText: "",
+                                            contentPadding: const EdgeInsets.only(
+                                                left: 15, top: 15),
+                                            hintText: "Password",hintStyle: TextStyle(color: colors.secondary),
+                                            prefixIcon: const Icon(
+                                              Icons.lock,
+                                              color: colors.secondary,
+                                              size: 24,
+
+                                            ),
+                                            suffixIcon: IconButton(
+                                                icon: Icon(
+                                                  _isObscure ? Icons.visibility : Icons.visibility_off,color: colors.secondary,),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _isObscure = !_isObscure;
+                                                  });
+                                                })
+                                        ),
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Btn(
-                                height: 50,
-                                width: 320,
-                                title: isLoading1 == true ? "Please wait......" : 'Sign In',
-                                onPress: () {
-                                  setState(() {
-                                    isLoading1 = true;
-                                  });
-                                  if (_formKey.currentState!.validate()) {
-                                    emailPasswordLogin();
-                                  } else {
-                                    setState(() {
-                                      isLoading1 = false;
-                                    });
-                                    Fluttertoast.showToast(
-                                        msg:
-                                        "Please Enter Correct Credentials!!");
-                                  }
-                                },
-                              ),
-
-                              // InkWell(
-                              //   // onTap: (){
-                              //   //   setState((){
-                              //   //     isLoading = true;
-                              //   //   });
-                              //   //   if (_formKey.currentState!.validate()) {
-                              //   //     Navigator.push(context,MaterialPageRoute(builder:(context)=> SignupScreen()));
-                              //   //   } else {
-                              //   //     setState((){
-                              //   //       isLoading =false;
-                              //   //     });
-                              //   //     Fluttertoast.showToast(
-                              //   //         msg:
-                              //   //         "Please Enter Correct Credentials!!");
-                              //   //   }
-                              //   // },
-                              //     onTap: ()
-                              //     {
-                              //       setState(() {
-                              //         isloader = true;
-                              //       }); if (_formKey.currentState!.validate()) {
-                              //         emailPasswordLogin();
-                              //       } else {
-                              //         Fluttertoast.showToast(
-                              //             msg:
-                              //             "Please Enter Correct Credentials!!");
-                              //       }
-                              //     },
-                              //     child:
-                              //     Container(
-                              //       height: 50,
-                              //       width: MediaQuery.of(context).size.width,
-                              //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
-                              //       child:
-                              //       // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
-                              //       Center(child: Text("Sign In", style: TextStyle(fontSize: 18, color:colors.whiteTemp))),
-                              //     )
-                              //
-                              // ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Dont have an account?",style: TextStyle(color: colors.blackTemp,fontSize: 14,fontWeight: FontWeight.bold),),
-                                  TextButton(onPressed: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupScreen()));
-                                  }, child: Text("SignUp",style: TextStyle(color: colors.secondary,fontSize: 16,fontWeight: FontWeight.bold),))
-                                ],
-                              )
-
-                            ],
-                          ),
-                        ),
-                      )
-                          : SizedBox.shrink(),
-                      isMobile == true
-                          ? Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: colors.whiteTemp,
-                            //Theme.of(context).colorScheme.gray,
-                          ),
-                          child: Card(
-                            shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            elevation: 4,
-                            child: Center(
-                              child: TextFormField(
-                                controller: mobileController,
-                                keyboardType: TextInputType.number,
-                                maxLength: 10,
-                                validator: (v) {
-                                  if (v!.length != 10) {
-                                    return "mobile number is required";
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  counterText: "",
-                                  contentPadding:
-                                  EdgeInsets.only(left: 15, top: 15),
-                                  hintText: "Mobile Number",hintStyle: TextStyle(color: colors.secondary),
-                                  prefixIcon: Icon(
-                                    Icons.call,
-                                    color:colors.secondary,
-                                    size: 20,
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UpdatePassword()));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.end,
+                                      children: const [
+                                        Text(
+                                          "Forgot Password?",
+                                          style: TextStyle(
+                                              color: colors.secondary,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Btn(
+                                  height: 50,
+                                  width: 320,
+                                  title: isLoading1 == true ? "Please wait......" : 'Sign In',
+                                  onPress: () {
+                                    setState(() {
+                                      isLoading1 = true;
+                                    });
+                                    if (_formKey.currentState!.validate()) {
+                                      emailPasswordLogin();
+                                    } else {
+                                      setState(() {
+                                        isLoading1 = false;
+                                      });
+                                      Fluttertoast.showToast(
+                                          msg:
+                                          "Please Enter Correct Credentials!!");
+                                    }
+                                  },
+                                ),
 
+                                // InkWell(
+                                //   // onTap: (){
+                                //   //   setState((){
+                                //   //     isLoading = true;
+                                //   //   });
+                                //   //   if (_formKey.currentState!.validate()) {
+                                //   //     Navigator.push(context,MaterialPageRoute(builder:(context)=> SignupScreen()));
+                                //   //   } else {
+                                //   //     setState((){
+                                //   //       isLoading =false;
+                                //   //     });
+                                //   //     Fluttertoast.showToast(
+                                //   //         msg:
+                                //   //         "Please Enter Correct Credentials!!");
+                                //   //   }
+                                //   // },
+                                //     onTap: ()
+                                //     {
+                                //       setState(() {
+                                //         isloader = true;
+                                //       }); if (_formKey.currentState!.validate()) {
+                                //         emailPasswordLogin();
+                                //       } else {
+                                //         Fluttertoast.showToast(
+                                //             msg:
+                                //             "Please Enter Correct Credentials!!");
+                                //       }
+                                //     },
+                                //     child:
+                                //     Container(
+                                //       height: 50,
+                                //       width: MediaQuery.of(context).size.width,
+                                //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
+                                //       child:
+                                //       // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
+                                //       Center(child: Text("Sign In", style: TextStyle(fontSize: 18, color:colors.whiteTemp))),
+                                //     )
+                                //
+                                // ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Dont have an account?",style: TextStyle(color: colors.blackTemp,fontSize: 14,fontWeight: FontWeight.bold),),
+                                    TextButton(onPressed: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupScreen()));
+                                    }, child: Text("SignUp",style: TextStyle(color: colors.secondary,fontSize: 16,fontWeight: FontWeight.bold),))
+                                  ],
+                                )
+
+                              ],
+                            ),
+                          ),
+                        )
+                            : SizedBox.shrink(),
+                        isMobile == true
+                            ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: colors.whiteTemp,
+                              //Theme.of(context).colorScheme.gray,
+                            ),
+                            child: Card(
+                              shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              elevation: 4,
+                              child: Center(
+                                child: TextFormField(
+                                  controller: mobileController,
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10,
+                                  validator: (v) {
+                                    if (v!.length != 10) {
+                                      return "mobile number is required";
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    counterText: "",
+                                    contentPadding:
+                                    EdgeInsets.only(left: 15, top: 15),
+                                    hintText: "Mobile Number",hintStyle: TextStyle(color: colors.secondary),
+                                    prefixIcon: Icon(
+                                      Icons.call,
+                                      color:colors.secondary,
+                                      size: 20,
+                                    ),
+
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                          : SizedBox.shrink(),
-                        isMobile == true
-                          ? Padding(
-                          padding: const EdgeInsets.only(
-                              top: 80, left: 20, right: 20),
-                          child:
-                          InkWell(
-                              onTap: (){
-                                setState((){
-                                  isLoading = true;
-                                });
-                                if(mobileController.text.isNotEmpty && mobileController.text.length == 10){
-                                  loginwitMobile();
-                                }else{
+                        )
+                            : SizedBox.shrink(),
+                          isMobile == true
+                            ? Padding(
+                            padding: const EdgeInsets.only(
+                                top: 80, left: 20, right: 20),
+                            child:
+                            InkWell(
+                                onTap: (){
                                   setState((){
-                                    isLoading = false;
+                                    isLoading = true;
                                   });
-                                  Fluttertoast.showToast(msg: "Please enter valid mobile number!");
-                                }
-                              },
-                              child:  Container(
-                                height: 50,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
-                                child:
-                                // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
-                                Center(child: Text("Send OTP", style: TextStyle(fontSize: 18, color: colors.whiteTemp))),
-                              )
-                          )
+                                  if(mobileController.text.isNotEmpty && mobileController.text.length == 10){
+                                    loginwitMobile();
+                                  }else{
+                                    setState((){
+                                      isLoading = false;
+                                    });
+                                    Fluttertoast.showToast(msg: "Please enter valid mobile number!");
+                                  }
+                                },
+                                child:  Container(
+                                  height: 50,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
+                                  child:
+                                  // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
+                                  Center(child: Text("Send OTP", style: TextStyle(fontSize: 18, color: colors.whiteTemp))),
+                                )
+                            )
 
-                      )
-                          : SizedBox.shrink(),
-                    ],
-                  )
+                        )
+                            : SizedBox.shrink(),
+                      ],
+                    )
 
 
-              )
+                )
 
-              // Container(
-              //   color: colors.primary,
-              //   child:
-              // )
-            ],
+                // Container(
+                //   color: colors.primary,
+                //   child:
+                // )
+              ],
+            ),
           ),
         ),
       ),

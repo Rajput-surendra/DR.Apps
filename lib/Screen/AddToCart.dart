@@ -215,50 +215,63 @@ class _AddToCartState extends State<AddToCart> {
                                deliveryAddres == null || deliveryAddres == ""  ?
                               Card(
                                 child: Container(
-                                  height: 120,
+                                  // height: 120,
                                   child: Padding(
                                       padding: const EdgeInsets.only(),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          name == null ? Padding(
-                                            padding: const EdgeInsets.only(top: 15,left: 10),
-                                            child: Text("Shipping Address"),
-                                          ):   Padding(
-                                            padding: const EdgeInsets.only(top: 10,left: 10),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                      child: name == null ? const Padding(
+                                        padding:  EdgeInsets.only(top: 15,left: 10, bottom: 5),
+                                        child: Text("Shipping Address"),
+                                      ):
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10,left: 10, bottom: 5),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text("Name: ${name}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
-                                                SizedBox(height: 2,),
-                                                Text("Mobile: ${mobile1}"),
-                                                SizedBox(height: 2,),
-                                                Text("Email: ${email}"),
-                                                SizedBox(height: 2,),
-                                                Text("Address: ${address}"),
+                                                name == null ?  Padding(
+                                                    padding: const EdgeInsets.only(),
+                                                    child: TextButton(onPressed: () async {
+                                                      var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
+                                                      if(result != null){
+                                                        name = result['name'];
+                                                        mobile1 = result['mobile1'];
+                                                        email = result['email'];
+                                                        address = result['address'];
+                                                        getAddressList();
+                                                        getUserCartApi();
+                                                      }
+
+                                                    }, child:Text("Add Address",style: TextStyle(color: Colors.deepOrangeAccent,)))
+                                                ): Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: TextButton(
+                                                    onPressed: () async{
+                                                      var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
+                                                      if(result != null){
+                                                        name = result['name'];
+                                                        mobile1 = result['mobile1'];
+                                                        email = result['email'];
+                                                        address = result['address'];
+                                                        getAddressList();
+                                                        getUserCartApi();
+                                                      }
+                                                    },
+                                                      child: Text("Change Address",style: TextStyle(color: Colors.deepOrangeAccent,))),
+                                                )
                                               ],
                                             ),
-                                          ),
-                                        name == null ?  Padding(
-                                            padding: const EdgeInsets.only(),
-                                            child: TextButton(onPressed: () async {
-                                            var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
-                                            if(result != null){
-                                             name = result['name'];
-                                             mobile1 = result['mobile1'];
-                                             email = result['email'];
-                                             address = result['address'];
-                                             getAddressList();
-                                             getUserCartApi();
-                                            }
-
-                                            }, child:Text("Add Address",style: TextStyle(color: Colors.deepOrangeAccent,)))
-                                          ):Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text("Change Address",style: TextStyle(color: Colors.deepOrangeAccent,)),
-                                          )
-                                        ],
+                                            SizedBox(height: 2,),
+                                            Text("Mobile: ${mobile1}"),
+                                            SizedBox(height: 2,),
+                                            Text("Email: ${email}"),
+                                            SizedBox(height: 2,),
+                                            Container(
+                                                child: Text("Address: ${address}")),
+                                          ],
+                                        ),
                                       )
 
                                   ),
@@ -372,7 +385,7 @@ class _AddToCartState extends State<AddToCart> {
                                            Text('${userCartModel!.data![index].name}',style: TextStyle(fontSize: 16,color: colors.blackTemp,fontWeight: FontWeight.bold),),
                                            SizedBox(height: 2),
                                            Container(
-                                               width: 220,
+                                               width: 180,
                                                child: Text('${userCartModel!.data![index].productDetails![0].shortDescription}',maxLines: 4,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12,color: colors.blackTemp),)),
 
                                          ],

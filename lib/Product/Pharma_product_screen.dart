@@ -239,7 +239,7 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
 
   List<Widget> _buildDots() {
     List<Widget> dots = [];
-    for (int i = 0; i < (_sliderModel?.data?.length ?? 10); i++) {
+    for (int i = 0; i < (newSliderModel?.data?.length ?? 10); i++) {
       dots.add(
         Container(
           margin: EdgeInsets.all(1.5),

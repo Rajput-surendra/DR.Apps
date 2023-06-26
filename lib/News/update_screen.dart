@@ -268,7 +268,7 @@ class _HomePageState extends State<UpdsateScreen>
                         children: [
                           Text("Dr.${newModel?.data[i].docName}",style: TextStyle(fontSize: 14,color: colors.secondary,fontWeight: FontWeight.bold),),SizedBox(height: 2,),
                           Row(children: [
-                            Text("Prof.Dr.-",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold)),
+                            Text("Degree-",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold)),
                             Text("${newModel?.data[i].docDegree}",style: TextStyle(fontSize: 10),),SizedBox(height: 2,),
                           ],),
 

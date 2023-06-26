@@ -13,10 +13,10 @@ Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.notification!.title);
 }
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   LocalNotificationService.initialize();
+
   try{
     String? token = await FirebaseMessaging.instance.getToken();
     print("-----------token:-----${token}");
@@ -28,6 +28,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
 
 
 

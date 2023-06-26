@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:doctorapp/Helper/Color.dart';
+import 'package:doctorapp/New_model/SignUp_Model.dart';
 import 'package:doctorapp/New_model/get_pharma_category.dart';
 import 'package:doctorapp/New_model/registration_model2.dart';
 import 'package:doctorapp/Registration/hospital.dart';
@@ -83,6 +84,14 @@ class _DoctorResignationState extends State<DoctorResignation> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('selectedPlace',selectedPlace!);
     print('Selected Statelllllllllllll${selectedPlace}');
+
+
+  }
+
+  Future<void> onTapTitle() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('selectedTitle',dropdownGender!);
+    print('Selected Statelllllllllllll${dropdownGender}');
 
 
   }
@@ -460,7 +469,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
     Navigator.pop(context);
   }
 
-  RegistrationModel? detailsData;
+  SignUpModel? detailsData;
   registration() async {
     isLoading ==  true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -524,17 +533,24 @@ class _DoctorResignationState extends State<DoctorResignation> {
       print("${request.files.first}");
         if (response.statusCode == 200) {
           final reslut = await response.stream.bytesToString();
-          var finalResult = jsonDecode(jsonEncode(reslut));
+
+          var finalResult = SignUpModel.fromJson(json.decode(reslut));
+          setState(() {
+            detailsData = finalResult;
+          });
+          var otp = detailsData!.data!.otp.toString();
+          var mobile = detailsData!.data!.mobile.toString();
           print("resultttttttttttttt${reslut}");
-          String?  otp = finalResult['data']['otp'];
-          String?  mobile = finalResult['data']['mobile'];
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.setString('msg',finalResult['data']['message'] );
-          Fluttertoast.showToast(msg: finalResult['message']);
-          if (!(detailsData?.user ?? false)) {
-            Fluttertoast.showToast(msg: finalResult['message']);
+          // var otp = finalResult['data']['otp'];
+          // String?  mobile = finalResult['data']['mobile'];
+          // SharedPreferences preferences = await SharedPreferences.getInstance();
+          // preferences.setString('msg',finalResult['data']['message'] );
+         // Fluttertoast.showToast(msg: finalResult['message']);
+          if (detailsData!.error == false) {
+            print('__________surendra rajpooooo_________');
+            Fluttertoast.showToast(msg: detailsData!.message.toString());
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => NewCerification (otp: otp.toString(),mobile:mobile)));
+                MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
           }
           setState(() {
             isLoading = false;
@@ -787,6 +803,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                             // This is called when the user selects an item.
                             setState(() {
                               dropdownGender = value!;
+                              onTapTitle();
 
                             });
                           },
@@ -1205,7 +1222,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                    ],
                  ):SizedBox(),
                   const SizedBox(
-                    height: 10,
+                    height: 00 ,
                   ),
                   Padding(
                       padding: const EdgeInsets.all(5.0),

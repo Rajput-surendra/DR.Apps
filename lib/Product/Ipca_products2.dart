@@ -160,86 +160,78 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
                       height: 40,
                       width: 110,
                       child: ElevatedButton(onPressed: (){
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context)
-                            {
-                              return Wrap(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("${pharmaProducts?.data?[0].indication}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              );
-                            }
-                        );
-                      },
-                          style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                          child: Text('Indication',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                    ),
-                    SizedBox(width: 10,),
-                    SizedBox(
-                      height: 40,
-                      width: 110,
-                      child: ElevatedButton(onPressed: (){
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return AlertDialog(
+                                  title: Text("Indication",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+                                  content: Text('${pharmaProducts?.data?[0].indication}'),
+                                  actions: <Widget>[
 
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context)
-                              {
-                                return Wrap(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("${pharmaProducts?.data?[0].dosage}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
-                                        ],
-                                      ),
-                                    )
                                   ],
                                 );
-                              }
-                          );
-
+                              },
+                            );
+                          },
+                        );
                       },
                           style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                          child: Text('Dosage',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          child: Text('Indication',style: TextStyle(color: Colors.white,fontSize: 15),)),
                     ),
                     SizedBox(width: 10,),
                     SizedBox(
                       height: 40,
                       width: 110,
                       child: ElevatedButton(onPressed: (){
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context)
-                            {
-                              return Wrap(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("${pharmaProducts?.data?[0].rxInfo}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              );
-                            }
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return AlertDialog(
+                                  title: Text("Dosage",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+                                  content: Text('${pharmaProducts?.data?[0].dosage}'),
+                                  actions: <Widget>[
+
+                                  ],
+                                );
+                              },
+                            );
+                          },
                         );
+
                       },
                           style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                          child: Text('Rx info',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          child: Text('Dosage',style: TextStyle(color: Colors.white,fontSize: 15),)),
+                    ),
+                    SizedBox(width: 10,),
+                    SizedBox(
+                      height: 40,
+                      width: 110,
+                      child: ElevatedButton(onPressed: (){
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return AlertDialog(
+                                  title: Text("Rx info",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+                                  content: Text('${pharmaProducts?.data?[0].rxInfo}',style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+                                  actions: <Widget>[
+
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+
+                      },
+                          style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                          child: Text('Rx info',style: TextStyle(color: Colors.white,fontSize: 15),)),
                     ),
                   ],
                 ),

@@ -180,6 +180,17 @@ class _BookingScreenState extends State<BookingScreen> {
                                     SizedBox(height: 5,),
                                     Row(
                                       children: [
+                                        const Text('User Number : ',style: TextStyle(fontWeight: FontWeight.w600)),
+                                        const SizedBox(width:5,),
+                                        Container(
+                                            width: 90,
+                                            child: Text("${getBookingDetailsModel!.data?[index].userMobile}",overflow: TextOverflow.ellipsis,)),
+
+                                      ],
+                                    ),
+                                    SizedBox(height: 5,),
+                                    Row(
+                                      children: [
                                         const Text("Age : ",style: TextStyle(fontWeight: FontWeight.w600)),
                                         const SizedBox(width: 30,),
                                         Text('${getBookingDetailsModel!.data?[index].age}')
@@ -210,16 +221,17 @@ class _BookingScreenState extends State<BookingScreen> {
                                       ],
                                     ),
                                     SizedBox(height: 5,),
-                                    Row(
-                                      children: [
-                                        const Text('Description : ',style: TextStyle(fontWeight: FontWeight.w600)),
-                                        const SizedBox(width:5,),
-                                        Container(
-                                            width: 90,
-                                            child: Text("${getBookingDetailsModel!.data?[index].description}",overflow: TextOverflow.ellipsis,)),
+                                    // Row(
+                                    //   children: [
+                                    //     const Text('Doctor Mobile : ',style: TextStyle(fontWeight: FontWeight.w600)),
+                                    //     const SizedBox(width:5,),
+                                    //     Container(
+                                    //         width: 90,
+                                    //         child: Text("${getBookingDetailsModel!.data?[index].description}",overflow: TextOverflow.ellipsis,)),
+                                    //
+                                    //   ],
+                                    // ),
 
-                                      ],
-                                    ),
                                   ],
                                 ),
                                 Column(

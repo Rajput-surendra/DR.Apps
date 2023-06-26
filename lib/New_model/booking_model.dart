@@ -86,6 +86,7 @@ class Data {
     String? clinic,
     String? doctorName,
     String? doctorMobile,
+    String? userMobile,
     String? doctorEmail,
     String? doctorImage,
     String? timeslotText,
@@ -106,6 +107,7 @@ class Data {
     _clinic = clinic;
     _doctorName = doctorName;
     _doctorMobile = doctorMobile;
+    _userMobile = userMobile;
     _doctorEmail = doctorEmail;
     _doctorImage = doctorImage;
     _timeslotText = timeslotText;
@@ -129,6 +131,7 @@ class Data {
     _clinic = json['clinic'];
     _doctorName = json['doctor_name'];
     _doctorMobile = json['doctor_mobile'];
+    _userMobile = json['user_mobile'];
     _doctorEmail = json['doctor_email'];
     _doctorImage = json['doctor_image'];
     _timeslotText = json['timeslot_text'];
@@ -158,6 +161,7 @@ class Data {
   String? _clinic;
   String? _doctorName;
   String? _doctorMobile;
+  String? _userMobile;
   String? _doctorEmail;
   String? _doctorImage;
   String? _timeslotText;
@@ -178,6 +182,7 @@ class Data {
     String? clinic,
     String? doctorName,
     String? doctorMobile,
+    String? userMobile,
     String? doctorEmail,
     String? doctorImage,
     String? timeslotText,
@@ -198,6 +203,7 @@ class Data {
     clinic: clinic ?? _clinic,
     doctorName: doctorName ?? _doctorName,
     doctorMobile: doctorMobile ?? _doctorMobile,
+    userMobile:   userMobile ?? _userMobile,
     doctorEmail: doctorEmail ?? _doctorEmail,
     doctorImage: doctorImage ?? _doctorImage,
     timeslotText: timeslotText ?? _timeslotText,
@@ -219,6 +225,7 @@ class Data {
   String? get clinic => _clinic;
   String? get doctorName => _doctorName;
   String? get doctorMobile => _doctorMobile;
+  String? get userMobile => _userMobile;
   String? get doctorEmail => _doctorEmail;
   String? get doctorImage => _doctorImage;
   String? get timeslotText => _timeslotText;
@@ -242,6 +249,7 @@ class Data {
     map['clinic'] = _clinic;
     map['doctor_name'] = _doctorName;
     map['doctor_mobile'] = _doctorMobile;
+    map['user_mobile'] =  _userMobile;
     map['doctor_email'] = _doctorEmail;
     map['doctor_image'] = _doctorImage;
     map['timeslot_text'] = _timeslotText;

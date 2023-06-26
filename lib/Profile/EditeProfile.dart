@@ -45,6 +45,7 @@ class _EditeProfileState extends State<EditeProfile> {
   TextEditingController ExpController = TextEditingController();
    TextEditingController deegreeController = TextEditingController();
 
+
   File? imageFile;
   File? registrationImage;
   final ImagePicker _picker = ImagePicker();
@@ -55,9 +56,14 @@ class _EditeProfileState extends State<EditeProfile> {
   String? selectedState;
   String? selectedCity;
   String? selectedPlace;
+  String? titleSelected;
+
+
   var stateselected;
   var cityselected;
   var placeselected;
+  var selectedTitle;
+
 
   List <GetStateData> getStateData = [];
   String? stateId;
@@ -140,6 +146,7 @@ onTapCall2() async {
   stateselected = preferences.getString('selectedState');
   cityselected = preferences.getString('selectedCity');
   placeselected = preferences.getString('selectedPlace');
+  selectedTitle = preferences.getString('selectedTitle');
   print('Selecteccccccccccccccccccccccc${stateselected}');
 
 }
@@ -361,7 +368,6 @@ onTapCall2() async {
 
     getStateApi();
 
-
     super.initState();
   }
 
@@ -426,11 +432,11 @@ onTapCall2() async {
                   ) :
 
                   Container(
-                    height: 150,
-                    width: 150,
+                    height: 100,
+                    width: 100,
                     child: ClipRRect(
                         clipBehavior: Clip.antiAlias,
-                        borderRadius: BorderRadius.circular(50),
+                        borderRadius: BorderRadius.circular(100),
                         child: Image.file(imageFile ?? File(''),fit: BoxFit.fill)
                       // Image.file(imageFile!,fit: BoxFit.fill,),
                     ),
@@ -481,9 +487,9 @@ onTapCall2() async {
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton2<String>(
-                            hint: const Padding(
+                            hint: Padding(
                               padding: EdgeInsets.only(top: 0,bottom: 10),
-                              child: Text("Select Title",
+                              child: Text("${selectedTitle}",
                                 style: TextStyle(
                                     color: colors.black54,fontWeight: FontWeight.normal
                                 ),),
@@ -690,7 +696,7 @@ onTapCall2() async {
                         child: DropdownButton2<String>(
                           hint: Text('${stateselected}',
                             style: const TextStyle(
-                                color: colors.black54,fontWeight: FontWeight.w500,fontSize:18
+                                color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
                             ),),
                           // dropdownColor: colors.primary,
                           value: selectedState,
@@ -895,7 +901,7 @@ onTapCall2() async {
                         child: DropdownButton2<String>(
                           hint:  Text('${placeselected}',
                             style: const TextStyle(
-                                color: colors.black54,fontWeight: FontWeight.w500,fontSize:18
+                                color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
                             ),),
                           // dropdownColor: colors.primary,
                           value: selectedPlace,

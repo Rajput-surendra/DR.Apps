@@ -187,13 +187,9 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
           await http.MultipartFile.fromPath('thumbnail', thumbNailImage!.path));
     }
     if(imgList.isEmpty){
-
         request.files.add(await http.MultipartFile.fromPath(
             'image[]', pickedFiles ?? ''));
-
-
     }
-
    print('filessssssss${request.files}');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -204,12 +200,9 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
      // final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
-
       isButtonLoading = false ;
       setState(() {
-
       });
-
       Navigator.pop(context);
         Fluttertoast.showToast(msg: finalResult['message']);
       doctoreController.clear();
@@ -218,7 +211,6 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
         isloader = false;
       });
     }
-
     else {
       setState(() {
         isButtonLoading = false;
@@ -261,26 +253,20 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
   //   }
   //
   // }
-
   bool isChecked = false;
   List<String> eventCat = [];
-
   List? results;
-
   List<dynamic> dataList = [];
   List<String> langList = [];
   List<String> imgList = [];
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _selectedItems2.clear();
   }
-
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         appBar: customAppBar(context: context, text:"Awareness Input", isTrue: true, ),

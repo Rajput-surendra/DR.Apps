@@ -98,13 +98,13 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
                               widget.currentIndex ==1 || widget.currentIndex ==2? Text("Dr.${widget.newModel?.docName}",style: TextStyle(fontSize: 14,color: colors.secondary,fontWeight: FontWeight.bold),):Text("Pharma.${widget.newModel?.title
                               }",style: TextStyle(fontSize: 14,color: colors.secondary,fontWeight: FontWeight.bold),),
                               widget.currentIndex == 1 ? Row(children: [
-                                Text("Prof.Dr.-",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold)),
+                                Text("Degree-",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold)),
                                 Text("${widget.newModel?.docDegree}",style: TextStyle(fontSize: 10),),SizedBox(height: 2,),
                               ],) :SizedBox(),
 
                                   Container(
                                   width: 250,
-                                  child: Text("${widget.newModel?.docAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,))
+                                  child: Text("${widget.newModel!.title}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,))
 
                             ],
                           ),

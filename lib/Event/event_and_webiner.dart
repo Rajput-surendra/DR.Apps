@@ -156,6 +156,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     String? userId = preferences.getString('userId');
     String? Roll = preferences.getString('roll');
     String? id = preferences.getString('sId');
+    String? localId = preferences.getString('LocalId');
     print("getOnlineWebinarUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=ff45191bc42e12d2471ecac1e726d8107925e77c'
@@ -164,8 +165,9 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     request.fields.addAll({
       'user_id': '$userId',
       'roll': '$Roll',
-      'speciality_id':"$id"
+      'speciality_id': localId==null || localId== '' ?  id ?? '' : localId
     });
+    print('_____surendra sssssssss_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -540,7 +542,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 reverse: true,
-                itemCount: webinarModel!.data?.length,
+                itemCount: webinarModel!.data!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return  OnlineWebinarListCard(index: getWebnDataList.length, getWebinarDataList: getWebnDataList[index],); //webinarCard(index);
                 }),
