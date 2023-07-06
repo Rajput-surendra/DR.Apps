@@ -70,8 +70,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     String? userId = preferences.getString('userId');
     String? specialityId = preferences.getString('specialityId');
       String? localId = preferences.getString('LocalId');
-
-
     var headers = {
       'Cookie': 'ci_session=24cf09ce78eebd805097f2d1bcece02c6e418346'
     };
@@ -80,7 +78,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
       'user_id': '$userId',
       'speciality_id': localId==null || localId== ''  ?  specialityId ?? '' : localId
     });
-    print("this is is request=========>${request.fields}");
+    print("this is is request=======dsdsdfs==>${request.fields}------------${ApiService.getAwareness}");
     request.headers.addAll(headers);
     http.StreamedResponse response =  await request.send();
     if (response.statusCode == 200) {
@@ -473,7 +471,7 @@ searchProduct(String value) {
                         itemBuilder: (BuildContext context, int index) {
                           return AwarenessListCard(currentIndex: 2,index: index,getAwareNess: getAwareNess,vController: _vController); // getLeafletList(getAwareNess?.data.leaflets, index);
                         })
-                        : getAwareNess?.data.mPoster?.isEmpty ?? true ? Center(child: Text('Poster not available'),) :selectedSegmentVal == 3
+                        : getAwareNess?.data.mPoster?.isEmpty ?? true ? Center(child: Text('Motivational Poster not available'),) :selectedSegmentVal == 3
                         ?ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
@@ -682,6 +680,40 @@ searchProduct(String value) {
     }
     return dots;
   }
+  _shareQrCode() async {
+    iconVisible = true;
+    iconVisible1 = true;
+    iconVisible2 = true;
+    iconVisible3 = true;
+    PermissionStatus storagePermission = await Permission.storage.request();
+    if (storagePermission == PermissionStatus.granted) {
+      final directory = (await getApplicationDocumentsDirectory()).path;
+      screenshotController.capture().then((Uint8List? image) async {
+        if (image != null) {
+          try {
+            String fileName = DateTime
+                .now()
+                .microsecondsSinceEpoch
+                .toString();
+            final imagePath = await File('$directory/$fileName.png').create();
+            if (imagePath != null) {
+              await imagePath.writeAsBytes(image);
+              Share.shareFiles([imagePath.path],);
+            }
+          } catch (error) {}
+        }
+      }).catchError((onError) {
+        print('Error --->> $onError');
+      });
+    } else if (storagePermission == PermissionStatus.denied) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('This Permission is recommended')));
+    } else if (storagePermission == PermissionStatus.permanentlyDenied) {
+      openAppSettings().then((value) {
+
+      });
+    }
+  }
   getPosterList(model, int index){
     return  Card(
         elevation: 4,
@@ -766,40 +798,6 @@ searchProduct(String value) {
           ),
         )
     );
-  }
-  _shareQrCode() async {
-    iconVisible = true;
-    iconVisible1 = true;
-    iconVisible2 = true;
-    iconVisible3 = true;
-    PermissionStatus storagePermission = await Permission.storage.request();
-    if (storagePermission == PermissionStatus.granted) {
-      final directory = (await getApplicationDocumentsDirectory()).path;
-      screenshotController.capture().then((Uint8List? image) async {
-        if (image != null) {
-          try {
-            String fileName = DateTime
-                .now()
-                .microsecondsSinceEpoch
-                .toString();
-            final imagePath = await File('$directory/$fileName.png').create();
-            if (imagePath != null) {
-              await imagePath.writeAsBytes(image);
-              Share.shareFiles([imagePath.path],);
-            }
-          } catch (error) {}
-        }
-      }).catchError((onError) {
-        print('Error --->> $onError');
-      });
-    } else if (storagePermission == PermissionStatus.denied) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('This Permission is recommended')));
-    } else if (storagePermission == PermissionStatus.permanentlyDenied) {
-      openAppSettings().then((value) {
-
-      });
-    }
   }
   bookletsList(model, int index){
     return Card(

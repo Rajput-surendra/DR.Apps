@@ -542,7 +542,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   SizedBox(height: 20,),
                   Btn(
                     height: 50,
-                    width: 320,
+                    width: double.infinity,
                     title: isloader == true ? "Please wait......" : 'Add Post Webinar',
                     onPress: () {
                       if (_formKey.currentState!.validate()) {

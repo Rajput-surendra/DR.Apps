@@ -249,7 +249,10 @@ class _AwarenessState extends State<AwarenessListCard> {
                             getNewWishlistApi(widget.getAwareNess?.data.booklets?[widget.index].id ??'',widget.getAwareNess?.data.booklets?[widget.index].type ?? "");
                             widget.getAwareNess?.data.booklets?[widget.index].isSelected = !(widget.getAwareNess?.data.booklets?[widget.index].isSelected ?? false );
                           });
-                        },icon: widget.getAwareNess?.data.booklets?[widget.index].isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,)),
+                        },icon: widget.getAwareNess?.data.booklets?[widget.index].isSelected??
+                            false ?Icon(Icons.favorite,color: colors.red,):
+                        Icon(Icons.favorite_outline,color: colors.red,)),
+                        Icon(Icons.delete)
                       ],
                     ):SizedBox.shrink()
                   ],
@@ -337,7 +340,10 @@ class _AwarenessState extends State<AwarenessListCard> {
                             getNewWishlistApi(widget.getAwareNess?.data.leaflets?[widget.index].id ??'',widget.getAwareNess?.data.leaflets?[widget.index].type ?? "");
                             widget.getAwareNess?.data.leaflets?[widget.index].isSelected = !(widget.getAwareNess?.data.leaflets?[widget.index].isSelected ?? false );
                           });
-                        },icon: widget.getAwareNess?.data.leaflets?[widget.index].isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,)),
+                        },icon: widget.getAwareNess?.data.leaflets?[widget.index].isSelected??
+                            false ?Icon(Icons.favorite,color: colors.red,)
+                            :Icon(Icons.favorite_outline,color: colors.red,)),
+                        Icon(Icons.delete)
                       ],
                     ):SizedBox.shrink()
                   ],
@@ -426,7 +432,10 @@ class _AwarenessState extends State<AwarenessListCard> {
                             getNewWishlistApi(widget.getAwareNess?.data.mPoster?[widget.index].id ??'',widget.getAwareNess?.data.mPoster?[widget.index].type ?? "");
                             widget.getAwareNess?.data.mPoster?[widget.index].isSelected = !(widget.getAwareNess?.data.mPoster?[widget.index].isSelected ?? false );
                           });
-                        },icon: widget.getAwareNess?.data.mPoster?[widget.index].isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,)),
+                        },icon: widget.getAwareNess?.data.mPoster?[widget.index].isSelected?? false
+                            ?Icon(Icons.favorite,color: colors.red,):
+                        Icon(Icons.favorite_outline,color: colors.red,)),
+                        Icon(Icons.delete)
                       ],
                     ):SizedBox.shrink()
                   ],

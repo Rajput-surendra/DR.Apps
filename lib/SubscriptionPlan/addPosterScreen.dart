@@ -208,7 +208,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                   ),
                 ],
               ),
-              role == "1" ? SizedBox.shrink():Container(
+              _value == 1 ? role == 1 ? SizedBox.shrink():Container(
                   padding: EdgeInsets.only(right: 5, top: 5),
                   height: 50,
                   width: MediaQuery.of(context).size.width,
@@ -240,10 +240,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                         setState(() {
                           dropdownInput = value!;
                         });
-
-
                       },
-
                       items: list.map((items) {
                         return DropdownMenuItem(
                           value: items['id'].toString(),
@@ -269,7 +266,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
 
                     ),
                   )
-              ),
+              ): SizedBox.shrink(),
               SizedBox(height: 20,),
               _value == 1  ?   InkWell(
                 onTap: (){
@@ -305,12 +302,10 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
 
                   ),
                 ),
-              ):InkWell(
-                onTap: (){
+              ):InkWell(onTap: (){
                   // showExitPopup();
                   _getFromGallery(true);
-                },
-                child: Container(
+                }, child: Container(
                   // height: MediaQuery.of(context).size.height/6,
                   height: imageFile == null ?60:120,
                   child: DottedBorder(
@@ -340,7 +335,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                   ),
                 ),
               ),
-
               SizedBox(height: 20,),
               Container(
                 height: 50,
@@ -360,7 +354,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                   },
                 ),
               ),
-
               SizedBox(height: 20,),
 
             ],

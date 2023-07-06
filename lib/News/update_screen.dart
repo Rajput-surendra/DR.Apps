@@ -46,29 +46,29 @@ class _HomePageState extends State<UpdsateScreen>
   bool loading1 = false;
   bool iconVisible = true;
 
-  final _selectedColor = colors.primary;
-  final _unselectedColor = Color(0xff5f6368);
-  final _tabs = [
-    Tab(text: 'Doctor News',),
-    Tab(text: 'Pharma News'),
-    Tab(text: 'Product News'),
-  ];
-  List<Map<String, dynamic>> newsList1 = [
-    {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
-    {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-    {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-  ];
-  List<Map<String, dynamic>> newsList2 = [
-    {"image": "assets/images/1ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-    {"image": "assets/images/2ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
-    {"image": "assets/images/3ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
-
-  ];
-  List<Map<String, dynamic>> newsList3 = [
-    {"image": "assets/images/1PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-    {"image": "assets/images/2PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-    {"image": "assets/images/3PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
-  ];
+  // final _selectedColor = colors.primary;
+  // final _unselectedColor = Color(0xff5f6368);
+  // final _tabs = [
+  //   Tab(text: 'Doctor News',),
+  //   Tab(text: 'Pharma News'),
+  //   Tab(text: 'Product News'),
+  // ];
+  // List<Map<String, dynamic>> newsList1 = [
+  //   {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
+  //   {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
+  //   {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
+  // ];
+  // List<Map<String, dynamic>> newsList2 = [
+  //   {"image": "assets/images/1ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
+  //   {"image": "assets/images/2ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
+  //   {"image": "assets/images/3ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
+  //
+  // ];
+  // List<Map<String, dynamic>> newsList3 = [
+  //   {"image": "assets/images/1PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
+  //   {"image": "assets/images/2PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
+  //   {"image": "assets/images/3PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
+  // ];
   String? role;
   getRoll() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -90,6 +90,28 @@ class _HomePageState extends State<UpdsateScreen>
 
   }
 
+  deletePostNewApi(newId) async {
+    var headers = {
+      'Cookie': 'ci_session=b7a13a356f4a36ee37aa0d14cc035533338c8ba8'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getDeleteDoctorPostApi}'));
+    request.fields.addAll({
+      'id': newId,
+      'type':'news'
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result =  await response.stream.bytesToString();
+      var finalResult = jsonDecode(result);
+      getNewListApi(0);
+      Fluttertoast.showToast(msg: "${finalResult['message']}");
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
 
   String? referUrl;
   List<GlobalKey> _globalKey = [];
@@ -115,29 +137,6 @@ class _HomePageState extends State<UpdsateScreen>
     return file.path;
   }
 
-  // Future<String?> pickImage() async {
-  //   final file = await ImagePicker().pickImage(
-  //     source: ImageSource.gallery,
-  //   );
-  //   var path = file?.path;
-  //   if (path == null) {
-  //     return null;
-  //   }
-  //   return file?.path;
-  // }
-
-  // Future<String?> screenshot() async {
-  //   var data = await screenshotController.capture();
-  //   if (data == null) {
-  //     return null;
-  //   }
-  //   final tempDir = await getTemporaryDirectory();
-  //   final assetPath = '${tempDir.path}/temp.png';
-  //   File file = await File(assetPath).create();
-  //   await file.writeAsBytes(data);
-  //   return file.path;
-  // }
-
   ScreenshotController screenshotController = ScreenshotController();
   String newsType= 'doctor-news';
   @override
@@ -145,7 +144,6 @@ class _HomePageState extends State<UpdsateScreen>
     super.dispose();
     _tabController.dispose();
   }
-
   int _currentIndex = 1;
   customTabbar(){
     return Container(
@@ -300,34 +298,6 @@ class _HomePageState extends State<UpdsateScreen>
                   Text('${newModel?.data[i].title}'),
                   Text('${newModel?.data[i].description}'),
                 ],),
-                // LikeAnimation(
-                //   isAnimating: i,
-                //   //widget.snap['likes'].contains(user!.uid),
-                //   smallLike: isSelected,
-                //   child: IconButton(
-                //     onPressed: () async {
-                //       setState(() {
-                //         isSelected = !isSelected;
-                //       });
-                //       likeUnlike();
-                //       // await FirestoreMethods().likePost(
-                //       //   widget.snap['postId'],
-                //       //   user!.uid,
-                //       //   widget.snap['likes'],
-                //       // );
-                //     },
-                //     icon: isSelected
-                //         ? const Icon(
-                //       Icons.favorite,
-                //       color: Colors.red,
-                //     )
-                //         : const Icon(
-                //       Icons.favorite_outline_outlined,
-                //       color: colors.primary,
-                //     ),
-                //   ),
-                // ),
-
                 iconVisible ? Row(
                   children: [
                     IconButton(onPressed: (){
@@ -358,31 +328,6 @@ class _HomePageState extends State<UpdsateScreen>
           ],
         ),
       )
-      // Row(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     Padding(
-      //       padding: EdgeInsets.all(8.0),
-      //       child: ClipRRect(
-      //         borderRadius: BorderRadius.circular(20),
-      //           child: Image.network("${ApiService.imageUrl}${newTypeModel?.data?[i].image}",fit: BoxFit.fill,height: 100,width: 100,)),
-      //     ),
-      //     Padding(
-      //       padding:  EdgeInsets.only(top: 15,left: 5),
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         mainAxisAlignment: MainAxisAlignment.start,
-      //         children: [
-      //           Text("${newTypeModel?.data?[i].title}",style: TextStyle(fontWeight: FontWeight.bold),),
-      //           SizedBox(height: 3,),
-      //           Text("${newTypeModel?.data?[i].description}"),
-      //           Text("${newTypeModel?.data?[i].date?.substring(11,16)}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10),)
-      //         ],
-      //       ),
-      //     ),
-      //
-      //   ],
-      // ),
     );
   }
   _shareQrCode() async {
@@ -441,7 +386,6 @@ class _HomePageState extends State<UpdsateScreen>
     }
     return "";
   }
-
   getNewWishlistApi(String id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
@@ -522,8 +466,6 @@ class _HomePageState extends State<UpdsateScreen>
     }
   }
 
-
-
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
   new GlobalKey<RefreshIndicatorState>();
   Future<Null> _refresh() {
@@ -533,6 +475,8 @@ class _HomePageState extends State<UpdsateScreen>
   Future<Null> callApi() async {
     //getNewListApi();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -596,7 +540,9 @@ class _HomePageState extends State<UpdsateScreen>
                   //   children:  _buildDots(),),
 
                   loading1 ? const Center(child: SingleChildScrollView()): SizedBox(
-                    child: ListView.builder(
+                    child:
+                    // newModel!.data == null || newModel!.data.length == 0 ? Text("No New Found!! "):
+                    ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -604,11 +550,14 @@ class _HomePageState extends State<UpdsateScreen>
                         itemCount: newModel!.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return //customCards(newModel!.data,index);
-                            UpdateScreenListCard(index: newsDatalist.length,newModel: newsDatalist[index],currentIndex: _currentIndex,i: index,);//customCards(newModel, index);
+                            UpdateScreenListCard(index: newsDatalist.length,newModel: newsDatalist[index],currentIndex: _currentIndex,i: index,onTap: (){
+                              deletePostNewApi(newModel!.data[index].id);
+                            },);//customCards(newModel, index);
 
 
                         }),
                   ),
+                  SizedBox(height: 50,)
 
                 ]
             ),

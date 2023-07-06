@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:doctorapp/Event/Events.dart';
 import 'package:doctorapp/Webiner/AddPostWebiner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -167,7 +165,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'roll': '$Roll',
       'speciality_id': localId==null || localId== '' ?  id ?? '' : localId
     });
-    print('_____surendra sssssssss_____${request.fields}_________');
+    print('_____getOnlineWebinarApi_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -250,7 +248,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getSliderApi();
     getSliderApi();
     Future.delayed(Duration(seconds: 1),(){
       getOnlineWebinarApi();
@@ -367,6 +364,53 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       ),
     );
   }
+
+  deletePostEventApi(enentId) async {
+    var headers = {
+      'Cookie': 'ci_session=b7a13a356f4a36ee37aa0d14cc035533338c8ba8'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getDeleteDoctorPostApi}'));
+    request.fields.addAll({
+      'id': enentId,
+      'type':'event'
+    });
+    print('____sdsdfsdfsdf______${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result =  await response.stream.bytesToString();
+      var finalResult = jsonDecode(result);
+      getEventList();
+      Fluttertoast.showToast(msg: "${finalResult['message']}");
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
+  deletePostWebinarApi(webinarId) async {
+    var headers = {
+      'Cookie': 'ci_session=b7a13a356f4a36ee37aa0d14cc035533338c8ba8'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getDeleteDoctorPostApi}'));
+    request.fields.addAll({
+      'id': webinarId,
+      'type':'webinar'
+    });
+    print('____sdsdfsdfsdf______${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result =  await response.stream.bytesToString();
+      var finalResult = jsonDecode(result);
+      getOnlineWebinarApi();
+      Fluttertoast.showToast(msg: "${finalResult['message']}");
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
   eventView(){
     return SingleChildScrollView(
       child: Column(
@@ -392,7 +436,10 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
             ],
           ),
           eventModel == null ? Center(child: CircularProgressIndicator(),) : SizedBox(
-            child:  eventModel?.data == null ? Center(child: CircularProgressIndicator())  : eventModel?.data.isEmpty?? false ? Text("No Data Found !!!!"):
+            child:  eventModel?.data == null ? Center(child: CircularProgressIndicator())  : eventModel?.data.isEmpty?? false ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("No Event Found !!!!"),
+            ):
             ListView.builder(
               // scrollDirection: Axis.vertical,
                 physics: const NeverScrollableScrollPhysics(),
@@ -404,7 +451,9 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: eventDataList[index])));
                       },
-                      child: EventsListCard(index: eventDataList.length, getEventModel: eventDataList[index],i: index,));
+                      child: EventsListCard(index: eventDataList.length, getEventModel: eventDataList[index],i: index,onTop: (){
+                        deletePostEventApi(eventModel!.data[index].id);
+                      },));
                 }),
 
           ),
@@ -478,7 +527,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       print("this is a response===========>${finalResult}");
       setState(() {
         _sliderModel = finalResult;
-
       });
     } else {
       print(response.reasonPhrase);
@@ -509,11 +557,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
             ],
 
           ),
-          // _sliderModel== null ? Center(child: CircularProgressIndicator(),) :_CarouselSlider1(),
-          // SizedBox(height: 5,),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children:  _buildDots(),),
+
           SizedBox(height: 5,),
           Padding(
             padding: const EdgeInsets.only(left: 5,right: 5),
@@ -536,7 +580,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
 
           SizedBox(height: 10,),
           SizedBox(
-            child: webinarModel?.data == null ? Center(child:  Text("No Data Found !!"))  : webinarModel?.data?.isEmpty?? false ? Text("Not Approved by Admin"):
+            child: webinarModel?.data == null ? Center(child:  Center(child: CircularProgressIndicator()))  : webinarModel?.data?.isEmpty?? false ? Text("No Webinar Found !!"):
             ListView.builder(
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
@@ -544,25 +588,12 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
                 reverse: true,
                 itemCount: webinarModel!.data!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return  OnlineWebinarListCard(index: getWebnDataList.length, getWebinarDataList: getWebnDataList[index],); //webinarCard(index);
+                  return  OnlineWebinarListCard(index: getWebnDataList.length, getWebinarDataList: getWebnDataList[index],onTap: (){
+                    deletePostWebinarApi(webinarModel!.data![index].id);
+                  },); //webinarCard(index);
                 }),
           ),
           SizedBox(height: 60,)
-          // Container(
-          //   height: 40,
-          //   width:300,
-          //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-          //   child: ElevatedButton(onPressed: (){
-          //     Navigator.push(context, MaterialPageRoute(builder: (context)=> PharmaProductScreen()));
-          //   },
-          //       style: ButtonStyle(
-          //           backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),
-          //           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          //               RoundedRectangleBorder(
-          //                   borderRadius: BorderRadius.circular(10.0)))),
-          //       child: Text('New Webinar',style: TextStyle(color: Colors.white,fontSize: 15),)),
-          // ),
-          // SizedBox(height: 20,)
         ],
       ),
     );

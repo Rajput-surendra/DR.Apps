@@ -80,7 +80,6 @@ class _EditorialState extends State<Editorial> {
 
   }
   ScreenshotController screenshotController = ScreenshotController();
-
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
   new GlobalKey<RefreshIndicatorState>();
   Future _refresh() {
@@ -184,8 +183,6 @@ class _EditorialState extends State<Editorial> {
     }
   }
 
-
-
   _CarouselSlider1(){
     return CarouselSlider(
       options: CarouselOptions(
@@ -213,7 +210,6 @@ class _EditorialState extends State<Editorial> {
     );
 
   }
-
 
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -273,7 +269,29 @@ class _EditorialState extends State<Editorial> {
     }
   }
   List <GetEdoDataList> geteditorialList = [];
+  deletePostEditorialApi(editorialsId) async {
+    var headers = {
+      'Cookie': 'ci_session=b7a13a356f4a36ee37aa0d14cc035533338c8ba8'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getDeleteDoctorPostApi}'));
+    request.fields.addAll({
+      'id': editorialsId,
+      'type':'editorials'
+    });
+    print('____sdsdfsdfsdf______${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result =  await response.stream.bytesToString();
+      var finalResult = jsonDecode(result);
+      getEdiorialApi();
+      Fluttertoast.showToast(msg: "${finalResult['message']}");
+    }
+    else {
+      print(response.reasonPhrase);
+    }
 
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -321,7 +339,7 @@ class _EditorialState extends State<Editorial> {
 
                 ),
                 SizedBox(
-                  child: editorialmodel?.data == null ? Center(child: CircularProgressIndicator())  : editorialmodel?.data.isEmpty?? false ? Text("No Data Found !!"):
+                  child: editorialmodel?.data == null ? Center(child: CircularProgressIndicator())  : editorialmodel?.data.isEmpty?? false ? Text("No Editorial Found !!"):
                   ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
@@ -329,7 +347,9 @@ class _EditorialState extends State<Editorial> {
                       reverse: true,
                       itemCount: editorialmodel!.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return EditorialListCard(index: geteditorialList.length,getEdoDataList: geteditorialList[index] , );
+                        return EditorialListCard(index: geteditorialList.length,getEdoDataList: geteditorialList[index] , onTop: (){
+                          deletePostEditorialApi(editorialmodel!.data[index].id);
+                        },);
                       }),
                   ),
               ],

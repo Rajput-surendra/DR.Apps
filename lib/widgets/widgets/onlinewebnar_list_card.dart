@@ -21,10 +21,11 @@ import 'dart:ui' as ui;
 import 'package:permission_handler/permission_handler.dart';
 
 class OnlineWebinarListCard extends StatefulWidget {
-  const OnlineWebinarListCard({Key? key, required this.index, this.getWebinarDataList}) : super(key: key);
+  const OnlineWebinarListCard({Key? key, required this.index, this.getWebinarDataList,required this.onTap}) : super(key: key);
 
   final int index;
   final GetWebnDataList? getWebinarDataList;
+  final VoidCallback  onTap;
 
   @override
   State<OnlineWebinarListCard> createState() => _OnlineWebinarListCardState();
@@ -131,7 +132,13 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                                 getNewWishlistApi(widget.getWebinarDataList?.id ?? '', widget.getWebinarDataList?.type ?? "");
                                 widget.getWebinarDataList?.isSelected = !(widget.getWebinarDataList?.isSelected ?? false );
                               });
-                            },icon: widget.getWebinarDataList?.isFav ?? false ? Icon(Icons.favorite,color: colors.red,): widget.getWebinarDataList?.isSelected ?? false ?Icon(Icons.favorite,color: colors.red,) :  Icon(Icons.favorite_outline,color: colors.red,))
+                            },icon: widget.getWebinarDataList?.isFav ?? false ?
+                            Icon(Icons.favorite,color: colors.red,): widget.getWebinarDataList?.isSelected ?? false
+                                ?Icon(Icons.favorite,color: colors.red,) :
+                            Icon(Icons.favorite_outline,color: colors.red,)),
+                            InkWell(
+                                onTap: widget.onTap,
+                                child: Icon(Icons.delete)),
                           ],
                         ):SizedBox.shrink()
 
@@ -146,12 +153,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                       ),
 
                     ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   child: widget.getWebinarDataList?.image == null || widget.getWebinarDataList?.image == " " ? Image.asset("assets/images/Events banner.png",):ClipRRect(
-                    //       borderRadius:  BorderRadius.circular(5),
-                    //       child: Image.network("${widget.getWebinarDataList?.image}",fit: BoxFit.cover,height: 150,)),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -198,102 +199,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
 
                   ],
                 )
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Padding(
-                //       padding: const EdgeInsets.all(8.0),
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(10)
-                //         ),
-                //         child: ClipRRect(
-                //             borderRadius: BorderRadius.circular(10),
-                //             child: Image.network('${widget.getWebinarDataList?.image}',height: 90,width:100,)),
-                //       ),
-                //     ),
-                //     Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Container(
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //             children: [
-                //               Container(
-                //                 child: Column(
-                //                   crossAxisAlignment:CrossAxisAlignment.start,
-                //                   children: [
-                //                     Text('${widget.getWebinarDataList?.title}',style: TextStyle(fontSize: 14,color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                //                     Text('${widget.getWebinarDataList?.topic}',style: TextStyle(fontSize: 10,color: colors.blackTemp),),
-                //                     SizedBox(height: 2),
-                //                     Text('${widget.getWebinarDataList?.speaker}',style: TextStyle(fontSize: 10,color: colors.blackTemp),),
-                //                     SizedBox(height: 2),
-                //                     Text('${widget.getWebinarDataList?.moderator}',style: TextStyle(fontSize: 10,color: colors.blackTemp),),
-                //                     SizedBox(height: 2),
-                //                     Container(
-                //                         width: 120,
-                //                         child: Text('${widget.getWebinarDataList?.userAddress}',style: TextStyle(fontSize: 10,color: colors.blackTemp),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                //                     SizedBox(height: 15,),
-                //                   ],
-                //                 ),
-                //               ),
-                //               iconVisible ?   Row(
-                //                 children: [
-                //                   IconButton(onPressed: (){
-                //                     setState(() {
-                //                       iconVisible = false;
-                //                     });
-                //                     Future.delayed(Duration(milliseconds: 500), (){
-                //                       _shareQrCode(widget.getWebinarDataList?.link ?? '');
-                //
-                //                     });
-                //
-                //                   }, icon: Icon(Icons.share)),
-                //                   IconButton(onPressed: (){
-                //                     setState(() {
-                //                       getNewWishlistApi(widget.getWebinarDataList?.id ?? '', widget.getWebinarDataList?.type ?? "");
-                //                       widget.getWebinarDataList?.isSelected = !(widget.getWebinarDataList?.isSelected ?? false );
-                //                     });
-                //                   },icon: widget.getWebinarDataList?.isFav ?? false ? Icon(Icons.favorite,color: colors.red,): widget.getWebinarDataList?.isSelected ?? false ?Icon(Icons.favorite,color: colors.red,) :  Icon(Icons.favorite_outline,color: colors.red,))
-                //                 ],
-                //               )
-                //                   : SizedBox.shrink()
-                //             ],),
-                //         ),
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             Container(
-                //               height: 25,
-                //               child: ElevatedButton(onPressed: (){
-                //                 launch("${widget.getWebinarDataList?.link}");
-                //               },
-                //                   style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                //                   child: Text('Link',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                //             ),
-                //             SizedBox(width: 10,),
-                //             Container(
-                //               height: 25,
-                //               child: ElevatedButton(onPressed: (){
-                //                 downloadFile('${widget.getWebinarDataList?.image}', widget.getWebinarDataList?.userName ?? '');
-                //               },
-                //                   style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                //                   child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                //             ),
-                //             SizedBox(width: 20,),
-                //
-                //
-                //           ],
-                //         ),
-                //         SizedBox(height: 10),
-                //
-                //       ],
-                //     ),
-                //
-                //   ],
-                // ),
-
               ],
             ),
           ),
@@ -359,7 +264,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
       });
     }
   }
-
   getNewWishlistApi(String id ,event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
@@ -392,7 +296,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
     }
 
   }
-
   downloadFile(String url, String filename) async {
     FileDownloader.downloadFile(
         url: "${url}",

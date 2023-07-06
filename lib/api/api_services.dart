@@ -53,4 +53,5 @@ class ApiService {
     static const String getPlanPurchasApi = baseUrl+'plan_purchase_success';
     static const String getCheckSubscriptionApi = baseUrl+'check_subscription';
     static const String getUploadBannerApi = baseUrl+'upload_banner';
+    static const String getDeleteDoctorPostApi = baseUrl+'delete_doctor_event';
 }

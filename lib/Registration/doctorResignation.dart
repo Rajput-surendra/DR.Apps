@@ -517,13 +517,13 @@ class _DoctorResignationState extends State<DoctorResignation> {
           "area_id":widget.role == 1 ? "$placeId":"",
           "experience": experienceC.text,
 
-
         });
 
         if (imageFile != null) {
           request.files.add(await http.MultipartFile.fromPath(
               'image', imageFile?.path ?? ''));
         }
+        print('_____surendra_____${request.files}_________');
         // print(
         //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
         request.headers.addAll(headers);
@@ -1532,7 +1532,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                           child: DropdownButton2<String>(
                             hint: const Text('State',
                               style: TextStyle(
-                                  color: colors.black54,fontWeight: FontWeight.w500,fontSize:18
+                                  color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
                               ),),
                             // dropdownColor: colors.primary,
                             value: selectedState,
@@ -1739,7 +1739,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                           child: DropdownButton2<String>(
                             hint: const Text('Place',
                               style: TextStyle(
-                                  color: colors.black54,fontWeight: FontWeight.w500,fontSize:18
+                                  color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
                               ),),
                             // dropdownColor: colors.primary,
                             value: selectedPlace,
@@ -1997,6 +1997,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
                           if (_formKey.currentState!.validate()) {
                             print("hhhhhhhhhhhhhhhhhhhhhh${widget.role}");
                             if(widget.role == 1){
+
+                              print('______ssdfsdfsdf____${imageFile!.path}_________');
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
                                     ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
                                   cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",

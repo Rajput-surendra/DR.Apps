@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:doctorapp/AuthenticationView/LoginScreen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../AuthenticationView/VerifyOtp.dart';
 import '../Helper/AppBtn.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
@@ -79,6 +82,65 @@ class _NewCerificationState extends State<NewCerification> {
     else {
       print(response.reasonPhrase);
     }
+  }
+  loginwitMobile() async {
+    String? token ;
+    try{
+      token  = await FirebaseMessaging.instance.getToken();
+      print("-----------token:-----${token}");
+    } on FirebaseException{
+      print('__________FirebaseException_____________');
+    }
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('otp', "otp");
+    preferences.setString('mobile', "mobile");
+    print("this is apiiiiiiii");
+    var headers = {
+      'Cookie': 'ci_session=b13e618fdb461ccb3dc68f327a6628cb4e99c184'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.sendOTP}'));
+    request.fields.addAll({
+      'mobile': widget.mobile,
+      'fcm_id' : '${token}'
+    });
+    print("aaaaaaaaaaaaaaa${request.fields}");
+
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      print("this is truuuuuuuuuuuuu");
+      var finalresponse = await response.stream.bytesToString();
+      final jsonresponse = json.decode(finalresponse);
+      print("this is final responsesssssssssss${finalresponse}");
+      // Future.delayed(Duration(seconds: 1)).then((_) {
+      //   Navigator.pushReplacement(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => VerifyOtp()
+      //       ));
+      // });
+      print(" respomse here ${jsonresponse}");
+      if (jsonresponse['error'] == false) {
+        int? otp = jsonresponse["otp"];
+        String mobile = jsonresponse["mobile"];
+        print("otppppppppppppp${otp.toString()}");
+        print("mobillllllllllllll${mobile.toString()}");
+        print("this is final responsesssssssssss${finalresponse}");
+        Fluttertoast.showToast(msg: '${jsonresponse['message']}');
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => VerifyOtp(otp: otp.toString(),mobile:mobile.toString() ,)
+            ));
+      }
+      else{
+        Fluttertoast.showToast(msg: "${jsonresponse['message']}");
+      }
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -219,9 +281,14 @@ class _NewCerificationState extends State<NewCerification> {
                   Text("Haven't received the verification code?",style: TextStyle(
                       color: colors.blackTemp,fontSize: 15,fontWeight: FontWeight.bold
                   ),),
-                  Text("Resend",style: TextStyle(
-                      color: colors.secondary,fontWeight: FontWeight.bold,fontSize: 17
-                  ),),
+                  InkWell(
+                    onTap: (){
+                      loginwitMobile();
+                    },
+                    child: Text("Resend",style: TextStyle(
+                        color: colors.secondary,fontWeight: FontWeight.bold,fontSize: 17
+                    ),),
+                  ),
                   SizedBox(
                     height: 60,
                   ),

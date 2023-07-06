@@ -21,11 +21,12 @@ import '../../New_model/GetEventModel.dart';
 import '../../api/api_services.dart';
 
 class EventsListCard extends StatefulWidget {
-  const EventsListCard({Key? key,required this.index, required this.i, this.getEventModel }) : super(key: key);
+  const EventsListCard({Key? key,required this.index, required this.i, this.getEventModel,required this.onTop }) : super(key: key);
 
   final int index;
   final int i;
   final EventDataList? getEventModel;
+  final VoidCallback onTop;
 
   @override
   State<EventsListCard> createState() => _EventsListCardState();
@@ -47,6 +48,8 @@ class _EventsListCardState extends State<EventsListCard> {
     });
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +85,7 @@ class _EventsListCardState extends State<EventsListCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("${widget.getEventModel?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),),
-                              Text("${widget.getEventModel?.userAddress}",style: TextStyle(fontSize: 10),),
+                              Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
                               Container(
                                 // width: 250,
                                   child: Text("${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
@@ -109,7 +112,13 @@ class _EventsListCardState extends State<EventsListCard> {
                             getNewWishlistApi(widget.getEventModel?.id ?? '', widget.getEventModel?.type ?? "");
                             widget.getEventModel?.isSelected = !(widget.getEventModel?.isSelected ?? false );
                           });
-                        },icon: widget.getEventModel?.isFav ?? false ? Icon(Icons.favorite,color: colors.red,): widget.getEventModel?.isSelected ?? false ?Icon(Icons.favorite,color: colors.red,) :  Icon(Icons.favorite_outline,color: colors.red,))
+                        },icon: widget.getEventModel?.isFav ?? false ?
+                        Icon(Icons.favorite,color: colors.red,): widget.getEventModel?.isSelected ?? false
+                            ?Icon(Icons.favorite,color: colors.red,) :
+                        Icon(Icons.favorite_outline,color: colors.red,)),
+                        InkWell(
+                          onTap: widget.onTop,
+                            child: Icon(Icons.delete)),
                       ],
                     ):SizedBox.shrink()
 
@@ -123,52 +132,17 @@ class _EventsListCardState extends State<EventsListCard> {
                       width: double.infinity,
                       child:  DecoratedBox(
                         decoration:  BoxDecoration(
-                          // image: DecorationImage(
-                          //   image: NetworkImage("${widget.getEventModel?.image}"),
-                          //   fit: BoxFit.fill,
-                          // ),
                         ),
                         child: widget.getEventModel?.image == null || widget.getEventModel?.image == ""?Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEventModel?.image}",fit: BoxFit.fill)
                       ),
 
                     ),
-                    // Container(
-                    //   child: AspectRatio(
-                    //     aspectRatio: 12/9, //aspect ratio for Image
-                    //     child:widget.getEventModel?.image == null || widget.getEventModel?.image == " " ? Image.asset("assets/images/Events banner.png",): Image(
-                    //       image: NetworkImage("${widget.getEventModel?.image}"),
-                    //       fit: BoxFit.cover, //fill type of image inside aspectRatio
-                    //     ),
-                    //   ),
-                    // ),
                 widget.index == 0 ?  Text("Surendra") : SizedBox(),
-                  // Container(
-                  //   width: double.infinity,
-                  //   child: widget.getEventModel?.image == null || widget.getEventModel?.image == " " ? Image.asset("assets/images/Events banner.png",):ClipRRect(
-                  //       borderRadius:  BorderRadius.circular(5),
-                  //       child: Image.network("${widget.getEventModel?.image}",fit: BoxFit.cover,height: 150,)),
-                  // ),
                   SizedBox(height: 8,),
                   Text("${widget.getEventModel?.address}",),
                     SizedBox(height: 5,),
                   Text("${widget.getEventModel?.startDate}"),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Text('${widget.getEventModel?.title}'),
-                  //     Text("Address${widget.getEventModel?.address}")
-                  //
-                  //   ],
-                  // ),
-                  // SizedBox(height: 2,),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //  Text('Start Date:',style: TextStyle(color: colors.secondary),),
-                  //     Text("${widget.getEventModel?.startDate}")
-                  //
-                  //   ],
-                  // ),
+
                   const SizedBox(height: 10,),
 
                 ],),
@@ -181,62 +155,6 @@ class _EventsListCardState extends State<EventsListCard> {
     );
   }
 
-  // _shareQrCode(String text) async {
-  //   iconVisible = true ;
-  //   var status =  await Permission.photos.request();
-  //   // PermissionStatus storagePermission = await Permission.storage.request();
-  //   if (/*storagePermission == PermissionStatus.granted*/status.isGranted) {
-  //     final directory = (await getApplicationDocumentsDirectory()).path;
-  //
-  //     RenderRepaintBoundary bound = keyList.currentContext!.findRenderObject() as RenderRepaintBoundary;
-  //     /*if(bound.debugNeedsPaint){
-  //       Timer(Duration(seconds: 1),()=>_shareQrCode(text));
-  //       return null;
-  //     }*/
-  //     ui.Image image = await bound.toImage();
-  //     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-  //
-  //     print('${byteData?.buffer.lengthInBytes}___________');
-  //     // this will save image screenshot in gallery
-  //     if(byteData != null ){
-  //       Uint8List pngBytes = byteData.buffer.asUint8List();
-  //       String fileName = DateTime
-  //           .now()
-  //           .microsecondsSinceEpoch
-  //           .toString();
-  //       final imagePath = await File('$directory/$fileName.png').create();
-  //       await imagePath.writeAsBytes(pngBytes);
-  //       Share.shareFiles([imagePath.path],text: text,);
-  //       // final resultsave = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes),quality: 90,name: 'screenshot-${DateTime.now()}.png');
-  //       //print(resultsave);
-  //     }
-  //     /*_screenshotController.capture().then((Uint8List? image) async {
-  //       if (image != null) {
-  //         try {
-  //           String fileName = DateTime
-  //               .now()
-  //               .microsecondsSinceEpoch
-  //               .toString();
-  //
-  //           final imagePath = await File('$directory/$fileName.png').create();
-  //           if (imagePath != null) {
-  //             await imagePath.writeAsBytes(image);
-  //             Share.shareFiles([imagePath.path],text: text);
-  //           }
-  //         } catch (error) {}
-  //       }
-  //     }).catchError((onError) {
-  //       print('Error --->> $onError');
-  //     });*/
-  //   } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('This Permission is recommended')));
-  //   } else if (await status.isPermanentlyDenied/*storagePermission == PermissionStatus.permanentlyDenied*/) {
-  //     openAppSettings().then((value) {
-  //
-  //     });
-  //   }
-  // }
   _shareQrCode(String text) async {
     iconVisible = true ;
     var status =  await Permission.photos.request();
@@ -266,24 +184,6 @@ class _EventsListCardState extends State<EventsListCard> {
         // final resultsave = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes),quality: 90,name: 'screenshot-${DateTime.now()}.png');
         //print(resultsave);
       }
-      /*_screenshotController.capture().then((Uint8List? image) async {
-        if (image != null) {
-          try {
-            String fileName = DateTime
-                .now()
-                .microsecondsSinceEpoch
-                .toString();
-
-            final imagePath = await File('$directory/$fileName.png').create();
-            if (imagePath != null) {
-              await imagePath.writeAsBytes(image);
-              Share.shareFiles([imagePath.path],text: text);
-            }
-          } catch (error) {}
-        }
-      }).catchError((onError) {
-        print('Error --->> $onError');
-      });*/
     } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('This Permission is recommended')));

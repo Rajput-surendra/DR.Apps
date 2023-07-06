@@ -205,8 +205,8 @@ class _HospitalState extends State<Hospital> {
         'username': widget.name,
         'gender':widget.gender,
         'doc_degree':widget.degree,
-        'address': "",
-        'c_address':" ",
+        'address': widget.cityName,
+        'c_address':"${newList}",
         'cat_type':"",
         'category_id':widget.categoryId,
         'designation_id':"",
@@ -226,16 +226,17 @@ class _HospitalState extends State<Hospital> {
 
       });
       if (imageFile != null) {
-        request.files.add(await http.MultipartFile.fromPath(
-            'image', widget.profileImages ?? ''));
+        request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
       }
-      print('my fields-------${request.fields}');
+      print('my-------fields-------${request.fields}');
+      print('my---------files-------${request.files}');
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       if (response.statusCode == 200) {
         addressC.clear();
         results?.clear();
         numberC.clear();
+         clinicNameC.clear();
         _selectedTime = null;
         _selectedTime1 = null;
         _selectedTimeNew = null;
@@ -268,6 +269,7 @@ class _HospitalState extends State<Hospital> {
   String? daysHos;
   @override
   Widget build(BuildContext context) {
+    print('____xzcxcxvxv______${widget.profileImages}_________');
     return  Scaffold(
       appBar: customAppBar(context: context, text:"Clinic/Hospital Details", isTrue: true, ),
       body:  Padding(

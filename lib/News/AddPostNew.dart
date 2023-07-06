@@ -33,15 +33,20 @@ class _AddPostNewState extends State<AddPostNew> {
   List<File> files3 = [];
   List<File> files1 = [];
   List<File> files2 = [];
-  _getFromGallery(String type) async {
-    FilePickerResult? result;
+  var imagePathList1;
+
+  Future<void> _getFromGallery(String type) async {
+    var result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      // allowMultiple: false,
+    );
     if(type== 'jpeg'){
       result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg','mp4']);
-    if (result != null) {
-      setState(() {
-        files1 = result!.paths.map((path) => File(path!)).toList();
-        files= files1;
-      });}}
+      if (result != null) {
+        setState(() {
+          files1 = result!.paths.map((path) => File(path!)).toList();
+          files= files1;
+        });}}
     else if(type== 'pdf'){
       result = await FilePicker.platform.pickFiles(
           type: FileType.custom, allowedExtensions: ['pdf']);
@@ -64,21 +69,23 @@ class _AddPostNewState extends State<AddPostNew> {
     }
 
   }
+
+  // _getFromGallery(String type) async {
+  //   FilePickerResult? result;
+  //
+  //
+  // }
   TextEditingController titleController = TextEditingController();
   TextEditingController decController = TextEditingController();
-
-
   getPostNew() async {
     isloader = true;
     setState(() {
-
     });
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
     print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
     print("getEventUserId--------------->${Roll}");
-
     var headers = {
       'Cookie': 'ci_session=f5c119f5040eaef28e6a4c420b14b794a449a6c4'
     };

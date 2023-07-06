@@ -22,12 +22,13 @@ import '../../News/update_screen.dart';
 
 
 class UpdateScreenListCard extends StatefulWidget {
-  const UpdateScreenListCard({Key? key, this.newModel, required this.currentIndex , required this.index, required this.i}) : super(key: key);
+  const UpdateScreenListCard({Key? key, this.newModel, required this.currentIndex , required this.index, required this.i,required this.onTap}) : super(key: key);
 
  final DoctorNewsData? newModel;
  final int currentIndex;
  final int index;
  final int i;
+ final VoidCallback onTap;
 
   @override
   State<UpdateScreenListCard> createState() => _UpdateScreenListCardState();
@@ -51,6 +52,7 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
     print('Doctor Name>>>>>>>${widget.newModel?.docName}');
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -144,33 +146,6 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
                             width: 200,
                             child: Text('${widget.newModel?.description}',overflow: TextOverflow.ellipsis,)),
                       ],),
-                    // LikeAnimation(
-                    //   isAnimating: i,
-                    //   //widget.snap['likes'].contains(user!.uid),
-                    //   smallLike: isSelected,
-                    //   child: IconButton(
-                    //     onPressed: () async {
-                    //       setState(() {
-                    //         isSelected = !isSelected;
-                    //       });
-                    //       likeUnlike();
-                    //       // await FirestoreMethods().likePost(
-                    //       //   widget.snap['postId'],
-                    //       //   user!.uid,
-                    //       //   widget.snap['likes'],
-                    //       // );
-                    //     },
-                    //     icon: isSelected
-                    //         ? const Icon(
-                    //       Icons.favorite,
-                    //       color: Colors.red,
-                    //     )
-                    //         : const Icon(
-                    //       Icons.favorite_outline_outlined,
-                    //       color: colors.primary,
-                    //     ),
-                    //   ),
-                    // ),
 
         iconVisible ? Row(
                       children: [
@@ -188,7 +163,12 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
                             getNewWishlistApi(widget.newModel?.id??'');
                             widget.newModel?.isSelected = !(widget.newModel?.isSelected ?? false );
                           });
-                        },icon: widget.newModel?.isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,)),
+                        },icon: widget.newModel?.isSelected?? false
+                            ?Icon(Icons.favorite,color: colors.red,):
+                        Icon(Icons.favorite_outline,color: colors.red,)),
+                      widget.currentIndex == 1?  InkWell(
+                          onTap: widget.onTap,
+                            child: Icon(Icons.delete)) :SizedBox.shrink()
                       ],
                     ) : SizedBox(),
 
@@ -200,31 +180,6 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
               ],
             ),
           )
-        // Row(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     Padding(
-        //       padding: EdgeInsets.all(8.0),
-        //       child: ClipRRect(
-        //         borderRadius: BorderRadius.circular(20),
-        //           child: Image.network("${ApiService.imageUrl}${newTypeModel?.data?[i].image}",fit: BoxFit.fill,height: 100,width: 100,)),
-        //     ),
-        //     Padding(
-        //       padding:  EdgeInsets.only(top: 15,left: 5),
-        //       child: Column(
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         mainAxisAlignment: MainAxisAlignment.start,
-        //         children: [
-        //           Text("${newTypeModel?.data?[i].title}",style: TextStyle(fontWeight: FontWeight.bold),),
-        //           SizedBox(height: 3,),
-        //           Text("${newTypeModel?.data?[i].description}"),
-        //           Text("${newTypeModel?.data?[i].date?.substring(11,16)}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10),)
-        //         ],
-        //       ),
-        //     ),
-        //
-        //   ],
-        // ),
       ) : SizedBox(),
     );
   }
@@ -260,24 +215,6 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
         // final resultsave = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes),quality: 90,name: 'screenshot-${DateTime.now()}.png');
         //print(resultsave);
       }
-      /*_screenshotController.capture().then((Uint8List? image) async {
-        if (image != null) {
-          try {
-            String fileName = DateTime
-                .now()
-                .microsecondsSinceEpoch
-                .toString();
-
-            final imagePath = await File('$directory/$fileName.png').create();
-            if (imagePath != null) {
-              await imagePath.writeAsBytes(image);
-              Share.shareFiles([imagePath.path],text: text);
-            }
-          } catch (error) {}
-        }
-      }).catchError((onError) {
-        print('Error --->> $onError');
-      });*/
     } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('This Permission is recommended')));

@@ -22,10 +22,11 @@ import '../../api/api_services.dart';
 
 
 class EditorialListCard extends StatefulWidget {
-  const EditorialListCard({Key? key, required this.index, this.getEdoDataList}) : super(key: key);
+  const EditorialListCard({Key? key, required this.index, this.getEdoDataList,required this.onTop}) : super(key: key);
 
   final int index;
   final GetEdoDataList? getEdoDataList;
+  final VoidCallback onTop;
 
   @override
   State<EditorialListCard> createState() => _EditorialListCardState();
@@ -38,8 +39,6 @@ class _EditorialListCardState extends State<EditorialListCard> {
 
   void initState() {
     // TODO: implement initState
-    //keyList =  List.generate(1000, (_) => GlobalKey());
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _isReady = true;
@@ -47,7 +46,6 @@ class _EditorialListCardState extends State<EditorialListCard> {
     });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
@@ -64,7 +62,6 @@ class _EditorialListCardState extends State<EditorialListCard> {
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
@@ -98,23 +95,29 @@ class _EditorialListCardState extends State<EditorialListCard> {
                     ),
                     iconVisible ? Row(
                       children: [
+                             InkWell(
+                              onTap: (){
+                                setState(() {
+                                  iconVisible = false;
+                                });
+                                Future.delayed(Duration(seconds: 1), (){
+                                  _shareQrCode(text: widget.getEdoDataList?.title ?? '');
+                                });
+                              },
+                                child: Icon(Icons.share)),
                         IconButton(onPressed: (){
                           setState(() {
-                            iconVisible = false;
-                          });
-                          Future.delayed(Duration(seconds: 1), (){
-                            // _CaptureScreenShot(index: index);
-                            //_shareQrCode(widget.getEdoDataList?.link ?? '');
-                            _shareQrCode(text: widget.getEdoDataList?.title ?? '');
-                          });
-
-                        }, icon: Icon(Icons.share)),
-                        IconButton(onPressed: (){
-                          setState(() {
-                            getNewWishlistApi(widget.getEdoDataList?.id ?? '', widget.getEdoDataList?.type ?? "");
+                            getNewWishlistApi(widget.getEdoDataList?.id ?? '',
+                                widget.getEdoDataList?.type ?? "");
                             widget.getEdoDataList?.isSelected = !(widget.getEdoDataList?.isSelected ?? false );
                           });
-                        },icon: widget.getEdoDataList?.isFav ?? false ? Icon(Icons.favorite,color: colors.red,): widget.getEdoDataList?.isSelected ?? false ?Icon(Icons.favorite,color: colors.red,) :  Icon(Icons.favorite_outline,color: colors.red,))
+                        },icon: widget.getEdoDataList?.isFav ?? false ?
+                        Icon(Icons.favorite,color: colors.red,): widget.getEdoDataList?.isSelected ??
+                            false ?Icon(Icons.favorite,color: colors.red,) :
+                        Icon(Icons.favorite_outline,color: colors.red,)),
+                        InkWell(
+                            onTap: widget.onTop,
+                            child: Icon(Icons.delete)),
                       ],
                     ):SizedBox.shrink()
 
@@ -134,33 +137,6 @@ class _EditorialListCardState extends State<EditorialListCard> {
                       ),
 
                     ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   child: widget.getEdoDataList?.image == null || widget.getEdoDataList?.image == " " ? Image.asset("assets/images/Events banner.png",):ClipRRect(
-                    //       borderRadius:  BorderRadius.circular(5),
-                    //       child: Image.network("${widget.getEdoDataList?.image}",fit: BoxFit.cover,height: 150,)),
-                    // ),
-                    // SizedBox(height: 8,),
-                    // Text("${widget.getEdoDataList?.awareInput}",),
-                    // SizedBox(height: 5,),
-                    // Text("${widget.getEdoDataList?.awareLanguage}"),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Text('${widget.getEventModel?.title}'),
-                    //     Text("Address${widget.getEventModel?.address}")
-                    //
-                    //   ],
-                    // ),
-                    // SizedBox(height: 2,),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //  Text('Start Date:',style: TextStyle(color: colors.secondary),),
-                    //     Text("${widget.getEventModel?.startDate}")
-                    //
-                    //   ],
-                    // ),
                     const SizedBox(height: 10,),
 
                   ],),
@@ -201,27 +177,7 @@ class _EditorialListCardState extends State<EditorialListCard> {
         final imagePath = await File('$directory/$fileName.png').create();
         await imagePath.writeAsBytes(pngBytes);
         Share.shareFiles([imagePath.path],text: text);
-        // final resultsave = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes),quality: 90,name: 'screenshot-${DateTime.now()}.png');
-        //print(resultsave);
       }
-      /*_screenshotController.capture().then((Uint8List? image) async {
-        if (image != null) {
-          try {
-            String fileName = DateTime
-                .now()
-                .microsecondsSinceEpoch
-                .toString();
-
-            final imagePath = await File('$directory/$fileName.png').create();
-            if (imagePath != null) {
-              await imagePath.writeAsBytes(image);
-              Share.shareFiles([imagePath.path],text: text);
-            }
-          } catch (error) {}
-        }
-      }).catchError((onError) {
-        print('Error --->> $onError');
-      });*/
     } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('This Permission is recommended')));
