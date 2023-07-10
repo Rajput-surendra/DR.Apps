@@ -80,8 +80,9 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     String? userId = preferences.getString('userId');
     String? Roll = preferences.getString('roll');
     String? specialityId = preferences.getString('specialityId');
-    print("getEventUserId--------------->${userId}");
-    print("getRoll--------------->${specialityId}");
+    // String? id = preferences.getString('sId');
+    String? localId = preferences.getString('LocalId');
+
     var headers = {
       'Cookie': 'ci_session=24cf09ce78eebd805097f2d1bcece02c6e418346'
     };
@@ -89,9 +90,9 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     request.fields.addAll({
       'user_id': '$userId',
       'roll': '$Roll',
-      'speciality_id':"$specialityId"
+      'speciality_id': localId == null || localId== '' ?  specialityId ?? '' : localId
     });
-    print("this is is request=========>${request.fields}");
+    print("this is is request======xccxvxvxcvxc===>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
@@ -153,8 +154,10 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
     String? Roll = preferences.getString('roll');
-    String? id = preferences.getString('sId');
+    String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
+    print('____xcdcvxcvcxvcx______${specialityId}_____${localId}__${userId}__');
+
     print("getOnlineWebinarUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=ff45191bc42e12d2471ecac1e726d8107925e77c'
@@ -163,9 +166,9 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     request.fields.addAll({
       'user_id': '$userId',
       'roll': '$Roll',
-      'speciality_id': localId==null || localId== '' ?  id ?? '' : localId
+      'speciality_id': localId == null || localId== '' ?  specialityId ?? '' : localId
     });
-    print('_____getOnlineWebinarApi_____${request.fields}_________');
+  print('_____surendra_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {

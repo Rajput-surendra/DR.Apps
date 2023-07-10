@@ -11,6 +11,7 @@ import 'package:doctorapp/api/api_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -856,6 +857,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'Share App',
             ),
             onTap: () {
+              share();
               //   Navigator.push(
               //     context,
               //     MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -914,6 +916,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> share() async {
+    await FlutterShare.share(
+        title: 'DR.Apps',
+        // text: 'Example share text',
+        linkUrl: 'https://developmentalphawizz.com/dr_booking/',
+        chooserTitle: 'DR.Apps'
     );
   }
 }

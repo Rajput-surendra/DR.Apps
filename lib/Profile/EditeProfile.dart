@@ -69,6 +69,7 @@ class _EditeProfileState extends State<EditeProfile> {
   String? stateId;
   String?cityId;
   String?placeId;
+  String?titleId;
   List <GetCitiesDataNew>getCitiesData = [];
   List <GetPlacedData>getPlacedData = [];
   int? selectedSateIndex;
@@ -147,7 +148,7 @@ onTapCall2() async {
   cityselected = preferences.getString('selectedCity');
   placeselected = preferences.getString('selectedPlace');
   selectedTitle = preferences.getString('selectedTitle');
-  print('Selecteccccccccccccccccccccccc${stateselected}');
+  print('Selecteccccccccccccccccccccccc${selectedTitle}');
 
 }
 
@@ -363,7 +364,7 @@ onTapCall2() async {
     dobController.text = widget.getUserProfileModel.user?.userData?.first.cityName ?? '' ;
     genderController.text = widget.getUserProfileModel.user?.userData?.first.gender?? '' ;
     deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
-    deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
+    // deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
     image = widget.getUserProfileModel.user?.profilePic ?? '';
 
     getStateApi();
@@ -489,13 +490,13 @@ onTapCall2() async {
                           child: DropdownButton2<String>(
                             hint: Padding(
                               padding: EdgeInsets.only(top: 0,bottom: 10),
-                              child: Text("${selectedTitle}",
+                              child:selectedTitle == null ?Text("Loading!!!") :Text("${selectedTitle}",
                                 style: TextStyle(
                                     color: colors.black54,fontWeight: FontWeight.normal
                                 ),),
                             ),
                             // dropdownColor: colors.primary,
-                            value: dropdownDoctor,
+                            value: titleSelected,
                             icon:  const Padding(
                               padding: EdgeInsets.only(bottom: 15),
                               child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
@@ -512,7 +513,8 @@ onTapCall2() async {
                             onChanged: (String? value) {
                               // This is called when the user selects an item.
                               setState(() {
-                                dropdownDoctor = value!;
+                                titleSelected = value!;
+
                                 // indexSectet = items.indexOf(value);
                                 // indexSectet++;
                               });
@@ -627,32 +629,32 @@ onTapCall2() async {
                       // },
                     ),
                     SizedBox(height: 10,),
-                    const Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Text("Password", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    const SizedBox(height: 10,),
-                    TextFormField(
-                      controller: passController,
-                      keyboardType: TextInputType.number,
-                      maxLength: 10,
-                      decoration: InputDecoration(
-                          counterText: "",
-                          hintText: 'Password',
-                          hintStyle: const TextStyle(
-                              fontSize: 15.0, color: colors.secondary),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                      // validator: (v) {
-                      //   if (v!.isEmpty) {
-                      //     return "mobile number is required";
-                      //   }
-                      //
-                      // },
-                    ),
+                    // const Padding(
+                    //   padding: EdgeInsets.all(5.0),
+                    //   child: Text("Password", style: TextStyle(
+                    //       color: colors.black54, fontWeight: FontWeight.bold),),
+                    // ),
+                    // const SizedBox(height: 10,),
+                    // TextFormField(
+                    //   controller: passController,
+                    //   keyboardType: TextInputType.number,
+                    //   maxLength: 10,
+                    //   decoration: InputDecoration(
+                    //       counterText: "",
+                    //       hintText: 'Password',
+                    //       hintStyle: const TextStyle(
+                    //           fontSize: 15.0, color: colors.secondary),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(10)),
+                    //       contentPadding: EdgeInsets.only(left: 10, top: 10)
+                    //   ),
+                    //   // validator: (v) {
+                    //   //   if (v!.isEmpty) {
+                    //   //     return "mobile number is required";
+                    //   //   }
+                    //   //
+                    //   // },
+                    // ),
                     const Padding(
                       padding: EdgeInsets.all(5.0),
                       child: Text("City Name", style: TextStyle(

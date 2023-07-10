@@ -211,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: getprofile == null || getprofile == null
             ? const Center(
           child: CircularProgressIndicator(
-            color: Colors.white,
+            color: colors.primary,
           ),
         )
             : Padding(
@@ -428,14 +428,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //   ),
                   // ),
                   Container(
-                    height:MediaQuery.of(context).size.height/1.3,
+                    height:getprofile?.user?.userData?.first.clinics?.length == 0 ? 0 : MediaQuery.of(context).size.height/2.5,
                     child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: getprofile?.user?.userData?.first.clinics?.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
-                            elevation: 5,
+                            elevation: 0,
                             child:Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -520,9 +520,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       const SizedBox(
                                         width: 50,
                                       ),
-                                      Container(
-                                        width: 140,
-                                          child: Text("${getprofile?.user?.userData?.first.clinics?[index].addresses}",overflow: TextOverflow.ellipsis,maxLines: 2,))
+                                      Text("${getprofile?.user?.userData?.first.clinics?[index].addresses}",overflow: TextOverflow.ellipsis,maxLines: 2,)
                                     ],
                                   ),
                                 ),
@@ -576,7 +574,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
 
-              checkPlanModel == null || checkPlanModel == "" ? SizedBox.shrink():  Padding(
+              checkPlanModel == null ? SizedBox.shrink():  Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.topLeft,
@@ -593,7 +591,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             return  Card(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                              elevation: 5,
+                              elevation: 2   ,
                               child: ListTile(
                                 title: Text(
                                   "${checkPlanModel!.data![index].name}",

@@ -90,8 +90,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
 
   Future<void> onTapTitle() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('selectedTitle',dropdownGender!);
-    print('Selected Statelllllllllllll${dropdownGender}');
+    preferences.setString('selectedTitle',dropdownDoctor!);
+    print('Selected Statelllllllllllll${dropdownDoctor}');
 
 
   }
@@ -436,6 +436,27 @@ class _DoctorResignationState extends State<DoctorResignation> {
     getCropImage(context, i, image);
     Navigator.pop(context);
   }
+
+  var imagePathList1;
+  bool isImages =  false;
+  // Future<void> getImageGallery(ImgSource source, BuildContext context, int i) async {
+  //   var result = await FilePicker.platform.pickFiles(
+  //     type: FileType.image,
+  //     allowMultiple: false,
+  //   );
+  //   if (result != null) {
+  //     setState(() {
+  //       isImages = true;
+  //       // servicePic = File(result.files.single.path.toString());
+  //     });
+  //     imagePathList1 = result.paths.toList();
+  //     // imagePathList.add(result.paths.toString()).toList();
+  //     print("SERVICE PIC === ${imagePathList1.length}");
+  //
+  //   } else {
+  //     // User canceled the picker
+  //   }
+  // }
   Future getImageGallery(ImgSource source, BuildContext context, int i) async {
     var image = await ImagePickerGC.pickImage(
       context: context,
@@ -448,6 +469,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
     getCropImage(context, i, image);
     Navigator.pop(context);
   }
+
+
 
   void getCropImage(BuildContext context, int i, var image) async {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
@@ -803,7 +826,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                             // This is called when the user selects an item.
                             setState(() {
                               dropdownGender = value!;
-                              onTapTitle();
+
 
                             });
                           },
@@ -898,6 +921,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                             // This is called when the user selects an item.
                             setState(() {
                               dropdownDoctor = value!;
+                              onTapTitle();
                               // indexSectet = items.indexOf(value);
                               // indexSectet++;
                             });

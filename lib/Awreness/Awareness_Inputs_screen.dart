@@ -78,7 +78,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
       'user_id': '$userId',
       'speciality_id': localId==null || localId== ''  ?  specialityId ?? '' : localId
     });
-    print("this is is request=======dsdsdfs==>${request.fields}------------${ApiService.getAwareness}");
+    print("this is is request===cvbcbvcbvc====dsdsdfs==>${request.fields}------------${ApiService.getAwareness}");
     request.headers.addAll(headers);
     http.StreamedResponse response =  await request.send();
     if (response.statusCode == 200) {
@@ -91,7 +91,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
         isScreenLoading = false;
       });
 
-      print('__________${getAwareNess?.data.poster}_________');
       // for(var i=0;i<FinalResult.data.video.length;i++){
       //   FinalResult.data.video.forEach((element) {
       //     Uri uri = Uri.parse(element.image?? '');
@@ -108,7 +107,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
       //
       //   print("video controller length ${_vController.length}");
       // }
-
       for(var i=0;i<(getAwareNess?.data.video?.length ?? 5);i++){
         // _vController.add(VideoPlayerController.network(jsonResponse.data![i].video.toString()));
           _vController.add(VideoPlayerController.network(getAwareNess!.data.video![i].toString())..initialize().then((value){
@@ -116,7 +114,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
           });
         }));
         isPlayed.add(false);
-        print("video controller length ${_vController.length}");
+        print("video controller length ${getAwareNess?.data.video?[i].image}");
       }
 
     }
@@ -341,7 +339,6 @@ searchProduct(String value) {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: _refresh,
@@ -440,9 +437,9 @@ searchProduct(String value) {
                   // height: MediaQuery.of(context).size.height/1.0,
                     child: isScreenLoading ? const Center(child: CircularProgressIndicator())
                         :
-                    getAwareNess?.data.poster?.isEmpty ?? false ? Center(child: Text('Poster not available'),) : selectedSegmentVal == 0
-                        ?
-                    ListView.builder(
+                    selectedSegmentVal == 0 ?  getAwareNess?.data.poster?.isEmpty ?? false ? Center(child: Text('Poster not available'),)
+
+                    : ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -451,8 +448,8 @@ searchProduct(String value) {
                         itemBuilder: (BuildContext context, int index) {
                           return AwarenessListCard(currentIndex: 0,index: index,getAwareNess: getAwareNess, vController: _vController,); //getPosterList(getAwareNess?.data.mPoster, index);
                         })
-                        : getAwareNess?.data.booklets?.isEmpty ?? false ? Center(child: Text('Booklets not available'),) : selectedSegmentVal == 1
-                        ? ListView.builder(
+                        :  selectedSegmentVal == 1 ?  getAwareNess?.data.booklets?.isEmpty ?? false  ? Center(child: Text('Booklets not available'),)
+                        : ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -460,9 +457,9 @@ searchProduct(String value) {
                         itemCount: getAwareNess!.data.booklets?.length ?? 5,
                         itemBuilder: (BuildContext context, int index) {
                           return AwarenessListCard(currentIndex: 1,index: index,getAwareNess: getAwareNess,vController: _vController); // bookletsList(getAwareNess?.data.booklets, index);
-                        })
-                        :getAwareNess?.data.leaflets?.isEmpty ?? true ? Center(child: Text('Leaflets not available'),) : selectedSegmentVal == 2
-                        ?  ListView.builder(
+                        }) :
+                         selectedSegmentVal == 2 ? getAwareNess?.data.leaflets?.isEmpty ?? true ? Center(child: Text('Leaflets not available'),)
+                       :  ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -471,8 +468,9 @@ searchProduct(String value) {
                         itemBuilder: (BuildContext context, int index) {
                           return AwarenessListCard(currentIndex: 2,index: index,getAwareNess: getAwareNess,vController: _vController); // getLeafletList(getAwareNess?.data.leaflets, index);
                         })
-                        : getAwareNess?.data.mPoster?.isEmpty ?? true ? Center(child: Text('Motivational Poster not available'),) :selectedSegmentVal == 3
-                        ?ListView.builder(
+                        :
+                         selectedSegmentVal == 3 ? getAwareNess?.data.mPoster?.isEmpty ?? true ? Center(child: Text('Motivational Poster not available'),) :
+                        ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -481,8 +479,9 @@ searchProduct(String value) {
                         itemBuilder: (BuildContext context, int index) {
                           return AwarenessListCard(currentIndex: 3,index: index,getAwareNess: getAwareNess,vController: _vController); // getMotimationList(getAwareNess?.data.poster, index);
                         })
-                        :getAwareNess?.data.video?.isEmpty ?? true ? Center(child: Text('video not available'),): selectedSegmentVal == 4
-                        ? ListView.builder(
+                        :
+                         selectedSegmentVal == 4 ? getAwareNess?.data.video?.isEmpty ?? true ? Center(child: Text('video not available'),):
+                    ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -491,7 +490,9 @@ searchProduct(String value) {
                         itemBuilder: (BuildContext context, int index) {
                           return getVideoList(getAwareNess?.data.video,index);
                         }):SizedBox()),
-                      SizedBox(height: 50,)
+
+                      SizedBox(height: 50,),
+
                       //
                       //   : selectedSegmentVal == 5
                       //   ?ListView.builder(

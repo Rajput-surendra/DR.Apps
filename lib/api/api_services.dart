@@ -17,7 +17,7 @@ class ApiService {
   static const String getPharmaSlider = baseUrl + 'get_slider';
   static const String getUserProfile = baseUrl+'user_profile';
   static const String getEvents = baseUrl+'get_events';
-    static const String getWebinar = baseUrl+'get_webinar';
+  static const String getWebinar = baseUrl+'get_webinar';
   static const String getNewType = baseUrl+'get_news_type';
   static const String selectCategory = baseUrl+'select_category';
   static const String getCounting = baseUrl+'get_counting';

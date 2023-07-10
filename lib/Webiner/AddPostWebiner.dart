@@ -32,25 +32,73 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
   bool isloader = false;
   List<File> files = [];
   List<File> files1 = [];
-  _getFromGallery(bool type) async {
-    FilePickerResult? result;
-    if(type){
-      result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
+
+  var imagePathList1;
+  bool isImages = false;
+  // Future<void> _getFromGallery() async {
+  //   var result = await FilePicker.platform.pickFiles(
+  //     type: FileType.image,
+  //     allowMultiple: false
+  //     // allowedExtensions: ['jpeg', 'jpg'],
+  //   );
+  //   if (result != null) {
+  //     setState(() {
+  //       isImages = true;
+  //       // servicePic = File(result.files.single.path.toString());
+  //     });
+  //     files = result.paths.map((path) => File(path!)).toList();
+  //     // imagePathList.add(result.paths.toString()).toList();
+  //     print("SERVICE PIC === ${imagePathList1.length}");
+  //
+  //   } else {
+  //     result = await FilePicker.platform.pickFiles(
+  //         type: FileType.custom, allowedExtensions: ['pdf']);
+  //     if (result != null) {
+  //       setState(() {
+  //         files1 = result!.paths.map((path) => File(path!)).toList();
+  //       });
+  //     }
+  //   }
+  // }
+
+  Future<void> getFromGallery1() async {
+    var result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: false,
+    );
     if (result != null) {
       setState(() {
-        files = result!.paths.map((path) => File(path!)).toList();
-      });}
-    else {
-      result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['pdf']);
-      if (result != null) {
-        setState(() {
-          files1 = result!.paths.map((path) => File(path!)).toList();
-        });
-      }
-    }
+        isImages = true;
+        // servicePic = File(result.files.single.path.toString());
+      });
+      files = result.paths.map((path) => File(path!)).toList();
+      // imagePathList.add(result.paths.toString()).toList();
+      print("SERVICE PIC === ${imagePathList1.length}");
 
+    } else {
+      // User canceled the picker
+    }
   }
+
+  // _getFromGallery(bool type) async {
+  //   FilePickerResult? result;
+  //   if(type){
+  //     result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
+  //   if (result != null) {
+  //     setState(() {
+  //       files = result!.paths.map((path) => File(path!)).toList();
+  //     });}
+  //   else {
+  //     result = await FilePicker.platform.pickFiles(
+  //         type: FileType.custom, allowedExtensions: ['pdf']);
+  //     if (result != null) {
+  //       setState(() {
+  //         files1 = result!.paths.map((path) => File(path!)).toList();
+  //       });
+  //     }
+  //   }
+  //
+  // }
 
   String _dateValue = '';
   var dateFormate;
@@ -472,7 +520,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   InkWell(
                     onTap: (){
                       // showExitPopup();
-                      _getFromGallery(true);
+                      getFromGallery1();
                     },
                     child: Container(
                       // height: MediaQuery.of(context).size.height/6,
@@ -508,7 +556,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   InkWell(
                     onTap: (){
                       // showExitPopup();
-                      _getFromGallery(false);
+                      getFromGallery1();
                     },
                     child: Container(
                       // height: MediaQuery.of(context).size.height/6,

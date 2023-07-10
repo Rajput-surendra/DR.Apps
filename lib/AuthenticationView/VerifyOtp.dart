@@ -320,7 +320,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     color: colors.secondary,
                     height: 45,
                     width: 300,
-                    title: 'Done',
+                    title: 'Submit',
                     onPress: () {
                       // verifyOtp();
                       if(pinController.text== widget.otp){
