@@ -94,27 +94,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       isLoder == true ? const Center(child: CircularProgressIndicator()):SizedBox();
     });
-    print("This Is User profilel============>");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print('this is getProfile==========Data----------->${userId} ');
+
     var headers = {
       'Cookie': 'ci_session=9aba5e78ffa799cbe054723c796d2bd8f2f7d120'
     };
     var request = http.MultipartRequest(
         'POST', Uri.parse('${ApiService.getUserProfile}'));
     request.fields.addAll({'user_id': "${userId}"});
-    print("ths is userId=========>i11111qqqq${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var finalResult = await response.stream.bytesToString();
-      print('__________${finalResult}_____________');
       final jsonResponse = GetUserProfileModel.fromJson(json.decode(finalResult));
-      print("this is userIddd=========>${jsonResponse}");
       setState(() {
         getprofile = jsonResponse;
-
       });
     } else {
       print(response.reasonPhrase);
@@ -177,9 +172,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     checkSubscriptionApi();
     Future.delayed(Duration(milliseconds:300), () {
       return getuserProfile();
-    });
-  }
 
+    });
+    getRoll();
+  }
+  String? roll;
+  getRoll() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    roll = preferences.getString('roll');
+    print('___roll__________roll__________roll__________roll_______${roll}_________');
+  }
+ bool isShow = false;
   @override
   Widget build(BuildContext context) {
     print("My Profile pic is here U can ------${getprofile?.user?.profilePic}");
@@ -197,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditeProfile(getUserProfileModel: getprofile ?? GetUserProfileModel(),
+                  builder: (context) => EditeProfile(getUserProfileModel: getprofile ?? GetUserProfileModel(),isTrue: isShow,
                   ),
                 ),
               ).then((value) => getuserProfile());
@@ -337,7 +340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
-                  Padding(
+                roll == "1"  ? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -354,7 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )
                       ],
                     ),
-                  ),
+                  ): SizedBox.shrink(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(

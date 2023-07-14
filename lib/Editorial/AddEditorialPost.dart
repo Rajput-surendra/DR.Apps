@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Helper/AppBtn.dart';
 import '../Helper/Appbar.dart';
@@ -31,22 +32,32 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
 
   List<File> files = [];
   List<File> files1 = [];
-  _getFromGallery(bool type) async {
-    FilePickerResult? result;
-    if(type){
-      result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
-    if (result != null) {
-      setState(() {
-        files = result!.paths.map((path) => File(path!)).toList();
-      });}
-    else {
-      result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['pdf']);
-      if (result != null) {
-        setState(() {
-          files1 = result!.paths.map((path) => File(path!)).toList();
-        });
+  List<File> files2 = [];
+  Future<void> _getFromGallery(String type) async {
+    PermissionStatus status = await Permission.mediaLibrary.request();
+    if ( status.isGranted) {
+      if (type == 'jpeg') {
+        var result = await FilePicker.platform.pickFiles(
+          type: FileType.image,);
+        if (result != null) {
+          setState(() {
+            files1 = result.paths.map((path) => File(path!)).toList();
+            files = files1;
+          });
+        }
       }
+      else if (type == 'pdf') {
+        var result = await FilePicker.platform.pickFiles(
+            type: FileType.custom, allowedExtensions: ['pdf']);
+        if (result != null) {
+          setState(() {
+            files2 = result.paths.map((path) => File(path!)).toList();
+            files = files2;
+          });
+        }
+      }
+    }else{
+      openAppSettings();
     }
 
   }
@@ -151,7 +162,7 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
               InkWell(
                 onTap: (){
                   // showExitPopup();
-                  _getFromGallery(true);
+                  _getFromGallery('jpeg');
                 },
                 child: Container(
                   // height: MediaQuery.of(context).size.height/6,
@@ -162,9 +173,9 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
                     dashPattern: [5, 5],
                     color: Colors.grey,
                     strokeWidth: 2,
-                    child: files.length > 0  ? Padding(
+                    child: files1.length > 0  ? Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("${files[0]}")),
+                      child: Center(child: Text("${files1[0]}")),
                     ) :
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -187,7 +198,7 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
               InkWell(
                 onTap: (){
                   // showExitPopup();
-                  _getFromGallery(false);
+                  _getFromGallery('pdf');
                 },
                 child: Container(
                   // height: MediaQuery.of(context).size.height/6,
@@ -198,9 +209,9 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
                     dashPattern: [5, 5],
                     color: Colors.grey,
                     strokeWidth: 2,
-                    child: files1.length > 0  ? Padding(
+                    child: files2.length > 0  ? Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("${files1[0]}")),
+                      child: Center(child: Text("${files2[0]}")),
                     ) :
                     Padding(
                       padding: const EdgeInsets.all(8.0),

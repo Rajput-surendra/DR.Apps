@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
 
@@ -32,52 +33,39 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
   bool isloader = false;
   List<File> files = [];
   List<File> files1 = [];
+  List<File> files2 = [];
 
   var imagePathList1;
   bool isImages = false;
-  // Future<void> _getFromGallery() async {
-  //   var result = await FilePicker.platform.pickFiles(
-  //     type: FileType.image,
-  //     allowMultiple: false
-  //     // allowedExtensions: ['jpeg', 'jpg'],
-  //   );
-  //   if (result != null) {
-  //     setState(() {
-  //       isImages = true;
-  //       // servicePic = File(result.files.single.path.toString());
-  //     });
-  //     files = result.paths.map((path) => File(path!)).toList();
-  //     // imagePathList.add(result.paths.toString()).toList();
-  //     print("SERVICE PIC === ${imagePathList1.length}");
-  //
-  //   } else {
-  //     result = await FilePicker.platform.pickFiles(
-  //         type: FileType.custom, allowedExtensions: ['pdf']);
-  //     if (result != null) {
-  //       setState(() {
-  //         files1 = result!.paths.map((path) => File(path!)).toList();
-  //       });
-  //     }
-  //   }
-  // }
 
-  Future<void> getFromGallery1() async {
-    var result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-    );
-    if (result != null) {
-      setState(() {
-        isImages = true;
-        // servicePic = File(result.files.single.path.toString());
-      });
-      files = result.paths.map((path) => File(path!)).toList();
-      // imagePathList.add(result.paths.toString()).toList();
-      print("SERVICE PIC === ${imagePathList1.length}");
 
-    } else {
-      // User canceled the picker
+  Future<void> _getFromGallery(String type) async {
+    PermissionStatus status = await Permission.mediaLibrary.request();
+    if ( status.isGranted) {
+      if (type == 'jpeg') {
+        var result = await FilePicker.platform.pickFiles(
+          type: FileType.image,);
+        if (result != null) {
+          setState(() {
+            files1 = result.paths.map((path) => File(path!)).toList();
+            files = files1;
+          });
+        }
+      }
+      else if (type == 'pdf') {
+        var result = await FilePicker.platform.pickFiles(
+            type: FileType.custom, allowedExtensions: ['pdf']);
+        if (result != null) {
+          setState(() {
+            files2 = result.paths.map((path) => File(path!)).toList();
+            files = files2;
+          });
+        }
+      }
+    }else{
+      openAppSettings();
     }
+
   }
 
   // _getFromGallery(bool type) async {
@@ -437,27 +425,6 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
 
                     },
                   ),
-                  // SizedBox(height: 10,),
-                  // TextFormField(
-                  //   onTap: (){
-                  //     _selectDateEnd();
-                  //   },
-                  //   controller:endDateController,
-                  //   decoration: InputDecoration(
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(10),
-                  //       ),
-                  //       counterText: "",
-                  //       hintText: 'EndTDate',
-                  //       contentPadding: EdgeInsets.only(left: 10)
-                  //   ),
-                  //   validator: (v) {
-                  //     if (v!.isEmpty) {
-                  //       return "EndTDate is required";
-                  //     }
-                  //
-                  //   },
-                  // ),
                   SizedBox(height: 10,),
                   Row(
                     children: [
@@ -520,7 +487,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   InkWell(
                     onTap: (){
                       // showExitPopup();
-                      getFromGallery1();
+                      _getFromGallery('jpeg');
                     },
                     child: Container(
                       // height: MediaQuery.of(context).size.height/6,
@@ -531,9 +498,9 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                         dashPattern: [5, 5],
                         color: Colors.grey,
                         strokeWidth: 2,
-                        child: files.length > 0  ? Padding(
+                        child: files1.length > 0  ? Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Center(child: Text("${files[0]}")),
+                          child: Center(child: Text("${files1[0]}")),
                         ) :
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -555,8 +522,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   SizedBox(height: 10,),
                   InkWell(
                     onTap: (){
-                      // showExitPopup();
-                      getFromGallery1();
+                      _getFromGallery('pdf');
                     },
                     child: Container(
                       // height: MediaQuery.of(context).size.height/6,
@@ -567,9 +533,9 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                         dashPattern: [5, 5],
                         color: Colors.grey,
                         strokeWidth: 2,
-                        child: files1.length > 0  ? Padding(
+                        child: files2.length > 0  ? Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Center(child: Text("${files1[0]}")),
+                          child: Center(child: Text("${files2[0]}")),
                         ) :
                         Padding(
                           padding: const EdgeInsets.all(8.0),

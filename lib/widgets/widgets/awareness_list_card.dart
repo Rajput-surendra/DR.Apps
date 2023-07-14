@@ -20,8 +20,9 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../Helper/Color.dart';
 
 class AwarenessListCard extends StatefulWidget {
-  const AwarenessListCard({Key? key, required this.index, required this.currentIndex, this.getAwareNess, this.isPlayed, required this.vController}) : super(key: key);
-
+  const AwarenessListCard({Key? key, required this.index, required this.currentIndex,
+    this.getAwareNess, this.isPlayed, required this.vController,required this.onTop}) : super(key: key);
+  final VoidCallback onTop;
 
   final GetAModel? getAwareNess;
   final int currentIndex;
@@ -55,6 +56,12 @@ class _AwarenessState extends State<AwarenessListCard> {
       });
     });
     super.initState();
+    getUserId();
+  }
+  String? userId;
+  getUserId() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userId = preferences.getString('userId');
   }
 
   @override
@@ -156,9 +163,16 @@ class _AwarenessState extends State<AwarenessListCard> {
                             getNewWishlistApi(widget.getAwareNess?.data.poster?[widget.index].id ??'',widget.getAwareNess?.data.poster?[widget.index].type ?? "");
                             widget.getAwareNess?.data.poster?[widget.index].isSelected = !(widget.getAwareNess?.data.poster?[widget.index].isSelected ?? false );
                           });
-                        },icon: widget.getAwareNess?.data.poster?[widget.index].isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,)),
+                        },icon: widget.getAwareNess?.data.poster?[widget.index].isSelected??
+                            false ?Icon(Icons.favorite,color: colors.red,):
+                        Icon(Icons.favorite_outline,color: colors.red,)),
+                        if(userId ==  widget.getAwareNess?.data.poster?[widget.index].pharmaId)
+                        InkWell(
+                          onTap: widget.onTop,
+                            child: Icon(Icons.delete))
                       ],
                     ):SizedBox.shrink()
+
 
 
                   ],
@@ -252,7 +266,10 @@ class _AwarenessState extends State<AwarenessListCard> {
                         },icon: widget.getAwareNess?.data.booklets?[widget.index].isSelected??
                             false ?Icon(Icons.favorite,color: colors.red,):
                         Icon(Icons.favorite_outline,color: colors.red,)),
-                        Icon(Icons.delete)
+                        if(userId ==  widget.getAwareNess?.data.booklets?[widget.index].pharmaId)
+                        InkWell(
+                            onTap: widget.onTop,
+                            child: Icon(Icons.delete))
                       ],
                     ):SizedBox.shrink()
                   ],
@@ -300,7 +317,8 @@ class _AwarenessState extends State<AwarenessListCard> {
                     )
                   ],
                 ),
-                Container(
+                widget.getAwareNess?.data.leaflets?[widget.index].image?.length == 0  ?
+                Text("data"):Container(
                   width: double.infinity,
                   child: ClipRRect(
                       borderRadius:  BorderRadius.circular(5),
@@ -343,7 +361,10 @@ class _AwarenessState extends State<AwarenessListCard> {
                         },icon: widget.getAwareNess?.data.leaflets?[widget.index].isSelected??
                             false ?Icon(Icons.favorite,color: colors.red,)
                             :Icon(Icons.favorite_outline,color: colors.red,)),
-                        Icon(Icons.delete)
+                        if(userId ==  widget.getAwareNess?.data.leaflets?[widget.index].pharmaId)
+                        InkWell(
+                            onTap: widget.onTop,
+                            child: Icon(Icons.delete))
                       ],
                     ):SizedBox.shrink()
                   ],
@@ -435,7 +456,10 @@ class _AwarenessState extends State<AwarenessListCard> {
                         },icon: widget.getAwareNess?.data.mPoster?[widget.index].isSelected?? false
                             ?Icon(Icons.favorite,color: colors.red,):
                         Icon(Icons.favorite_outline,color: colors.red,)),
-                        Icon(Icons.delete)
+                        if(userId ==  widget.getAwareNess?.data.mPoster?[widget.index].pharmaId)
+                        InkWell(
+                            onTap: widget.onTop,
+                            child: Icon(Icons.delete))
                       ],
                     ):SizedBox.shrink()
                   ],

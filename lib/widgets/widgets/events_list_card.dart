@@ -47,6 +47,12 @@ class _EventsListCardState extends State<EventsListCard> {
       });
     });
     super.initState();
+    getUserId();
+  }
+  String? userId;
+  getUserId() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+  userId = preferences.getString('userId');
   }
 
 
@@ -88,7 +94,7 @@ class _EventsListCardState extends State<EventsListCard> {
                               Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
                               Container(
                                 // width: 250,
-                                  child: Text("${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                  child: Text("${widget.getEventModel?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                             ],
                           ),
                         ),
@@ -116,6 +122,7 @@ class _EventsListCardState extends State<EventsListCard> {
                         Icon(Icons.favorite,color: colors.red,): widget.getEventModel?.isSelected ?? false
                             ?Icon(Icons.favorite,color: colors.red,) :
                         Icon(Icons.favorite_outline,color: colors.red,)),
+                        if(userId == widget.getEventModel!.pharmaId)
                         InkWell(
                           onTap: widget.onTop,
                             child: Icon(Icons.delete)),

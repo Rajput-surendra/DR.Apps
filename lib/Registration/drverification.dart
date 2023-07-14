@@ -175,7 +175,7 @@ class _NewCerificationState extends State<NewCerification> {
           return true;
         },
         child: Scaffold(
-          appBar: customAppBar(text: "Verification",isTrue: false, context: context),
+          appBar: customAppBar(text: "Verification",isTrue: true, context: context),
           backgroundColor: colors.whiteTemp,
           body: Padding(
             padding: const EdgeInsets.only(left: 10, top: 10),

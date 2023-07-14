@@ -343,8 +343,7 @@ class _HistoryState extends State<History> {
                 // height: MediaQuery.of(context).size.height/1.0,
                   child: getWishListModel?.data == null
                       ? Center(child: CircularProgressIndicator())
-                      : getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) : selectedSegmentVal == 0
-                      ?
+                      : selectedSegmentVal == 0 ? getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) :
                   ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
@@ -355,8 +354,8 @@ class _HistoryState extends State<History> {
                         return  newCustomCards(getWishListModel, index);
                       })
 
-                      : getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :selectedSegmentVal == 1
-                      ? ListView.builder(
+                      : selectedSegmentVal == 1 ? getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :
+                     ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -366,8 +365,8 @@ class _HistoryState extends State<History> {
                         return  eventCustomCards(getWishListModel, index);
                       })
 
-                      :getWishListModel?.data?.webinar?.isEmpty ?? true ? Center(child: Text('Webiner not available'),) : selectedSegmentVal == 2
-                      ?  ListView.builder(
+                      :  selectedSegmentVal == 2 ? getWishListModel?.data?.webinar?.isEmpty ?? true ? Center(child: Text('Webiner not available'),) :
+                    ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -377,8 +376,8 @@ class _HistoryState extends State<History> {
                         return  webinarsCustomCards(getWishListModel, index);
                       })
 
-                      :getWishListModel?.data?.editorial?.isEmpty ?? true ? Center(child: Text('Editorial not available'),) : selectedSegmentVal == 3
-                      ?ListView.builder(
+                      :  selectedSegmentVal == 3 ? getWishListModel?.data?.editorial?.isEmpty ?? true ? Center(child: Text('Editorial not available'),) :
+                      ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -388,8 +387,8 @@ class _HistoryState extends State<History> {
                         return   editorialCustomCards(getWishListModel ,index);
                       })
 
-                      :getWishListModel?.data?.awareness?.isEmpty ?? true ? Center(child: Text('Awareness not available'),) : selectedSegmentVal == 4
-                      ? ListView.builder(
+                      : selectedSegmentVal == 4 ? getWishListModel?.data?.awareness?.isEmpty ?? true ? Center(child: Text('Awareness not available'),) :
+                     ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -398,8 +397,8 @@ class _HistoryState extends State<History> {
                       itemBuilder: (BuildContext context, int index) {
                         return awarenessCustomCards(getWishListModel, index);
                       })
-                      :getWishListModel?.data?.products?.isEmpty ?? true ? Center(child: Text('Products not available'),) : selectedSegmentVal == 5
-                      ? ListView.builder(
+                      : selectedSegmentVal == 5 ? getWishListModel?.data?.products?.isEmpty ?? true ? Center(child: Text('Products not available'),) :
+                    ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,

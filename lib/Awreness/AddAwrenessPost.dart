@@ -9,6 +9,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
 
@@ -69,30 +70,56 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
   List<File> videoList = [];
   String? language;
 
+  // Future<void> _getFromGallery(bool type) async {
+  //   PermissionStatus status = await Permission.mediaLibrary.request();
+  //   if ( status.isGranted) {
+  //     if (type == true) {
+  //       var result = await FilePicker.platform.pickFiles(
+  //         type: FileType.image,);
+  //       if (result != null) {
+  //         setState(() {
+  //           pickedFiles =  result.files.first.path;
+  //         });
+  //       }
+  //     }
+  //     else if (type == false) {
+  //       var result = await FilePicker.platform.pickFiles(
+  //           type: FileType.video);
+  //       if (result != null) {
+  //         setState(() {
+  //           pickedFiles =  result.files.first.path;
+  //         });
+  //       }
+  //     }
+  //   }else{
+  //     openAppSettings();
+  //   }
+  //
+  // }
+
+
   _getFromGallery(bool type) async {
     print("${type}__________");
     FilePickerResult? result;
-    if(type){
-
-      result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg','mp4']);}
-
-
-    if (result != null) {
-      setState(() {
-
-        // files = result!.paths.toString();
-        pickedFiles =  result?.files.first.path;
-
-      });}
-    else {
+    if(type) {
       result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['pdf']);
+          type: FileType.image);
       if (result != null) {
         setState(() {
-          //files = result!.paths.map((path) => File(path!)).toList();
+          // files = result!.paths.toString();
+          pickedFiles = result?.files.first.path;
+        });
+      }
+    } else {
+      result = await FilePicker.platform.pickFiles(
+          type: FileType.video);
+      if (result != null) {
+        setState(() {
+          pickedFiles = result?.files.first.path;
         });
       }
     }
+
 
   }
   List<FilePickerResult> files1 = [];
@@ -101,7 +128,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
   _getFromGallery1() async {
     FilePickerResult? result;
     if(imageFile == null ){
-      result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
+      result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg','video']);}
     if (result != null) {
       setState(() {
         files1.add(result!);
@@ -174,7 +201,6 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
     //
     // }
     if(imgList.isNotEmpty){
-
       for(var i = 0 ; i< imgList.length ; i ++) {
         imgList.length == 0 || imgList == null ? null :
         request.files.add(await http.MultipartFile.fromPath(
@@ -197,7 +223,6 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
     log(result);
 
     if (response.statusCode == 200) {
-     // final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
       isButtonLoading = false ;
@@ -218,41 +243,6 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
       print(response.reasonPhrase);
     }
   }
-  // addDoctorWebinarApi() async {
-  //   setState(() {
-  //     isloader == true;
-  //   });
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   String? userId = preferences.getString('userId');
-  //   String? Roll = preferences.getString('roll');
-  //   var headers = {
-  //     'Cookie': 'ci_session=1334276103ed816b0c79fa8ec31e57a65e1c2470'
-  //   };
-  //   var request = http.MultipartRequest('POST', Uri.parse(ApiService.addDoctorAwreness));
-  //   request.fields.addAll({
-  //     'user_id': '$userId',
-  //     'roll': '$Roll',
-  //     'title': doctoreController.text,
-  //     'aware_input': dropdownInput ?? '',
-  //     'language':langList.toString(),
-  //   });
-  //    request.files.add(await http.MultipartFile.fromPath('image[]', imgList.toString()));
-  //   request.files.add(await http.MultipartFile.fromPath('thumbnail', files1[0].path ?? ''));
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //   print(await response.stream.bytesToString());
-  //   }
-  //   else {
-  //     setState(() {
-  //
-  //     });
-  //   print(response.reasonPhrase);
-  //   }
-  //
-  // }
   bool isChecked = false;
   List<String> eventCat = [];
   List? results;
@@ -442,7 +432,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                          children: [
                            InkWell(
                              onTap: (){
-                               _getFromGallery(true);
+                               _getFromGallery(false);
                              },
 
                              child: DottedBorder(
@@ -542,7 +532,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
 
                   dropdownInput  ==  "leaflets" ? InkWell(
                     onTap: (){
-                      _getFromGallery1();
+                      _getFromGallery(false);
                     },
                     child: Container(
                       height: 50,
@@ -663,7 +653,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                   SizedBox(height: 15,),
                   InkWell(
                     onTap: ()async{
-                     await _getFromGallery(true);
+                     await _getFromGallery(false);
                     },
                     child: DottedBorder(
                         borderType: BorderType.RRect,

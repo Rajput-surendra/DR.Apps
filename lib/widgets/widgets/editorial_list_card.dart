@@ -45,6 +45,12 @@ class _EditorialListCardState extends State<EditorialListCard> {
       });
     });
     super.initState();
+    getUserId();
+  }
+  String? userId;
+  getUserId() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userId = preferences.getString('userId');
   }
   @override
   Widget build(BuildContext context) {
@@ -81,13 +87,13 @@ class _EditorialListCardState extends State<EditorialListCard> {
                             children: [
                               Container(
                                 width: 180,
-                                  child: Text("${widget.getEdoDataList?.title}",style: TextStyle(fontSize: 14,color: colors.secondary),overflow: TextOverflow.ellipsis,)),
+                                  child: Text("${widget.getEdoDataList?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),overflow: TextOverflow.ellipsis,)),
                               Container(
                                 width: 180,
-                                  child: Text("${widget.getEdoDataList?.description}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,)),
-                              // Container(
-                              //   // width: 250,
-                              //     child: Text("${widget.getEdoDataList?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                  child: Text("${widget.getEdoDataList?.userDigree}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,)),
+                              Container(
+                                // width: 250,
+                                  child: Text("${widget.getEdoDataList?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                             ],
                           ),
                         ),
@@ -115,6 +121,7 @@ class _EditorialListCardState extends State<EditorialListCard> {
                         Icon(Icons.favorite,color: colors.red,): widget.getEdoDataList?.isSelected ??
                             false ?Icon(Icons.favorite,color: colors.red,) :
                         Icon(Icons.favorite_outline,color: colors.red,)),
+                        if(userId ==  widget.getEdoDataList?.pharmaId)
                         InkWell(
                             onTap: widget.onTop,
                             child: Icon(Icons.delete)),

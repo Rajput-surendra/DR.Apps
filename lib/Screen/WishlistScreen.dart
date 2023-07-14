@@ -235,7 +235,6 @@ class _WishlistState extends State<Wishlist> {
           ),
         ),
       );
-
   setSegmentValue(int i) {
     selectedSegmentVal = i;
     String status;
@@ -249,9 +248,7 @@ class _WishlistState extends State<Wishlist> {
     });
     // getOrderList(status: status);
   }
-
   int _currentIndex = 1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -269,8 +266,8 @@ class _WishlistState extends State<Wishlist> {
                   child: getWishListModel?.data == null ||
                           getWishListModel?.data == ""
                       ? Center(child: CircularProgressIndicator())
-                      : getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) : selectedSegmentVal == 0
-                      ?ListView.builder(
+                      : selectedSegmentVal == 0 ? getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) :
+                      ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -280,8 +277,8 @@ class _WishlistState extends State<Wishlist> {
                            return  newCustomCards(getWishListModel, index);
                       })
 
-                      : getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :selectedSegmentVal == 1
-                      ? ListView.builder(
+                      : selectedSegmentVal == 1 ? getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :
+                      ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -291,8 +288,8 @@ class _WishlistState extends State<Wishlist> {
                         return  eventCustomCards(getWishListModel, index);
                       })
 
-                      :getWishListModel?.data?.webinar?.isEmpty ?? true ? Center(child: Text('Webiner not available'),) : selectedSegmentVal == 2
-                      ?  ListView.builder(
+                      : selectedSegmentVal == 2 ? getWishListModel?.data?.webinar?.isEmpty ?? true ? Center(child: Text('Webiner not available'),) :
+                     ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -302,8 +299,8 @@ class _WishlistState extends State<Wishlist> {
                         return  webinarsCustomCards();
                       })
 
-                      :getWishListModel?.data?.editorial?.isEmpty ?? true ? Center(child: Text('Editorial not available'),) : selectedSegmentVal == 3
-                      ?ListView.builder(
+                      : selectedSegmentVal == 3 ? getWishListModel?.data?.editorial?.isEmpty ?? true ? Center(child: Text('Editorial not available'),) :
+                      ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -313,8 +310,8 @@ class _WishlistState extends State<Wishlist> {
                         return   editorialCustomCards();
                       })
 
-                      :getWishListModel?.data?.awareness?.isEmpty ?? true ? Center(child: Text('Awareness not available'),) : selectedSegmentVal == 4
-                      ? ListView.builder(
+                      : selectedSegmentVal == 4  ? getWishListModel?.data?.awareness?.isEmpty ?? true ? Center(child: Text('Awareness not available'),) :
+                     ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -328,7 +325,6 @@ class _WishlistState extends State<Wishlist> {
           ),
         ));
   }
-
   removeWishListApi(String id, int i) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
@@ -373,26 +369,23 @@ class _WishlistState extends State<Wishlist> {
         'POST', Uri.parse('${ApiService.getNewsWishListApi}'));
     request.fields.addAll({
       'user_id': '$userId',
-
     });
-    print("this is a wishListReprocess=============>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result = await response.stream.bytesToString();
       final finalResult = GetWishListModel.fromJson(jsonDecode(result));
-      print("this is a wishListReprocess=============>${finalResult}");
+
       setState(() {
         getWishListModel = finalResult;
-        print("MYYYYYYYYYYYYYYYYYYYYYYY${getWishListModel?.data?.news?.first.image}");
+
       });
     } else {
       print(response.reasonPhrase);
     }
   }
-
   newCustomCards(model, int i) {
-    print('imagesssssssssssssssssssssssssss${getWishListModel?.data?.news![i].userImage}');
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -704,7 +697,7 @@ class _WishlistState extends State<Wishlist> {
              physics: NeverScrollableScrollPhysics(),
              shrinkWrap: true,
              reverse: true,
-             itemCount: getWishListModel?.data!.webinar!.length,
+             itemCount: getWishListModel!.data!.webinar!.length,
              itemBuilder: (BuildContext context, int index) {
                return  Card(
                  elevation: 5,
@@ -735,10 +728,8 @@ class _WishlistState extends State<Wishlist> {
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                         Image.asset("assets/splash/splashimages.png",height: 100,width: 100,),
-                         //  webinarModel?.data?[index].image == null || webinarModel?.data?[index].image == "" ?CircleAvatar(
-                         //    backgroundImage: AssetImage('assets/splash/splashimages.png'),
-                         //  ):Image.network('${ApiService.imageUrl}${webinarModel?.data?[index].image},',height: 80,width:80,),
+                         // Image.asset("assets/splash/splashimages.png",height: 100,width: 100,),
+                         // Image.network('${getWishListModel?.data?.webinar?[index].image},',height: 80,width:80,),
                          Column(
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
@@ -792,12 +783,12 @@ class _WishlistState extends State<Wishlist> {
                              SizedBox(height: 3),
                              Text('${getWishListModel?.data!.webinar![index].userName}',style: TextStyle(fontSize: 10,),),
                              SizedBox(height: 3),
-                             Text('${getWishListModel?.data!.webinar![index].userDigree}',style: TextStyle(fontSize: 10,),),
+                             // Text('${getWishListModel?.data!.webinar![index].userDigree}',style: TextStyle(fontSize: 10,),),
                              SizedBox(height: 3),
                              Text('${getWishListModel?.data!.webinar![index].userAddress}',style: TextStyle(fontSize: 10,),),
                              SizedBox(height: 3),
                              Text('${getWishListModel?.data!.webinar![index].description}',style: TextStyle(fontSize: 10,),),
-                             SizedBox(height: 15,),
+                             SizedBox(height: 10,),
                              Row(
                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                children: [

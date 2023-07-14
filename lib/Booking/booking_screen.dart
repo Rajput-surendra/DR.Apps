@@ -140,9 +140,7 @@ class _BookingScreenState extends State<BookingScreen> {
           child: Column(
             children: [
               SizedBox(height: 20,),
-              getBookingDetailsModel== null
-                  || getBookingDetailsModel== " "?
-              const Center(child: CircularProgressIndicator()):
+              getBookingDetailsModel == null  ? Center(child: CircularProgressIndicator(),) : getBookingDetailsModel?.data?.length == 0 ? Center(child: Text("No bookings found show")) :
               ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,

@@ -18,7 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
+
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -288,38 +289,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
 
   final ImagePicker _picker = ImagePicker();
 
-  Future<bool> showExitPopup() async {
-    return await showDialog(
-      //show confirm dialogue
-      //the return value will be from "Yes" or "No" options
-      context: context,
-      builder: (context) => AlertDialog(
-          title: Text('Select Image'),
-          content: Row(
-            // crossAxisAlignment: CrossAxisAlignment.s,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  // _getFromCamera();
-                },
-                //return false when click on "NO"
-                child: Text('Camera'),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                },
-                //return true when click on "Yes"
-                child: Text('Gallery'),
-              ),
-            ],
-          )),
-    ) ??
-        false; //if showDialouge had returned null, then return false
-  }
 
   Future<bool> showExitPopup1() async {
     return await showDialog(
@@ -334,9 +303,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  // _getFromCamera1();
+                  getImage(ImageSource.camera, context, 1);
                 },
-                //return false when click on "NO"
                 child: Text('Camera'),
               ),
               const SizedBox(
@@ -344,7 +312,10 @@ class _DoctorResignationState extends State<DoctorResignation> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  getImageCmera(ImageSource.gallery,context,1);
+
                 },
+
                 //return true when click on "Yes"
                 child: Text('Gallery'),
               ),
@@ -355,122 +326,36 @@ class _DoctorResignationState extends State<DoctorResignation> {
   }
 
   void requestPermission(BuildContext context,int i) async{
-    return await showDialog<void>(
-      context: context,
-      // barrierDismissible: barrierDismissible, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(6))),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+    print("okay");
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.photos,
+      Permission.mediaLibrary,
+      Permission.storage,
+    ].request();
+    if(statuses[Permission.photos] == PermissionStatus.granted&& statuses[Permission.mediaLibrary] == PermissionStatus.granted){
+        getImage(ImageSource.gallery, context, 1);
 
-              InkWell(
-                onTap: () async {
-                  // getFromGallery(i);
-                  getImageGallery(ImgSource.Gallery,context,i);
-                },
-                child: Container(
-                  child: ListTile(
-                      title:  Text("Gallery"),
-                      leading: Icon(
-                        Icons.image,
-                        color: colors.primary,
-                      )),
-                ),
-              ),
-              Container(
-                width: 200,
-                height: 1,
-                color: Colors.black12,
-              ),
-              InkWell(
-                onTap: () async {
-                  getImage(ImgSource.Camera, context, i);
-                },
-                child: Container(
-                  child: ListTile(
-                      title:  Text("Camera"),
-                      leading: Icon(
-                        Icons.camera,
-                        color: colors.primary,
-                      )),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
 
-  }
-
-  Future<void> getFromGallery(int i) async {
-    var result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-    );
-    if (result != null) {
-      setState(() {
-        if(i==1){
-          imageFile = File(result.files.single.path.toString());
-        }
-      });
-      Navigator.pop(context);
-    } else {
-      // User canceled the picker
+    }else{
+      getImageCmera(ImageSource.camera,context,1);
     }
   }
-
-  Future getImage(ImgSource source, BuildContext context, int i) async {
-    var image = await ImagePickerGC.pickImage(
-      context: context,
+  Future getImage(ImageSource source, BuildContext context, int i) async {
+    var image = await ImagePicker().pickImage(
       source: source,
-      cameraIcon: const Icon(
-        Icons.add,
-        color: Colors.red,
-      ), //cameraIcon and galleryIcon can change. If no icon provided default icon will be present
     );
     getCropImage(context, i, image);
     Navigator.pop(context);
   }
-
+  Future getImageCmera(ImageSource source, BuildContext context, int i) async {
+    var image = await ImagePicker().pickImage(
+      source: source,
+    );
+    getCropImage(context, i, image);
+    Navigator.pop(context);
+  }
   var imagePathList1;
   bool isImages =  false;
-  // Future<void> getImageGallery(ImgSource source, BuildContext context, int i) async {
-  //   var result = await FilePicker.platform.pickFiles(
-  //     type: FileType.image,
-  //     allowMultiple: false,
-  //   );
-  //   if (result != null) {
-  //     setState(() {
-  //       isImages = true;
-  //       // servicePic = File(result.files.single.path.toString());
-  //     });
-  //     imagePathList1 = result.paths.toList();
-  //     // imagePathList.add(result.paths.toString()).toList();
-  //     print("SERVICE PIC === ${imagePathList1.length}");
-  //
-  //   } else {
-  //     // User canceled the picker
-  //   }
-  // }
-  Future getImageGallery(ImgSource source, BuildContext context, int i) async {
-    var image = await ImagePickerGC.pickImage(
-      context: context,
-      source: source,
-      cameraIcon: const Icon(
-        Icons.add,
-        color: Colors.red,
-      ), //cameraIcon and galleryIcon can change. If no icon provided default icon will be present
-    );
-    getCropImage(context, i, image);
-    Navigator.pop(context);
-  }
-
-
 
   void getCropImage(BuildContext context, int i, var image) async {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
@@ -489,9 +374,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
       }
 
     });
-    Navigator.pop(context);
-  }
 
+  }
   SignUpModel? detailsData;
   registration() async {
     isLoading ==  true;
@@ -1978,7 +1862,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
 
                   InkWell(
                     onTap: () {
-                      requestPermission(context, 1);
+                      showExitPopup1();
                     },
                     child: Container(
                       height: imageFile == null ? 50:155,

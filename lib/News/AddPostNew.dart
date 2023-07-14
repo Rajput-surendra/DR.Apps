@@ -6,8 +6,11 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart'as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helper/AppBtn.dart';
@@ -33,48 +36,53 @@ class _AddPostNewState extends State<AddPostNew> {
   List<File> files3 = [];
   List<File> files1 = [];
   List<File> files2 = [];
+
+
   var imagePathList1;
 
+  var imagePathList;
+  bool isImages = false;
+
   Future<void> _getFromGallery(String type) async {
-    var result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      // allowMultiple: false,
-    );
-    if(type== 'jpeg'){
-      result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg','mp4']);
-      if (result != null) {
-        setState(() {
-          files1 = result!.paths.map((path) => File(path!)).toList();
-          files= files1;
-        });}}
-    else if(type== 'pdf'){
-      result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['pdf']);
-      if (result != null) {
-        setState(() {
-          files2 = result!.paths.map((path) => File(path!)).toList();
-          files= files2;
-        });
+    PermissionStatus status = await Permission.mediaLibrary.request();
+    if ( status.isGranted) {
+      if (type == 'jpeg') {
+        var result = await FilePicker.platform.pickFiles(
+            type: FileType.image,);
+        if (result != null) {
+          setState(() {
+            files1 = result.paths.map((path) => File(path!)).toList();
+            files = files1;
+          });
+        }
       }
-    }else if(type == 'video'){
-      print('___________________');
-      result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['mp4']);
-      if (result != null) {
-        setState(() {
-          files3 = result!.paths.map((path) => File(path!)).toList();
-          files= files3;
-        });
+
+      else if (type == 'pdf') {
+        var result = await FilePicker.platform.pickFiles(
+            type: FileType.custom, allowedExtensions: ['pdf']);
+        if (result != null) {
+          setState(() {
+            files2 = result.paths.map((path) => File(path!)).toList();
+            files = files2;
+          });
+        }
+      } else if (type == 'video') {
+        print('___________________');
+        var result = await FilePicker.platform.pickFiles(
+            type: FileType.video,);
+        if (result != null) {
+          setState(() {
+            files3 = result.paths.map((path) => File(path!)).toList();
+            files = files3;
+          });
+        }
       }
+    }else{
+      openAppSettings();
     }
 
   }
 
-  // _getFromGallery(String type) async {
-  //   FilePickerResult? result;
-  //
-  //
-  // }
   TextEditingController titleController = TextEditingController();
   TextEditingController decController = TextEditingController();
   getPostNew() async {
@@ -177,8 +185,8 @@ class _AddPostNewState extends State<AddPostNew> {
                 ),
                 SizedBox(height: 10,),
                 InkWell(
-                  onTap: (){
-                    // showExitPopup();
+                  onTap: () async {
+
                     _getFromGallery('jpeg');
                   },
                   child: Container(
@@ -190,9 +198,9 @@ class _AddPostNewState extends State<AddPostNew> {
                       dashPattern: [5, 5],
                       color: Colors.grey,
                       strokeWidth: 2,
-                      child: files1.length > 0  ? Padding(
+                      child: files1.length > 0 ? Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Center(child: Text("${files1[0]}")),
+                        child: Text('${files1[0]}')
                       ) :
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -215,7 +223,7 @@ class _AddPostNewState extends State<AddPostNew> {
                 InkWell(
                   onTap: (){
                     // showExitPopup();
-                    _getFromGallery('pdf');
+                   _getFromGallery('pdf');
                   },
                   child: Container(
                     // height: MediaQuery.of(context).size.height/6,

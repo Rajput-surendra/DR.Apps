@@ -24,6 +24,7 @@ import '../New_model/GetSelectCatModel.dart';
 import '../New_model/GetSliderModel.dart';
 import '../New_model/getUserProfileModel.dart';
 import '../Profile/Update_password.dart';
+import '../Profile/clinic_hospital_update.dart';
 import '../Profile/profile_screen.dart';
 import '../SubscriptionPlan/addPosterScreen.dart';
 import '../SubscriptionPlan/subscription_plan.dart';
@@ -706,6 +707,25 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
+
+          ListTile(
+            leading: Image.asset(
+              "assets/images/home.png",
+              color: colors.black54,
+              height: 40,
+              width: 40,
+            ),
+            title: Text(
+              'Update Clinic/Hospital',
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ClinicHospitalUpdate()),
+              );
+            },
+          ),
+
           ListTile(
             leading: Image.asset(
               "assets/images/home.png",
@@ -725,11 +745,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           ListTile(
-            leading: Image.asset(
-              "assets/images/Term & Conditions.png",
-              color: colors.black54,
-              height: 40,
-              width: 40,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Image.asset(
+                "assets/images/booking-icon.png",
+                color: colors.black54,
+                height: 23,
+                width: 30,
+              ),
             ),
             title: Text(
               'Booking',
@@ -742,40 +765,6 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
 
-          ListTile(
-            leading: Image.asset(
-              "assets/images/Term & Conditions.png",
-              height: 40,
-              width: 40,
-              color: colors.black54,
-            ),
-            title: Text(
-              'Terms &Conditions',
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TermsCondition()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Image.asset(
-              "assets/images/Privacy Policy.png",
-              color: colors.black54,
-              height: 40,
-              width: 40,
-            ),
-            title: Text(
-              'Privacy Policy',
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PrivacyPolicy()),
-              );
-            },
-          ),
           ListTile(
             leading: Image.asset(
               "assets/images/sub.png",
@@ -794,11 +783,14 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           ListTile(
-            leading: Image.asset(
-              "assets/images/histo.png",
-              color: colors.black54,
-              height: 30,
-              width: 30,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 3),
+              child: Image.asset(
+                "assets/images/histo.png",
+                color: colors.black54,
+                height: 26,
+                width: 30,
+              ),
             ),
             title: Text(
               'History',
@@ -843,6 +835,40 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => UpdatePassword()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Image.asset(
+              "assets/images/Term & Conditions.png",
+              height: 40,
+              width: 40,
+              color: colors.black54,
+            ),
+            title: Text(
+              'Terms &Conditions',
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TermsCondition()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Image.asset(
+              "assets/images/Privacy Policy.png",
+              color: colors.black54,
+              height: 40,
+              width: 40,
+            ),
+            title: Text(
+              'Privacy Policy',
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PrivacyPolicy()),
               );
             },
           ),

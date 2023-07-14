@@ -339,7 +339,10 @@ class _EditorialState extends State<Editorial> {
 
                 ),
                 SizedBox(
-                  child: editorialmodel?.data == null ? Center(child: CircularProgressIndicator())  : editorialmodel?.data.isEmpty?? false ? Text("No Editorial Found !!"):
+                  child: editorialmodel?.data == null ? Center(child: CircularProgressIndicator())  : editorialmodel?.data.isEmpty?? false ? Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Center(child: Text("No Editorial Found !!")),
+                  ):
                   ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),

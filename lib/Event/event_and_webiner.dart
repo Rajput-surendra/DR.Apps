@@ -80,7 +80,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     String? userId = preferences.getString('userId');
     String? Roll = preferences.getString('roll');
     String? specialityId = preferences.getString('specialityId');
-    // String? id = preferences.getString('sId');
+      String? id = preferences.getString('sId');
     String? localId = preferences.getString('LocalId');
 
     var headers = {
@@ -406,8 +406,8 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     if (response.statusCode == 200) {
       var result =  await response.stream.bytesToString();
       var finalResult = jsonDecode(result);
-      getOnlineWebinarApi();
       Fluttertoast.showToast(msg: "${finalResult['message']}");
+      getOnlineWebinarApi();
     }
     else {
       print(response.reasonPhrase);
@@ -441,7 +441,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
           eventModel == null ? Center(child: CircularProgressIndicator(),) : SizedBox(
             child:  eventModel?.data == null ? Center(child: CircularProgressIndicator())  : eventModel?.data.isEmpty?? false ? Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("No Event Found !!!!"),
+              child: Center(child: Text("No Event Found !!!!")),
             ):
             ListView.builder(
               // scrollDirection: Axis.vertical,

@@ -109,7 +109,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
       // }
       for(var i=0;i<(getAwareNess?.data.video?.length ?? 5);i++){
         // _vController.add(VideoPlayerController.network(jsonResponse.data![i].video.toString()));
-          _vController.add(VideoPlayerController.network(getAwareNess!.data.video![i].toString())..initialize().then((value){
+          _vController.add(VideoPlayerController.network(getAwareNess!.data.video![i].image.toString())..initialize().then((value){
           setState(() {
           });
         }));
@@ -123,6 +123,32 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
       setState(() {
         isScreenLoading = false;
       });
+    }
+
+  }
+
+  getdeleteApi(String idAll,String typeAll) async {
+    var headers = {
+      'Cookie': 'ci_session=4548ca39e40940b85343dc590f98edbf5418c5a4'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getDeleteAwarenessApi}'));
+    request.fields.addAll({
+      'type': typeAll.toString(),
+      'id': idAll.toString()
+    });
+
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+     var  reslut   = await response.stream.bytesToString();
+     var finalReslut  =  jsonDecode(reslut);
+     setState(() {
+       Fluttertoast.showToast(msg: "${finalReslut['message']}");
+     });
+     getAwarenessList();
+    }
+    else {
+    print(response.reasonPhrase);
     }
 
   }
@@ -446,7 +472,9 @@ searchProduct(String value) {
                         reverse: true,
                         itemCount: getAwareNess!.data.poster?.length ?? 5,
                         itemBuilder: (BuildContext context, int index) {
-                          return AwarenessListCard(currentIndex: 0,index: index,getAwareNess: getAwareNess, vController: _vController,); //getPosterList(getAwareNess?.data.mPoster, index);
+                          return AwarenessListCard(currentIndex: 0,index: index,getAwareNess: getAwareNess, vController: _vController,onTop: (){
+                            getdeleteApi(getAwareNess?.data.poster?[index].id ?? "" ,getAwareNess?.data.poster?[index].type ?? "");
+                          },); //getPosterList(getAwareNess?.data.mPoster, index);
                         })
                         :  selectedSegmentVal == 1 ?  getAwareNess?.data.booklets?.isEmpty ?? false  ? Center(child: Text('Booklets not available'),)
                         : ListView.builder(
@@ -456,7 +484,10 @@ searchProduct(String value) {
                         reverse: true,
                         itemCount: getAwareNess!.data.booklets?.length ?? 5,
                         itemBuilder: (BuildContext context, int index) {
-                          return AwarenessListCard(currentIndex: 1,index: index,getAwareNess: getAwareNess,vController: _vController); // bookletsList(getAwareNess?.data.booklets, index);
+                          return AwarenessListCard(currentIndex: 1,index: index,getAwareNess: getAwareNess,vController: _vController,onTop: ()
+                            {
+                              getdeleteApi(getAwareNess?.data.booklets?[index].id ?? "" ,getAwareNess?.data.booklets?[index].type ?? "");
+                            },); // bookletsList(getAwareNess?.data.booklets, index);
                         }) :
                          selectedSegmentVal == 2 ? getAwareNess?.data.leaflets?.isEmpty ?? true ? Center(child: Text('Leaflets not available'),)
                        :  ListView.builder(
@@ -466,7 +497,9 @@ searchProduct(String value) {
                         reverse: true,
                         itemCount: getAwareNess!.data.leaflets?.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return AwarenessListCard(currentIndex: 2,index: index,getAwareNess: getAwareNess,vController: _vController); // getLeafletList(getAwareNess?.data.leaflets, index);
+                          return AwarenessListCard(currentIndex: 2,index: index,getAwareNess: getAwareNess,vController: _vController,onTop: (){
+                            getdeleteApi(getAwareNess?.data.leaflets?[index].id ?? "" ,getAwareNess?.data.leaflets?[index].type ?? "");
+                          },); // getLeafletList(getAwareNess?.data.leaflets, index);
                         })
                         :
                          selectedSegmentVal == 3 ? getAwareNess?.data.mPoster?.isEmpty ?? true ? Center(child: Text('Motivational Poster not available'),) :
@@ -477,7 +510,9 @@ searchProduct(String value) {
                         reverse: true,
                         itemCount: getAwareNess!.data.mPoster?.length??5,
                         itemBuilder: (BuildContext context, int index) {
-                          return AwarenessListCard(currentIndex: 3,index: index,getAwareNess: getAwareNess,vController: _vController); // getMotimationList(getAwareNess?.data.poster, index);
+                          return AwarenessListCard(currentIndex: 3,index: index,getAwareNess: getAwareNess,vController: _vController,onTop: (){
+                            getdeleteApi(getAwareNess?.data.mPoster?[index].id ?? "" ,getAwareNess?.data.mPoster?[index].type ?? "");
+                          },); // getMotimationList(getAwareNess?.data.poster, index);
                         })
                         :
                          selectedSegmentVal == 4 ? getAwareNess?.data.video?.isEmpty ?? true ? Center(child: Text('video not available'),):

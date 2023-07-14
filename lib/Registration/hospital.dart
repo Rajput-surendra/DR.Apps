@@ -91,7 +91,6 @@ class _HospitalState extends State<Hospital> {
     }
 
   }
-
   Future<void> chooseTime(BuildContext context) async {
     final TimeOfDay pickedTime = await showTimePicker(
       context: context,
@@ -104,7 +103,6 @@ class _HospitalState extends State<Hospital> {
       });
     }
   }
-
   Future<void> selectTimeStart(BuildContext context) async {
     final TimeOfDay pickedTime = await showTimePicker(
       context: context,
@@ -225,11 +223,12 @@ class _HospitalState extends State<Hospital> {
         "json": '${newList}'
 
       });
-      if (imageFile != null) {
+      if (widget.profileImages == null) {
+        Fluttertoast.showToast(msg: "Add images");
+      }else{
         request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
       }
-      print('my-------fields-------${request.fields}');
-      print('my---------files-------${request.files}');
+      print('_____ccimages_____${request.files}_________');
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       if (response.statusCode == 200) {
@@ -241,17 +240,17 @@ class _HospitalState extends State<Hospital> {
         _selectedTime1 = null;
         _selectedTimeNew = null;
         _selectedTimeOld = null;
-        final reslut = await response.stream.bytesToString();
-        print('____assadsdddsa______${reslut}_________');
-        var finalResult = jsonDecode(reslut);
-        int? otp = finalResult['data']['otp'];
-        String?  mobile = finalResult['data']['mobile'];
+        final result = await response.stream.bytesToString();
+        var finalResult = json.decode(result);
         msg = finalResult['message'];
         Fluttertoast.showToast(msg: finalResult['message']);
-        if (!finalResult['error']) {
-          Fluttertoast.showToast(msg: finalResult['message']);
+        if (finalResult['error'] == false) {
+          int? otp = finalResult['data']['otp'];
+          String?  mobile = finalResult['data']['mobile'];
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+          Fluttertoast.showToast(msg: finalResult['message']);
         }
+
         setState(() {
           isLoading = false;
         });
@@ -269,7 +268,7 @@ class _HospitalState extends State<Hospital> {
   String? daysHos;
   @override
   Widget build(BuildContext context) {
-    print('____xzcxcxvxv______${widget.profileImages}_________');
+    print('____xxxxzx______${widget.profileImages}_________');
     return  Scaffold(
       appBar: customAppBar(context: context, text:"Clinic/Hospital Details", isTrue: true, ),
       body:  Padding(
@@ -449,7 +448,7 @@ class _HospitalState extends State<Hospital> {
                           color: colors.secondary,
                           onPress: () {
                             if(clinicListForJson.isEmpty){
-                              Fluttertoast.showToast(msg: "Please add hospital Details");
+                              Fluttertoast.showToast(msg: "Please Add Hospital/Clinic Details");
                             }
                             else{
                               registration();
@@ -500,6 +499,9 @@ class _HospitalState extends State<Hospital> {
                                   "addresses":addressC.text,
                                   "appoint_number":numberC.text,
                                 });
+                                setState(() {
+
+                                });
 
                                 print('${clinicListForJson.length}______________length');
                                 print('${clinicListForJson.first}______________');
@@ -509,6 +511,7 @@ class _HospitalState extends State<Hospital> {
                                 addressC.clear();
                                 results?.clear();
                                 numberC.clear();
+                                clinicNameC.clear();
                                 _selectedTime = null;
                                 _selectedTime1 = null;
                                 _selectedTimeNew = null;
@@ -711,7 +714,6 @@ class _HospitalState extends State<Hospital> {
       ),
     );
   }
-
   Widget MorningShiftStart() {
     return InkWell(
       onTap: () {

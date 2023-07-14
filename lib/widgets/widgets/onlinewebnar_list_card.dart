@@ -48,6 +48,12 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
       });
     });
     super.initState();
+    getUserId();
+  }
+  String? userId;
+  getUserId() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userId = preferences.getString('userId');
   }
   @override
   Widget build(BuildContext context) {
@@ -63,7 +69,7 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                   height: 30,
                   width:MediaQuery.of(context).size.width/1.0,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: colors.secondary,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(11),topRight: Radius.circular(11))),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -136,6 +142,7 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                             Icon(Icons.favorite,color: colors.red,): widget.getWebinarDataList?.isSelected ?? false
                                 ?Icon(Icons.favorite,color: colors.red,) :
                             Icon(Icons.favorite_outline,color: colors.red,)),
+                            if(userId == widget.getWebinarDataList?.pharmaId)
                             InkWell(
                                 onTap: widget.onTap,
                                 child: Icon(Icons.delete)),

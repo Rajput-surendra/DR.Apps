@@ -43,7 +43,7 @@ dependencies:
   flutter_html: ^2.2.1
   intl: 0.17.0
   fluttertoast: ^8.0.9
-  permission_handler: ^8.2.2
+  permission_handler: ^10.4.3
   razorpay_flutter: ^1.1.1
   package_info: ^2.0.0
   pin_code_fields: ^7.4.0
@@ -57,7 +57,8 @@ dependencies:
 #  image_picker: ^0.7.4
   image_cropper: ^3.0.1
   path_provider: ^2.0.14
-  file_picker: ^4.6.1
+#  file_picker: ^4.6.1
+  file_picker: ^5.2.0
   video_player: 2.1.15
   social_share: ^2.3.1
   firebase_analytics: ^10.2.0
@@ -65,11 +66,12 @@ dependencies:
   firebase_core: ^2.8.0
   flutter_branch_sdk: ^5.1.1
   flutter_share: ^2.0.0
-  image_picker_gallery_camera: ^0.2.2
+  image_picker: ^0.8.4+9
+#  image_picker_gallery_camera: any
 #  image_downloader: ^0.31.0
   share_plus: ^4.3.1
   screenshot: ^1.3.0
-  flutter_local_notifications: ^9.8.0+1
+  flutter_local_notifications: any
   image_gallery_saver: '^1.7.1'
 dev_dependencies:
   flutter_test:
@@ -128,7 +130,7 @@ flutter:
     - assets/home icon/
     - assets/splash/
     - assets/
-    - lib/Language/
+#    - lib/Language/
 
 
   fonts:
