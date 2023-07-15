@@ -55,4 +55,5 @@ class ApiService {
     static const String getUploadBannerApi = baseUrl+'upload_banner';
     static const String getDeleteDoctorPostApi = baseUrl+'delete_doctor_event';
     static const String getDeleteAwarenessApi = baseUrl+'delete_awareness';
+    static const String getUpdateClinicDetailsApi = baseUrl+'update_clinic_details';
 }

@@ -180,7 +180,6 @@ class _HospitalState extends State<Hospital> {
       } on FirebaseException {
       }
       List newList = [];
-
       for(int i = 0; i< clinicListForJson.length; i++){
         print('${clinicListForJson[i]['days']}____________');
         newList.add(jsonEncode({
@@ -314,11 +313,6 @@ class _HospitalState extends State<Hospital> {
                                     const SizedBox(height: 3,),
                                     Text("${clinicListForJson[i]['evening_shift']}",style: TextStyle(fontWeight: FontWeight.w600)),
                                     SizedBox(height: 5,),
-                                    // SizedBox(
-                                    //     width: 200, child: Text("${clinicListForJson[i]['morning_shift_new']}",overflow: TextOverflow.ellipsis,maxLines: 1)),
-                                    // const SizedBox(height: 3,),
-                                    // Text("${clinicListForJson[i]['evening_shift_old']}"),
-                                    // const SizedBox(height: 3,),
                                     Text("${clinicListForJson[i]['addresses']}",style: TextStyle(fontWeight: FontWeight.w600)),
                                     SizedBox(height: 5,),
                                     Text("${clinicListForJson[i]['clinic_name']}",style: TextStyle(fontWeight: FontWeight.w600)),
@@ -453,28 +447,6 @@ class _HospitalState extends State<Hospital> {
                             else{
                               registration();
                             }
-                            // else if (_formKey.currentState!.validate()) {
-                            //   days = results!.join(",");
-                            //   clinicListForJson.add(json.encode({
-                            //     "days":days,
-                            //     "clinic_name":clinicNameC.text,
-                            //     "morning_shift":"${_selectedTime!.format(context)} - ${_selectedTime1?.format(context)}",
-                            //     "evening_shift":"${_selectedTimeNew!.format(context)} - ${_selectedTimeOld!.format(context)}",
-                            //     "addresses":addressC.text,
-                            //     "appoint_number":numberC.text,
-                            //   }));
-                            //   print('my encoded json is --------${encodeClinicForJson}');
-                            // } else {
-                            //   Fluttertoast.showToast(
-                            //       msg: "Fill All field ",
-                            //       toastLength: Toast.LENGTH_SHORT,
-                            //       gravity: ToastGravity.BOTTOM,
-                            //       timeInSecForIosWeb: 1,
-                            //       backgroundColor: colors.secondary,
-                            //       textColor: Colors.white,
-                            //       fontSize: 16.0
-                            //   );
-                            // }
 
 
                           }),
@@ -500,12 +472,7 @@ class _HospitalState extends State<Hospital> {
                                   "appoint_number":numberC.text,
                                 });
                                 setState(() {
-
                                 });
-
-                                print('${clinicListForJson.length}______________length');
-                                print('${clinicListForJson.first}______________');
-
                                 clinicListForJson.forEach((element) {print(element);});
                                 print('${clinicListForJson.first}__________0');
                                 addressC.clear();
@@ -527,7 +494,7 @@ class _HospitalState extends State<Hospital> {
                                     textColor: Colors.white,
                                     fontSize: 16.0
                                 );
-                                //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+
                               }
 
 
@@ -537,74 +504,6 @@ class _HospitalState extends State<Hospital> {
                     ),
                   ],
                 )
-
-                /////////////////////////Hospital///////////////////////////////////
-                // SizedBox(height: 20,),
-                // const Text("Hospital",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 18),),
-                // SizedBox(height: 15,),
-                // selectHospital(),
-                // SizedBox(height:15,),
-                // const Text("Hospital Morning Shift ",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                // SizedBox(height:5,),
-                // MorningShiftHospital(),
-                // SizedBox(height:15,),
-                // const Text("Hospital Evening Shift",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                // SizedBox(height:5,),
-                // EveningShiftHospital(),
-                // SizedBox(height:15,),
-                // const Text("Experience",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                // SizedBox(height:5,),
-                // Container(
-                //   height: 50,
-                //   child: TextFormField(
-                //       controller: experienceC1,
-                //       decoration: InputDecoration(
-                //           counterText: "",
-                //           hintText:"Experience",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                //       )
-                //   ),
-                // ),
-                // SizedBox(height: 15,),
-                // const Text("Hospital Address",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                // SizedBox(height:5,),
-                // Container(
-                //   height: 50,
-                //   child: TextFormField(
-                //       controller: addressC1,
-                //       decoration: InputDecoration(
-                //           hintText:"Address",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                //       )
-                //   ),
-                // ),
-                // SizedBox(height:15,),
-                // const Text("Hospital Name",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                // SizedBox(height:5,),
-                // Container(
-                //   height: 50,
-                //   child: TextFormField(
-                //       controller: clinicNameC1,
-                //       decoration: InputDecoration(
-                //           hintText:"Hospital Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                //       )
-                //   ),
-                // ),
-                // SizedBox(height:15,),
-                // const Text("Hospital Appoint Number",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                // SizedBox(height:5,),
-                // Container(
-                //   height: 50,
-                //   child: TextFormField(
-                //       controller: numberC1,
-                //       maxLines: 1,
-                //       maxLength: 10,
-                //       keyboardType: TextInputType.number,
-                //       decoration: InputDecoration(
-                //           counterText: "",
-                //           hintText:"Appoint Number",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                //       )
-                //   ),
-                // ),
-                // SizedBox(height: 20,),
 
               ],
             ),

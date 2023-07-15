@@ -1424,14 +1424,15 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                 style: TextStyle(
                                     color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
                               ),
-                            ],
+                             ],
                           )
 
                       ),
                       const SizedBox(
                         height: 5,
                       ),
-                      getStateResponseModel== null? Center(child: CircularProgressIndicator()):Container(
+                      getStateResponseModel== null? Center(child: CircularProgressIndicator()):
+                      Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: colors.black54)

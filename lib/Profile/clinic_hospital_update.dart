@@ -1,36 +1,170 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
+import '../New_model/getUserProfileModel.dart';
+import '../api/api_services.dart';
+import 'package:http/http.dart'as http;
 List <String>_selectedItems2 = [];
 class ClinicHospitalUpdate extends StatefulWidget {
-  const ClinicHospitalUpdate({Key? key}) : super(key: key);
+   ClinicHospitalUpdate({Key? key,}) : super(key: key);
+
+
 
   @override
   State<ClinicHospitalUpdate> createState() => _ClinicHospitalUpdateState();
 }
 
 class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
+bool isLoder = false;
+List<TextEditingController> dayConatroller = [];
+List<TextEditingController> morningTimeController = [];
+List<TextEditingController> morningTimeEndController = [];
+List<TextEditingController> eveingTimeController = [];
+List<TextEditingController> eveingTimeEndController = [];
+List<TextEditingController> appointNOController = [];
+List<TextEditingController> clinicController = [];
+List<TextEditingController> hospitalController = [];
+List<String> daysLists = [];
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getuserProfile();
+
+  }
+  
+  updatedDataApi() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString('userId');
+    var headers = {
+      'Cookie': 'ci_session=7defbd920541b86a7a1531a4e7de2e4779440cbe'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getUpdateClinicDetailsApi}'));
+    request.fields.addAll({
+      'user_id': userId.toString(),
+      'json':newList.toString()
+    });
+
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result = await response.stream.bytesToString();
+      var finalResul = jsonDecode(result);
+      Fluttertoast.showToast(msg: "${finalResul['message']}");
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
+  }
+  GetUserProfileModel? getprofile;
+  getuserProfile() async {
+    setState(() {
+      isLoder == true ? const Center(child: CircularProgressIndicator()):SizedBox();
+    });
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString('userId');
+
+    var headers = {
+      'Cookie': 'ci_session=9aba5e78ffa799cbe054723c796d2bd8f2f7d120'
+    };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('${ApiService.getUserProfile}'));
+    request.fields.addAll({'user_id': "${userId}"});
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var finalResult = await response.stream.bytesToString();
+      final jsonResponse = GetUserProfileModel.fromJson(json.decode(finalResult));
+      setState(() {
+        getprofile = jsonResponse;
+      });
+         getprofile!.user!.userData!.first.clinics!.forEach((element) {
+          // dayConatroller.add(getprofile!.user!.userData.clinics.first.day.split(pattern))
+          // dayConatroller.add(TextEditingController(text:element.day!.split(',').first));
+           results = element.day?.split(",");
+        grandResults.add(results ?? []);
+
+        morningTimeController.add(TextEditingController(text:element.morningShift!.split('-').first));
+        morningTimeEndController.add(TextEditingController(text:element.morningShift!.split('-')[1]));
+        eveingTimeController.add(TextEditingController(text:element.eveningShift!.split('-').first));
+        eveingTimeEndController.add(TextEditingController(text:element.eveningShift!.split('-')[1]));
+        appointNOController.add(TextEditingController(text:element.appointNumber!));
+        clinicController.add(TextEditingController(text:element.clinicName!));
+        hospitalController.add(TextEditingController(text:element.addresses!));
+
+      });
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+   List newList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context: context, text:"Update Clinic/Hospital", isTrue: true, ),
-      body: Column(
-        children: [
-          ListView.builder(
-            itemCount:5 ,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  getData()
-                ],
-              );
-            }
-            ,)
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            getprofile?.user?.userData == null ?
+            Center(child: CircularProgressIndicator()):
+            getprofile?.user?.userData?[0].clinics?.length == 0 ?
+            Text("No Clinic?Hospital Data!!") :Container(
+              child: SizedBox(
+                // height: MediaQuery.of(context).size.height/1.1,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount:getprofile!.user!.userData![0].clinics!.length ,
+                  itemBuilder: (context, index) {
+                    return
+                      getData(index);
+                  }
+                  ,),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: (){
+                  for(int i = 0; i< getprofile!.user!.userData![0].clinics!.length; i++){
+                    newList.add(jsonEncode({
+                      "id":getprofile!.user!.userData![0].clinics![i].id,
+                        "day":grandResults[i].toString(),
+                      "morning_shift":morningTimeController[i].text + "-"+ morningTimeEndController[i].text,
+                      "evening_shift":eveingTimeController[i].text + "-" + eveingTimeEndController[i].text,
+                      "addresses":hospitalController[i].text,
+                      "appoint_number":appointNOController[i].text,
+                      "clinic_name": clinicController[i].text
+                    }));
+                   print('______ddd____${newList}_________');
 
-        ],
+                  }
+                 if(newList.isEmpty){
+                  Fluttertoast.showToast(msg: "jksbdfcbsdf;dsfn");
+                 }else{
+                   // updatedDataApi();
+                 }
+                  print('__sadsadsds________${newList}_________');
+
+                },
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: colors.secondary),
+                  child: Center(child: Text("Update ",style: TextStyle(color: colors.whiteTemp),)),
+                ),
+              ),
+            )
+
+          ],
+        ),
       ),
     );
   }
@@ -40,11 +174,14 @@ class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
   TimeOfDay? _selectedTimeNew;
   TimeOfDay? _selectedTimeOld;
   List<String>? results;
+  List<List<String>> grandResults = [];
+
   List? results1;
-  void _showMultiSelect() async {
-    results = await showDialog(
+  void _showMultiSelect(int i) async {
+    grandResults[i] = await showDialog(
         context: context,
         builder: (BuildContext context) {
+          // dayConatroller[i].text = _selectedItems2.toString();
           return StatefulBuilder(
               builder: (context, setState)
               {
@@ -63,7 +200,7 @@ class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
 
 
   }
-  Future<void> _selectTime(BuildContext context) async {
+  Future<void> _selectTime(BuildContext context,int i) async {
     final TimeOfDay pickedTime = await showTimePicker(
       context: context,
       initialTime: _selectedTime ?? TimeOfDay.now(),
@@ -73,12 +210,13 @@ class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
 
       setState(() {
         _selectedTime = pickedTime;
+        morningTimeController[i].text = _selectedTime!.format(context);
       });
       print('_____sfgfdgfdg_____${_selectedTime!.format(context)}_________');
     }
 
   }
-  Future<void> chooseTime(BuildContext context) async {
+  Future<void>  chooseTime(BuildContext context, int i) async {
     final TimeOfDay pickedTime = await showTimePicker(
       context: context,
       initialTime: _selectedTime1 ?? TimeOfDay.now(),
@@ -87,10 +225,11 @@ class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
     if (pickedTime != null && pickedTime != _selectedTime1) {
       setState(() {
         _selectedTime1 = pickedTime;
+        morningTimeEndController[i].text =  _selectedTime1!.format(context);
       });
     }
   }
-  Future<void> selectTimeStart(BuildContext context) async {
+  Future<void> eveningTimeStart(BuildContext context,int i) async {
     final TimeOfDay pickedTime = await showTimePicker(
       context: context,
       initialTime: _selectedTimeNew ?? TimeOfDay.now(),
@@ -100,12 +239,14 @@ class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
 
       setState(() {
         _selectedTimeNew = pickedTime;
+        eveingTimeController[i].text = _selectedTimeNew!.format(context);
+
       });
       print('_____sfgfdgfdg_____${_selectedTimeNew!.format(context)}_________');
     }
 
   }
-  Future<void> chooseTimeEnd(BuildContext context) async {
+  Future<void> eveningTimeEnd(BuildContext context ,int i) async {
     final TimeOfDay pickedTime = await showTimePicker(
       context: context,
       initialTime: _selectedTimeOld ?? TimeOfDay.now(),
@@ -114,17 +255,18 @@ class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
     if (pickedTime != null && pickedTime != _selectedTimeOld) {
       setState(() {
         _selectedTimeOld = pickedTime;
+        eveingTimeEndController[i].text = _selectedTimeOld!.format(context);
       });
     }
   }
-  Widget select() {
+  Widget select(int i) {
     return InkWell(
       onTap:
       _selectedItems2 == null ? (){
         Fluttertoast.showToast(msg: 'Please Select Days',backgroundColor: colors.secondary);
       }: () {
         setState(() {
-          _showMultiSelect();
+          _showMultiSelect(i);
         });
       },
       child: Container(
@@ -151,7 +293,7 @@ class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
               :
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.start,
-            children: results!.map((e){
+            children: grandResults[i].map((e){
               return Padding(
                 padding: const EdgeInsets.only(top: 10,left: 1,right: 1),
                 child: Container(
@@ -166,223 +308,209 @@ class _ClinicHospitalUpdateState extends State<ClinicHospitalUpdate> {
       ),
     );
   }
+   getData(int i){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 15,),
+          const Text("Clinic/Hospital Days",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+          const SizedBox(height:15,),
+           select(i),
+          // TextFormField(
+          //   onTap: (){
+          //     _showMultiSelect();
+          //   },
+          //   readOnly: true,
+          //   controller: dayConatroller[i],
+          //   keyboardType: TextInputType.text,
+          //   decoration: InputDecoration(
+          //       hintText: 'Day',
+          //       hintStyle: TextStyle(
+          //           fontSize: 15.0, color: colors.blackTemp),
+          //       border: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(10)),
+          //       contentPadding: EdgeInsets.only(left: 10, top: 10)
+          //   ),
+          // ),
+          const SizedBox(height:15,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(" Morning Shift Start ",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 5,),
+                    SizedBox(height: 10,),
+                    TextFormField(
+                      onTap: (){
+                        _selectTime(context,i);
+                      },
+                      readOnly: true,
+                       controller: morningTimeController[i],
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          hintText: 'MorningShift',
+                          hintStyle: TextStyle(
+                              fontSize: 15.0, color: colors.blackTemp),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          contentPadding: EdgeInsets.only(left: 10, top: 10)
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 10,),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(" Morning Shift End",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 5,),
+                    SizedBox(height: 10,),
+                    TextFormField(
+                      onTap: (){
+                        chooseTime(context,i);
+                      },
+                      readOnly: true,
+                      controller: morningTimeEndController[i],
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          hintText: 'Morning Shift End',
+                          hintStyle: TextStyle(
+                              fontSize: 15.0, color: colors.blackTemp),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          contentPadding: EdgeInsets.only(left: 10, top: 10)
+                      ),
+                    ),
+                  ],
+                ),
+              )
 
-  Widget MorningShift() {
-    return InkWell(
-      onTap: () {
-        _selectTime(context);
-      },
-      child: Container(
-        // Customize the container as needed
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              _selectedTime != null
-                  ? '${_selectedTime!.format(context)}'
-                  : 'Morning Shift Time',
-            ),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget EveningShift() {
-    return  InkWell(
-      onTap: () {
-        chooseTime(context);
-      },
-      child: Container(
-        // Customize the container as needed
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              _selectedTime1 != null
-                  ? '${_selectedTime1!.format(context)}'
-                  : 'Evening Shift Time',
-            ),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget MorningShiftStart() {
-    return InkWell(
-      onTap: () {
-        selectTimeStart(context);
-      },
-      child: Container(
-        // Customize the container as needed
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              _selectedTimeNew != null
-                  ? '${_selectedTimeNew!.format(context)}'
-                  : 'Morning Shift Time',
-            ),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget EveningShiftEnd() {
-    return  InkWell(
-      onTap: () {
-        chooseTimeEnd(context);
-      },
-      child: Container(
-        // Customize the container as needed
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              _selectedTimeOld != null
-                  ? '${_selectedTimeOld!.format(context)}'
-                  : 'Evening Shift Time',
-            ),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      ),
-    );
-  }
-  TextEditingController clinicNameC = TextEditingController();
-  TextEditingController addressC = TextEditingController();
-
-  getData(){
-    return Column(
-      children: [
-        const SizedBox(height: 15,),
-        const Text("Clinic/Hospital Days",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-        const SizedBox(height:15,),
-        select(),
-        const SizedBox(height:15,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(" Morning Shift Start ",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                const SizedBox(height: 5,),
-                MorningShift(),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(" Morning Shift End ",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                const SizedBox(height: 5,),
-                EveningShift(),
-              ],
-            )
-
-          ],
-        ),
-        const SizedBox(height:15,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(" Evening Shift Start",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                SizedBox(height:5,),
-                MorningShiftStart(),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(" Evening Shift End ",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                const SizedBox(height:5,),
-                EveningShiftEnd(),
-              ],
-            )
-
-
-          ],
-        ),
-        const SizedBox(height:15,),
-        const Text("Clinic/Hospital Name",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-        const SizedBox(height:5,),
-        Container(
-          child: TextFormField(
-            controller: clinicNameC,
-            decoration: InputDecoration(
-                hintText:"Clinic Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-            ),
-            validator: (v) {
-              if (v!.isEmpty) {
-                return "Clinic/Hospital is required";
-              }
-            },
+            ],
           ),
-        ),
-        const SizedBox(height:15,),
-        const Text("Clinic/Hospital Address",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-        const SizedBox(height:5,),
-        Container(
-          child: TextFormField(
-            controller: addressC,
-            decoration: InputDecoration(
-                hintText:"Address",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-            ),
-            validator: (v) {
-              if (v!.isEmpty) {
-                return "Clinic/Hospital Address is required";
-              }
-            },
-          ),
-        ),
-        SizedBox(height:15,),
-        const Text("Clinic/Hospital Appointment Number",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-        SizedBox(height:5,),
-        Container(
-          child: TextFormField(
-            controller: addressC,
-            maxLines: 1,
-            //maxLength: 10,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-                counterText: "",
-                hintText:"Appointment Number ",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-            ),
-            validator: (v) {
-              if (v!.isEmpty) {
-                return "Appointment Number is required";
-              }
-            },
+          const SizedBox(height:15,),
 
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(" Evening Shift Start ",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 5,),
+                    SizedBox(height: 10,),
+                    TextFormField(
+                      onTap: (){
+                        eveningTimeStart(context ,i);
+                      },
+                      readOnly: true,
+                      controller: eveingTimeController[i],
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          hintText: 'Evening Shift Start',
+                          hintStyle: TextStyle(
+                              fontSize: 15.0, color: colors.blackTemp),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          contentPadding: EdgeInsets.only(left: 10, top: 10)
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 10,),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(" Evening Shift End",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 5,),
+                    SizedBox(height: 10,),
+                    TextFormField(
+                      onTap: (){
+                        eveningTimeEnd(context ,i);
+                      },
+                      readOnly: true,
+                      controller: eveingTimeEndController[i],
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          hintText: 'Evening Shift End',
+                          hintStyle: TextStyle(
+                              fontSize: 15.0, color: colors.blackTemp),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          contentPadding: EdgeInsets.only(left: 10, top: 10)
+                      ),
+                    ),
+                  ],
+                ),
+              )
+
+            ],
           ),
-        ),
-        const SizedBox(height: 20,),
-      ],
+          const SizedBox(height:15,),
+          const Text("Clinic/Hospital Name",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+          const SizedBox(height:5,),
+          Container(
+            child: TextFormField(
+              controller: hospitalController[i],
+              decoration: InputDecoration(
+                  hintText:"Clinic Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+              ),
+              validator: (v) {
+                if (v!.isEmpty) {
+                  return "Clinic/Hospital is required";
+                }
+              },
+            ),
+          ),
+          const SizedBox(height:15,),
+          const Text("Clinic/Hospital Address",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+          const SizedBox(height:5,),
+          Container(
+            child: TextFormField(
+              controller: clinicController[i],
+              decoration: InputDecoration(
+                  hintText:"Address",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+              ),
+              validator: (v) {
+                if (v!.isEmpty) {
+                  return "Clinic/Hospital Address is required";
+                }
+              },
+            ),
+          ),
+          SizedBox(height:15,),
+          const Text("Clinic/Hospital Appointment Number",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+          SizedBox(height:5,),
+          Container(
+            child: TextFormField(
+              controller: appointNOController[i],
+              maxLines: 1,
+              //maxLength: 10,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  counterText: "",
+                  hintText:"Appointment Number ",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+              ),
+              validator: (v) {
+                if (v!.isEmpty) {
+                  return "Appointment Number is required";
+                }
+              },
+
+            ),
+          ),
+          const SizedBox(height: 20,),
+        ],
+      ),
     );
   }
 }
@@ -470,6 +598,7 @@ class _MultiSelectState extends State<MultiSelect> {
                     ),
                     child: Text('Submit'),
                     onPressed: () {
+
                       print("selected values are here ${_selectedItems2}");
                       //_submit();
 

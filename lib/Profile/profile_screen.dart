@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import '../New_model/Check_plan_model.dart';
 import '../New_model/getUserProfileModel.dart';
 import 'EditeProfile.dart';
+import 'clinic_hospital_update.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -571,8 +572,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           );
                         }),
                   ),
-
-
                 ],
               ),
             ),
