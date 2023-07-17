@@ -96,6 +96,13 @@ class _DoctorResignationState extends State<DoctorResignation> {
 
 
   }
+  Future<void> onTapTitlePharma() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('selectedPharmaTitle',dropdownGender!);
+    print('Selected Statelllllllllllll${dropdownGender}');
+
+
+  }
 
   List <GetStateData> getStateData = [];
   String? stateId;

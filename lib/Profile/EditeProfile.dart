@@ -64,12 +64,14 @@ class _EditeProfileState extends State<EditeProfile> {
   String? selectedCity;
   String? selectedPlace;
   String? titleSelected;
+  String? selectedPharmaTitle;
 
 
   var stateselected;
   var cityselected;
   var placeselected;
   var selectedTitle;
+  var pharmaTitleSelected;
 
 
   List <GetStateData> getStateData = [];
@@ -77,6 +79,7 @@ class _EditeProfileState extends State<EditeProfile> {
   String?cityId;
   String?placeId;
   String?titleId;
+  String?pharmaTitleSelectedID;
   List <GetCitiesDataNew>getCitiesData = [];
   List <GetPlacedData>getPlacedData = [];
   int? selectedSateIndex;
@@ -153,13 +156,21 @@ onTapCall2() async {
   cityselected = preferences.getString('selectedCity');
   placeselected = preferences.getString('selectedPlace');
   selectedTitle = preferences.getString('selectedTitle');
-  print('Selecteccccccccccccccccccccccc${selectedTitle}');
+  pharmaTitleSelected = preferences.getString('selectedPharmaTitle');
+  print('Selecteccccccccccccccccccccccc${pharmaTitleSelected}');
 
 }
   String? dropdownDoctor ;
   var items2 = [
     'Dr.',
     'Prof.Dr.'
+  ];
+
+  String? dropdownGender ;
+  var items1 = [
+    'Mr.',
+    'Mrs.',
+    'Ms.',
   ];
 
   void requestPermission(BuildContext context,int i) async{
@@ -358,12 +369,7 @@ onTapCall2() async {
     deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
     // deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
     image = widget.getUserProfileModel.user?.profilePic ?? '';
-   dayController.text = widget.getUserProfileModel.user?.userData?.first.clinics?.first.day ?? '' ;
-   morningTimeController.text = widget.getUserProfileModel.user?.userData?.first.clinics?.first.morningShift ?? '' ;
-   eveingTimeController.text = widget.getUserProfileModel.user?.userData?.first.clinics?.first.eveningShift ?? '' ;
-   appointNOController.text = widget.getUserProfileModel.user?.userData?.first.clinics?.first.appointNumber ?? '' ;
-   clinicController.text = widget.getUserProfileModel.user?.userData?.first.clinics?.first.clinicName ?? '' ;
-   hospitalController.text = widget.getUserProfileModel.user?.userData?.first.clinics?.first.addresses ?? '' ;
+
 
 
     getStateApi();
@@ -475,12 +481,93 @@ onTapCall2() async {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10,),
-                    roll == "1" ?   Column(
+                    roll == "2" ?   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(5.0),
                           child: Text("Title", style: TextStyle(
+                              color: colors.black54, fontWeight: FontWeight.bold),),
+                        ),
+                        const SizedBox(height: 10,),
+                        Container(
+                            padding: EdgeInsets.only(right: 5, top: 9),
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            decoration:
+                            BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all( color: colors.black54),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton2<String>(
+                                hint: Padding(
+                                  padding: EdgeInsets.only(top: 0,bottom: 10),
+                                  child:selectedPharmaTitle == null ?Text("Loading!!!") :Text("${pharmaTitleSelected}",
+                                    style: TextStyle(
+                                        color: colors.black54,fontWeight: FontWeight.normal
+                                    ),),
+                                ),
+                                // dropdownColor: colors.primary,
+                                value: selectedPharmaTitle,
+                                icon:  const Padding(
+                                  padding: EdgeInsets.only(bottom: 15),
+                                  child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                                ),
+                                // elevation: 16,
+                                style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                                underline: Padding(
+                                  padding: const EdgeInsets.only(left: 0,right: 0),
+                                  child: Container(
+                                    // height: 2,
+                                    color:  colors.whiteTemp,
+                                  ),
+                                ),
+                                onChanged: (String? value) {
+                                  // This is called when the user selects an item.
+                                  setState(() {
+                                    selectedPharmaTitle = value!;
+
+                                    // indexSectet = items.indexOf(value);
+                                    // indexSectet++;
+                                  });
+                                },
+
+                                items: items2
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child:
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 6),
+                                          child: Text(value,style: TextStyle(color: colors.black54,fontWeight: FontWeight.normal),),
+                                        ),
+                                        const Divider(
+                                          thickness: 0.2,
+                                          color: colors.black54,
+                                        )
+                                      ],
+                                    ),
+                                  );
+
+                                }).toList(),
+
+                              ),
+
+                            )
+
+                        )
+                      ],
+                    ): Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text("Title hai", style: TextStyle(
                               color: colors.black54, fontWeight: FontWeight.bold),),
                         ),
                         const SizedBox(height: 10,),
@@ -556,8 +643,8 @@ onTapCall2() async {
 
                         )
                       ],
-                    )
-                   :SizedBox(),
+                    ),
+
                     SizedBox(height: 10,),
                     const Padding(
                       padding: EdgeInsets.all(5.0),
@@ -634,13 +721,10 @@ onTapCall2() async {
                               fontSize: 15.0, color: colors.secondary),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
+                          contentPadding: EdgeInsets.only(left: 10, top: 5)
                       ),
                     ),
-                    const SizedBox(height: 10,),
-                    const SizedBox(
-                      height: 5,
-                    ),
+
                     roll == "1" ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -939,53 +1023,55 @@ onTapCall2() async {
                          ),
                        ],
                      ):SizedBox.shrink(),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Text("Experience ", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      controller: ExpController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'Experience Name',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.blackTemp),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                      // validator: (v) {
-                      //   if (v!.isEmpty) {
-                      //     return "Date of Birth is required";
-                      //   }
-                      //
-                      // },
-                    ),
-                    const SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text("Degree ", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      controller: deegreeController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'Degree',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.blackTemp),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                    ),
-                    const SizedBox(height: 10,),
+                    roll == "1" ?  Column(
+                       children: [
+                         Padding(
+                           padding: EdgeInsets.all(5.0),
+                           child: Text("Experience ", style: TextStyle(
+                               color: colors.black54, fontWeight: FontWeight.bold),),
+                         ),
+                         SizedBox(height: 10,),
+                         TextFormField(
+                           controller: ExpController,
+                           keyboardType: TextInputType.text,
+                           decoration: InputDecoration(
+                               hintText: 'Experience Name',
+                               hintStyle: TextStyle(
+                                   fontSize: 15.0, color: colors.blackTemp),
+                               border: OutlineInputBorder(
+                                   borderRadius: BorderRadius.circular(10)),
+                               contentPadding: EdgeInsets.only(left: 10, top: 10)
+                           ),
+                           // validator: (v) {
+                           //   if (v!.isEmpty) {
+                           //     return "Date of Birth is required";
+                           //   }
+                           //
+                           // },
+                         ),
+                         SizedBox(height: 10,),
+                         Padding(
+                           padding: const EdgeInsets.all(5.0),
+                           child: Text("Degree ", style: TextStyle(
+                               color: colors.black54, fontWeight: FontWeight.bold),),
+                         ),
+                         SizedBox(height: 10,),
+                         TextFormField(
+                           controller: deegreeController,
+                           keyboardType: TextInputType.text,
+                           decoration: InputDecoration(
+                               hintText: 'Degree',
+                               hintStyle: TextStyle(
+                                   fontSize: 15.0, color: colors.blackTemp),
+                               border: OutlineInputBorder(
+                                   borderRadius: BorderRadius.circular(10)),
+                               contentPadding: EdgeInsets.only(left: 10, top: 10)
+                           ),
+                         )
+                       ],
+                     ):SizedBox.shrink(),
+
+
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Text("Gender ", style: TextStyle(
@@ -1006,131 +1092,6 @@ onTapCall2() async {
                     ),
                     const SizedBox(height: 10,),
 
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text("Days ", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      onTap: (){
-                        _showMultiSelect();
-                      },
-                      readOnly: true,
-                      controller: dayController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'Days',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.blackTemp),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text("Morning Shift ", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      onTap: (){
-                        chooseTime(context);
-                      },
-                      readOnly: true,
-                      controller: morningTimeController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'MorningShift',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.blackTemp),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text("Eveing Shift ", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      onTap: (){
-                        _selectTime(context);
-                      },
-                      readOnly: true,
-                      controller: eveingTimeController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'EveingShift',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.blackTemp),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text("Clinic", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      controller: clinicController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'Clinic',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.blackTemp),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text("Hospital", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      controller: hospitalController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'Hospital',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.blackTemp),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text("appoint No", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      controller: appointNOController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'appoint No',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.blackTemp),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 10)
-                      ),
-                    ),
                     roll == 1 ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

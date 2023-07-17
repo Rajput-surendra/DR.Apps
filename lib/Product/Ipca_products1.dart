@@ -12,8 +12,8 @@ import 'Ipca_products2.dart';
 
 
  class  PharmaProductsDataScreen extends StatefulWidget {
- const  PharmaProductsDataScreen({Key? key, this.pharmaCategory,this.ProdectName,this.SliderId}) : super(key: key);
-final  String? pharmaCategory ,ProdectName ,SliderId;
+ const  PharmaProductsDataScreen({Key? key, this.pharmaCategory,this.ProdectName,this.SliderId,this.companyName}) : super(key: key);
+final  String? pharmaCategory ,ProdectName ,SliderId, companyName;
 
   @override
   State<PharmaProductsDataScreen> createState() => _PharmaProductsDataScreenState();
@@ -81,7 +81,7 @@ final  String? pharmaCategory ,ProdectName ,SliderId;
     print('__________${pharmaProducts?.data?.length}_____________');
     return SafeArea(
       child: Scaffold(
-        appBar: customAppBar(context: context, text:"Pharma Products", isTrue: true, ),
+        appBar: customAppBar(context: context, text:"${widget.companyName}", isTrue: true, ),
         body: SingleChildScrollView(
           child: Column(
 
@@ -127,7 +127,7 @@ final  String? pharmaCategory ,ProdectName ,SliderId;
                  var item =  pharmaProductsList[index];
                 return InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>IpcaProductScreen2(PharmaProduct:pharmaProductsList[index].id)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>IpcaProductScreen2(PharmaProduct:pharmaProductsList[index].id,companyName: widget.companyName,)));
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(

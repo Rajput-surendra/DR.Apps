@@ -91,7 +91,7 @@ class _AddEventPostState extends State<AddEventPost> {
 
   String _dateValue = '';
   var dateFormate;
-  String convertDateTimeDisplay(String date) {
+  String convertDateTimeDisplay(String date)  {
     final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
     final DateFormat serverFormater = DateFormat('yyyy-MM-dd');
     final DateTime displayDate = displayFormater.parse(date);
@@ -156,7 +156,6 @@ class _AddEventPostState extends State<AddEventPost> {
         print(_dateValue);
         dateFormate = DateFormat("dd/MM/yyyy").format(DateTime.parse(_dateValue ?? ""));
         endDateController = TextEditingController(text: _dateValue);
-
 
       });
   }

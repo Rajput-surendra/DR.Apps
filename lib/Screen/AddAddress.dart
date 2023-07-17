@@ -183,6 +183,7 @@ class _AddAddressState extends State<AddAddress> {
                     "mobile1":mobileController2.text,
 
                   });
+                  print('_____asasasa_____${nameController.text}_________');
                 }
                 else{
                   Fluttertoast.showToast(msg: "All Fields are required");

@@ -214,66 +214,86 @@ class _AddToCartState extends State<AddToCart> {
                               ) : SizedBox.shrink(),*/
                                deliveryAddres == null || deliveryAddres == ""  ?
                               Card(
+                                elevation: 0 ,
                                 child: Container(
                                   // height: 120,
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(),
-                                      child: name == null ? const Padding(
-                                        padding:  EdgeInsets.only(top: 15,left: 10, bottom: 5),
-                                        child: Text("Shipping Address"),
-                                      ):
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10,left: 10, bottom: 5),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text("Name: ${name}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
-                                                name == null ?  Padding(
-                                                    padding: const EdgeInsets.only(),
-                                                    child: TextButton(onPressed: () async {
-                                                      var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
-                                                      if(result != null){
-                                                        name = result['name'];
-                                                        mobile1 = result['mobile1'];
-                                                        email = result['email'];
-                                                        address = result['address'];
-                                                        getAddressList();
-                                                        getUserCartApi();
-                                                      }
+                                  child:
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding  (
+                                        padding: const EdgeInsets.only(),
+                                        child:
+                                        name == null ?
+                                        Padding(
+                                          padding:  EdgeInsets.only(top: 15,left: 10, bottom: 5),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
+                                              var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
+                                              if(result != null){
+                                                name = result['name'];
+                                                mobile1 = result['mobile1'];
+                                                email = result['email'];
+                                                address = result['address'];
+                                                getAddressList();
+                                                getUserCartApi();
+                                              }
+                                            },
+                                              child: Text("Shipping Address")),
+                                        ):
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 10,left: 10, bottom: 5),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text("Name: ${name}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+                                                  name == null ?  Padding(
+                                                      padding: const EdgeInsets.only(),
+                                                      child: TextButton(onPressed: () async {
+                                                        var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
+                                                        // if(result != null){
+                                                        //   name = result['name'];
+                                                        //   mobile1 = result['mobile1'];
+                                                        //   email = result['email'];
+                                                        //   address = result['address'];
+                                                        //   getAddressList();
+                                                        //   getUserCartApi();
+                                                        // }
 
-                                                    }, child:Text("Add Address",style: TextStyle(color: Colors.deepOrangeAccent,)))
-                                                ): Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: TextButton(
-                                                    onPressed: () async{
-                                                      var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
-                                                      if(result != null){
-                                                        name = result['name'];
-                                                        mobile1 = result['mobile1'];
-                                                        email = result['email'];
-                                                        address = result['address'];
-                                                        getAddressList();
-                                                        getUserCartApi();
-                                                      }
-                                                    },
-                                                      child: Text("Change Address",style: TextStyle(color: Colors.deepOrangeAccent,))),
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(height: 2,),
-                                            Text("Mobile: ${mobile1}"),
-                                            SizedBox(height: 2,),
-                                            Text("Email: ${email}"),
-                                            SizedBox(height: 2,),
-                                            Container(
-                                                child: Text("Address: ${address}")),
-                                          ],
-                                        ),
-                                      )
+                                                      }, child:Text("Add Address",style: TextStyle(color: Colors.deepOrangeAccent,)))
+                                                  ): Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: TextButton(
+                                                      onPressed: () async{
+                                                        var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
+                                                        if(result != null){
+                                                          name = result['name'];
+                                                          mobile1 = result['mobile1'];
+                                                          email = result['email'];
+                                                          address = result['address'];
+                                                          getAddressList();
+                                                          getUserCartApi();
+                                                        }
+                                                      },
+                                                        child: Text("Change Address",style: TextStyle(color: Colors.deepOrangeAccent,))),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(height: 2,),
+                                              Text("Mobile: ${mobile1}"),
+                                              SizedBox(height: 2,),
+                                              Text("Email: ${email}"),
+                                              SizedBox(height: 2,),
+                                              Container(
+                                                  child: Text("Address: ${address}")),
+                                            ],
+                                          ),
+                                        )
 
+                                    ),
                                   ),
                                 ),
                               ): SizedBox.shrink(),
@@ -284,8 +304,8 @@ class _AddToCartState extends State<AddToCart> {
                              InkWell(
                                 onTap: (){
                                   if(deliveryAddres == null || deliveryAddres == " ") {
-                                   // Fluttertoast.showToast(msg: "please Add Address");
-                                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress()));
+                                    // Fluttertoast.showToast(msg: "please Add Address");
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress()));
                                     Navigator.pop(context);
                                     getPlaceOrderApi();
                                   }else{

@@ -342,58 +342,69 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10,left: 0),
-                        child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('Filter Speciality',style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),),
-                            selectCatModel?.data == null
-                                ? CircularProgressIndicator()
-                                : Container(
-                                   height: 20,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: selectCatModel?.data?.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    if (selectCatModel?.data?[index].isSelected ==
-                                        true) {
-                                      return InkWell(
-                                        onTap: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterSpeciality())).then((value){
-                                            if(value!=null){
-                                              localFilter = value ;
-                                              setFilterDataId(localFilter?.id.toString() ?? '');
-                                              getCounting();
-                                              setState(() {});
-                                            }
-                                          });
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 0),
-                                          child: Container(
-                                            // width: 250,
-                                            child: Center(
-                                              child: localFilter == null ? Text(
-                                                '${selectCatModel?.data?[index].name.toString()}',style: TextStyle(color: colors.whiteTemp,),
-                                                overflow: TextOverflow.ellipsis,
-                                              ) : Text(
-                                    '${localFilter?.name.toString()}',style: TextStyle(color: colors.whiteTemp,),
-                                    overflow: TextOverflow.ellipsis,
+                        padding: const EdgeInsets.only(top: 15,left: 0),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterSpeciality())).then((value){
+                              if(value!=null){
+                                localFilter = value ;
+                                setFilterDataId(localFilter?.id.toString() ?? '');
+                                getCounting();
+                                setState(() {});
+                              }
+                            });
+                          },
+                          child: Column(
 
+                            children: [
+                              const Text('Select Speciality',style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),),
+                              selectCatModel?.data == null
+                                  ? CircularProgressIndicator()
+                                  : Container(
+                                     height: 20,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: selectCatModel?.data?.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      if (selectCatModel?.data?[index].isSelected ==
+                                          true) {
+                                        return InkWell(
+                                          onTap: (){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterSpeciality())).then((value){
+                                              if(value!=null){
+                                                localFilter = value ;
+                                                setFilterDataId(localFilter?.id.toString() ?? '');
+                                                getCounting();
+                                                setState(() {});
+                                              }
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 0),
+                                            child: Container(
+                                              // width: 250,
+                                              child: Center(
+                                                child: localFilter == null ? Text(
+                                                  '${selectCatModel?.data?[index].name.toString()}',style: TextStyle(color: colors.whiteTemp,),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ) : Text(
+                                      '${localFilter?.name.toString()}',style: TextStyle(color: colors.whiteTemp,),
+                                      overflow: TextOverflow.ellipsis,
+
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ));
-                                    } else {
-                                      return const SizedBox.shrink();
-                                    }
-                                  }),
-                            ),
-                          ],
+                                        ));
+                                      } else {
+                                        return const SizedBox.shrink();
+                                      }
+                                    }),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       InkWell(

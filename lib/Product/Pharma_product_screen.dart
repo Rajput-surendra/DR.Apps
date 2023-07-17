@@ -265,14 +265,10 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
     var request =
         http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
     request.headers.addAll(headers);
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = NewSliderModel.fromJson(json.decode(result));
-      print("this is a response=====dfdgdfgfdgfdgfd======>${result}");
       setState(() {
         newSliderModel = finalResult;
       });

@@ -16,8 +16,8 @@ import 'package:http/http.dart'as http;
 import '../Screen/AddToCart.dart';
 
 class IpcaProductScreen2 extends StatefulWidget {
-  const IpcaProductScreen2({Key? key,this.PharmaProduct}) : super(key: key);
-  final PharmaProduct ;
+  const IpcaProductScreen2({Key? key,this.PharmaProduct,this.companyName}) : super(key: key);
+  final PharmaProduct ,companyName;
 
   @override
   State<IpcaProductScreen2> createState() => _IpcaProductScreen2State();
@@ -74,7 +74,6 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
     }
 
   }
-
   getManageCartApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
@@ -103,8 +102,6 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
     }
 
   }
-
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -112,7 +109,7 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
       onRefresh: _refresh,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: customAppBar(context: context, text:"Ipca Products", isTrue: true, ),
+        appBar: customAppBar(context: context, text:"${widget.companyName}", isTrue: true, ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(5.0),

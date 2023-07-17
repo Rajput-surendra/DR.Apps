@@ -96,7 +96,7 @@ class _FilterSpecialityState extends State<FilterSpeciality> {
               )
                   //:SizedBox()
           ),
-          title: Text('Filter Speciality',style: TextStyle(color: Colors.white,fontSize: 20),),
+          title: Text('Select Speciality',style: TextStyle(color: Colors.white,fontSize: 20),),
           actions: [
             // InkWell(
             //   onTap: (){

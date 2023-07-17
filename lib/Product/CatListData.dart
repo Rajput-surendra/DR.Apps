@@ -124,7 +124,7 @@ class _CatListDataState extends State<CatListData> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PharmaProductsDataScreen(pharmaCategory: getPharmaProductsCategory?.data?[index].id,ProdectName: getPharmaProductsCategory?.data?[index].name, ),
+                          builder: (context) => PharmaProductsDataScreen(pharmaCategory: getPharmaProductsCategory?.data?[index].id,ProdectName: getPharmaProductsCategory?.data?[index].name, companyName: widget.companyName),
                         ));
 
                   },
