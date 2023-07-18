@@ -145,14 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getSlider}'));
     request.headers.addAll(headers);
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetSliderModel.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         _sliderModel = finalResult;
       });
@@ -184,7 +180,6 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response.statusCode == 200) {
       final result = await response.stream.bytesToString();
       final finalResult = GetCountingModel.fromJson(jsonDecode(result));
-      print("this is a getCou=========>${finalResult}");
       setState(() {
         countingModel = finalResult;
       });
@@ -221,11 +216,12 @@ class _HomeScreenState extends State<HomeScreen> {
     getCatApi();
 
   }
+  String? role ;
   CheckPlanModel? checkPlanModel;
   checkSubscriptionApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    String? role = preferences.getString('roll');
+    role = preferences.getString('roll');
     print('__________${role}_________');
     var headers = {
       'Cookie': 'ci_session=64caa747045713fca2e42eb930c7387e303fd583'
@@ -719,9 +715,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          ListTile(
+         role == "1"  ? ListTile(
             leading: Image.asset(
-              "assets/images/home.png",
+              "assets/images/drawer1.png",
               color: colors.black54,
               height: 40,
               width: 40,
@@ -735,7 +731,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) => ClinicHospitalUpdate()),
               );
             },
-          ),
+          ):SizedBox.shrink(),
 
           ListTile(
             leading: Image.asset(

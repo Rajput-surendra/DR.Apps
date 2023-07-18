@@ -226,7 +226,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: colors.primary,
                 ),
               )
-            : Padding(
+            : getprofile?.user?.userData?.isEmpty ?? true ? const Center(
+          child: CircularProgressIndicator(
+            color: colors.primary,
+          ),
+        ) : Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -283,8 +287,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "${getprofile?.user?.userData?[0].title}",
-                          style: TextStyle(
+                          "${getprofile?.user?.userData?.first.title}",
+                          style: const TextStyle(
                               color: colors.blackTemp,
                               fontWeight: FontWeight.bold),
                         ),

@@ -232,7 +232,6 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
               SizedBox(height: 20,),
               Btn(
                 height: 50,
-                width: 320,
                 title: isloader == true ? "Please wait......" : 'Add Editorial Post',
                 onPress: () {
                   if (_formKey.currentState!.validate()) {

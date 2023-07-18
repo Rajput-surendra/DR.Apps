@@ -447,21 +447,14 @@ class _DoctorResignationState extends State<DoctorResignation> {
       print("${request.files.first}");
         if (response.statusCode == 200) {
           final reslut = await response.stream.bytesToString();
-
           var finalResult = SignUpModel.fromJson(json.decode(reslut));
           setState(() {
             detailsData = finalResult;
           });
-          var otp = detailsData!.data!.otp.toString();
-          var mobile = detailsData!.data!.mobile.toString();
-          print("resultttttttttttttt${reslut}");
-          // var otp = finalResult['data']['otp'];
-          // String?  mobile = finalResult['data']['mobile'];
-          // SharedPreferences preferences = await SharedPreferences.getInstance();
-          // preferences.setString('msg',finalResult['data']['message'] );
-         // Fluttertoast.showToast(msg: finalResult['message']);
-          if (detailsData!.error == false) {
-            print('__________surendra rajpooooo_________');
+
+          if (finalResult.error == false) {
+            var otp = detailsData!.data!.otp.toString();
+            var mobile = detailsData!.data!.mobile.toString();
             Fluttertoast.showToast(msg: detailsData!.message.toString());
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));

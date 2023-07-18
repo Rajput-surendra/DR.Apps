@@ -258,6 +258,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     String date = dateTime.substring(11,16);
     Future.delayed(Duration(milliseconds: 500),(){
       getEventList();
+
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -265,8 +266,14 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
         _isReady = true;
       });
     });
-    // String date = dateTime.substring(11,16);
     print("aaaaaaaaaaaaa====>${date}");
+    getS();
+  }
+  String? specialityId;
+  getS() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    specialityId = preferences.getString('specialityId');
+    print('_____specialityId_____${specialityId}_________');
   }
   String dateTime = '2023-03-25 13:45:05';
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =

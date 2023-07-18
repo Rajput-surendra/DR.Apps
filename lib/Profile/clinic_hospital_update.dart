@@ -113,22 +113,20 @@ List<String> daysLists = [];
       body: SingleChildScrollView(
         child: Column(
           children: [
-            getprofile?.user?.userData == null ?
+            getprofile?.user?.userData?.isEmpty ?? false ?
             Center(child: CircularProgressIndicator()):
-            getprofile?.user?.userData?[0].clinics?.length == 0 ?
-            Text("No Clinic?Hospital Data!!") :Container(
-              child: SizedBox(
-                // height: MediaQuery.of(context).size.height/1.1,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount:getprofile!.user!.userData![0].clinics!.length ,
-                  itemBuilder: (context, index) {
-                    return
-                      getData(index);
-                  }
-                  ,),
-              ),
+            getprofile?.user?.userData?.first.clinics?.isEmpty ?? false ?
+            Text("No Clinic?Hospital Data!!") : SizedBox(
+              // height: MediaQuery.of(context).size.height/1.1,
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount:getprofile?.user?.userData?.first.clinics?.length ?? 0 ,
+                itemBuilder: (context, index) {
+                  return
+                    getData(index);
+                }
+                ,),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

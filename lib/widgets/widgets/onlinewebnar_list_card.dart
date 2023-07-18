@@ -61,152 +61,156 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
       key: keyList,
       child: _isReady ? Column(
         children: [
-          Card(
-            elevation: 5,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: 30,
-                  width:MediaQuery.of(context).size.width/1.0,
-                  decoration: BoxDecoration(
-                      color: colors.secondary,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(11),topRight: Radius.circular(11))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('${widget.getWebinarDataList?.date.toString().substring(0,10)}',style: TextStyle(color: Colors.white,fontSize: 15),),
-                      SizedBox(width: 20,),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5,bottom: 5),
-                        child: VerticalDivider(thickness: 1,color: colors.whiteTemp,),
-                      ),
-                      SizedBox(width: 20,),
-                      Text('${widget.getWebinarDataList?.fromTime.toString()}',style: TextStyle(color: Colors.white,fontSize: 15),),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 5,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              elevation: 5,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 30,
+                    width:MediaQuery.of(context).size.width/1.0,
+                    decoration: BoxDecoration(
+                        color: colors.secondary,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(11),topRight: Radius.circular(11))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 0,bottom: 8,left: 5),
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage("${widget.getWebinarDataList?.userImage}"),
-                                backgroundColor: colors.primary,
-                                radius: 25,
-                              ),
-                            ), //CircleAvatar
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5,bottom: 15),
-                              child: Column(
-                                //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Title: ${widget.getWebinarDataList?.title}",style: TextStyle(fontSize: 14,color: colors.secondary),),
-                                  SizedBox(height: 3,),
-                                  Text("Topic: ${widget.getWebinarDataList?.topic}",style: TextStyle(fontSize: 10),),
-                                  // Container(
-                                  //   // width: 250,
-                                  //     child: Text("${widget.getEdoDataList?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                ],
-                              ),
-                            ),
-                          ],
+                        Text('${widget.getWebinarDataList?.date.toString().substring(0,10)}',style: TextStyle(color: Colors.white,fontSize: 15),),
+                        SizedBox(width: 20,),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5,bottom: 5),
+                          child: VerticalDivider(thickness: 1,color: colors.whiteTemp,),
                         ),
-                        iconVisible ? Row(
-                          children: [
-                            IconButton(onPressed: (){
-                              setState(() {
-                                iconVisible = false;
-                              });
-                              Future.delayed(Duration(seconds: 1), (){
-                                // _CaptureScreenShot(index: index);
-                                _shareQrCode(widget.getWebinarDataList?.link ?? '');
-                                //_shareQrCode(text: widget.getWebinarDataList?.title ?? '');
-                              });
-
-                            }, icon: Icon(Icons.share)),
-                            IconButton(onPressed: (){
-                              setState(() {
-                                getNewWishlistApi(widget.getWebinarDataList?.id ?? '', widget.getWebinarDataList?.type ?? "");
-                                widget.getWebinarDataList?.isSelected = !(widget.getWebinarDataList?.isSelected ?? false );
-                              });
-                            },icon: widget.getWebinarDataList?.isFav ?? false ?
-                            Icon(Icons.favorite,color: colors.red,): widget.getWebinarDataList?.isSelected ?? false
-                                ?Icon(Icons.favorite,color: colors.red,) :
-                            Icon(Icons.favorite_outline,color: colors.red,)),
-                            if(userId == widget.getWebinarDataList?.pharmaId)
-                            InkWell(
-                                onTap: widget.onTap,
-                                child: Icon(Icons.delete)),
-                          ],
-                        ):SizedBox.shrink()
-
+                        SizedBox(width: 20,),
+                        Text('${widget.getWebinarDataList?.fromTime.toString()}',style: TextStyle(color: Colors.white,fontSize: 15),),
                       ],
                     ),
-                    Container(
-                      width: double.infinity,
-                      child:  DecoratedBox(
-                          decoration:  BoxDecoration(
-                          ),
-                          child: widget.getWebinarDataList?.image == null || widget.getWebinarDataList?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getWebinarDataList?.image}",fit: BoxFit.cover)
-                      ),
-
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                  ),
+                  SizedBox(height: 5,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: 140,
-                                  child: Text("Speaker: ${widget.getWebinarDataList?.speaker}",overflow: TextOverflow.ellipsis,)),
-                              SizedBox(
-                                width: 150,
-                                  child: Text("Moderator: ${widget.getWebinarDataList?.moderator}",overflow: TextOverflow.ellipsis,)),
-                            ],
-                          ),
-
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                height: 30,
-                                child: ElevatedButton(onPressed: (){
-                                  launch("${widget.getWebinarDataList?.link}");
-                                },
-                                    style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                                    child: Text('Link',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 0,bottom: 8,left: 5),
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage("${widget.getWebinarDataList?.userImage}"),
+                                  backgroundColor: colors.primary,
+                                  radius: 25,
+                                ),
+                              ), //CircleAvatar
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5,bottom: 15),
+                                child: Column(
+                                  //mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Title: ${widget.getWebinarDataList?.title}",style: TextStyle(fontSize: 14,color: colors.secondary),),
+                                    SizedBox(height: 3,),
+                                    Text("Topic: ${widget.getWebinarDataList?.topic}",style: TextStyle(fontSize: 10),),
+                                    // Container(
+                                    //   // width: 250,
+                                    //     child: Text("${widget.getEdoDataList?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                  ],
+                                ),
                               ),
-                              SizedBox(width: 10,),
-                              Container(
-                                height: 30,
-                                child: ElevatedButton(onPressed: (){
-                                  downloadFile('${widget.getWebinarDataList?.image}', widget.getWebinarDataList?.userName ?? '');
-                                },
-                                    style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                                    child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                              ),
-
                             ],
                           ),
-                      ],
-                      ),
-                    )
+                          iconVisible ? Row(
+                            children: [
+                              IconButton(onPressed: (){
+                                setState(() {
+                                  iconVisible = false;
+                                });
+                                Future.delayed(Duration(seconds: 1), (){
+                                  // _CaptureScreenShot(index: index);
+                                  _shareQrCode(widget.getWebinarDataList?.link ?? '');
+                                  //_shareQrCode(text: widget.getWebinarDataList?.title ?? '');
+                                });
 
-                  ],
-                )
-              ],
+                              }, icon: Icon(Icons.share)),
+                              IconButton(onPressed: (){
+                                setState(() {
+                                  getNewWishlistApi(widget.getWebinarDataList?.id ?? '', widget.getWebinarDataList?.type ?? "");
+                                  widget.getWebinarDataList?.isSelected = !(widget.getWebinarDataList?.isSelected ?? false );
+                                });
+                              },icon: widget.getWebinarDataList?.isFav ?? false ?
+                              Icon(Icons.favorite,color: colors.red,): widget.getWebinarDataList?.isSelected ?? false
+                                  ?Icon(Icons.favorite,color: colors.red,) :
+                              Icon(Icons.favorite_outline,color: colors.red,)),
+                              if(userId == widget.getWebinarDataList?.pharmaId)
+                              InkWell(
+                                  onTap: widget.onTap,
+                                  child: Icon(Icons.delete)),
+                            ],
+                          ):SizedBox.shrink()
+
+                        ],
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child:  DecoratedBox(
+                            decoration:  BoxDecoration(
+                            ),
+                            child: widget.getWebinarDataList?.image == null || widget.getWebinarDataList?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getWebinarDataList?.image}",fit: BoxFit.cover)
+                        ),
+
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 140,
+                                    child: Text("Speaker: ${widget.getWebinarDataList?.speaker}",overflow: TextOverflow.ellipsis,)),
+                                SizedBox(
+                                  width: 150,
+                                    child: Text("Moderator: ${widget.getWebinarDataList?.moderator}",overflow: TextOverflow.ellipsis,)),
+                              ],
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  height: 30,
+                                  child: ElevatedButton(onPressed: (){
+                                    launch("${widget.getWebinarDataList?.link}");
+                                  },
+                                      style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                                      child: Text('Link',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                                ),
+                                SizedBox(width: 10,),
+                                Container(
+                                  height: 30,
+                                  child: ElevatedButton(onPressed: (){
+                                    downloadFile('${widget.getWebinarDataList?.image}', widget.getWebinarDataList?.userName ?? '');
+                                  },
+                                      style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                                      child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                                ),
+
+                              ],
+                            ),
+                        ],
+                        ),
+                      )
+
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
 

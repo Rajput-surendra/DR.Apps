@@ -47,111 +47,117 @@ class _EditorialListCardState extends State<EditorialListCard> {
     super.initState();
     getUserId();
   }
-  String? userId;
+  String? userId,role;
   getUserId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
+    role =  preferences.getString("roll");
+    print('_____role___vv__${role}_________');
   }
+
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
       key: keyList,
-      child: _isReady ?   Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child:  Padding(
-            padding: const EdgeInsets.only(left: 10,right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5,bottom: 8),
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage("${widget.getEdoDataList?.userImage}"),
-                            backgroundColor: colors.primary,
-                            radius: 25,
-                          ),
-                        ), //CircleAvatar
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 180,
-                                  child: Text("${widget.getEdoDataList?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),overflow: TextOverflow.ellipsis,)),
-                              Container(
-                                width: 180,
-                                  child: Text("${widget.getEdoDataList?.userDigree}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,)),
-                              Container(
-                                // width: 250,
-                                  child: Text("${widget.getEdoDataList?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    iconVisible ? Row(
-                      children: [
-                             InkWell(
-                              onTap: (){
-                                setState(() {
-                                  iconVisible = false;
-                                });
-                                Future.delayed(Duration(seconds: 1), (){
-                                  _shareQrCode(text: widget.getEdoDataList?.title ?? '');
-                                });
-                              },
-                                child: Icon(Icons.share)),
-                        IconButton(onPressed: (){
-                          setState(() {
-                            getNewWishlistApi(widget.getEdoDataList?.id ?? '',
-                                widget.getEdoDataList?.type ?? "");
-                            widget.getEdoDataList?.isSelected = !(widget.getEdoDataList?.isSelected ?? false );
-                          });
-                        },icon: widget.getEdoDataList?.isFav ?? false ?
-                        Icon(Icons.favorite,color: colors.red,): widget.getEdoDataList?.isSelected ??
-                            false ?Icon(Icons.favorite,color: colors.red,) :
-                        Icon(Icons.favorite_outline,color: colors.red,)),
-                        if(userId ==  widget.getEdoDataList?.pharmaId)
-                        InkWell(
-                            onTap: widget.onTop,
-                            child: Icon(Icons.delete)),
-                      ],
-                    ):SizedBox.shrink()
-
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    widget.index == 0 ?  Text("Surendra") : SizedBox(),
-                    Container(
-                      width: double.infinity,
-                      child:  DecoratedBox(
-                          decoration:  BoxDecoration(
-                          ),
-                          child: widget.getEdoDataList?.image == null || widget.getEdoDataList?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEdoDataList?.image}",fit: BoxFit.cover)
-                      ),
-
-                    ),
-                    const SizedBox(height: 10,),
-
-                  ],),
-
-              ],
+      child: _isReady ?   Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
-          )
+            child:  Padding(
+              padding: const EdgeInsets.only(left: 10,right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5,bottom: 8),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage("${widget.getEdoDataList?.userImage}"),
+                              backgroundColor: colors.primary,
+                              radius: 25,
+                            ),
+                          ), //CircleAvatar
+                          Padding(
+                            padding: const EdgeInsets.only(left: 3),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 180,
+                                    child: Text("${widget.getEdoDataList?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),overflow: TextOverflow.ellipsis,)),
+                                role == "2"  ? SizedBox.shrink():Container(
+                                  width: 180,
+                                    child: Text("Degree: ${widget.getEdoDataList?.userDigree}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,)),
+                                Container(
+                                  // width: 250,
+                                    child: Text("${widget.getEdoDataList?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      iconVisible ? Row(
+                        children: [
+                               InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    iconVisible = false;
+                                  });
+                                  Future.delayed(Duration(seconds: 1), (){
+                                    _shareQrCode(text: widget.getEdoDataList?.title ?? '');
+                                  });
+                                },
+                                  child: Icon(Icons.share)),
+                          IconButton(onPressed: (){
+                            setState(() {
+                              getNewWishlistApi(widget.getEdoDataList?.id ?? '',
+                                  widget.getEdoDataList?.type ?? "");
+                              widget.getEdoDataList?.isSelected = !(widget.getEdoDataList?.isSelected ?? false );
+                            });
+                          },icon: widget.getEdoDataList?.isFav ?? false ?
+                          Icon(Icons.favorite,color: colors.red,): widget.getEdoDataList?.isSelected ??
+                              false ?Icon(Icons.favorite,color: colors.red,) :
+                          Icon(Icons.favorite_outline,color: colors.red,)),
+                          if(userId ==  widget.getEdoDataList?.pharmaId)
+                          InkWell(
+                              onTap: widget.onTop,
+                              child: Icon(Icons.delete)),
+                        ],
+                      ):SizedBox.shrink()
 
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      widget.index == 0 ?  Text("Surendra") : SizedBox(),
+                      Container(
+                        width: double.infinity,
+                        child:  DecoratedBox(
+                            decoration:  BoxDecoration(
+                            ),
+                            child: widget.getEdoDataList?.image == null || widget.getEdoDataList?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEdoDataList?.image}",fit: BoxFit.cover)
+                        ),
+
+                      ),
+                      const SizedBox(height: 10,),
+
+                    ],),
+
+                ],
+              ),
+            )
+
+        ),
       ): SizedBox(),
     );
   }

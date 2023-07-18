@@ -13,11 +13,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helper/Appbar.dart';
 import '../New_model/get_cities_model.dart';
+import '../New_model/get_pharma_category.dart';
 import '../New_model/get_place_model.dart';
 import '../New_model/get_state_model.dart';
 import '../Registration/doctorResignation.dart';
@@ -40,7 +42,7 @@ class _EditeProfileState extends State<EditeProfile> {
   TextEditingController phonelController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController passController = TextEditingController();
-  TextEditingController dobController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
   TextEditingController genderController = TextEditingController();
   TextEditingController CompanyController = TextEditingController();
   TextEditingController ExpController = TextEditingController();
@@ -65,6 +67,13 @@ class _EditeProfileState extends State<EditeProfile> {
   String? selectedPlace;
   String? titleSelected;
   String? selectedPharmaTitle;
+  String? SelectedPharma;
+  int selectedIndex = 0;
+  String? dropdownTeam ;
+  var items3 = [
+    'PMT team',
+    'Marketing team',
+  ];
 
 
   var stateselected;
@@ -97,7 +106,7 @@ class _EditeProfileState extends State<EditeProfile> {
       var finalResult = GetStateResponseModel.fromJson(jsonDecode(result));
       print("+}++++++++++++++++++++++${finalResult}");
       setState(() {
-        getStateResponseModel=  finalResult;
+        getStateResponseModel =  finalResult;
       });
     }
     else {
@@ -173,149 +182,74 @@ onTapCall2() async {
     'Ms.',
   ];
 
-  void requestPermission(BuildContext context,int i) async{
-    getImageGallery(ImageSource.gallery, context ,i);
-    /*return await showDialog<void>(
+  int category  = 2;
+  var results ;
+
+  Future<bool> showExitPopup1() async {
+    return await showDialog(
+      //show confirm dialogue
+      //the return value will be from "Yes" or "No" options
       context: context,
-      // barrierDismissible: barrierDismissible, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(6))),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              // enableCloseButton == true
-              //     ? GestureDetector(
-              //   onTap: () {
-              //     Navigator.pop(context);
-              //   },
-              //   child: Align(
-              //       alignment: Alignment.topRight,
-              //       child: closeIcon ??
-              //           Icon(
-              //             Icons.close,
-              //             size: 14,
-              //           )),
-              // )
-              //     : Container(),
-              InkWell(
-                onTap: () async {
-                  //getFromGallery(i);
+      builder: (context) => AlertDialog(
+          title: Text('Select Image'),
+          content: Row(
+            // crossAxisAlignment: CrossAxisAlignment.s,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  getImage(ImageSource.camera, context, 1);
+                },
+                child: Text('Camera'),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  getImageCmera(ImageSource.gallery,context,1);
 
                 },
-                child: Container(
-                  child: const ListTile(
-                      title:  Text("Gallery"),
-                      leading: Icon(
-                        Icons.image,
-                        color: colors.primary,
-                      )),
-                ),
-              ),
-              Container(
-                width: 200,
-                height: 1,
-                color: Colors.black12,
-              ),
-              InkWell(
-                onTap: () async {
-                  getImage(ImgSource.Camera, context, i);
-                  //   ImagePicker()
-                  //       .getImage(
-                  //       source: ImageSource.camera,
-                  //       maxWidth: maxWidth,
-                  //       maxHeight: maxHeight)
-                  //       .then((image) {
-                  //     Navigator.pop(context, image);
-                  //   });
-                },
-                child: Container(
-                  child: const ListTile(
-                      title:  Text("Camera"),
-                      leading: Icon(
-                        Icons.camera,
-                        color: colors.primary,
-                      )),
-                ),
+
+                //return true when click on "Yes"
+                child: Text('Gallery'),
               ),
             ],
-          ),
-        );
-      },
-    );*/
-    // var status = await Permission.storage.request();
-    // final status = await Permission.photos.status;
-    // // final storage = await Permission.accessMediaLocation.status;
-    // if(status.isGranted){
-    //     getImage(ImgSource.Both, i);
-    // }
-    // else if(status.isPermanentlyDenied){
-    //   openAppSettings();
-    // }
-
-    ///
-//     if (await Permission.camera.isRestricted || await Permission.storage.isRestricted) {
-//       openAppSettings();
-//     }
-//     else{
-//       Map<Permission, PermissionStatus> statuses = await [
-//         Permission.camera,
-//         Permission.storage,
-//       ].request();
-// // You can request multiple permissions at once.
-//
-//       if(statuses[Permission.camera]==PermissionStatus.granted&&statuses[Permission.storage]==PermissionStatus.granted){
-//         getImage(ImgSource.Both, context,i);
-//
-//       }else{
-//         if (await Permission.camera.isDenied||await Permission.storage.isDenied) {
-//           openAppSettings();
-//         }else{
-//           setSnackbar("Oops you just denied the permission", context);
-//         }
-//       }
-//     }
-
+          )),
+    ) ??
+        false; //if showDialouge had returned null, then return false
   }
-  Future<void> getFromGallery(int i) async {
-    var result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-    );
-    if (result != null) {
-      setState(() {
-        if(i==1){
-          imageFile = File(result.files.single.path.toString());
-        }else  if(i==2) {
-          registrationImage = File(result.files.single.path.toString());
-        }
-      });
-      Navigator.pop(context);
 
-    } else {
-      // User canceled the picker
+  void requestPermission(BuildContext context,int i) async{
+    print("okay");
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.photos,
+      Permission.mediaLibrary,
+      Permission.storage,
+    ].request();
+    if(statuses[Permission.photos] == PermissionStatus.granted&& statuses[Permission.mediaLibrary] == PermissionStatus.granted){
+      getImage(ImageSource.gallery, context, 1);
+
+
+    }else{
+      getImageCmera(ImageSource.camera,context,1);
     }
   }
   Future getImage(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
-
       source: source,
-     //cameraIcon and galleryIcon can change. If no icon provided default icon will be present
     );
     getCropImage(context, i, image);
     Navigator.pop(context);
   }
-  Future getImageGallery(ImageSource source, BuildContext context, int i) async {
+  Future getImageCmera(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
-
       source: source,
-     //cameraIcon and galleryIcon can change. If no icon provided default icon will be present
     );
     getCropImage(context, i, image);
     Navigator.pop(context);
   }
+
   void getCropImage(BuildContext context, int i, var image) async {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
       sourcePath: image.path,
@@ -326,33 +260,14 @@ onTapCall2() async {
         CropAspectRatioPreset.ratio4x3,
         CropAspectRatioPreset.ratio16x9
       ],
-      // androidUiSettings: AndroidUiSettings(
-      //     toolbarTitle: 'Cropper',
-      //     toolbarColor: Colors.lightBlueAccent,
-      //     toolbarWidgetColor: Colors.white,
-      //     initAspectRatio: CropAspectRatioPreset.original,
-      //     lockAspectRatio: false),
-      // iosUiSettings: IOSUiSettings(
-      //   minimumAspectRatio: 1.0,
-      // )
     );
     setState(() {
       if (i == 1) {
         imageFile = File(croppedFile!.path);
-      } else if (i == 2) {
-        registrationImage = File(croppedFile!.path);
       }
-      // else if(i==6){
-      //   insuranceImage = File(croppedFile!.path);
-      // }
-      // else if(i==7){
-      //   bankImage = File(croppedFile!.path);
-      // }
-      // else{
-      //   _finalImage = File(croppedFile!.path);
-      // }
+
     });
-    Navigator.pop(context);
+
   }
   @override
   void initState() {
@@ -364,7 +279,7 @@ onTapCall2() async {
     passController.text = widget.getUserProfileModel.user?.userData?.first.password?? '';
     ExpController.text = widget.getUserProfileModel.user?.userData?.first.experience ?? '' ;
     CompanyController.text = widget.getUserProfileModel.user?.userData?.first.companyName ?? '' ;
-    dobController.text = widget.getUserProfileModel.user?.userData?.first.cityName ?? '' ;
+    cityController.text = widget.getUserProfileModel.user?.userData?.first.city ?? '' ;
     genderController.text = widget.getUserProfileModel.user?.userData?.first.gender?? '' ;
     deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
     // deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
@@ -459,8 +374,8 @@ onTapCall2() async {
                       // top: 30,
                       child: InkWell(
                         onTap: (){
-                          isFromProfile = true ;
-                          requestPermission(context, 1);
+
+                          showExitPopup1();
                           // showExitPopup(isFromProfile ?? false);
                         },
                         child: Container(
@@ -567,7 +482,7 @@ onTapCall2() async {
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text("Title hai", style: TextStyle(
+                          child: Text("Title", style: TextStyle(
                               color: colors.black54, fontWeight: FontWeight.bold),),
                         ),
                         const SizedBox(height: 10,),
@@ -656,7 +571,7 @@ onTapCall2() async {
                       controller: nameController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                          hintText: 'Title',
+                          hintText: 'Name',
                           hintStyle: TextStyle(
                               fontSize: 15.0, color: colors.secondary),
                           border: OutlineInputBorder(
@@ -713,7 +628,7 @@ onTapCall2() async {
                     ),
                     const SizedBox(height: 10,),
                     TextFormField(
-                      controller: dobController,
+                      controller: cityController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           hintText: 'City Name',
@@ -724,352 +639,355 @@ onTapCall2() async {
                           contentPadding: EdgeInsets.only(left: 10, top: 5)
                       ),
                     ),
-
-                    roll == "1" ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Text("State Name", style: TextStyle(
-                              color: colors.black54, fontWeight: FontWeight.bold),),
-                        ),
-                        getStateResponseModel== null ? Center(child: CircularProgressIndicator()):
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: colors.black54)
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              hint: Text('${stateselected}',
-                                style: const TextStyle(
-                                    color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
-                                ),),
-                              // dropdownColor: colors.primary,
-                              value: selectedState,
-                              icon:  const Padding(
-                                padding: EdgeInsets.only(left:10.0),
-                                child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                   roll ==  1  ? Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text("State Name", style: TextStyle(
+                                    color: colors.black54, fontWeight: FontWeight.bold),),
                               ),
-                              // elevation: 16,
-                              style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                              underline: Padding(
-                                padding: const EdgeInsets.only(left: 0,right: 0),
-                                child: Container(
-                                  // height: 2,
-                                  color:  colors.whiteTemp,
+                              getStateResponseModel== null ? Center(child: CircularProgressIndicator()):
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: colors.black54)
                                 ),
-                              ),
-                              onChanged: (String? value) {
-                                // This is called when the user selects an item.
-                                setState(() {
-                                  selectedState = value!;
-                                  print('__________${getStateResponseModel!.data!.first.name}_________');
-                                  getStateResponseModel!.data!.forEach((element) {
-                                    if(element.name == value){
-                                      selectedSateIndex = getStateResponseModel!.data!.indexOf(element);
-                                      stateId = element.id;
-                                      selectedCity = null;
-                                      selectedPlace = null;
-                                      getCityApi(stateId!);
-
-                                      print('_____Surendra_____${stateId}_________');
-                                      //getStateApi();
-                                    }
-                                  });
-                                });
-                              },
-                              items: getStateResponseModel!.data!.map((items) {
-                                return DropdownMenuItem(
-                                  value: items.name.toString(),
-                                  child:  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Container(
-                                            width: MediaQuery.of(context).size.width/1.42,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(top: 10),
-                                              child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
-                                            )),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton2<String>(
+                                    hint: Text('${stateselected}',
+                                      style: const TextStyle(
+                                          color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                                      ),),
+                                    // dropdownColor: colors.primary,
+                                    value: selectedState,
+                                    icon:  const Padding(
+                                      padding: EdgeInsets.only(left:10.0),
+                                      child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                                    ),
+                                    // elevation: 16,
+                                    style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                                    underline: Padding(
+                                      padding: const EdgeInsets.only(left: 0,right: 0),
+                                      child: Container(
+                                        // height: 2,
+                                        color:  colors.whiteTemp,
                                       ),
-                                      const Divider(
-                                        thickness: 0.2,
-                                        color: colors.black54,
-                                      ),
-
-                                    ],
-                                  ),
-                                );
-                              })
-                                  .toList(),
-
-
-                            ),
-
-                          ),
-                        )
-                      ],
-                    ) : SizedBox.shrink(),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    roll == "1" ?Column(
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child:Row(
-                              children: const [
-                                Text(
-                                  "Select City",
-                                  style: TextStyle(
-                                      color: colors.black54,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  "*",
-                                  style: TextStyle(
-                                      color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                                ),
-                              ],
-                            )
-
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width/1.0,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: colors.black54)
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              hint:Text('${cityselected}',
-                                style: const TextStyle(
-                                    color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
-                                ),),
-                              // dropdownColor: colors.primary,
-                              value: selectedCity,
-                              icon:  const Padding(
-                                padding: EdgeInsets.only(left:10.0),
-                                child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
-                              ),
-                              // elevation: 16,
-                              style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                              underline: Padding(
-                                padding: const EdgeInsets.only(left: 0,right: 0),
-                                child: Container(
-                                  // height: 2,
-                                  color:  colors.whiteTemp,
-                                ),
-                              ),
-                              onChanged: (String? value) {
-                                // This is called when the user selects an item.
-                                setState(() {
-                                  selectedCity = value!;
-                                  print('__________${selectedCity}_________');
-                                  getCitiesResponseModel!.data!.forEach((element) {
-                                    if(element.name == value){
-                                      selectedSateIndex = getCitiesResponseModel!.data!.indexOf(element);
-                                      cityId = element.id;
-                                      selectedPlace = null;
-                                      getPlaceApi(cityId!);
+                                    ),
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
                                       setState(() {
-
+                                        selectedState = value!;
+                                        print('__________${getStateResponseModel!.data!.first.name}_________');
+                                        getStateResponseModel!.data!.forEach((element) {
+                                          if(element.name == value){
+                                            selectedSateIndex = getStateResponseModel!.data!.indexOf(element);
+                                            stateId = element.id;
+                                            selectedCity = null;
+                                            selectedPlace = null;
+                                            getCityApi(stateId!);
+                                            print('_____Surendra_____${stateId}_________');
+                                            //getStateApi();
+                                          }
+                                        });
                                       });
-                                    }
-                                  });
-                                });
-                              },
-                              items: getCitiesResponseModel?.data?.map((items) {
-                                return DropdownMenuItem(
-                                  value: items.name.toString(),
-                                  child:  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Container(
-                                            width: MediaQuery.of(context).size.width/1.42,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(top: 10),
-                                              child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
-                                            )),
-                                      ),
-                                      const Divider(
-                                        thickness: 0.2,
-                                        color: colors.black54,
-                                      ),
+                                    },
+                                    items: getStateResponseModel!.data!.map((items) {
+                                      return DropdownMenuItem(
+                                        value: items.name.toString(),
+                                        child:  Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 5),
+                                              child: Container(
+                                                  width: MediaQuery.of(context).size.width/1.42,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(top: 10),
+                                                    child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                                                  )),
+                                            ),
+                                            const Divider(
+                                              thickness: 0.2,
+                                              color: colors.black54,
+                                            ),
 
-                                    ],
+                                          ],
+                                        ),
+                                      );
+                                    })
+                                        .toList(),
+
+
                                   ),
-                                );
-                              })
-                                  .toList(),
 
-
-                            ),
-
+                                ),
+                              )
+                            ],
+                          ) ,
+                          const SizedBox(
+                            height: 10,
                           ),
-                        ),
-                      ],
-                    ):SizedBox.shrink(),
+                          Column(
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child:Row(
+                                    children: const [
+                                      Text(
+                                        "Select City",
+                                        style: TextStyle(
+                                            color: colors.black54,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "*",
+                                        style: TextStyle(
+                                            color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                                      ),
+                                    ],
+                                  )
 
-                    SizedBox(height: 10,),
-                    roll == "1" ? Column(
-                       children: [
-                         Padding(
-                             padding: const EdgeInsets.all(5.0),
-                             child:Row(
-                               children: const [
-                                 Text(
-                                   "Select Place",
-                                   style: TextStyle(
-                                       color: colors.black54,
-                                       fontWeight: FontWeight.bold),
-                                 ),
-                                 Text(
-                                   "*",
-                                   style: TextStyle(
-                                       color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                                 ),
-                               ],
-                             )
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width/1.0,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: colors.black54)
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton2<String>(
+                                    hint:Text('${cityselected}',
+                                      style: const TextStyle(
+                                          color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                                      ),),
+                                    // dropdownColor: colors.primary,
+                                    value: selectedCity,
+                                    icon:  const Padding(
+                                      padding: EdgeInsets.only(left:10.0),
+                                      child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                                    ),
+                                    // elevation: 16,
+                                    style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                                    underline: Padding(
+                                      padding: const EdgeInsets.only(left: 0,right: 0),
+                                      child: Container(
+                                        // height: 2,
+                                        color:  colors.whiteTemp,
+                                      ),
+                                    ),
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        selectedCity = value!;
+                                        print('__________${selectedCity}_________');
+                                        getCitiesResponseModel!.data!.forEach((element) {
+                                          if(element.name == value){
+                                            selectedSateIndex = getCitiesResponseModel!.data!.indexOf(element);
+                                            cityId = element.id;
+                                            selectedPlace = null;
+                                            getPlaceApi(cityId!);
+                                            setState(() {
 
-                         ),
-                         const SizedBox(
-                           height: 5,
-                         ),
-                         Container(
-                           width: MediaQuery.of(context).size.width/1.0,
-                           decoration: BoxDecoration(
-                               borderRadius: BorderRadius.circular(10),
-                               border: Border.all(color: colors.black54)
-                           ),
-                           child: DropdownButtonHideUnderline(
-                             child: DropdownButton2<String>(
-                               hint:  Text('${placeselected}',
-                                 style: const TextStyle(
-                                     color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
-                                 ),),
-                               // dropdownColor: colors.primary,
-                               value: selectedPlace,
-                               icon:  const Padding(
-                                 padding: EdgeInsets.only(left:10.0),
-                                 child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
-                               ),
-                               // elevation: 16,
-                               style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                               underline: Padding(
-                                 padding: const EdgeInsets.only(left: 0,right: 0),
-                                 child: Container(
-                                   // height: 2,
-                                   color:  colors.whiteTemp,
-                                 ),
-                               ),
-                               onChanged: (String? value) {
-                                 // This is called when the user selects an item.
-                                 setState(() {
-                                   selectedPlace = value!;
-                                   getPlaceResponseModel!.data!.forEach((element) {
-                                     if(element.name == value){
-                                       selectedSateIndex = getPlaceResponseModel!.data!.indexOf(element);
-                                       placeId = element.id;
-                                       //selectedCity = null;
-                                       //selectedPlace = null;
+                                            });
+                                          }
+                                        });
+                                      });
+                                    },
+                                    items: getCitiesResponseModel?.data?.map((items) {
+                                      return DropdownMenuItem(
+                                        value: items.name.toString(),
+                                        child:  Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 5),
+                                              child: Container(
+                                                  width: MediaQuery.of(context).size.width/1.42,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(top: 10),
+                                                    child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                                                  )),
+                                            ),
+                                            const Divider(
+                                              thickness: 0.2,
+                                              color: colors.black54,
+                                            ),
 
-                                       print('_____Surdfdgdgendra_____${placeId}_________');
-                                       //getStateApi();
-                                     }
-                                   });
-                                 });
-                               },
-                               items: getPlaceResponseModel?.data?.map((items) {
-                                 return DropdownMenuItem(
-                                   value: items.name.toString(),
-                                   child:  Column(
-                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                     mainAxisAlignment: MainAxisAlignment.center,
-                                     children: [
-                                       Padding(
-                                         padding: const EdgeInsets.only(top: 5),
-                                         child: Container(
-                                             width: MediaQuery.of(context).size.width/1.42,
-                                             child: Padding(
-                                               padding: const EdgeInsets.only(top: 10),
-                                               child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
-                                             )),
-                                       ),
-                                       const Divider(
-                                         thickness: 0.2,
-                                         color: colors.black54,
-                                       ),
-
-                                     ],
-                                   ),
-                                 );
-                               })
-                                   .toList(),
+                                          ],
+                                        ),
+                                      );
+                                    })
+                                        .toList(),
 
 
-                             ),
+                                  ),
 
-                           ),
-                         ),
-                       ],
-                     ):SizedBox.shrink(),
-                    roll == "1" ?  Column(
-                       children: [
-                         Padding(
-                           padding: EdgeInsets.all(5.0),
-                           child: Text("Experience ", style: TextStyle(
-                               color: colors.black54, fontWeight: FontWeight.bold),),
-                         ),
-                         SizedBox(height: 10,),
-                         TextFormField(
-                           controller: ExpController,
-                           keyboardType: TextInputType.text,
-                           decoration: InputDecoration(
-                               hintText: 'Experience Name',
-                               hintStyle: TextStyle(
-                                   fontSize: 15.0, color: colors.blackTemp),
-                               border: OutlineInputBorder(
-                                   borderRadius: BorderRadius.circular(10)),
-                               contentPadding: EdgeInsets.only(left: 10, top: 10)
-                           ),
-                           // validator: (v) {
-                           //   if (v!.isEmpty) {
-                           //     return "Date of Birth is required";
-                           //   }
-                           //
-                           // },
-                         ),
-                         SizedBox(height: 10,),
-                         Padding(
-                           padding: const EdgeInsets.all(5.0),
-                           child: Text("Degree ", style: TextStyle(
-                               color: colors.black54, fontWeight: FontWeight.bold),),
-                         ),
-                         SizedBox(height: 10,),
-                         TextFormField(
-                           controller: deegreeController,
-                           keyboardType: TextInputType.text,
-                           decoration: InputDecoration(
-                               hintText: 'Degree',
-                               hintStyle: TextStyle(
-                                   fontSize: 15.0, color: colors.blackTemp),
-                               border: OutlineInputBorder(
-                                   borderRadius: BorderRadius.circular(10)),
-                               contentPadding: EdgeInsets.only(left: 10, top: 10)
-                           ),
-                         )
-                       ],
-                     ):SizedBox.shrink(),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Column(
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child:Row(
+                                    children: const [
+                                      Text(
+                                        "Select Place",
+                                        style: TextStyle(
+                                            color: colors.black54,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "*",
+                                        style: TextStyle(
+                                            color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                                      ),
+                                    ],
+                                  )
+
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width/1.0,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: colors.black54)
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton2<String>(
+                                    hint:  Text('${placeselected}',
+                                      style: const TextStyle(
+                                          color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                                      ),),
+                                    // dropdownColor: colors.primary,
+                                    value: selectedPlace,
+                                    icon:  const Padding(
+                                      padding: EdgeInsets.only(left:10.0),
+                                      child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                                    ),
+                                    // elevation: 16,
+                                    style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                                    underline: Padding(
+                                      padding: const EdgeInsets.only(left: 0,right: 0),
+                                      child: Container(
+                                        // height: 2,
+                                        color:  colors.whiteTemp,
+                                      ),
+                                    ),
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        selectedPlace = value!;
+                                        getPlaceResponseModel!.data!.forEach((element) {
+                                          if(element.name == value){
+                                            selectedSateIndex = getPlaceResponseModel!.data!.indexOf(element);
+                                            placeId = element.id;
+                                            //selectedCity = null;
+                                            //selectedPlace = null;
+
+                                            print('_____Surdfdgdgendra_____${placeId}_________');
+                                            //getStateApi();
+                                          }
+                                        });
+                                      });
+                                    },
+                                    items: getPlaceResponseModel?.data?.map((items) {
+                                      return DropdownMenuItem(
+                                        value: items.name.toString(),
+                                        child:  Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 5),
+                                              child: Container(
+                                                  width: MediaQuery.of(context).size.width/1.42,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(top: 10),
+                                                    child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                                                  )),
+                                            ),
+                                            const Divider(
+                                              thickness: 0.2,
+                                              color: colors.black54,
+                                            ),
+
+                                          ],
+                                        ),
+                                      );
+                                    })
+                                        .toList(),
+
+
+                                  ),
+
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text("Experience ", style: TextStyle(
+                                    color: colors.black54, fontWeight: FontWeight.bold),),
+                              ),
+                              SizedBox(height: 10,),
+                              TextFormField(
+                                controller: ExpController,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                    hintText: 'Experience Name',
+                                    hintStyle: TextStyle(
+                                        fontSize: 15.0, color: colors.blackTemp),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10)),
+                                    contentPadding: EdgeInsets.only(left: 10, top: 10)
+                                ),
+                                // validator: (v) {
+                                //   if (v!.isEmpty) {
+                                //     return "Date of Birth is required";
+                                //   }
+                                //
+                                // },
+                              ),
+                              SizedBox(height: 10,),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text("Degree ", style: TextStyle(
+                                    color: colors.black54, fontWeight: FontWeight.bold),),
+                              ),
+                              SizedBox(height: 10,),
+                              TextFormField(
+                                controller: deegreeController,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                    hintText: 'Degree',
+                                    hintStyle: TextStyle(
+                                        fontSize: 15.0, color: colors.blackTemp),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10)),
+                                    contentPadding: EdgeInsets.only(left: 10, top: 10)
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ):SizedBox.shrink(),
+
 
 
                     Padding(
@@ -1092,35 +1010,155 @@ onTapCall2() async {
                     ),
                     const SizedBox(height: 10,),
 
-                    roll == 1 ? Column(
+                   roll == "2" ?
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text("Company Name ", style: TextStyle(
-                              color: colors.black54, fontWeight: FontWeight.bold),),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text("Company Name ", style: TextStyle(
+                                  color: colors.black54, fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(height: 5,),
+                            TextFormField(
+                              controller: CompanyController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                  hintText: 'Company',
+                                  hintStyle: TextStyle(
+                                      fontSize: 15.0, color: colors.blackTemp),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  contentPadding: EdgeInsets.only(left: 10, top: 10)
+                              ),
+                              // validator: (v) {
+                              //   if (v!.isEmpty) {
+                              //     return "Date of Birth is required";
+                              //   }
+                              //
+                              // },
+                            ),
+                          ],
                         ),
                         SizedBox(height: 10,),
-                        TextFormField(
-                          controller: CompanyController,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                              hintText: 'Company',
-                              hintStyle: TextStyle(
-                                  fontSize: 15.0, color: colors.blackTemp),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              contentPadding: EdgeInsets.only(left: 10, top: 10)
-                          ),
-                          // validator: (v) {
-                          //   if (v!.isEmpty) {
-                          //     return "Date of Birth is required";
-                          //   }
-                          //
-                          // },
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text("Select Category", style: TextStyle(
+                              color: colors.black54, fontWeight: FontWeight.bold),),
                         ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.only(right: 5, top: 12),
+                                width: MediaQuery.of(context).size.width,
+                                height: 55,
+                                decoration:
+                                BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all( color: colors.black54),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton2<String>(
+                                    dropdownMaxHeight: 150,
+                                    hint: const Padding(
+                                      padding: EdgeInsets.only(bottom: 15),
+                                      child: Text("Select Pharma Category",
+                                        style: TextStyle(
+                                            color: colors.black54,fontWeight: FontWeight.normal
+                                        ),),
+                                    ),
+                                    // dropdownColor: colors.primary,
+                                    value: SelectedPharma,
+                                    icon:  const Padding(
+                                      padding: EdgeInsets.only(bottom: 30),
+                                      child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                                    ),
+                                    // elevation: 16,
+                                    style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                                    underline: Padding(
+                                      padding: const EdgeInsets.only(left: 0,right: 0),
+                                      child: Container(
+                                        // height: 2,
+                                        color:  colors.whiteTemp,
+                                      ),
+                                    ),
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        SelectedPharma = value!;
+                                        selectedIndex = items3.indexOf(value);
+                                        if (selectedIndex == 0) {
+                                          category = 2;
+                                        } else {
+                                          category = 3;
+                                        }
+                                        // indexSectet = items.indexOf(value);
+                                        // indexSectet++;
+                                      }
+                                      );
+                                    },
+
+                                    items: items3
+                                        .map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child:
+                                        Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(4.0),
+                                              child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                                            ),
+                                            const Divider(
+                                              thickness: 0.2,
+                                              color: colors.black54,
+                                            )
+                                          ],
+                                        ),
+                                      );
+
+                                    }).toList(),
+
+                                  ),
+
+                                )
+
+                            ),
+
+                            const SizedBox(height: 10,),
+                            Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Row(
+                                  children: const [
+                                    Text(
+                                      "Designation",
+                                      style: TextStyle(
+                                          color: colors.black54,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "*",
+                                      style: TextStyle(
+                                          color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                                    ),
+                                  ],
+                                )
+
+                            ),
+                            select(),
+                          ],
+                        ) ,
                       ],
-                    ): SizedBox.shrink(),
+                    ):SizedBox.shrink(),
+
+                        // : SizedBox.shrink(),
                     SizedBox(height: 10,),
                     const SizedBox(height: 60,),
 
@@ -1149,7 +1187,7 @@ onTapCall2() async {
       'user_id': userId ?? '',
       'username': nameController.text,
       'mobile': mobileController.text,
-      'address': dobController.text,
+      'address': cityController.text,
       'email': emailController.text,
       'gender': genderController.text,
       'company': CompanyController.text,
@@ -1183,346 +1221,170 @@ onTapCall2() async {
     }
 
   }
-
-  Widget EveningShiftEnd() {
-    return  InkWell(
-      onTap: () {
-        chooseTimeEnd(context);
-      },
-      child: Container(
-        // Customize the container as needed
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              _selectedTimeOld != null
-                  ? '${_selectedTimeOld!.format(context)}'
-                  : 'Evening Shift Time',
-            ),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget MorningShiftStart() {
-    return InkWell(
-      onTap: () {
-        selectTimeStart(context);
-      },
-      child: Container(
-        // Customize the container as needed
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              _selectedTimeNew != null
-                  ? '${_selectedTimeNew!.format(context)}'
-                  : 'Morning Shift Time',
-            ),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget MorningShift() {
-    return InkWell(
-      onTap: () {
-        _selectTime(context);
-      },
-      child: Container(
-        // Customize the container as needed
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              _selectedTime != null
-                  ? '${_selectedTime!.format(context)}'
-                  : 'Morning Shift Time',
-            ),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      ),
-    );
-  }
-  Widget EveningShift() {
-    return  InkWell(
-      onTap: () {
-        chooseTime(context);
-      },
-      child: Container(
-        // Customize the container as needed
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              _selectedTime1 != null
-                  ? '${_selectedTime1!.format(context)}'
-                  : 'Evening Shift Time',
-            ),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      ),
-    );
-  }
-
-  TimeOfDay? _selectedTime;
-  TimeOfDay? _selectedTime1;
-  TimeOfDay? _selectedTimeNew;
-  TimeOfDay? _selectedTimeOld;
-  List<String>? results;
-  List <String>_selectedItems2 = [];
-  String? days;
-
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay pickedTime = await showTimePicker(
-      context: context,
-      initialTime: _selectedTime ?? TimeOfDay.now(),
-    ) as TimeOfDay;
-
-    if (pickedTime != null && pickedTime != _selectedTime) {
-
-      setState(() {
-        _selectedTime = pickedTime;
-        eveingTimeController.text = _selectedTime!.format(context);
-      });
-      print('_____eveingTime_____${_selectedTime!.format(context)}_________');
-    }
-
-  }
-  Future<void> chooseTime(BuildContext context) async {
-    final TimeOfDay pickedTime = await showTimePicker(
-      context: context,
-      initialTime: _selectedTime1 ?? TimeOfDay.now(),
-    ) as TimeOfDay;
-
-    if (pickedTime != null && pickedTime != _selectedTime1) {
-      setState(() {
-        _selectedTime1 = pickedTime;
-        morningTimeController.text = _selectedTime1!.format(context);
-        print('_____selectedTime1!.format(context)______${_selectedTime1!.format(context)}_________');
-      });
-    }
-  }
-  Future<void> selectTimeStart(BuildContext context) async {
-    final TimeOfDay pickedTime = await showTimePicker(
-      context: context,
-      initialTime: _selectedTimeNew ?? TimeOfDay.now(),
-    ) as TimeOfDay;
-
-    if (pickedTime != null && pickedTime != _selectedTimeNew) {
-
-      setState(() {
-        _selectedTimeNew = pickedTime;
-      });
-      print('_____sfgfdgfdg_____${_selectedTimeNew!.format(context)}_________');
-    }
-
-  }
-  Future<void> chooseTimeEnd(BuildContext context) async {
-    final TimeOfDay pickedTime = await showTimePicker(
-      context: context,
-      initialTime: _selectedTimeOld ?? TimeOfDay.now(),
-    ) as TimeOfDay;
-
-    if (pickedTime != null && pickedTime != _selectedTimeOld) {
-      setState(() {
-        _selectedTimeOld = pickedTime;
-      });
-    }
-  }
-  // Widget select() {
-  //   return InkWell(
-  //     onTap:
-  //     _selectedItems2 == null ? (){
-  //       Fluttertoast.showToast(msg: 'Please Select Days',backgroundColor: colors.secondary);
-  //
-  //     }: () {
-  //       setState(() {
-  //         _showMultiSelect();
-  //       });
-  //     },
-  //     child: Container(
-  //         height: 50,
-  //         width: MediaQuery.of(context).size.width,
-  //         padding: const EdgeInsets.only(left: 10),
-  //         decoration: BoxDecoration(
-  //             color: colors.white10,
-  //             borderRadius: BorderRadius.circular(15),
-  //             border: Border.all(color: Colors.black.withOpacity(0.7))),
-  //         child: results == null
-  //             ? const Padding(
-  //           padding: EdgeInsets.only(left: 10, top: 15, bottom: 15),
-  //           child: Text(
-  //             'Select Days',
-  //             style: TextStyle(
-  //               fontSize: 16,
-  //               color: colors.black54,
-  //               fontWeight: FontWeight.normal,
-  //             ),
-  //             overflow: TextOverflow.ellipsis,
-  //           ),
-  //         )
-  //             :
-  //         Wrap(
-  //           crossAxisAlignment: WrapCrossAlignment.start,
-  //           children: results!.map((e){
-  //             return Padding(
-  //               padding: const EdgeInsets.only(top: 10,left: 1,right: 1),
-  //               child: Container(
-  //                   width:45,
-  //                   height: 30,
-  //                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: colors.secondary),
-  //                   child: Center(child: Text("${e}",style: TextStyle(color: colors.whiteTemp),))),
-  //             );
-  //           }).toList(),
-  //         )
-  //
-  //     ),
-  //   );
-  // }
-  void _showMultiSelect() async {
+  void _showMultiSelect(int category) async {
     results = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (context, setState)
-
-              {
-                return
-                  MultiSelect();
-              }
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (context, setState) {
+          return MultiSelect(
+            category: category,
           );
-        }
+        });
+      },
     );
-    setState(() {
-    });
+    setState(() {});
+  }
+  Widget select() {
+    return InkWell(
+      onTap:SelectedPharma == null ? (){
+        Fluttertoast.showToast(msg: 'Please Select Pharma Category First',backgroundColor: colors.secondary);
+      }: () {
+        _showMultiSelect(category);
+      },
+      child: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.only(left: 10),
+        decoration: BoxDecoration(
+            color: colors.white10,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: Colors.black.withOpacity(0.7))),
+        child: results == null
+            ? const Padding(
+          padding: EdgeInsets.only(left: 10, top: 15, bottom: 15),
+          child: Text(
+            'Select Designation',
+            style: TextStyle(
+              fontSize: 16,
+              color: colors.black54,
+              fontWeight: FontWeight.normal,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        )
+            :  Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 0),
+              child: Text(results.name??'',style: TextStyle(color:colors.blackTemp),),
+            ),
 
-    print("checking result here ${results.runtimeType}");
-
+          ],
+        ),
+      ),
+    );
   }
 
 }
-
 class MultiSelect extends StatefulWidget {
-
-  // String type;
-  // required this.type
-  MultiSelect({Key? key, }) : super(key: key);
+  int category;
+  MultiSelect({Key? key, required this.category}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _MultiSelectState();
 }
 class _MultiSelectState extends State<MultiSelect> {
-  List selectedItems = [];
-  List<String> eventCat = [];
-  bool isChecked = false;
-  void _itemChange(String itemValue, bool isSelected) {
-    setState(() {
-      if (isSelected) {
-        setState(() {
-          _selectedItems2.add(itemValue);
-        });
-      } else {
-        setState(() {
-          _selectedItems2.remove(itemValue);
-        });
-      }
-    });
-    print("this is selected values ${_selectedItems2.toString()}");
-  }
+  List<PharmaCategory> pharmaCategoryList = [];
   void _cancel() {
     Navigator.pop(context);
   }
-  void _submit() {
-    List selectedItem = _selectedItems2.map((item) => item).toList();
-    //Navigator.pop(context);
-  }
 
+  getPharmaCategory(int category) async {
+    var headers = {
+      'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
+    };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('${ApiService.getPharmaCategory}'));
+    request.fields.addAll({
+      'cat_type': category.toString(),
+    });
+    print("request________${request.fields}");
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    print('${response.statusCode}_____________statuscode');
+    if (response.statusCode == 200) {
+      print('_____________');
+      var finalResult = await response.stream.bytesToString();
+      final jsonResponse =
+          GetPharmaCategory.fromJson(json.decode(finalResult)).data;
+      //Fluttertoast.showToast(msg: "${jsonResponse}");
+      setState(() {
+        pharmaCategoryList = jsonResponse ?? [];
+      });
+    } else {
+      //Fluttertoast.showToast(msg: "${detailsData?.message}");
+      // Fluttertoast.showToast(msg: "${jsonResponse['message']}");
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      print(response.reasonPhrase);
+    }
+  }
+  bool isChecked = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    //_selectedItems2.clear();
+    getPharmaCategory(widget.category);
   }
-
-  String finalList = '';
-  var dayList = [
-    'SUN',
-    'MON',
-    'TUE',
-    'WED',
-    'THU',
-    'FRI',
-    'SAT',
-  ];
+  var selectedItems;
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(
-        builder: (context, setState)
-        {
-          return
-            AlertDialog(
-              title: const Text('Select Days'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: dayList
-                      .map((data) =>
-                      CheckboxListTile(
-                        activeColor: colors.primary,
-                        value: _selectedItems2.contains(data),
-                        title: Text(data),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        onChanged: (isChecked) => _itemChange(data, isChecked!),
-
+    return StatefulBuilder(builder: (context, setState) {
+      return AlertDialog(
+        title: const Text('Select Multiple Categories',style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 18),),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: pharmaCategoryList
+                .map((item) =>
+                InkWell(
+                  onTap: (){
+                    selectedItems = item;
+                    Navigator.pop(context, item);
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Text(item.name??'',style: TextStyle(color:colors.black54,fontWeight: FontWeight.normal,),),
+                      ),
+                      const Divider(
+                        thickness: 0.2,
+                        color: colors.black54,
                       )
-                  ).toList(),
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: Text('Cancel',
-                    style: TextStyle(color: colors.primary),),
-                  onPressed: _cancel,
-                ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: colors.primary
-                    ),
-                    child: Text('Submit'),
-                    onPressed: () {
-                      //_submit();
-                      Navigator.pop(context, _selectedItems2);
+                    ],
+                  ),
 
-                    }
                 ),
-              ],
-            );
-        }
-    );
+
+
+            )
+                .toList(),
+          ),
+        ),
+        // actions: [
+        //   TextButton(
+        //     onPressed: _cancel,
+        //     child: const Text(
+        //       'Cancel',
+        //       style: TextStyle(color: colors.primary),
+        //     ),
+        //   ),
+        //   ElevatedButton(
+        //     style: ElevatedButton.styleFrom(backgroundColor: colors.primary),
+        //     child: Text('Submit'),
+        //     onPressed: () {
+        //       // _submit();
+        //
+        //     }
+        //     ,
+        //   ),
+        // ],
+      );
+    });
   }
 
 }
+

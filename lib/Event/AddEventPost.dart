@@ -480,7 +480,7 @@ class _AddEventPostState extends State<AddEventPost> {
                 SizedBox(height: 20,),
                 Btn(
                   height: 50,
-                  width: 320,
+
                   title: isloader == true ? "Please wait......" : 'Add Event Post',
                   onPress: () {
                     if (_formKey.currentState!.validate()) {

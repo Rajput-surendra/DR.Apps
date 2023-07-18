@@ -49,10 +49,13 @@ class _EventsListCardState extends State<EventsListCard> {
     super.initState();
     getUserId();
   }
-  String? userId;
+  String? userId,role;
   getUserId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
   userId = preferences.getString('userId');
+  role =  preferences.getString("roll");
+
+  print('_____role_____${role}_________');
   }
 
 
@@ -61,103 +64,106 @@ class _EventsListCardState extends State<EventsListCard> {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       key: keyList,
-      child:_isReady ?  Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child:  Padding(
-            padding: const EdgeInsets.only(left: 10,right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5,bottom: 8),
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage("${widget.getEventModel?.userImage}"),
-                            backgroundColor: colors.primary,
-                            radius: 25,
-                          ),
-                        ), //CircleAvatar
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("${widget.getEventModel?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),),
-                              Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
-                              Container(
-                                // width: 250,
-                                  child: Text("${widget.getEventModel?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    iconVisible ? Row(
-                      children: [
-                        IconButton(onPressed: (){
-                          setState(() {
-                            iconVisible = false;
-                          });
-                          Future.delayed(Duration(milliseconds: 500), (){
-                            //_CaptureScreenShot(index: index);
-                            _shareQrCode(widget.getEventModel?.link ?? '');
-                            // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
-                          });
-
-                        }, icon: Icon(Icons.share)),
-                        IconButton(onPressed: (){
-                          setState(() {
-                            getNewWishlistApi(widget.getEventModel?.id ?? '', widget.getEventModel?.type ?? "");
-                            widget.getEventModel?.isSelected = !(widget.getEventModel?.isSelected ?? false );
-                          });
-                        },icon: widget.getEventModel?.isFav ?? false ?
-                        Icon(Icons.favorite,color: colors.red,): widget.getEventModel?.isSelected ?? false
-                            ?Icon(Icons.favorite,color: colors.red,) :
-                        Icon(Icons.favorite_outline,color: colors.red,)),
-                        if(userId == widget.getEventModel!.pharmaId)
-                        InkWell(
-                          onTap: widget.onTop,
-                            child: Icon(Icons.delete)),
-                      ],
-                    ):SizedBox.shrink()
-
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-
-                      width: double.infinity,
-                      child:  DecoratedBox(
-                        decoration:  BoxDecoration(
-                        ),
-                        child: widget.getEventModel?.image == null || widget.getEventModel?.image == ""?Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEventModel?.image}",fit: BoxFit.fill)
-                      ),
-
-                    ),
-                widget.index == 0 ?  Text("Surendra") : SizedBox(),
-                  SizedBox(height: 8,),
-                  Text("${widget.getEventModel?.address}",),
-                    SizedBox(height: 5,),
-                  Text("${widget.getEventModel?.startDate}"),
-
-                  const SizedBox(height: 10,),
-
-                ],),
-
-              ],
+      child:_isReady ?  Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
-          )
+            child:  Padding(
+              padding: const EdgeInsets.only(left: 10,right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5,bottom: 8),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage("${widget.getEventModel?.userImage}"),
+                              backgroundColor: colors.primary,
+                              radius: 25,
+                            ),
+                          ), //CircleAvatar
+                          Padding(
+                            padding: const EdgeInsets.only(left: 3),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("${widget.getEventModel?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),),
+                                role == "2"  ? SizedBox.shrink(): Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
+                                Container(
+                                  // width: 250,
+                                    child: Text("${widget.getEventModel?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      iconVisible ? Row(
+                        children: [
+                          IconButton(onPressed: (){
+                            setState(() {
+                              iconVisible = false;
+                            });
+                            Future.delayed(Duration(milliseconds: 500), (){
+                              //_CaptureScreenShot(index: index);
+                              _shareQrCode(widget.getEventModel?.link ?? '');
+                              // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
+                            });
 
+                          }, icon: Icon(Icons.share)),
+                          IconButton(onPressed: (){
+                            setState(() {
+                              getNewWishlistApi(widget.getEventModel?.id ?? '', widget.getEventModel?.type ?? "");
+                              widget.getEventModel?.isSelected = !(widget.getEventModel?.isSelected ?? false );
+                            });
+                          },icon: widget.getEventModel?.isFav ?? false ?
+                          Icon(Icons.favorite,color: colors.red,): widget.getEventModel?.isSelected ?? false
+                              ?Icon(Icons.favorite,color: colors.red,) :
+                          Icon(Icons.favorite_outline,color: colors.red,)),
+                          if(userId == widget.getEventModel!.pharmaId)
+                          InkWell(
+                            onTap: widget.onTop,
+                              child: Icon(Icons.delete)),
+                        ],
+                      ):SizedBox.shrink()
+
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+
+                        width: double.infinity,
+                        child:  DecoratedBox(
+                          decoration:  BoxDecoration(
+                          ),
+                          child: widget.getEventModel?.image == null || widget.getEventModel?.image == ""?Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEventModel?.image}",fit: BoxFit.fill)
+                        ),
+
+                      ),
+                  widget.index == 0 ?  Text("Surendra") : SizedBox(),
+                    SizedBox(height: 8,),
+                    Text("${widget.getEventModel?.address}",),
+                      SizedBox(height: 5,),
+                    Text("${widget.getEventModel?.startDate}"),
+
+                    const SizedBox(height: 10,),
+
+                  ],),
+
+                ],
+              ),
+            )
+
+        ),
       ) : SizedBox(),
     );
   }

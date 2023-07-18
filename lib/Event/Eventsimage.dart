@@ -71,6 +71,13 @@ class _EventsEmageScreenState extends State<EventsEmageScreen> {
     super.initState();
 
     getEventListApi();
+    getS();
+  }
+  String? specialityId;
+  getS() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    specialityId = preferences.getString('specialityId');
+    print('_____specialityId_____${specialityId}_________');
   }
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =

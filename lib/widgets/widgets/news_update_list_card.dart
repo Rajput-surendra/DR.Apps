@@ -83,154 +83,156 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
     }
     return RepaintBoundary(
       key: keyList,
-      child: _isReady ? Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child:  Padding(
-            padding: const EdgeInsets.only(left: 10,right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                   Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5,bottom: 8),
-                          child:widget.currentIndex==1||widget.currentIndex==2 ? CircleAvatar(
-                            backgroundImage: NetworkImage("${widget.newModel?.profileImage}"),
-                            backgroundColor: colors.primary,
-                            radius: 25,
-                          ):SizedBox(),
-                        ), //CircleAvatar
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10,left: 3),
-                          child: widget.newModel == null    ? Center(child: CircularProgressIndicator()) :Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              widget.currentIndex == 1 ? Text("Dr.${widget.newModel?.docName}",style: TextStyle(fontSize: 14,color: colors.secondary,fontWeight: FontWeight.bold),):Padding(
-                                padding: const EdgeInsets.only(top: 10,bottom: 5),
-                                child: Text("Pharma.${widget.newModel?.title
-                                }",style: TextStyle(fontSize: 14,color: colors.secondary,fontWeight: FontWeight.bold),),
-                              ),
-                              widget.currentIndex == 1 ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text("Degree-",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold)),
-                                      Text("${widget.newModel!.docDegree}",style: TextStyle(fontSize: 10),),SizedBox(height: 2,),
-                                    ],),
-                                  Container(
-                                      width: 250,
-                                      child: Text("${widget.newModel!.docAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,))
-                                ],
-                              )
-                              :SizedBox(),
-
-
-
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    strObj![1] == "pdf" ?   InkWell(
-                      onTap: (){
-                        downloadFile('${ApiService.imageUrl}${widget.newModel!.image}', widget.newModel!.docName ?? '');
-                      },
-                      child: Container(
-                          child: Column(
-                            children: [
-                              Icon(Icons.download,size: 40,color: colors.secondary,),
-                              Text("Pdf")
-                            ],
-                          )
-                      ),
-                    )
-                        : Container(
-                      width: double.infinity,
-                      child:  DecoratedBox(
-                          decoration:  BoxDecoration(
-                          ),
-                          child: widget.newModel?.image == null || widget.newModel?.image == "" ?
-                          Image.asset("assets/splash/splashimages.png"):
-                          Image.network("${ApiService.imageUrl}${widget.newModel?.image}",fit: BoxFit.cover)
-
-                      ),
-
-                    ),
-
-
-
-
-
-
-                    // Container(
-                    //   width: double.infinity,
-                    //   child: ClipRRect(
-                    //       borderRadius:  BorderRadius.circular(5),
-                    //       child: widget.newModel?.image == null || widget.newModel?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${ApiService.imageUrl}${widget.newModel?.image}",fit: BoxFit.fill,height: 250,)),
-                    // ),
-
-                    SizedBox(),
-                    const SizedBox(height: 8,),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 200,
-                            child: Text('${widget.newModel?.title}',overflow: TextOverflow.ellipsis,)),
-                        Container(
-                            width: 200,
-                            child: Text('${widget.newModel?.description}',overflow: TextOverflow.ellipsis,)),
-                      ],),
-
-        iconVisible ? Row(
-                      children: [
-                        IconButton(onPressed: (){
-                          setState(() {
-                            iconVisible = false ;
-                          });
-                          Future.delayed(Duration(seconds: 1),() {
-                            _shareQrCode(text: widget.newModel?.docName ?? '');
-                          },);
-
-                        }, icon: Icon(Icons.share)),
-                        IconButton(onPressed: (){
-                          setState(() {
-                            getNewWishlistApi(widget.newModel?.id??'');
-                            widget.newModel?.isSelected = !(widget.newModel?.isSelected ?? false );
-                          });
-                        },icon: widget.newModel?.isSelected?? false
-                            ?Icon(Icons.favorite,color: colors.red,):
-                        Icon(Icons.favorite_outline,color: colors.red,)),
-                      if(userId == widget.newModel?.doctorId)
-                        widget.currentIndex == 1?  InkWell(
-                            onTap: widget.onTap,
-                            child: Icon(Icons.delete)) :SizedBox.shrink()
-
-                      ],
-                    ) : SizedBox(),
-
-
-                  ],
-                ),
-                const SizedBox(height: 10,)
-
-              ],
+      child: _isReady ? Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
-          )
+            child:  Padding(
+              padding: const EdgeInsets.only(left: 10,right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                     Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5,bottom: 8),
+                            child:widget.currentIndex==1||widget.currentIndex==2 ? CircleAvatar(
+                              backgroundImage: NetworkImage("${widget.newModel?.profileImage}"),
+                              backgroundColor: colors.primary,
+                              radius: 25,
+                            ):SizedBox(),
+                          ), //CircleAvatar
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10,left: 3),
+                            child: widget.newModel == null    ? Center(child: CircularProgressIndicator()) :Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                widget.currentIndex == 1 ? Text("Dr.${widget.newModel?.docName}",style: TextStyle(fontSize: 14,color: colors.secondary,fontWeight: FontWeight.bold),):Padding(
+                                  padding: const EdgeInsets.only(top: 10,bottom: 5),
+                                  child: Text("Pharma.${widget.newModel?.title
+                                  }",style: TextStyle(fontSize: 14,color: colors.secondary,fontWeight: FontWeight.bold),),
+                                ),
+                                widget.currentIndex == 1 ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text("Degree-",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold)),
+                                        Text("${widget.newModel!.docDegree}",style: TextStyle(fontSize: 10),),SizedBox(height: 2,),
+                                      ],),
+                                    Container(
+                                        width: 250,
+                                        child: Text("${widget.newModel!.docAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,))
+                                  ],
+                                )
+                                :SizedBox(),
+
+
+
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      strObj![1] == "pdf" ?   InkWell(
+                        onTap: (){
+                          downloadFile('${ApiService.imageUrl}${widget.newModel!.image}', widget.newModel!.docName ?? '');
+                        },
+                        child: Container(
+                            child: Column(
+                              children: [
+                                Icon(Icons.download,size: 40,color: colors.secondary,),
+                                Text("Pdf")
+                              ],
+                            )
+                        ),
+                      )
+                          : Container(
+                        width: double.infinity,
+                        child:  DecoratedBox(
+                            decoration:  BoxDecoration(
+                            ),
+                            child: widget.newModel?.image == null || widget.newModel?.image == "" ?
+                            Image.asset("assets/splash/splashimages.png"):
+                            Image.network("${ApiService.imageUrl}${widget.newModel?.image}",fit: BoxFit.cover)
+
+                        ),
+
+                      ),
+
+
+
+
+
+
+                      // Container(
+                      //   width: double.infinity,
+                      //   child: ClipRRect(
+                      //       borderRadius:  BorderRadius.circular(5),
+                      //       child: widget.newModel?.image == null || widget.newModel?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${ApiService.imageUrl}${widget.newModel?.image}",fit: BoxFit.fill,height: 250,)),
+                      // ),
+
+                      SizedBox(),
+                      const SizedBox(height: 8,),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 200,
+                              child: Text('${widget.newModel?.title}',overflow: TextOverflow.ellipsis,)),
+                          Container(
+                              width: 200,
+                              child: Text('${widget.newModel?.description}',overflow: TextOverflow.ellipsis,)),
+                        ],),
+
+          iconVisible ? Row(
+                        children: [
+                          IconButton(onPressed: (){
+                            setState(() {
+                              iconVisible = false ;
+                            });
+                            Future.delayed(Duration(seconds: 1),() {
+                              _shareQrCode(text: widget.newModel?.docName ?? '');
+                            },);
+
+                          }, icon: Icon(Icons.share)),
+                          IconButton(onPressed: (){
+                            setState(() {
+                              getNewWishlistApi(widget.newModel?.id??'');
+                              widget.newModel?.isSelected = !(widget.newModel?.isSelected ?? false );
+                            });
+                          },icon: widget.newModel?.isSelected?? false
+                              ?Icon(Icons.favorite,color: colors.red,):
+                          Icon(Icons.favorite_outline,color: colors.red,)),
+                        if(userId == widget.newModel?.doctorId)
+                          widget.currentIndex == 1?  InkWell(
+                              onTap: widget.onTap,
+                              child: Icon(Icons.delete)) :SizedBox.shrink()
+
+                        ],
+                      ) : SizedBox(),
+
+
+                    ],
+                  ),
+                  const SizedBox(height: 10,)
+
+                ],
+              ),
+            )
+        ),
       ) : SizedBox(),
     );
   }
