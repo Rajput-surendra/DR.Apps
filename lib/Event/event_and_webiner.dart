@@ -156,9 +156,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     String? Roll = preferences.getString('roll');
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('____xcdcvxcvcxvcx______${specialityId}_____${localId}__${userId}__');
-
-    print("getOnlineWebinarUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=ff45191bc42e12d2471ecac1e726d8107925e77c'
     };
@@ -168,13 +165,12 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'roll': '$Roll',
       'speciality_id': localId == null || localId== '' ?  specialityId ?? '' : localId
     });
-  print('_____surendra_____${request.fields}_________');
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result = await response.stream.bytesToString();
       final finalResult = GetWebinarModel.fromJson(jsonDecode(result));
-      print("OnlineWebinar--------------->${finalResult}");
       setState(() {
         webinarModel = finalResult;
         webinarModel?.data?.reversed;
@@ -195,7 +191,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
           print(path);
           String tempPath = path.toString().replaceAll("Download", "DR Apps");
           final File file = File(tempPath);
-          print("path here ${file}");
           var snackBar = SnackBar(
             backgroundColor: colors.primary,
             content: Row(
@@ -224,26 +219,17 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       final folderName = folderNames;
       final path= Directory("storage/emulated/0/$folderName");
       final path1 =  await getExternalStorageDirectory();
-      print("ssdsds ${path1}");
-      print("11111111111 ${path}");
       var status = await Permission.storage.status;
-      print("mmmmmmmmmmm ${status} and ${status.isGranted}");
       if (!status.isGranted) {
-        print("chacking status ${status.isGranted}");
         await Permission.storage.request();
       }
-      print(" path here ${path} and ${await path.exists()}");
       if ((await path.exists())) {
-        print("here path is ${path}");
         // var dir = await DownloadsPathProvider.
-        print("ooooooooo and $path/$folderNames");
         return path.path;
       } else {
-        print("here path is 1 ${path}");
         path.create();
         return path.path;
       }}else{
-      print("permission denied");
     }
     return "";
   }
@@ -266,14 +252,12 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
         _isReady = true;
       });
     });
-    print("aaaaaaaaaaaaa====>${date}");
     getS();
   }
   String? specialityId;
   getS() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     specialityId = preferences.getString('specialityId');
-    print('_____specialityId_____${specialityId}_________');
   }
   String dateTime = '2023-03-25 13:45:05';
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =

@@ -280,7 +280,7 @@ class _HospitalState extends State<Hospital> {
               children: [
                 const Text("Clinic/Hospital Details",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 18),),
                 const SizedBox(height: 10,),
-                clinicListForJson.isEmpty ? SizedBox():  Container(
+                clinicListForJson.isEmpty ? const SizedBox():  Container(
                   height: clinicListForJson.isEmpty ? 0: 180,
                   child:ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -384,7 +384,7 @@ class _HospitalState extends State<Hospital> {
                   child: TextFormField(
                     controller: clinicNameC,
                     decoration: InputDecoration(
-                        hintText:"Clinic Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+                        hintText:"Clinic/Hospital Name",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
                     ),
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -400,7 +400,7 @@ class _HospitalState extends State<Hospital> {
                   child: TextFormField(
                       controller: addressC,
                     decoration: InputDecoration(
-                      hintText:"Address",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+                      hintText:"Clinic/Hospital Address",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
                     ),
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -420,7 +420,7 @@ class _HospitalState extends State<Hospital> {
                     keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         counterText: "",
-                          hintText:"Appointment Number ",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+                          hintText:"Clinic/Hospital Appointment Number ",border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
                       ),
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -431,11 +431,10 @@ class _HospitalState extends State<Hospital> {
                   ),
                 ),
                 const SizedBox(height: 20,),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
+                    clinicListForJson.isEmpty ? SizedBox.shrink() :  Expanded(
                       child: Btn(
                           height: 50,
                           title: isLoading ? "Please wait......" : 'Submit',
@@ -504,7 +503,6 @@ class _HospitalState extends State<Hospital> {
                     ),
                   ],
                 )
-
               ],
             ),
           ),
@@ -605,7 +603,7 @@ class _HospitalState extends State<Hospital> {
             Text(
               _selectedTime1 != null
                   ? '${_selectedTime1!.format(context)}'
-                  : 'Evening Shift Time',
+                  : 'Morning Shift Time',
             ),
             Icon(Icons.arrow_drop_down),
           ],
@@ -631,7 +629,7 @@ class _HospitalState extends State<Hospital> {
             Text(
               _selectedTimeNew != null
                   ? '${_selectedTimeNew!.format(context)}'
-                  : 'Morning Shift Time',
+                  : 'Evening Shift Time',
             ),
             Icon(Icons.arrow_drop_down),
           ],
