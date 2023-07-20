@@ -715,7 +715,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-         role == "1"  ? ListTile(
+        /* role == "1"  ?*/ ListTile(
             leading: Image.asset(
               "assets/images/drawer1.png",
               color: colors.black54,
@@ -731,7 +731,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) => ClinicHospitalUpdate()),
               );
             },
-          ):SizedBox.shrink(),
+          ),/*:SizedBox.shrink(),*/
 
           ListTile(
             leading: Image.asset(

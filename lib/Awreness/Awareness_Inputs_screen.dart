@@ -21,6 +21,7 @@ import '../Helper/Color.dart';
 import 'package:http/http.dart'as http;
 
 import '../New_model/GetAwarenessModel.dart';
+import '../Screen/video_testing.dart';
 import '../api/api_services.dart';
 import '../Awreness/AddAwrenessPost.dart';
 
@@ -371,7 +372,8 @@ searchProduct(String value) {
         child: Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> AddAwanessPost()));
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=> AddAwanessPost()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> VideoThumbnailScreen()));
             },
             backgroundColor: colors.secondary,
             child: Icon(Icons.add),
@@ -453,12 +455,6 @@ searchProduct(String value) {
                   ),
                 ),
                 _segmentButton(),
-                // _sliderModel== null ? Center(child: CircularProgressIndicator(),) :_CarouselSlider1(),
-                // SizedBox(height: 5,),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children:  _buildDots(),),
-                // customTabbar(),
                 SizedBox(
                   // height: MediaQuery.of(context).size.height/1.0,
                     child: isScreenLoading ? const Center(child: CircularProgressIndicator())
@@ -778,9 +774,9 @@ searchProduct(String value) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(getAwareNess?.data.mPoster?[index].title ?? 'Title',style: TextStyle(fontSize: 16,color: colors.secondary,fontWeight: FontWeight.bold),),
-                        SizedBox(height: 2,),
+                        const SizedBox(height: 2,),
                         Text(getAwareNess?.data.mPoster?[index].date.toString().substring(0,11)?? 'date',style: TextStyle(fontSize: 14),overflow: TextOverflow.ellipsis,maxLines: 1,),
-                        SizedBox(height: 5,)
+                        const SizedBox(height: 5,)
                       ],
                     ),
                   )
@@ -1025,9 +1021,9 @@ searchProduct(String value) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(getAwareNess?.data.poster?[index].title ?? 'Title',style: TextStyle(fontSize: 16,color: colors.secondary,fontWeight: FontWeight.bold),),
-                        SizedBox(height: 2,),
+                        const SizedBox(height: 2,),
                         Text(getAwareNess?.data.poster?[index].date.toString().substring(0,11)?? 'date',style: TextStyle(fontSize: 14),overflow: TextOverflow.ellipsis,maxLines: 1,),
-                        SizedBox(height: 5,)
+                        const SizedBox(height: 5,)
                       ],
                     ),
                   )
@@ -1076,77 +1072,149 @@ searchProduct(String value) {
         )
     );
   }
+  bool _showThumbnail = true;
   getVideoList(model, int index){
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
-      child: Stack(
+      child:
+      Stack(
+        alignment: Alignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 220,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: colors.secondary,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                        height:180,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: AspectRatio(aspectRatio: _vController[index].value.aspectRatio,child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: VideoPlayer(_vController[index])),)),
-                   const SizedBox(height: 10,),
-                   Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                       Text("${getAwareNess?.data.video?[index].title}",style: const TextStyle(color: colors.whiteTemp),),
-
-                     ],
-                   )
-
-                  ],
-                )),
+          _showThumbnail
+              ? Container(
+            height: 180,
+                child: Image.network(
+            '${getAwareNess?.data.video?[index].image}',
+            // Replace 'thumbnail_url_here' with the actual URL of the thumbnail image
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
           ),
-          // Positioned(
-          //     bottom: 50,
-          //     width: MediaQuery.of(context).size.width,
-          //     child: VideoProgressIndicator(
-          //       _vController[i],
-          //       allowScrubbing: false,
-          //       colors: VideoProgressColors(
-          //           backgroundColor: Colors.blueGrey,
-          //           bufferedColor: Colors.blueGrey,
-          //           playedColor: Colors.blueAccent),
-          //     )),
-          Positioned(
-              left: 1,right: 1,
-              top: 0,
-              bottom: 1,
-              //alignment: Alignment.center,
-              child: isPlayed[index] == true ? InkWell(
-                  onTap: (){
-                    setState(() {
-                      isPlayed[index] = false;
-                      _vController[index].pause();
-                    });
-                  },
-                  child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
-                  onTap: (){
-                    setState(() {
-                      isPlayed[index] = true;
-                      _vController[index].play();
-                    });
-                  },
-                  child: Icon(Icons.play_arrow,color: Colors.white,))),
+              )
+              : Column(
+                    children: [
+                      Container(
+                          height:180,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: AspectRatio(aspectRatio: _vController[index].value.aspectRatio,child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: VideoPlayer(_vController[index])),)),
+                     const SizedBox(height: 10,),
+                     Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         Text("${getAwareNess?.data.video?[index].title}",style: const TextStyle(color: colors.whiteTemp),),
+
+                       ],
+                     )
+
+                    ],
+                  ),
+
+          _showThumbnail ?
+              FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                isPlayed[index] = false ;
+                _vController[index].play();
+              });
+            },
+            child: Icon(Icons.play_arrow),
+          ):
+               Positioned(
+            left: 1,right: 1,
+            top: 0,
+            bottom: 1,
+            //alignment: Alignment.center,
+            child: isPlayed[index] == true ? InkWell(
+                onTap: (){
+                  setState(() {
+                    isPlayed[index] = false;
+                    _vController[index].pause();
+                  });
+                },
+                child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
+                onTap: (){
+                  setState(() {
+                    isPlayed[index] = true;
+                    _vController[index].play();
+                  });
+                },
+                child: Icon(Icons.play_arrow,color: Colors.white,))),
+          // VideoPlayer(_vController[index]),
 
         ],
       ),
+
+
+      // Stack(
+      //   children: [
+      //     _showThumbnail
+      //         ? Image.network(
+      //       'https://developmentalphawizz.com/dr_booking/uploads/media/2023/Is-Sensodyne-world’s-no-1-sensitivity-toothpaste-2_(1).jpg',
+      //       // Replace 'thumbnail_url_here' with the actual URL of the thumbnail image
+      //       width: double.infinity,
+      //       height: double.infinity,
+      //       fit: BoxFit.cover,
+      //     ):
+      //     Padding(
+      //       padding: const EdgeInsets.all(8.0),
+      //       child: Container(
+      //           width: MediaQuery.of(context).size.width,
+      //           height: 220,
+      //           decoration: BoxDecoration(
+      //             borderRadius: BorderRadius.circular(10),
+      //             color: colors.secondary,
+      //           ),
+      //           child: Column(
+      //             children: [
+      //               Container(
+      //                   height:180,
+      //                   width: MediaQuery.of(context).size.width,
+      //                   decoration: BoxDecoration(
+      //                     borderRadius: BorderRadius.circular(10),
+      //                   ),
+      //                   child: AspectRatio(aspectRatio: _vController[index].value.aspectRatio,child: ClipRRect(
+      //                       borderRadius: BorderRadius.circular(10),
+      //                       child: VideoPlayer(_vController[index])),)),
+      //              const SizedBox(height: 10,),
+      //              Column(
+      //                crossAxisAlignment: CrossAxisAlignment.start,
+      //                children: [
+      //                  Text("${getAwareNess?.data.video?[index].title}",style: const TextStyle(color: colors.whiteTemp),),
+      //
+      //                ],
+      //              )
+      //
+      //             ],
+      //           )),
+      //     ),
+      //     Positioned(
+      //         left: 1,right: 1,
+      //         top: 0,
+      //         bottom: 1,
+      //         //alignment: Alignment.center,
+      //         child: isPlayed[index] == true ? InkWell(
+      //             onTap: (){
+      //               setState(() {
+      //                 isPlayed[index] = false;
+      //                 _vController[index].pause();
+      //               });
+      //             },
+      //             child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
+      //             onTap: (){
+      //               setState(() {
+      //                 isPlayed[index] = true;
+      //                 _vController[index].play();
+      //               });
+      //             },
+      //             child: Icon(Icons.play_arrow,color: Colors.white,))),
+      //
+      //   ],
+      // ),
     );
   }
 }
