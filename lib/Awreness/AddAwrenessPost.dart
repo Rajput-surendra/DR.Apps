@@ -133,9 +133,9 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
       'roll': '$Roll',
       'title': doctoreController.text,
       'aware_input': dropdownInput ?? '',
-      'language': langList.toString(),
+      'language': langList.join(','),
     });
-
+  print('_______request.fields___${request.fields}_________');
     // if(videoList.isNotEmpty) {
     //   print('__________${videoList.first}_________');
     //   videoList.forEach((element) async {

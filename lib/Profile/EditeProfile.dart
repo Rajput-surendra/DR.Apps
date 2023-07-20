@@ -184,7 +184,7 @@ onTapCall2() async {
 
   int category  = 2;
   var results ;
-
+String? catName ;
   Future<bool> showExitPopup1() async {
     return await showDialog(
       //show confirm dialogue
@@ -284,6 +284,7 @@ onTapCall2() async {
     deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
     // deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
     image = widget.getUserProfileModel.user?.profilePic ?? '';
+    catName = widget.getUserProfileModel.user?.userData?.first.categoryId ;
 
 
 
@@ -1250,13 +1251,13 @@ onTapCall2() async {
             borderRadius: BorderRadius.circular(15),
             border: Border.all(color: Colors.black.withOpacity(0.7))),
         child: results == null
-            ? const Padding(
+            ?  Padding(
           padding: EdgeInsets.only(left: 10, top: 15, bottom: 15),
           child: Text(
-            'Select Designation',
-            style: TextStyle(
+            catName ?? '',
+            style: const TextStyle(
               fontSize: 16,
-              color: colors.black54,
+              color: colors.blackTemp,
               fontWeight: FontWeight.normal,
             ),
             overflow: TextOverflow.ellipsis,
