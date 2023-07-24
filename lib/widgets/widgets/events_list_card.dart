@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -59,9 +60,11 @@ class _EventsListCardState extends State<EventsListCard> {
   }
 
 
-
+List? strObj;
   @override
   Widget build(BuildContext context) {
+    strObj = widget.getEventModel!.image.split(".");
+    print('_____saaaaaaaaaaaaaaaa_____${strObj![2]}_________');
     return RepaintBoundary(
       key: keyList,
       child:_isReady ?  Padding(
@@ -96,7 +99,7 @@ class _EventsListCardState extends State<EventsListCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("${widget.getEventModel?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),),
-                                role == "2"  ? SizedBox.shrink(): Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
+                                role == "2" ? SizedBox.shrink(): Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
                                 Container(
                                   // width: 250,
                                     child: Text("${widget.getEventModel?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
@@ -136,28 +139,38 @@ class _EventsListCardState extends State<EventsListCard> {
 
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-
-                        width: double.infinity,
-                        child:  DecoratedBox(
-                          decoration:  BoxDecoration(
-                          ),
-                          child: widget.getEventModel?.image == null || widget.getEventModel?.image == ""?Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEventModel?.image}",fit: BoxFit.fill)
-                        ),
-
+                  strObj![2] == "pdf" ?  InkWell(
+                    onTap: (){
+                       downloadFile('${widget.getEventModel!.image}', widget.getEventModel?.title ?? '');
+                    } ,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                          child: Column(
+                            children: [
+                              Icon(Icons.download,size: 40,color: colors.secondary,),
+                              Text("pdf")
+                            ],
+                          )
                       ),
+                    ),
+                  ):
+                  Container(
+                    width: double.infinity,
+                    child:  DecoratedBox(
+                      decoration:  BoxDecoration(
+                      ),
+                      child: widget.getEventModel?.image == null || widget.getEventModel?.image == ""?Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEventModel?.image}",fit: BoxFit.fill)
+                    ),
+
+                  ),
                   widget.index == 0 ?  Text("Surendra") : SizedBox(),
                     SizedBox(height: 8,),
                     Text("${widget.getEventModel?.address}",),
-                      SizedBox(height: 5,),
+                  SizedBox(height: 5,),
                     Text("${widget.getEventModel?.startDate}"),
 
                     const SizedBox(height: 10,),
-
-                  ],),
 
                 ],
               ),
@@ -206,7 +219,29 @@ class _EventsListCardState extends State<EventsListCard> {
       });
     }
   }
+  downloadFile(String url, String filename) async {
+    FileDownloader.downloadFile(
+        url: "${url}",
+        name: "${filename}",
+        onDownloadCompleted: (path) {
+          print(path);
+          String tempPath = path.toString().replaceAll("Download", "DR Apps");
+          final File file = File(tempPath);
+          print("path here ${file}");
+          var snackBar = SnackBar(
+            backgroundColor: colors.primary,
+            content: Row(
+              children: [
+                const Text('doctorapp Saved in your storage'),
+                TextButton(onPressed: (){}, child: Text("View"))
 
+              ],
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //This will be the path of the downloaded file
+        });
+  }
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');

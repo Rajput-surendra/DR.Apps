@@ -549,7 +549,8 @@ class _HomePageState extends State<UpdsateScreen>
                         reverse: true,
                         itemCount: newModel!.data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return //customCards(newModel!.data,index);
+                          return
+                          // return  _currentIndex == 1 ? Text("Work In Progress"):
                             UpdateScreenListCard(index: newsDatalist.length,newModel: newsDatalist[index],currentIndex: _currentIndex,i: index,onTap: (){
                               deletePostNewApi(newModel!.data[index].id);
                             },);//customCards(newModel, index);

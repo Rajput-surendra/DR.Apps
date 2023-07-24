@@ -114,8 +114,11 @@ List<String> daysLists = [];
         child: Column(
           children: [
             getprofile?.user?.userData?.isEmpty ?? false ?
-            Center(child: CircularProgressIndicator()):
-            getprofile?.user?.userData?.first.clinics?.isEmpty ?? false ?
+            Center(child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("No Clinic/Hospital Data!!"),
+            )):
+            getprofile?.user?.userData?.first.clinics == 0  ?
             Text("No Clinic?Hospital Data!!") : SizedBox(
               // height: MediaQuery.of(context).size.height/1.1,
               child: ListView.builder(

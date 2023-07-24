@@ -69,8 +69,7 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
   Widget build(BuildContext context) {
     strObj = widget.newModel?.image!.split('.');
 
-
-    print('_____sxsddsdsfsdfsd_____${ApiService.imageUrl}${widget.newModel!.image}_________');
+    print('_____sxsddsdsfsdfsd_____${strObj![1]}_________');
     if(widget.currentIndex == 1){
       print('My index is 1111${widget.currentIndex}');
       newsType= 'doctor-news';
@@ -102,7 +101,7 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 5,bottom: 8),
-                            child:widget.currentIndex==1||widget.currentIndex==2 ? CircleAvatar(
+                            child:widget.currentIndex==2 ? CircleAvatar(
                               backgroundImage: NetworkImage("${widget.newModel?.profileImage}"),
                               backgroundColor: colors.primary,
                               radius: 25,
@@ -149,7 +148,7 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
                             child: Column(
                               children: [
                                 Icon(Icons.download,size: 40,color: colors.secondary,),
-                                Text("Pdf")
+                                Text("pdf")
                               ],
                             )
                         ),

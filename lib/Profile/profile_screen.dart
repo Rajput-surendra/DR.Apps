@@ -366,37 +366,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 )
                               : SizedBox.shrink(),
-                          roll == "1"
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('Company Name',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700)),
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 0.0),
-                                        child: getprofile?.user?.userData?.first
-                                                        .companyName ==
-                                                    null ||
-                                                getprofile?.user?.userData
-                                                        ?.first.companyName ==
-                                                    ""
-                                            ? Text("No Name")
-                                            : Text(
-                                                "${getprofile?.user?.userData?.first.companyName}"),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : SizedBox.shrink(),
+                          // roll == "2"
+                          //     ? Padding(
+                          //         padding: const EdgeInsets.all(8.0),
+                          //         child: Row(
+                          //           mainAxisAlignment:
+                          //               MainAxisAlignment.spaceBetween,
+                          //           children: [
+                          //             const Text('Company Name',
+                          //                 style: TextStyle(
+                          //                     fontSize: 15,
+                          //                     fontWeight: FontWeight.w700)),
+                          //             const SizedBox(
+                          //               width: 50,
+                          //             ),
+                          //             Padding(
+                          //               padding:
+                          //                   const EdgeInsets.only(left: 0.0),
+                          //               child: getprofile?.user?.userData?.first
+                          //                               .companyName ==
+                          //                           null ||
+                          //                       getprofile?.user?.userData
+                          //                               ?.first.companyName ==
+                          //                           ""
+                          //                   ? Text("No Name")
+                          //                   : Text(
+                          //                       "${getprofile?.user?.userData?.first.companyName}"),
+                          //             )
+                          //           ],
+                          //         ),
+                          //       )
+                          //     : SizedBox.shrink(),
                           roll == "1"
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -468,7 +468,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
-                          roll == 1
+                          roll == "1"
                               ? SizedBox.shrink()
                               : Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -498,7 +498,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ],
                                   ),
                                 ),
-                          roll == 1
+                          roll == "1"
                               ? SizedBox.shrink()
                               : Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -528,7 +528,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ],
                                   ),
                                 ),
-                          roll == 1
+                          roll == "2"
                               ? Container(
                                   height: getprofile?.user?.userData?.first
                                               .clinics?.length ==
@@ -712,33 +712,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   ],
                                                 ),
                                               ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    const Text('Place Name',
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w700)),
-                                                    const SizedBox(
-                                                      width: 50,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 0.0),
-                                                      child: Text(
-                                                          "${getprofile?.user?.userData?.first.placeName}"),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
+
                                               // SizedBox(height: 10,)
                                             ],
                                           ),
@@ -746,11 +720,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       }),
                                 )
                               : SizedBox.shrink()
+                          ,
+                         roll == "1" ?Padding(
+                            padding:
+                            const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .spaceBetween,
+                              children: [
+                                const Text('Place Name',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight:
+                                        FontWeight
+                                            .w700)),
+                                const SizedBox(
+                                  width: 50,
+                                ),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(
+                                      left: 0.0),
+                                  child: Text(
+                                      "${getprofile?.user?.userData?.first.placeName}"),
+                                )
+                              ],
+                            ),
+                          ):SizedBox.shrink()
                         ],
                       ),
                     ),
 
-                    checkPlanModel == null
+                    checkPlanModel == null || checkPlanModel == ""
                         ? SizedBox.shrink()
                         : Padding(
                             padding: const EdgeInsets.all(8.0),

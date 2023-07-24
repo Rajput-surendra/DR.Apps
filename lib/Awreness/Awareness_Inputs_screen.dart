@@ -372,8 +372,8 @@ searchProduct(String value) {
         child: Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=> AddAwanessPost()));
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> VideoThumbnailScreen()));
+               Navigator.push(context, MaterialPageRoute(builder: (context)=> AddAwanessPost()));
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=> VideoThumbnailScreen()));
             },
             backgroundColor: colors.secondary,
             child: Icon(Icons.add),

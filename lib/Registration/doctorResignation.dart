@@ -92,14 +92,21 @@ class _DoctorResignationState extends State<DoctorResignation> {
   Future<void> onTapTitle() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('selectedTitle',dropdownDoctor!);
-    print('Selected Statelllllllllllll${dropdownDoctor}');
+    print('Selected Statelllllllllllll============${dropdownDoctor}');
 
 
   }
   Future<void> onTapTitlePharma() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('selectedPharmaTitle',dropdownGender!);
-    print('Selected Statelllllllllllll${dropdownGender}');
+    preferences.setString('selectedPharma',dropdownGender!);
+    print('SelecteddropdownGender========> ${dropdownGender}');
+
+
+  }
+  Future<void> onTapTitleCat() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('selectedTeam',SelectedPharma!);
+    print('Selected Statelllllllllllll${SelectedPharma}');
 
 
   }
@@ -130,7 +137,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
 
   int category  = 2;
   var results ;
-
+  String? dropdownTeam ;
   var items = [
     'PMT Team',
     'Marketing Team',
@@ -146,7 +153,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
     'Mrs.',
     'Ms.',
   ];
-  String? dropdownTeam ;
+
   var items3 = [
     'PMT team',
     'Marketing team',
@@ -542,6 +549,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                               onChanged: (String? value) {
                                 // This is called when the user selects an item.
                                 setState(() {
+
                                   SelectedPharma = value!;
                                   selectedIndex = items.indexOf(value);
                                   if (selectedIndex == 0) {
@@ -549,6 +557,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                   } else {
                                     category = 3;
                                   }
+                                  onTapTitleCat();
                                   // indexSectet = items.indexOf(value);
                                   // indexSectet++;
                                 }
@@ -710,6 +719,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                             // This is called when the user selects an item.
                             setState(() {
                               dropdownGender = value!;
+                              onTapTitlePharma();
 
 
                             });

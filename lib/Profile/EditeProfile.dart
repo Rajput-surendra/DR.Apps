@@ -66,13 +66,26 @@ class _EditeProfileState extends State<EditeProfile> {
   String? selectedCity;
   String? selectedPlace;
   String? titleSelected;
-  String? selectedPharmaTitle;
+  String? pharmaselected;
   String? SelectedPharma;
+  String? teamSelected;
   int selectedIndex = 0;
   String? dropdownTeam ;
-  var items3 = [
+  var items = [
     'PMT team',
     'Marketing team',
+  ];
+  String? dropdownDoctor ;
+  var items2 = [
+    'Dr.',
+    'Prof.Dr.'
+  ];
+
+  String? dropdownGender ;
+  var items1 = [
+    'Mr.',
+    'Mrs.',
+    'Ms.',
   ];
 
 
@@ -80,7 +93,8 @@ class _EditeProfileState extends State<EditeProfile> {
   var cityselected;
   var placeselected;
   var selectedTitle;
-  var pharmaTitleSelected;
+  var selectedPharma;
+  var selectedTeam;
 
 
   List <GetStateData> getStateData = [];
@@ -165,22 +179,12 @@ onTapCall2() async {
   cityselected = preferences.getString('selectedCity');
   placeselected = preferences.getString('selectedPlace');
   selectedTitle = preferences.getString('selectedTitle');
-  pharmaTitleSelected = preferences.getString('selectedPharmaTitle');
-  print('Selecteccccccccccccccccccccccc${pharmaTitleSelected}');
+  selectedPharma = preferences.getString('selectedPharma');
+  selectedTeam = preferences.getString('selectedTeam');
+  print('_____selectedTitle_____${selectedTitle}_________');
+
 
 }
-  String? dropdownDoctor ;
-  var items2 = [
-    'Dr.',
-    'Prof.Dr.'
-  ];
-
-  String? dropdownGender ;
-  var items1 = [
-    'Mr.',
-    'Mrs.',
-    'Ms.',
-  ];
 
   int category  = 2;
   var results ;
@@ -402,7 +406,7 @@ String? catName ;
                       children: [
                         const Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text("Title", style: TextStyle(
+                          child: Text("Title Pharma", style: TextStyle(
                               color: colors.black54, fontWeight: FontWeight.bold),),
                         ),
                         const SizedBox(height: 10,),
@@ -419,13 +423,13 @@ String? catName ;
                               child: DropdownButton2<String>(
                                 hint: Padding(
                                   padding: EdgeInsets.only(top: 0,bottom: 10),
-                                  child:selectedPharmaTitle == null ?Text("Loading!!!") :Text("${pharmaTitleSelected}",
+                                  child:Text("${selectedPharma}",
                                     style: TextStyle(
-                                        color: colors.black54,fontWeight: FontWeight.normal
+                                        color: colors.blackTemp,fontWeight: FontWeight.normal
                                     ),),
                                 ),
                                 // dropdownColor: colors.primary,
-                                value: selectedPharmaTitle,
+                                value: pharmaselected,
                                 icon:  const Padding(
                                   padding: EdgeInsets.only(bottom: 15),
                                   child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
@@ -442,14 +446,14 @@ String? catName ;
                                 onChanged: (String? value) {
                                   // This is called when the user selects an item.
                                   setState(() {
-                                    selectedPharmaTitle = value!;
+                                    pharmaselected = value!;
 
                                     // indexSectet = items.indexOf(value);
                                     // indexSectet++;
                                   });
                                 },
 
-                                items: items2
+                                items: items1
                                     .map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
@@ -500,7 +504,7 @@ String? catName ;
                               child: DropdownButton2<String>(
                                 hint: Padding(
                                   padding: EdgeInsets.only(top: 0,bottom: 10),
-                                  child:selectedTitle == null ?Text("Loading!!!") :Text("${selectedTitle}",
+                                  child:Text("${selectedTitle}",
                                     style: TextStyle(
                                         color: colors.black54,fontWeight: FontWeight.normal
                                     ),),
@@ -640,7 +644,9 @@ String? catName ;
                           contentPadding: EdgeInsets.only(left: 10, top: 5)
                       ),
                     ),
-                   roll ==  1  ? Column(
+                   SizedBox(height: 10,),
+                   roll ==  "1"  ? Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -837,6 +843,7 @@ String? catName ;
                           ),
                           SizedBox(height: 10,),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                   padding: const EdgeInsets.all(5.0),
@@ -940,6 +947,7 @@ String? catName ;
                           ),
                           SizedBox(height: 10,),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: EdgeInsets.all(5.0),
@@ -1065,15 +1073,15 @@ String? catName ;
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton2<String>(
                                     dropdownMaxHeight: 150,
-                                    hint: const Padding(
+                                    hint:  Padding(
                                       padding: EdgeInsets.only(bottom: 15),
-                                      child: Text("Select Pharma Category",
+                                      child: Text("${selectedTeam}",
                                         style: TextStyle(
-                                            color: colors.black54,fontWeight: FontWeight.normal
+                                            color: colors.blackTemp,fontWeight: FontWeight.normal
                                         ),),
                                     ),
                                     // dropdownColor: colors.primary,
-                                    value: SelectedPharma,
+                                    value: teamSelected,
                                     icon:  const Padding(
                                       padding: EdgeInsets.only(bottom: 30),
                                       child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
@@ -1090,8 +1098,8 @@ String? catName ;
                                     onChanged: (String? value) {
                                       // This is called when the user selects an item.
                                       setState(() {
-                                        SelectedPharma = value!;
-                                        selectedIndex = items3.indexOf(value);
+                                        teamSelected = value!;
+                                        selectedIndex = items.indexOf(value);
                                         if (selectedIndex == 0) {
                                           category = 2;
                                         } else {
@@ -1103,7 +1111,7 @@ String? catName ;
                                       );
                                     },
 
-                                    items: items3
+                                    items: items
                                         .map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
@@ -1237,7 +1245,7 @@ String? catName ;
   }
   Widget select() {
     return InkWell(
-      onTap:SelectedPharma == null ? (){
+      onTap:teamSelected == null ? (){
         Fluttertoast.showToast(msg: 'Please Select Pharma Category First',backgroundColor: colors.secondary);
       }: () {
         _showMultiSelect(category);

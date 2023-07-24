@@ -54,9 +54,11 @@ class _EditorialListCardState extends State<EditorialListCard> {
     role =  preferences.getString("roll");
     print('_____role___vv__${role}_________');
   }
-
+  List? strObj;
   @override
   Widget build(BuildContext context) {
+    strObj = widget.getEdoDataList?.image.split('.');
+    print('____sasadsadsad______${strObj![2]}_________');
     return RepaintBoundary(
       key: keyList,
       child: _isReady ?   Padding(
@@ -67,7 +69,7 @@ class _EditorialListCardState extends State<EditorialListCard> {
               borderRadius: BorderRadius.circular(8),
             ),
             child:  Padding(
-              padding: const EdgeInsets.only(left: 10,right: 10),
+              padding: const EdgeInsets.only(left: 5,right: 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -135,23 +137,32 @@ class _EditorialListCardState extends State<EditorialListCard> {
 
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      widget.index == 0 ?  Text("Surendra") : SizedBox(),
-                      Container(
-                        width: double.infinity,
-                        child:  DecoratedBox(
-                            decoration:  BoxDecoration(
-                            ),
-                            child: widget.getEdoDataList?.image == null || widget.getEdoDataList?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEdoDataList?.image}",fit: BoxFit.cover)
-                        ),
-
+                  strObj![2] == "pdf" ?   InkWell(
+                    onTap: (){
+                      downloadFile('${widget.getEdoDataList!.image}', widget.getEdoDataList?.title ?? '');
+                    },
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                          child: Column(
+                            children: [
+                              Icon(Icons.download,size: 40,color: colors.secondary,),
+                              Text("pdf")
+                            ],
+                          )
                       ),
-                      const SizedBox(height: 10,),
+                    ),
+                  ):
+                  Container(
+                    width: double.infinity,
+                    child:  DecoratedBox(
+                        decoration:  BoxDecoration(
+                        ),
+                        child: widget.getEdoDataList?.image == null || widget.getEdoDataList?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEdoDataList?.image}",fit: BoxFit.cover)
+                    ),
 
-                    ],),
+                  ),
+                  const SizedBox(height: 10,),
 
                 ],
               ),
