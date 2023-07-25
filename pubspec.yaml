@@ -66,7 +66,9 @@ dependencies:
   firebase_core: ^2.8.0
   flutter_branch_sdk: ^5.1.1
   flutter_share: ^2.0.0
+  dio:
   image_picker: ^0.8.4+9
+  flutter_pdfview: ^1.3.1
 #  image_picker_gallery_camera: any
 #  image_downloader: ^0.31.0
   share_plus: ^4.3.1

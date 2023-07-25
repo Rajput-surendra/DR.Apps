@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -139,22 +141,40 @@ List? strObj;
 
                     ],
                   ),
-                  strObj![2] == "pdf" ?  InkWell(
-                    onTap: (){
-                       downloadFile('${widget.getEventModel!.image}', widget.getEventModel?.title ?? '');
-                    } ,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                          child: Column(
-                            children: [
-                              Icon(Icons.download,size: 40,color: colors.secondary,),
-                              Text("pdf")
-                            ],
-                          )
+
+                  strObj![2] == "pdf" ? Column(
+                    children: [
+
+                      InkWell(
+                        onTap: (){
+                          downloadFile('${widget.getEventModel!.image}', widget.getEventModel?.title ?? '');
+                        } ,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                              width: 50,
+                              height: 55 ,
+                              child: Column(
+                                children: [
+                                  Icon(Icons.download,size: 40,color: colors.secondary,),
+                                  Text("pdf")
+                                ],
+                              )
+                          ),
+                        ),
                       ),
-                    ),
-                  ):
+                      SizedBox(height: 10,),
+                      Align(
+                        alignment: Alignment.center,
+                        child: InkWell(
+                            onTap: (){
+                              viewFile(widget.getEventModel!.image , "File");
+                            },
+                            child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
+                      ),
+                    ],
+                  )
+               :
                   Container(
                     width: double.infinity,
                     child:  DecoratedBox(
@@ -164,6 +184,8 @@ List? strObj;
                     ),
 
                   ),
+                  SizedBox(height: 10,),
+
                   widget.index == 0 ?  Text("Surendra") : SizedBox(),
                     SizedBox(height: 8,),
                     Text("${widget.getEventModel?.address}",),
@@ -219,29 +241,105 @@ List? strObj;
       });
     }
   }
-  downloadFile(String url, String filename) async {
+  Future<void>  displayPDF(String url) async {
+    Dio dio = Dio();
+    try {
+      Directory directory = await getApplicationDocumentsDirectory();
+      String appDocPath = directory.path;
+      String fileName = 'document.pdf';
+      String filePath = '$appDocPath/$fileName';
+
+      await dio.download(url, filePath);
+
+      // Open PDF using FlutterPdfView plugin
+      if (await File(filePath).exists()) {
+        print('This is file path is here------${filePath}');
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scaffold(
+              appBar: AppBar(
+                title: Text('PDF Viewer'),
+              ),
+              body: PDFView(
+                filePath: filePath,
+              ),
+            ),
+          ),
+        );
+      } else {
+        print('Failed to download the PDF file.');
+      }
+    } catch (e) {
+      print('Error occurred while downloading the PDF: $e');
+    }
+  }
+
+  viewFile(String url, String filename) async {
     FileDownloader.downloadFile(
-        url: "${url}",
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
         name: "${filename}",
         onDownloadCompleted: (path) {
           print(path);
-          String tempPath = path.toString().replaceAll("Download", "DR Apps");
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
           final File file = File(tempPath);
           print("path here ${file}");
-          var snackBar = SnackBar(
-            backgroundColor: colors.primary,
-            content: Row(
-              children: [
-                const Text('doctorapp Saved in your storage'),
-                TextButton(onPressed: (){}, child: Text("View"))
+          displayPDF(url);
+          //  setSnackbar("File Downloaded successfully!", context);
+          Fluttertoast.showToast(msg: "File Downloaded successfully!");
+          // var snackBar = SnackBar(
+          //   backgroundColor: colors.primary,
+          //   // content: Text('File Download Successfully '),
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //This will be the path of the downloaded file
+        });
+  }
 
-              ],
-            ),
+
+  downloadFile(String url, String filename, ) async {
+    FileDownloader.downloadFile(
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
+        name: "${filename}",
+        onDownloadCompleted: (path) {
+          print(path);
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
+          final File file = File(tempPath);
+          print("path here ${file}");
+          //  setSnackbar("File Downloaded successfully!", context);
+          var snackBar = SnackBar(
+            backgroundColor: colors.secondary,
+            content: Text('File Download Successfully'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           //This will be the path of the downloaded file
         });
   }
+  // downloadFile(String url, String filename) async {
+  //   FileDownloader.downloadFile(
+  //       url: "${url}",
+  //       name: "${filename}",
+  //       onDownloadCompleted: (path) {
+  //         print(path);
+  //         String tempPath = path.toString().replaceAll("Download", "DR Apps");
+  //         final File file = File(tempPath);
+  //         print("path here ${file}");
+  //         var snackBar = SnackBar(
+  //           backgroundColor: colors.primary,
+  //           content: Row(
+  //             children: [
+  //               const Text('doctorapp Saved in your storage'),
+  //               TextButton(onPressed: (){}, child: Text("View"))
+  //
+  //             ],
+  //           ),
+  //         );
+  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //         //This will be the path of the downloaded file
+  //       });
+  // }
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');

@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Awreness/Awareness_Inputs_screen.dart';
+import '../DoctorRequest/doctor_request.dart';
 import '../Editorial/editorial.dart';
 import '../Event/event_and_webiner.dart';
 import '../New_model/Check_plan_model.dart';
@@ -492,7 +493,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
         if (i == 0) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (C) => UpdsateScreen()));
+              // context, MaterialPageRoute(builder: (C) => UpdsateScreen()));
+             context, MaterialPageRoute(builder: (C) =>DoctorRequest()));
         } else if (i == 1) {
           Navigator.push(
               context, MaterialPageRoute(builder: (C) => EventAndWebiner()));
@@ -581,8 +583,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _NewsUpdatecard() {
     return Container(
-      //padding: EdgeInsets.only(left: 15, right: 15, top: 15),
-      // height: MediaQuery.of(context).size.height/1.0,
       child: countingModel == null
           ? Center(child: Text('No Data Found!!'))
           : GridView.builder(
@@ -951,7 +951,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
   Future<void> share() async {
     await FlutterShare.share(
         title: 'DR.Apps',
