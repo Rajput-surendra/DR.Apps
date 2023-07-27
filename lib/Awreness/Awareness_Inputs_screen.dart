@@ -1072,149 +1072,150 @@ searchProduct(String value) {
         )
     );
   }
-  bool _showThumbnail = true;
+  bool _showThumbnail = false;
   getVideoList(model, int index){
     return Container(
+      height: 250,
       margin: const EdgeInsets.only(bottom: 10),
       child:
-      Stack(
-        alignment: Alignment.center,
-        children: [
-          _showThumbnail
-              ? Container(
-            height: 180,
-                child: Image.network(
-            '${getAwareNess?.data.video?[index].image}',
-            // Replace 'thumbnail_url_here' with the actual URL of the thumbnail image
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
-              )
-              : Column(
-                    children: [
-                      Container(
-                          height:180,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: AspectRatio(aspectRatio: _vController[index].value.aspectRatio,child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: VideoPlayer(_vController[index])),)),
-                     const SizedBox(height: 10,),
-                     Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Text("${getAwareNess?.data.video?[index].title}",style: const TextStyle(color: colors.whiteTemp),),
-
-                       ],
-                     )
-
-                    ],
-                  ),
-
-          _showThumbnail ?
-              FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                isPlayed[index] = false ;
-                _vController[index].play();
-              });
-            },
-            child: Icon(Icons.play_arrow),
-          ):
-               Positioned(
-            left: 1,right: 1,
-            top: 0,
-            bottom: 1,
-            //alignment: Alignment.center,
-            child: isPlayed[index] == true ? InkWell(
-                onTap: (){
-                  setState(() {
-                    isPlayed[index] = false;
-                    _vController[index].pause();
-                  });
-                },
-                child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
-                onTap: (){
-                  setState(() {
-                    isPlayed[index] = true;
-                    _vController[index].play();
-                  });
-                },
-                child: Icon(Icons.play_arrow,color: Colors.white,))),
-          // VideoPlayer(_vController[index]),
-
-        ],
-      ),
-
-
       // Stack(
+      //   alignment: Alignment.center,
       //   children: [
       //     _showThumbnail
-      //         ? Image.network(
-      //       'https://developmentalphawizz.com/dr_booking/uploads/media/2023/Is-Sensodyne-world’s-no-1-sensitivity-toothpaste-2_(1).jpg',
+      //         ? Container(
+      //       height: 180,
+      //           child: Image.network(
+      //       '${getAwareNess?.data.video?[index].image}',
       //       // Replace 'thumbnail_url_here' with the actual URL of the thumbnail image
       //       width: double.infinity,
       //       height: double.infinity,
       //       fit: BoxFit.cover,
-      //     ):
-      //     Padding(
-      //       padding: const EdgeInsets.all(8.0),
-      //       child: Container(
-      //           width: MediaQuery.of(context).size.width,
-      //           height: 220,
-      //           decoration: BoxDecoration(
-      //             borderRadius: BorderRadius.circular(10),
-      //             color: colors.secondary,
-      //           ),
-      //           child: Column(
-      //             children: [
-      //               Container(
-      //                   height:180,
-      //                   width: MediaQuery.of(context).size.width,
-      //                   decoration: BoxDecoration(
-      //                     borderRadius: BorderRadius.circular(10),
-      //                   ),
-      //                   child: AspectRatio(aspectRatio: _vController[index].value.aspectRatio,child: ClipRRect(
-      //                       borderRadius: BorderRadius.circular(10),
-      //                       child: VideoPlayer(_vController[index])),)),
-      //              const SizedBox(height: 10,),
-      //              Column(
-      //                crossAxisAlignment: CrossAxisAlignment.start,
-      //                children: [
-      //                  Text("${getAwareNess?.data.video?[index].title}",style: const TextStyle(color: colors.whiteTemp),),
-      //
-      //                ],
-      //              )
-      //
-      //             ],
-      //           )),
       //     ),
-      //     Positioned(
-      //         left: 1,right: 1,
-      //         top: 0,
-      //         bottom: 1,
-      //         //alignment: Alignment.center,
-      //         child: isPlayed[index] == true ? InkWell(
-      //             onTap: (){
-      //               setState(() {
-      //                 isPlayed[index] = false;
-      //                 _vController[index].pause();
-      //               });
-      //             },
-      //             child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
-      //             onTap: (){
-      //               setState(() {
-      //                 isPlayed[index] = true;
-      //                 _vController[index].play();
-      //               });
-      //             },
-      //             child: Icon(Icons.play_arrow,color: Colors.white,))),
+      //         )
+      //         : Column(
+      //               children: [
+      //                 Container(
+      //                     height:180,
+      //                     width: MediaQuery.of(context).size.width,
+      //                     decoration: BoxDecoration(
+      //                       borderRadius: BorderRadius.circular(10),
+      //                     ),
+      //                     child: AspectRatio(aspectRatio: _vController[index].value.aspectRatio,child: ClipRRect(
+      //                         borderRadius: BorderRadius.circular(10),
+      //                         child: VideoPlayer(_vController[index])),)),
+      //                const SizedBox(height: 10,),
+      //                Column(
+      //                  crossAxisAlignment: CrossAxisAlignment.start,
+      //                  children: [
+      //                    Text("${getAwareNess?.data.video?[index].title}",style: const TextStyle(color: colors.whiteTemp),),
+      //
+      //                  ],
+      //                )
+      //
+      //               ],
+      //             ),
+      //
+      //     _showThumbnail  ==  true ?
+      //         FloatingActionButton(
+      //       onPressed: () {
+      //         setState(() {
+      //           isPlayed[index] = false ;
+      //           // _vController[index].play();
+      //         });
+      //       },
+      //       child: Icon(Icons.play_arrow),
+      //     ):
+      //          Positioned(
+      //       left: 1,right: 1,
+      //       top: 0,
+      //       bottom: 1,
+      //       //alignment: Alignment.center,
+      //       child: isPlayed[index] == true ? InkWell(
+      //           onTap: (){
+      //             setState(() {
+      //               isPlayed[index] = false;
+      //               _vController[index].pause();
+      //             });
+      //           },
+      //           child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
+      //           onTap: (){
+      //             setState(() {
+      //               isPlayed[index] = true;
+      //               _vController[index].play();
+      //             });
+      //           },
+      //           child: Icon(Icons.play_arrow,color: Colors.white,))),
+      //     VideoPlayer(_vController[index]),
       //
       //   ],
       // ),
+
+
+      Stack(
+        children: [
+          // _showThumbnail ==  true
+          //     ? Image.network(
+          //   'https://developmentalphawizz.com/dr_booking/uploads/media/2023/Is-Sensodyne-world’s-no-1-sensitivity-toothpaste-2_(1).jpg',
+          //   // Replace 'thumbnail_url_here' with the actual URL of the thumbnail image
+          //   width: double.infinity,
+          //   height: double.infinity,
+          //   fit: BoxFit.cover,
+          // ):
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 220,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colors.secondary,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                        height:180,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: AspectRatio(aspectRatio: _vController[index].value.aspectRatio,child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: VideoPlayer(_vController[index])),)),
+                   const SizedBox(height: 10,),
+                   Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Text("${getAwareNess?.data.video?[index].title}",style: const TextStyle(color: colors.whiteTemp),),
+
+                     ],
+                   )
+
+                  ],
+                )),
+          ),
+          Positioned(
+              left: 1,right: 1,
+              top: 0,
+              bottom: 1,
+              //alignment: Alignment.center,
+              child: isPlayed[index] == true ? InkWell(
+                  onTap: (){
+                    setState(() {
+                      isPlayed[index] = false;
+                      _vController[index].pause();
+                    });
+                  },
+                  child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
+                  onTap: (){
+                    setState(() {
+                      isPlayed[index] = true;
+                      _vController[index].play();
+                    });
+                  },
+                  child: Icon(Icons.play_arrow,color: Colors.white,))),
+
+        ],
+      ),
     );
   }
 }

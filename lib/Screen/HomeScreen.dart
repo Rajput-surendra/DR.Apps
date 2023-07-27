@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
     var request = http.MultipartRequest(
         'POST', Uri.parse('${ApiService.getUserProfile}'));
     request.fields.addAll({'user_id': '$userId'});
-    print("getProfile--------------->${request.fields}");
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -112,7 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
       print(response.reasonPhrase);
     }
   }
-
   _CarouselSlider1() {
     return CarouselSlider(
       options: CarouselOptions(
@@ -136,9 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }).toList(),
     );
   }
-
   GetSliderModel? _sliderModel;
-
   getSliderApi() async {
     String type = '/doctor_news_slide';
     var headers = {
@@ -157,13 +154,11 @@ class _HomeScreenState extends State<HomeScreen> {
       print(response.reasonPhrase);
     }
   }
-
   GetCountingModel? countingModel;
-
   getCounting() async {
-    print('___________________');
+    print('___role____role__${role}__________');
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? role = preferences.getString('roll');
+     role = preferences.getString('roll');
     String? specialityId = preferences.getString('specialityId');
     print('${specialityId}____________jklgjfdkgj');
     String? localId = preferences.getString('LocalId');
@@ -218,10 +213,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
   String? role ;
+  String? userId;
   CheckPlanModel? checkPlanModel;
   checkSubscriptionApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? userId = preferences.getString('userId');
+    userId = preferences.getString('userId');
     role = preferences.getString('roll');
     print('__________${role}_________');
     var headers = {
@@ -302,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 Container(
-                  height: 60,
+                  height: 63,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         colors: [
@@ -352,13 +348,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                           },
                           child: Column(
-
                             children: [
                               const Text('Select Speciality',style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),),
                               selectCatModel?.data == null
                                   ? CircularProgressIndicator()
                                   : Container(
-                                     height: 20,
+                                     height: 25,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     physics: NeverScrollableScrollPhysics(),
@@ -488,8 +483,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return InkWell(
       onTap: () async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        String? role = preferences.getString('roll');
-        print('__________${role}_________');
+         role = preferences.getString('roll');
+        print('_____role_____${role}_________');
 
         if (i == 0) {
           Navigator.push(
@@ -715,11 +710,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-         role == "2"  ? ListTile(
+         role == "1"  ? ListTile(
             leading: Image.asset(
-              "assets/images/drawer1.png",
+              "assets/images/update.png",
               color: colors.black54,
-              height: 40,
+              height: 35,
               width: 40,
             ),
             title: Text(
@@ -899,6 +894,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Image.asset(
+              "assets/images/deleteuser.png",
+              color: colors.black54,
+              height: 25,
+              width: 40,
+            ),
+            title: Text(
+              'Delete Account',
+            ),
+            onTap: () {
+              deleteAccountDailog();
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => HomeScreen()),
+              //   );
+            },
+          ),
+          ListTile(
+            leading: Image.asset(
               "assets/images/Sign Out.png",
               color: colors.black54,
               height: 40,
@@ -951,6 +964,62 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+    deleteAccountDailog() async {
+    await dialogAnimate(context,
+        StatefulBuilder(builder: (BuildContext context, StateSetter setStater) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setStater) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                  content: Text(
+                      "Are you sure you want to delete?",
+                      style: TextStyle(color: colors.primary)
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                        child: Text( "NO",style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        }),
+                    TextButton(
+                        child:  Text( "YES",style: TextStyle(color: Colors.black),
+                        ),
+                        onPressed: () {
+                          deleteAccount();
+                          Navigator.of(context).pop(false);
+                          // SettingProvider settingProvider =
+                          // Provider.of<SettingProvider>(context, listen: false);
+                          // settingProvider.clearUserSession(context);
+                          // //favList.clear();
+                          // Navigator.of(context).pushNamedAndRemoveUntil(
+                          //     '/home', (Route<dynamic> route) => false);
+                        })
+                  ],
+                );
+              });
+        }));
+  }
+  dialogAnimate(BuildContext context, Widget dialge) {
+    return showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(opacity: a1.value, child: dialge),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        // pageBuilder: null
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        } //as Widget Function(BuildContext, Animation<double>, Animation<double>)
+    );
+  }
   Future<void> share() async {
     await FlutterShare.share(
         title: 'DR.Apps',
@@ -958,5 +1027,26 @@ class _HomeScreenState extends State<HomeScreen> {
         linkUrl: 'https://developmentalphawizz.com/dr_booking/',
         chooserTitle: 'DR.Apps'
     );
+  }
+  deleteAccount() async {
+    var headers = {
+      'Cookie': 'ci_session=96944ca78b243ab8f0408ccfec94c5f2d8ca05fc'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.deleteApi}'));
+    request.fields.addAll({
+      'user_id': userId.toString()
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+       var result = await response.stream.bytesToString();
+       var finalResult =  jsonDecode(result);
+       Fluttertoast.showToast(msg: "${finalResult['message']}");
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
   }
 }

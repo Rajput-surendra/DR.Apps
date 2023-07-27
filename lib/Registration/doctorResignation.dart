@@ -252,6 +252,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
     request.fields.addAll({
       'state_id': id.toString()
     });
+
+    print('______ccccccccccccccc____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -275,6 +277,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
     request.fields.addAll({
       'city_id': id.toString()
     });
+    print('______request.fields____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -304,92 +307,92 @@ class _DoctorResignationState extends State<DoctorResignation> {
   final ImagePicker _picker = ImagePicker();
 
 
-  Future<bool> showExitPopup1() async {
-    return await showDialog(
-      //show confirm dialogue
-      //the return value will be from "Yes" or "No" options
-      context: context,
-      builder: (context) => AlertDialog(
-          title: Text('Select Image'),
-          content: Row(
-            // crossAxisAlignment: CrossAxisAlignment.s,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  getImage(ImageSource.camera, context, 1);
-                },
-                child: Text('Camera'),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  getImageCmera(ImageSource.gallery,context,1);
+    Future<bool> showExitPopup1() async {
+      return await showDialog(
+        //show confirm dialogue
+        //the return value will be from "Yes" or "No" options
+        context: context,
+        builder: (context) => AlertDialog(
+            title: Text('Select Image'),
+            content: Row(
+              // crossAxisAlignment: CrossAxisAlignment.s,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    getImage(ImageSource.camera, context, 1);
+                  },
+                  child: Text('Camera'),
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    getImageCmera(ImageSource.gallery,context,1);
 
-                },
+                  },
 
-                //return true when click on "Yes"
-                child: Text('Gallery'),
-              ),
-            ],
-          )),
-    ) ??
-        false; //if showDialouge had returned null, then return false
-  }
-
-  void requestPermission(BuildContext context,int i) async{
-    print("okay");
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.photos,
-      Permission.mediaLibrary,
-      Permission.storage,
-    ].request();
-    if(statuses[Permission.photos] == PermissionStatus.granted&& statuses[Permission.mediaLibrary] == PermissionStatus.granted){
-        getImage(ImageSource.gallery, context, 1);
-
-
-    }else{
-      getImageCmera(ImageSource.camera,context,1);
+                  //return true when click on "Yes"
+                  child: Text('Gallery'),
+                ),
+              ],
+            )),
+      ) ??
+          false; //if showDialouge had returned null, then return false
     }
-  }
-  Future getImage(ImageSource source, BuildContext context, int i) async {
-    var image = await ImagePicker().pickImage(
-      source: source,
-    );
-    getCropImage(context, i, image);
-    Navigator.pop(context);
-  }
-  Future getImageCmera(ImageSource source, BuildContext context, int i) async {
-    var image = await ImagePicker().pickImage(
-      source: source,
-    );
-    getCropImage(context, i, image);
-    Navigator.pop(context);
-  }
-  var imagePathList1;
-  bool isImages =  false;
 
-  void getCropImage(BuildContext context, int i, var image) async {
-    CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
-      sourcePath: image.path,
-      aspectRatioPresets: [
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.ratio16x9
-      ],
-    );
-    setState(() {
-      if (i == 1) {
-        imageFile = File(croppedFile!.path);
+    void requestPermission(BuildContext context,int i) async{
+      print("okay");
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.photos,
+        Permission.mediaLibrary,
+        Permission.storage,
+      ].request();
+      if(statuses[Permission.photos] == PermissionStatus.granted&& statuses[Permission.mediaLibrary] == PermissionStatus.granted){
+          getImage(ImageSource.gallery, context, 1);
+
+
+      }else{
+        getImageCmera(ImageSource.camera,context,1);
       }
+    }
+    Future getImage(ImageSource source, BuildContext context, int i) async {
+      var image = await ImagePicker().pickImage(
+        source: source,
+      );
+      getCropImage(context, i, image);
+      Navigator.pop(context);
+    }
+    Future getImageCmera(ImageSource source, BuildContext context, int i) async {
+      var image = await ImagePicker().pickImage(
+        source: source,
+      );
+      getCropImage(context, i, image);
+      Navigator.pop(context);
+    }
+    var imagePathList1;
+    bool isImages =  false;
 
-    });
+    void getCropImage(BuildContext context, int i, var image) async {
+      CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
+        sourcePath: image.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+      );
+      setState(() {
+        if (i == 1) {
+          imageFile = File(croppedFile!.path);
+        }
 
-  }
+      });
+
+    }
   SignUpModel? detailsData;
   registration() async {
     isLoading ==  true;

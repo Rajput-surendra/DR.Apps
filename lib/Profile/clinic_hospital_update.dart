@@ -57,6 +57,7 @@ List<String> daysLists = [];
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
       var finalResul = jsonDecode(result);
+      Navigator.pop(context);
       Fluttertoast.showToast(msg: "${finalResul['message']}");
     }
     else {
@@ -91,7 +92,6 @@ List<String> daysLists = [];
           // dayConatroller.add(TextEditingController(text:element.day!.split(',').first));
            results = element.day?.split(",");
         grandResults.add(results ?? []);
-
         morningTimeController.add(TextEditingController(text:element.morningShift!.split('-').first));
         morningTimeEndController.add(TextEditingController(text:element.morningShift!.split('-')[1]));
         eveingTimeController.add(TextEditingController(text:element.eveningShift!.split('-').first));
@@ -110,7 +110,7 @@ List<String> daysLists = [];
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context: context, text:"Update Clinic/Hospital", isTrue: true, ),
-      body: SingleChildScrollView(
+      body: getprofile?.user?.userData == null ? Center(child: CircularProgressIndicator()):SingleChildScrollView(
         child: Column(
           children: [
             getprofile?.user?.userData?.isEmpty ?? false ?
@@ -151,7 +151,7 @@ List<String> daysLists = [];
                  if(newList.isEmpty){
                   Fluttertoast.showToast(msg: "jksbdfcbsdf;dsfn");
                  }else{
-                   // updatedDataApi();
+                   updatedDataApi();
                  }
                   print('__sadsadsds________${newList}_________');
 
@@ -182,7 +182,7 @@ List<String> daysLists = [];
     grandResults[i] = await showDialog(
         context: context,
         builder: (BuildContext context) {
-          // dayConatroller[i].text = _selectedItems2.toString();
+           // dayConatroller[i].text = _selectedItems2.toString();
           return StatefulBuilder(
               builder: (context, setState)
               {
@@ -321,7 +321,7 @@ List<String> daysLists = [];
            select(i),
           // TextFormField(
           //   onTap: (){
-          //     _showMultiSelect();
+          //     _showMultiSelect(i);
           //   },
           //   readOnly: true,
           //   controller: dayConatroller[i],

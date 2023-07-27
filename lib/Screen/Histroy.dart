@@ -156,31 +156,31 @@ class _HistoryState extends State<History> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          Container(
-            height: 30,
-            width: 100,
-            decoration: ShapeDecoration(
-                shape: const StadiumBorder(),
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: selectedSegmentVal == 0
-                        ? [colors.primary, colors.primary]
-                        : [Colors.transparent, Colors.transparent])),
-            child: MaterialButton(
-              shape: const StadiumBorder(),
-              onPressed: () => setSegmentValue(0),
-              child: Text(
-                'News',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: selectedSegmentVal == 0
-                        ? Colors.white
-                        : Colors.black),
-              ),
-            ),
-          ),
+          // Container(
+          //   height: 30,
+          //   width: 100,
+          //   decoration: ShapeDecoration(
+          //       shape: const StadiumBorder(),
+          //       gradient: LinearGradient(
+          //           begin: Alignment.topCenter,
+          //           end: Alignment.bottomCenter,
+          //           colors: selectedSegmentVal == 0
+          //               ? [colors.primary, colors.primary]
+          //               : [Colors.transparent, Colors.transparent])),
+          //   child: MaterialButton(
+          //     shape: const StadiumBorder(),
+          //     onPressed: () => setSegmentValue(0),
+          //     child: Text(
+          //       'News',
+          //       style: TextStyle(
+          //           fontWeight: FontWeight.bold,
+          //           fontSize: 14,
+          //           color: selectedSegmentVal == 0
+          //               ? Colors.white
+          //               : Colors.black),
+          //     ),
+          //   ),
+          // ),
           Container(
             height: 30,
             width: 90,

@@ -56,4 +56,7 @@ class ApiService {
     static const String getDeleteDoctorPostApi = baseUrl+'delete_doctor_event';
     static const String getDeleteAwarenessApi = baseUrl+'delete_awareness';
     static const String getUpdateClinicDetailsApi = baseUrl+'update_clinic_details';
+    static const String addRequestApi = baseUrl+'add_request';
+    static const String getRequestApi = baseUrl+'get_request';
+    static const String deleteApi = baseUrl+'account_delete';
 }

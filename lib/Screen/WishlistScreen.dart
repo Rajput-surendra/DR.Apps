@@ -105,31 +105,31 @@ class _WishlistState extends State<Wishlist> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              Container(
-                height: 30,
-                width: 100,
-                decoration: ShapeDecoration(
-                    shape: const StadiumBorder(),
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: selectedSegmentVal == 0
-                            ? [colors.primary, colors.primary]
-                            : [Colors.transparent, Colors.transparent])),
-                child: MaterialButton(
-                  shape: const StadiumBorder(),
-                  onPressed: () => setSegmentValue(0),
-                  child: Text(
-                    'News',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: selectedSegmentVal == 0
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                ),
-              ),
+              // Container(
+              //   height: 30,
+              //   width: 100,
+              //   decoration: ShapeDecoration(
+              //       shape: const StadiumBorder(),
+              //       gradient: LinearGradient(
+              //           begin: Alignment.topCenter,
+              //           end: Alignment.bottomCenter,
+              //           colors: selectedSegmentVal == 0
+              //               ? [colors.primary, colors.primary]
+              //               : [Colors.transparent, Colors.transparent])),
+              //   child: MaterialButton(
+              //     shape: const StadiumBorder(),
+              //     onPressed: () => setSegmentValue(0),
+              //     child: Text(
+              //       'News',
+              //       style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 14,
+              //           color: selectedSegmentVal == 0
+              //               ? Colors.white
+              //               : Colors.black),
+              //     ),
+              //   ),
+              // ),
               Container(
                 height: 30,
                 width: 90,
@@ -266,16 +266,16 @@ class _WishlistState extends State<Wishlist> {
                   child: getWishListModel?.data == null ||
                           getWishListModel?.data == ""
                       ? Center(child: CircularProgressIndicator())
-                      : selectedSegmentVal == 0 ? getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) :
-                      ListView.builder(
-                    // scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      reverse: true,
-                      itemCount: getWishListModel?.data?.news?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                           return  newCustomCards(getWishListModel, index);
-                      })
+                    //   : selectedSegmentVal == 0 ? getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) :
+                    //   ListView.builder(
+                    // // scrollDirection: Axis.vertical,
+                    //   physics: NeverScrollableScrollPhysics(),
+                    //   shrinkWrap: true,
+                    //   reverse: true,
+                    //   itemCount: getWishListModel?.data?.news?.length,
+                    //   itemBuilder: (BuildContext context, int index) {
+                    //        return  newCustomCards(getWishListModel, index);
+                    //   })
 
                       : selectedSegmentVal == 1 ? getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :
                       ListView.builder(
@@ -375,7 +375,6 @@ class _WishlistState extends State<Wishlist> {
     if (response.statusCode == 200) {
       final result = await response.stream.bytesToString();
       final finalResult = GetWishListModel.fromJson(jsonDecode(result));
-
       setState(() {
         getWishListModel = finalResult;
 
@@ -911,8 +910,8 @@ class _WishlistState extends State<Wishlist> {
                            Padding(
                              padding: const EdgeInsets.all(8.0),
                              child: ClipRRect(
-                                 borderRadius: BorderRadius.circular(10),
-                                 child: Image.asset('assets/images/tablets.png',height: 90,width:100,)),
+                                 borderRadius: BorderRadius.circular(20),
+                                 child: Image.network('${getWishListModel!.data!.editorial![index].userImage}',height: 90,width:100,)),
                            ),
                            Padding(
                              padding: const EdgeInsets.only(top: 10),

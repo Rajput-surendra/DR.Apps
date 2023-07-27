@@ -629,7 +629,7 @@ String? catName ;
                     const Padding(
                       padding: EdgeInsets.all(5.0),
                       child: Text("City Name", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
+                          color: colors.blackTemp, fontWeight: FontWeight.bold),),
                     ),
                     const SizedBox(height: 10,),
                     TextFormField(
@@ -666,7 +666,7 @@ String? catName ;
                                   child: DropdownButton2<String>(
                                     hint: Text('${stateselected}',
                                       style: const TextStyle(
-                                          color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                                          color: colors.black54,fontWeight: FontWeight.bold,fontSize:15
                                       ),),
                                     // dropdownColor: colors.primary,
                                     value: selectedState,
