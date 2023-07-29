@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -7,6 +8,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -16,6 +18,7 @@ import 'package:http/http.dart' as http;
 import 'dart:ui' as ui;
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../Helper/Appbar.dart';
 import '../../Helper/Color.dart';
 import '../../New_model/GetEditorialmodel.dart';
 import '../../api/api_services.dart';
@@ -137,21 +140,37 @@ class _EditorialListCardState extends State<EditorialListCard> {
 
                     ],
                   ),
-                  strObj![2] == "pdf" ?   InkWell(
-                    onTap: (){
-                      downloadFile('${widget.getEdoDataList!.image}', widget.getEdoDataList?.title ?? '');
-                    },
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                          child: Column(
-                            children: [
-                              Icon(Icons.download,size: 40,color: colors.secondary,),
-                              Text("pdf")
-                            ],
-                          )
+                  strObj![2] == "pdf" ? Column(
+                    children: [
+
+                      InkWell(
+                        onTap: (){
+                          downloadFile('${widget.getEdoDataList!.image}', widget.getEdoDataList?.title ?? '');
+                        } ,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                              width: 55,
+                              height: 55 ,
+                              child: Column(
+                                children: [
+                                  Icon(Icons.download,size: 35,color: colors.secondary,),
+                                  Text("pdf")
+                                ],
+                              )
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(height: 10,),
+                      Align(
+                        alignment: Alignment.center,
+                        child: InkWell(
+                            onTap: (){
+                              viewFile(widget.getEdoDataList!.image ??  "", "File");
+                            },
+                            child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
+                      ),
+                    ],
                   ):
                   Container(
                     width: double.infinity,
@@ -211,29 +230,101 @@ class _EditorialListCardState extends State<EditorialListCard> {
       });
     }
   }
-  downloadFile(String url, String filename) async {
+  viewFile(String url, String filename) async {
     FileDownloader.downloadFile(
-        url: "${url}",
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
         name: "${filename}",
         onDownloadCompleted: (path) {
           print(path);
-          String tempPath = path.toString().replaceAll("Download", "doctorapp");
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
           final File file = File(tempPath);
           print("path here ${file}");
-          var snackBar = SnackBar(
-            backgroundColor: colors.primary,
-            content: Row(
-              children: [
-                const Text('doctorapp Saved in your storage'),
-                TextButton(onPressed: (){}, child: Text("View"))
+          displayPDF(url);
+          //  setSnackbar("File Downloaded successfully!", context);
+          Fluttertoast.showToast(msg: "File View successfully!");
+          // var snackBar = SnackBar(
+          //   backgroundColor: colors.primary,
+          //   // content: Text('File Download Successfully '),
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //This will be the path of the downloaded file
+        });
+  }
+  Future<void>  displayPDF(String url) async {
+    Dio dio = Dio();
+    try {
+      Directory directory = await getApplicationDocumentsDirectory();
+      String appDocPath = directory.path;
+      String fileName = 'document.pdf';
+      String filePath = '$appDocPath/$fileName';
 
-              ],
+      await dio.download(url, filePath);
+
+      // Open PDF using FlutterPdfView plugin
+      if (await File(filePath).exists()) {
+        print('This is file path is here------${filePath}');
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scaffold(
+              appBar: customAppBar(context: context, text: "View Pdf", isTrue: true, ),
+              body: PDFView(
+                filePath: filePath,
+              ),
             ),
+          ),
+        );
+      } else {
+        print('Failed to download the PDF file.');
+      }
+    } catch (e) {
+      print('Error occurred while downloading the PDF: $e');
+    }
+  }
+
+  downloadFile(String url, String filename, ) async {
+    FileDownloader.downloadFile(
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
+        name: "${filename}",
+        onDownloadCompleted: (path) {
+          print(path);
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
+          final File file = File(tempPath);
+          print("path here ${file}");
+          //  setSnackbar("File Downloaded successfully!", context);
+          var snackBar = SnackBar(
+            backgroundColor: colors.secondary,
+            content: Text('File Download Successfully'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           //This will be the path of the downloaded file
         });
   }
+  // downloadFile(String url, String filename) async {
+  //   FileDownloader.downloadFile(
+  //       url: "${url}",
+  //       name: "${filename}",
+  //       onDownloadCompleted: (path) {
+  //         print(path);
+  //         String tempPath = path.toString().replaceAll("Download", "doctorapp");
+  //         final File file = File(tempPath);
+  //         print("path here ${file}");
+  //         var snackBar = SnackBar(
+  //           backgroundColor: colors.primary,
+  //           content: Row(
+  //             children: [
+  //               const Text('doctorapp Saved in your storage'),
+  //               TextButton(onPressed: (){}, child: Text("View"))
+  //
+  //             ],
+  //           ),
+  //         );
+  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //         //This will be the path of the downloaded file
+  //       });
+  // }
 
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();

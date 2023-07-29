@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:doctorapp/New_model/Get_history.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart'as http;
 import 'package:path_provider/path_provider.dart';
@@ -25,29 +27,6 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
 
-  downloadFile(String url, String filename) async {
-    FileDownloader.downloadFile(
-        url: "${url}",
-        name: "${filename}",
-        onDownloadCompleted: (path) {
-          print(path);
-          String tempPath = path.toString().replaceAll("Download", "doctorapp");
-          final File file = File(tempPath);
-          print("path here ${file}");
-          var snackBar = SnackBar(
-            backgroundColor: colors.primary,
-            content: Row(
-              children: [
-                const Text('doctorapp Saved in your storage'),
-                TextButton(onPressed: (){}, child: Text("View"))
-
-              ],
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          //This will be the path of the downloaded file
-        });
-  }
   Future<String> createFolderInAppDocDir(String folderNames) async {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.accessMediaLocation,
@@ -144,7 +123,7 @@ class _HistoryState extends State<History> {
     }
 
   }
-  int selectedSegmentVal = 0;
+  int selectedSegmentVal = 1;
   Widget _segmentButton() => Container(
     padding: const EdgeInsets.all(5),
     decoration: BoxDecoration(
@@ -343,16 +322,16 @@ class _HistoryState extends State<History> {
                 // height: MediaQuery.of(context).size.height/1.0,
                   child: getWishListModel?.data == null
                       ? Center(child: CircularProgressIndicator())
-                      : selectedSegmentVal == 0 ? getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) :
-                  ListView.builder(
-                    // scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      reverse: true,
-                      itemCount: getWishListModel?.data?.news?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return  newCustomCards(getWishListModel, index);
-                      })
+                  //     : selectedSegmentVal == 0 ? getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) :
+                  // ListView.builder(
+                  //   // scrollDirection: Axis.vertical,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     shrinkWrap: true,
+                  //     reverse: true,
+                  //     itemCount: getWishListModel?.data?.news?.length,
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //       return  newCustomCards(getWishListModel, index);
+                  //     })
 
                       : selectedSegmentVal == 1 ? getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :
                      ListView.builder(
@@ -415,6 +394,7 @@ class _HistoryState extends State<History> {
   }
 
   newCustomCards(model, int i) {
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -485,46 +465,7 @@ class _HistoryState extends State<History> {
                             ),
                           ],
                         ),
-                        // Row(
-                        //   children: [
-                        //     IconButton(
-                        //         onPressed: () {
-                        //           showDialog(
-                        //             context: context,
-                        //             builder: (context) => Dialog(
-                        //               child: ListView(
-                        //                 padding: const EdgeInsets.symmetric(
-                        //                   vertical: 16,
-                        //                 ),
-                        //                 shrinkWrap: true,
-                        //                 children: ['Remove from wishlist']
-                        //                     .map(
-                        //                       (e) => InkWell(
-                        //                     onTap: () async {
-                        //                       removeWishListApi(
-                        //                           getWishListModel
-                        //                               ?.data?.news!.first.id ??
-                        //                               "", 0);
-                        //                       Navigator.of(context).pop();
-                        //                     },
-                        //                     child: Container(
-                        //                       padding: const EdgeInsets
-                        //                           .symmetric(
-                        //                         vertical: 12,
-                        //                         horizontal: 16,
-                        //                       ),
-                        //                       child: Text(e),
-                        //                     ),
-                        //                   ),
-                        //                 )
-                        //                     .toList(),
-                        //               ),
-                        //             ),
-                        //           );
-                        //         },
-                        //         icon: Icon(Icons.more_vert_rounded))
-                        //   ],
-                        // )
+
                       ],
                     ),
                     Row(
@@ -571,7 +512,7 @@ class _HistoryState extends State<History> {
                   ],
                 ),
 
-                   // : SizedBox(),
+               // : SizedBox(),
                 Container(
                   width: double.infinity,
                   child: ClipRRect(
@@ -608,7 +549,79 @@ class _HistoryState extends State<History> {
           )),
     );
   }
+  Future<void>  displayPDF(String url) async {
+    Dio dio = Dio();
+    try {
+      Directory directory = await getApplicationDocumentsDirectory();
+      String appDocPath = directory.path;
+      String fileName = 'document.pdf';
+      String filePath = '$appDocPath/$fileName';
+      await dio.download(url, filePath);
+      // Open PDF using FlutterPdfView plugin
+      if (await File(filePath).exists()) {
+        print('This is file path is here------${filePath}');
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scaffold(
+              appBar: customAppBar(context: context, text: "View Pdf", isTrue: true, ),
+              body: PDFView(
+                filePath: filePath,
+              ),
+            ),
+          ),
+        );
+      } else {
+        print('Failed to download the PDF file.');
+      }
+    } catch (e) {
+      print('Error occurred while downloading the PDF: $e');
+    }
+  }
+  viewFile(String url, String filename) async {
+    FileDownloader.downloadFile(
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
+        name: "${filename}",
+        onDownloadCompleted: (path) {
+          print(path);
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
+          final File file = File(tempPath);
+          print("path here ${file}");
+          displayPDF(url);
+          //  setSnackbar("File Downloaded successfully!", context);
+          Fluttertoast.showToast(msg: "File View successfully!");
+          // var snackBar = SnackBar(
+          //   backgroundColor: colors.primary,
+          //   // content: Text('File Download Successfully '),
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //This will be the path of the downloaded file
+        });
+  }
+  downloadFile(String url, String filename, ) async {
+    FileDownloader.downloadFile(
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
+        name: "${filename}",
+        onDownloadCompleted: (path) {
+          print(path);
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
+          final File file = File(tempPath);
+          print("path here ${file}");
+          //  setSnackbar("File Downloaded successfully!", context);
+          var snackBar = SnackBar(
+            backgroundColor: colors.secondary,
+            content: Text('File Download Successfully'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //This will be the path of the downloaded file
+        });
+  }
+  List ? strObjEvent;
   eventCustomCards(model, int i) {
+    strObjEvent = getWishListModel!.data!.event![i].image?.split(".");
+    print('_____saaaaaaaasxsssssadasdadasdadawrwerraaaaaaaa_____${strObjEvent![2]}_________');
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child:Card(
@@ -716,7 +729,38 @@ class _HistoryState extends State<History> {
                     )
                   ],
                 ),
-                    //: SizedBox(),
+                strObjEvent![2] == "pdf" ? Column(
+                  children: [
+
+                    InkWell(
+                      onTap: (){
+                        downloadFile('${getWishListModel?.data?.event![i].image}', getWishListModel?.data?.event![i].title ?? '');
+                      } ,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: 55,
+                            height: 55 ,
+                            child: Column(
+                              children: [
+                                Icon(Icons.download,size: 35,color: colors.secondary,),
+                                Text("pdf")
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                          onTap: (){
+                            viewFile(getWishListModel?.data?.event![i].image ??  "", "File");
+                          },
+                          child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
+                    ),
+                  ],
+                ):  //: SizedBox(),
                 Container(
                   width: double.infinity,
                   child: ClipRRect(
@@ -754,7 +798,10 @@ class _HistoryState extends State<History> {
           )),
     );
   }
+  List?strObjWeb;
   webinarsCustomCards(model,int i){
+    strObjWeb  = getWishListModel!.data!.webinar![i].image?.split(".");
+    print('_____saaaaaaaasxsssssadasdadasdadawrwerraaaaaaaa_____${strObjEvent![2]}_________');
     return Column(
       children: [
         SizedBox(
@@ -795,7 +842,38 @@ class _HistoryState extends State<History> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              strObjWeb![2] == "pdf" ? Column(
+                                children: [
+
+                                  InkWell(
+                                    onTap: (){
+                                      downloadFile('${getWishListModel?.data?.webinar![i].image}', getWishListModel?.data?.webinar![i].title ?? '');
+                                    } ,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Container(
+                                          width: 55,
+                                          height: 55 ,
+                                          child: Column(
+                                            children: [
+                                              Icon(Icons.download,size: 35,color: colors.secondary,),
+                                              Text("pdf")
+                                            ],
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: InkWell(
+                                        onTap: (){
+                                          viewFile(getWishListModel?.data?.webinar![i].image ??  "", "File");
+                                        },
+                                        child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
+                                  ),
+                                ],
+                              )   : Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10)
                                 ),

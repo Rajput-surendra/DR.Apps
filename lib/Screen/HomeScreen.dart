@@ -1029,14 +1029,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
   deleteAccount() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+     String? userID = preferences.getString('userId');
     var headers = {
       'Cookie': 'ci_session=96944ca78b243ab8f0408ccfec94c5f2d8ca05fc'
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.deleteApi}'));
     request.fields.addAll({
-      'user_id': userId.toString()
+      'user_id': userID.toString()
     });
+    print("------------------${request.fields} ${ApiService.deleteApi} ");
     request.headers.addAll(headers);
+
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
        var result = await response.stream.bytesToString();

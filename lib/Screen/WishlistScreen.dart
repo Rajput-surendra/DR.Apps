@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -31,31 +33,49 @@ class _WishlistState extends State<Wishlist> {
     super.initState();
   }
 
-  int selectedSegmentVal = 0;
-
-  downloadFile(String url, String filename) async {
+  int selectedSegmentVal = 1;
+  downloadFile(String url, String filename, ) async {
     FileDownloader.downloadFile(
-        url: "${url}",
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
         name: "${filename}",
         onDownloadCompleted: (path) {
           print(path);
-          String tempPath = path.toString().replaceAll("Download", "doctorapp");
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
           final File file = File(tempPath);
           print("path here ${file}");
+          //  setSnackbar("File Downloaded successfully!", context);
           var snackBar = SnackBar(
-            backgroundColor: colors.primary,
-            content: Row(
-              children: [
-                const Text('doctorapp Saved in your storage'),
-                TextButton(onPressed: (){}, child: Text("View"))
-
-              ],
-            ),
+            backgroundColor: colors.secondary,
+            content: Text('File Download Successfully'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           //This will be the path of the downloaded file
         });
   }
+  // downloadFile(String url, String filename) async {
+  //   FileDownloader.downloadFile(
+  //       url: "${url}",
+  //       name: "${filename}",
+  //       onDownloadCompleted: (path) {
+  //         print(path);
+  //         String tempPath = path.toString().replaceAll("Download", "doctorapp");
+  //         final File file = File(tempPath);
+  //         print("path here ${file}");
+  //         var snackBar = SnackBar(
+  //           backgroundColor: colors.primary,
+  //           content: Row(
+  //             children: [
+  //               const Text('doctorapp Saved in your storage'),
+  //               TextButton(onPressed: (){}, child: Text("View"))
+  //
+  //             ],
+  //           ),
+  //         );
+  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //         //This will be the path of the downloaded file
+  //       });
+  // }
   Future<String> createFolderInAppDocDir(String folderNames) async {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.accessMediaLocation,
@@ -250,7 +270,9 @@ class _WishlistState extends State<Wishlist> {
   }
   int _currentIndex = 1;
   @override
+
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: customAppBar(
           context: context,
@@ -278,7 +300,7 @@ class _WishlistState extends State<Wishlist> {
                     //   })
 
                       : selectedSegmentVal == 1 ? getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :
-                      ListView.builder(
+                  ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -288,19 +310,19 @@ class _WishlistState extends State<Wishlist> {
                         return  eventCustomCards(getWishListModel, index);
                       })
 
-                      : selectedSegmentVal == 2 ? getWishListModel?.data?.webinar?.isEmpty ?? true ? Center(child: Text('Webiner not available'),) :
-                     ListView.builder(
+                      :  selectedSegmentVal == 2 ? getWishListModel?.data?.webinar?.isEmpty ?? true ? Center(child: Text('Webiner not available'),) :
+                  ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       reverse: true,
                       itemCount: getWishListModel?.data?.webinar?.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return  webinarsCustomCards();
+                        return  webinarsCustomCards(getWishListModel, index);
                       })
 
-                      : selectedSegmentVal == 3 ? getWishListModel?.data?.editorial?.isEmpty ?? true ? Center(child: Text('Editorial not available'),) :
-                      ListView.builder(
+                      :  selectedSegmentVal == 3 ? getWishListModel?.data?.editorial?.isEmpty ?? true ? Center(child: Text('Editorial not available'),) :
+                  ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -310,17 +332,19 @@ class _WishlistState extends State<Wishlist> {
                         return   editorialCustomCards();
                       })
 
-                      : selectedSegmentVal == 4  ? getWishListModel?.data?.awareness?.isEmpty ?? true ? Center(child: Text('Awareness not available'),) :
-                     ListView.builder(
+                      : selectedSegmentVal == 4 ? getWishListModel?.data?.awareness?.isEmpty ?? true ? Center(child: Text('Awareness not available'),) :
+                  ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       reverse: true,
                       itemCount: getWishListModel?.data?.awareness?.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return awarenessCustomCards();
-                      }):SizedBox()
-                  )
+                        return awarenessCustomCards(context ,index);
+                      }) :SizedBox.shrink()
+              )
+
+
             ],
           ),
         ));
@@ -383,159 +407,162 @@ class _WishlistState extends State<Wishlist> {
       print(response.reasonPhrase);
     }
   }
-  newCustomCards(model, int i) {
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _currentIndex == 1
-                    ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 5, bottom: 8),
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "${getWishListModel?.data?.news![i].userImage}"),
-                                  backgroundColor: colors.primary,
-                                  radius: 25,
-                                ),
-                              ), //CircleAvatar
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: getWishListModel!.data!.news!.isEmpty
-                                    ? Center(child: CircularProgressIndicator())
-                                    : Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "${getWishListModel?.data?.news![i].userName}",
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                color: colors.secondary,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            height: 2,
-                                          ),
-                                          Text(
-                                            "${getWishListModel?.data?.news![i].userDigree}",
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          SizedBox(
-                                            height: 2,
-                                          ),
-                                          Container(
-
-                                              child: Text(
-                                            "${getWishListModel?.data?.news![i].userAddress}",
-                                            style: TextStyle(fontSize: 10),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                          )),
-                                        ],
-                                      ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => Dialog(
-                                        child: ListView(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 16,
-                                          ),
-                                          shrinkWrap: true,
-                                          children: ['Remove from wishlist']
-                                              .map(
-                                                (e) => InkWell(
-                                                  onTap: () async {
-                                                    removeWishListApi(
-                                                        getWishListModel
-                                                                ?.data?.news!.first.id ??
-                                                            "", 0);
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      vertical: 12,
-                                                      horizontal: 16,
-                                                    ),
-                                                    child: Text(e),
-                                                  ),
-                                                ),
-                                              )
-                                              .toList(),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  icon: Icon(Icons.more_vert_rounded))
-                            ],
-                          )
-                        ],
-                      )
-                    : SizedBox(),
-                Container(
-                  width: double.infinity,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: getWishListModel?.data?.news![i].userImage == null ||
-                          getWishListModel?.data?.news![i].userImage == ""
-                          ? Image.asset("assets/splash/splashimages.png")
-                          : Image.network(
-                              "${getWishListModel?.data?.news![i].image}",
-                              fit: BoxFit.fill,
-                              height: 250,
-                            )),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 310,
-                          child: Text('${getWishListModel?.data?.news![i].title}',overflow: TextOverflow.ellipsis,)),
-                        Container(
-                            width: 310,
-                            child: Text('${getWishListModel?.data?.news![i].description}',overflow: TextOverflow.ellipsis,)),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                )
-              ],
-            ),
-          )),
-    );
-  }
+  // newCustomCards(model, int i) {
+  //
+  //   return Padding(
+  //     padding: const EdgeInsets.all(8.0),
+  //     child: Card(
+  //         elevation: 4,
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(5),
+  //         ),
+  //         child: Padding(
+  //           padding: EdgeInsets.only(left: 10, right: 10),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               _currentIndex == 1
+  //                   ? Row(
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                       children: [
+  //                         Row(
+  //                           children: [
+  //                             Padding(
+  //                               padding:
+  //                                   const EdgeInsets.only(top: 5, bottom: 8),
+  //                               child: CircleAvatar(
+  //                                 backgroundImage: NetworkImage(
+  //                                     "${getWishListModel?.data?.news![i].userImage}"),
+  //                                 backgroundColor: colors.primary,
+  //                                 radius: 25,
+  //                               ),
+  //                             ), //CircleAvatar
+  //                             Padding(
+  //                               padding: const EdgeInsets.only(left: 5),
+  //                               child: getWishListModel!.data!.news!.isEmpty
+  //                                   ? Center(child: CircularProgressIndicator())
+  //                                   : Column(
+  //                                       crossAxisAlignment:
+  //                                           CrossAxisAlignment.start,
+  //                                       children: [
+  //                                         Text(
+  //                                           "${getWishListModel?.data?.news![i].userName}",
+  //                                           style: const TextStyle(
+  //                                               fontSize: 14,
+  //                                               color: colors.secondary,
+  //                                               fontWeight: FontWeight.bold),
+  //                                         ),
+  //                                         SizedBox(
+  //                                           height: 2,
+  //                                         ),
+  //                                         Text(
+  //                                           "${getWishListModel?.data?.news![i].userDigree}",
+  //                                           style: TextStyle(fontSize: 10),
+  //                                         ),
+  //                                         SizedBox(
+  //                                           height: 2,
+  //                                         ),
+  //                                         Container(
+  //
+  //                                             child: Text(
+  //                                           "${getWishListModel?.data?.news![i].userAddress}",
+  //                                           style: TextStyle(fontSize: 10),
+  //                                           overflow: TextOverflow.ellipsis,
+  //                                           maxLines: 1,
+  //                                         )),
+  //                                       ],
+  //                                     ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         Row(
+  //                           children: [
+  //                             IconButton(
+  //                                 onPressed: () {
+  //                                   showDialog(
+  //                                     context: context,
+  //                                     builder: (context) => Dialog(
+  //                                       child: ListView(
+  //                                         padding: const EdgeInsets.symmetric(
+  //                                           vertical: 16,
+  //                                         ),
+  //                                         shrinkWrap: true,
+  //                                         children: ['Remove from wishlist']
+  //                                             .map(
+  //                                               (e) => InkWell(
+  //                                                 onTap: () async {
+  //                                                   removeWishListApi(
+  //                                                       getWishListModel
+  //                                                               ?.data?.news!.first.id ??
+  //                                                           "", 0);
+  //                                                   Navigator.of(context).pop();
+  //                                                 },
+  //                                                 child: Container(
+  //                                                   padding: const EdgeInsets
+  //                                                       .symmetric(
+  //                                                     vertical: 12,
+  //                                                     horizontal: 16,
+  //                                                   ),
+  //                                                   child: Text(e),
+  //                                                 ),
+  //                                               ),
+  //                                             )
+  //                                             .toList(),
+  //                                       ),
+  //                                     ),
+  //                                   );
+  //                                 },
+  //                                 icon: Icon(Icons.more_vert_rounded))
+  //                           ],
+  //                         )
+  //                       ],
+  //                     )
+  //                   : SizedBox(),
+  //               Container(
+  //                 width: double.infinity,
+  //                 child: ClipRRect(
+  //                     borderRadius: BorderRadius.circular(5),
+  //                     child: getWishListModel?.data?.news![i].userImage == null ||
+  //                         getWishListModel?.data?.news![i].userImage == ""
+  //                         ? Image.asset("assets/splash/splashimages.png")
+  //                         : Image.network(
+  //                             "${getWishListModel?.data?.news![i].image}",
+  //                             fit: BoxFit.fill,
+  //                             height: 250,
+  //                           )),
+  //               ),
+  //               SizedBox(
+  //                 height: 8,
+  //               ),
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   Column(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       Container(
+  //                         width: 310,
+  //                         child: Text('${getWishListModel?.data?.news![i].title}',overflow: TextOverflow.ellipsis,)),
+  //                       Container(
+  //                           width: 310,
+  //                           child: Text('${getWishListModel?.data?.news![i].description}',overflow: TextOverflow.ellipsis,)),
+  //                     ],
+  //                   ),
+  //                 ],
+  //               ),
+  //               SizedBox(
+  //                 height: 10,
+  //               )
+  //             ],
+  //           ),
+  //         )),
+  //   );
+  // }
+  List? strObjWeb;
   eventCustomCards(model, int i) {
+    strObjWeb = getWishListModel!.data!.event![i].image?.split(".");
+    print('_____saaaaaaaasxsssssadasdadasdadawrwerraaaaaaaa_____${strObjWeb![2]}_________');
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child:Card(
@@ -555,7 +582,7 @@ class _WishlistState extends State<Wishlist> {
                   children: [
                     Row(
                       children: [
-                        Padding(
+                         Padding(
                           padding:
                           const EdgeInsets.only(top: 5, bottom: 8),
                           child: CircleAvatar(
@@ -645,7 +672,38 @@ class _WishlistState extends State<Wishlist> {
                   ],
                 )
                     : SizedBox(),
-                Container(
+                strObjWeb![2] == "pdf" ? Column(
+                  children: [
+
+                    InkWell(
+                      onTap: (){
+                        downloadFile('${getWishListModel?.data?.event![i].image}', getWishListModel?.data?.event![i].title ?? '');
+                      } ,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: 55,
+                            height: 55 ,
+                            child: Column(
+                              children: [
+                                Icon(Icons.download,size: 35,color: colors.secondary,),
+                                Text("pdf")
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                          onTap: (){
+                            viewFile(getWishListModel?.data?.event![i].image ??  "", "File");
+                          },
+                          child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
+                    ),
+                  ],
+                ): Container(
                   width: double.infinity,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
@@ -686,155 +744,442 @@ class _WishlistState extends State<Wishlist> {
           )),
     );
   }
-  webinarsCustomCards(){
-   return Column(
-     children: [
-       SizedBox(
-         child: getWishListModel?.data == null ? Center(child: CircularProgressIndicator())  : getWishListModel?.data?.webinar!.isEmpty ?? false ? Text("Not Approved by Admin"):
-         ListView.builder(
-             scrollDirection: Axis.vertical,
-             physics: NeverScrollableScrollPhysics(),
-             shrinkWrap: true,
-             reverse: true,
-             itemCount: getWishListModel!.data!.webinar!.length,
-             itemBuilder: (BuildContext context, int index) {
-               return  Card(
-                 elevation: 5,
-                 child: Column(
-                   children: <Widget>[
-                     Container(
-                       height: 30,
-                       width:MediaQuery.of(context).size.width/1.0,
-                       decoration: BoxDecoration(
-                           color: Colors.red,
-                           borderRadius: BorderRadius.only(topLeft: Radius.circular(11),topRight: Radius.circular(11))),
-                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                           Text('${getWishListModel?.data!.webinar![index].startDate.toString().substring(0,10)}',style: TextStyle(color: Colors.white,fontSize: 15),),
-                           SizedBox(width: 20,),
-                           Padding(
-                             padding: const EdgeInsets.only(top: 5,bottom: 5),
-                             child: VerticalDivider(thickness: 1,color: colors.whiteTemp,),
-                           ),
-                           SizedBox(width: 20,),
-                           Text('${getWishListModel?.data!.webinar![index].fromTime}',style: TextStyle(color: Colors.white,fontSize: 15),),
-                         ],
-                       ),
-                     ),
-                     SizedBox(height: 10,),
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         // Image.asset("assets/splash/splashimages.png",height: 100,width: 100,),
-                         // Image.network('${getWishListModel?.data?.webinar?[index].image},',height: 80,width:80,),
-                         Column(
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             Row(
-                               children: [
+  Future<void>  displayPDF(String url) async {
+    Dio dio = Dio();
+    try {
+      Directory directory = await getApplicationDocumentsDirectory();
+      String appDocPath = directory.path;
+      String fileName = 'document.pdf';
+      String filePath = '$appDocPath/$fileName';
+      await dio.download(url, filePath);
+      // Open PDF using FlutterPdfView plugin
+      if (await File(filePath).exists()) {
+        print('This is file path is here------${filePath}');
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scaffold(
+              appBar: customAppBar(context: context, text: "View Pdf", isTrue: true, ),
+              body: PDFView(
+                filePath: filePath,
+              ),
+            ),
+          ),
+        );
+      } else {
+        print('Failed to download the PDF file.');
+      }
+    } catch (e) {
+      print('Error occurred while downloading the PDF: $e');
+    }
+  }
 
-                                 Text('${getWishListModel?.data!.webinar![index].title}',style: TextStyle(fontSize: 14,color: colors.secondary),),
-                                 const SizedBox(width: 150,),
-                                 Row(
-                                   children: [
-                                     IconButton(
-                                         onPressed: () {
-                                           showDialog(
-                                             context: context,
-                                             builder: (context) => Dialog(
-                                               child: ListView(
-                                                 padding: const EdgeInsets.symmetric(
-                                                   vertical: 16,
-                                                 ),
-                                                 shrinkWrap: true,
-                                                 children: ['Remove from wishlist']
-                                                     .map(
-                                                       (e) => InkWell(
-                                                     onTap: () async {
-                                                       removeWishListApi(
-                                                           getWishListModel
-                                                               ?.data?.webinar![index].id ??
-                                                               "", 2);
-                                                       Navigator.of(context).pop();
-                                                     },
-                                                     child: Container(
-                                                       padding: const EdgeInsets
-                                                           .symmetric(
-                                                         vertical: 12,
-                                                         horizontal: 16,
-                                                       ),
-                                                       child: Text(e),
-                                                     ),
-                                                   ),
-                                                 )
-                                                     .toList(),
-                                               ),
-                                             ),
-                                           );
-                                         },
-                                         icon: Icon(Icons.more_vert_rounded))
-                                   ],
-                                 ),
-                               ],
-                             ),
-                             SizedBox(height: 3),
-                             Text('${getWishListModel?.data!.webinar![index].userName}',style: TextStyle(fontSize: 10,),),
-                             SizedBox(height: 3),
-                             // Text('${getWishListModel?.data!.webinar![index].userDigree}',style: TextStyle(fontSize: 10,),),
-                             SizedBox(height: 3),
-                             Text('${getWishListModel?.data!.webinar![index].userAddress}',style: TextStyle(fontSize: 10,),),
-                             SizedBox(height: 3),
-                             Text('${getWishListModel?.data!.webinar![index].description}',style: TextStyle(fontSize: 10,),),
-                             SizedBox(height: 10,),
-                             Row(
-                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                               children: [
-                                 Container(
-                                   height: 25,
-                                   child: ElevatedButton(
-                                       onPressed: (){
-                                         launch('${getWishListModel?.data!.webinar![index].link}');
-                                       },
-                                       style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                                       child: Text('Live link',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                                 ),
-                                 SizedBox(width: 10),
-                                 Container(
-                                   height: 25,
-                                   child: ElevatedButton(onPressed: (){
-                                     downloadFile('${getWishListModel?.data!.webinar![index].image}', getWishListModel?.data!.webinar![index].userName??'');
-                                   },
-                                       style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                                       child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                                 ),
-                                 // Row(
-                                 //   children: [
-                                 //     IconButton(onPressed: (){
-                                 //       setState(() {
-                                 //         getNewWishlistApi(webinarModel?.data[index].id??'');
-                                 //         webinarModel?.data[index].isSelected = !(webinarModel?.data[index].isSelected ?? false );
-                                 //       });
-                                 //     },icon: webinarModel?.data[index].isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,))
-                                 //   ],
-                                 // )
-                               ],
-                             ),
-                             SizedBox(height: 20,)
+  viewFile(String url, String filename) async {
+    FileDownloader.downloadFile(
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
+        name: "${filename}",
+        onDownloadCompleted: (path) {
+          print(path);
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
+          final File file = File(tempPath);
+          print("path here ${file}");
+          displayPDF(url);
+          //  setSnackbar("File Downloaded successfully!", context);
+          Fluttertoast.showToast(msg: "File View successfully!");
+          // var snackBar = SnackBar(
+          //   backgroundColor: colors.primary,
+          //   // content: Text('File Download Successfully '),
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          //This will be the path of the downloaded file
+        });
+  }
+  List? strObj;
+  // webinarsCustomCards(){
+  //   strObj  = getWishListModel!.data!.webinar!.first.image!.split(".");
+  //   print('__SASASASASSASAS________${strObj![2]}_________');
+  //
+  //  return Column(
+  //    children: [
+  //      SizedBox(
+  //        child: getWishListModel?.data == null ? Center(child: CircularProgressIndicator())  : getWishListModel?.data?.webinar!.isEmpty ?? false ? Text("Not Approved by Admin"):
+  //        ListView.builder(
+  //            scrollDirection: Axis.vertical,
+  //            physics: NeverScrollableScrollPhysics(),
+  //            shrinkWrap: true,
+  //            reverse: true,
+  //            itemCount: getWishListModel!.data!.webinar!.length,
+  //            itemBuilder: (BuildContext context, int index) {
+  //              return  Card(
+  //                elevation: 5,
+  //                child: Column(
+  //                  children: <Widget>[
+  //                    Container(
+  //                      height: 30,
+  //                      width:MediaQuery.of(context).size.width/1.0,
+  //                      decoration: BoxDecoration(
+  //                          color: Colors.red,
+  //                          borderRadius: BorderRadius.only(topLeft: Radius.circular(11),topRight: Radius.circular(11))),
+  //                      child: Row(
+  //                        mainAxisAlignment: MainAxisAlignment.center,
+  //                        children: [
+  //                          Text('${getWishListModel?.data!.webinar![index].startDate.toString().substring(0,10)}',style: TextStyle(color: Colors.white,fontSize: 15),),
+  //                          SizedBox(width: 20,),
+  //                          Padding(
+  //                            padding: const EdgeInsets.only(top: 5,bottom: 5),
+  //                            child: VerticalDivider(thickness: 1,color: colors.whiteTemp,),
+  //                          ),
+  //                          SizedBox(width: 20,),
+  //                          Text('${getWishListModel?.data!.webinar![index].fromTime}',style: TextStyle(color: Colors.white,fontSize: 15),),
+  //                        ],
+  //                      ),
+  //                    ),
+  //                    SizedBox(height: 10,),
+  //                    Row(
+  //                      mainAxisAlignment: MainAxisAlignment.start,
+  //                      crossAxisAlignment: CrossAxisAlignment.start,
+  //                      children: [
+  //                        // Image.asset("assets/splash/splashimages.png",height: 100,width: 100,),
+  //                        strObj![2] == "pdf" ? Column(
+  //                          children: [
+  //
+  //                            InkWell(
+  //                              onTap: (){
+  //                                downloadFile('${getWishListModel?.data?.webinar?[index].image}', getWishListModel?.data?.webinar?[index].title ?? '');
+  //                              } ,
+  //                              child: Align(
+  //                                alignment: Alignment.center,
+  //                                child: Container(
+  //                                    width: 90,
+  //                                    height: 56 ,
+  //                                    child: Column(
+  //                                      children: [
+  //                                        Icon(Icons.download,size: 35,color: colors.secondary,),
+  //                                        Text("pdf")
+  //                                      ],
+  //                                    )
+  //                                ),
+  //                              ),
+  //                            ),
+  //                            SizedBox(height: 10,),
+  //                            Align(
+  //                              alignment: Alignment.center,
+  //                              child: InkWell(
+  //                                  onTap: (){
+  //                                    viewFile(getWishListModel?.data?.webinar?[index].image  ?? " ", "File");
+  //                                  },
+  //                                  child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
+  //                            ),
+  //                          ],
+  //                        ):
+  //                          Padding(
+  //                            padding: const EdgeInsets.all(8.0),
+  //                            child: Container(
+  //                                width: 80,
+  //                                height: 80 ,
+  //                              child: Image.network('${getWishListModel!.data!.webinar![index].image},',height: 80,width:80,),
+  //                            ),
+  //                          ),
+  //                        SizedBox(width: 10,),
+  //                        Column(
+  //                          crossAxisAlignment: CrossAxisAlignment.start,
+  //                          children: [
+  //                            Row(
+  //                              children: [
+  //
+  //                                Text('${getWishListModel?.data!.webinar![index].title}',style: TextStyle(fontSize: 14,color: colors.secondary),),
+  //                                const SizedBox(width: 150,),
+  //                                Row(
+  //                                  children: [
+  //                                    IconButton(
+  //                                        onPressed: () {
+  //                                          showDialog(
+  //                                            context: context,
+  //                                            builder: (context) => Dialog(
+  //                                              child: ListView(
+  //                                                padding: const EdgeInsets.symmetric(
+  //                                                  vertical: 16,
+  //                                                ),
+  //                                                shrinkWrap: true,
+  //                                                children: ['Remove from wishlist']
+  //                                                    .map(
+  //                                                      (e) => InkWell(
+  //                                                    onTap: () async {
+  //                                                      removeWishListApi(
+  //                                                          getWishListModel
+  //                                                              ?.data?.webinar![index].id ??
+  //                                                              "", 2);
+  //                                                      Navigator.of(context).pop();
+  //                                                    },
+  //                                                    child: Container(
+  //                                                      padding: const EdgeInsets
+  //                                                          .symmetric(
+  //                                                        vertical: 12,
+  //                                                        horizontal: 16,
+  //                                                      ),
+  //                                                      child: Text(e),
+  //                                                    ),
+  //                                                  ),
+  //                                                )
+  //                                                    .toList(),
+  //                                              ),
+  //                                            ),
+  //                                          );
+  //                                        },
+  //                                        icon: Icon(Icons.more_vert_rounded))
+  //                                  ],
+  //                                ),
+  //                              ],
+  //                            ),
+  //                            SizedBox(height: 3),
+  //                            Text('${getWishListModel?.data!.webinar![index].userName}',style: TextStyle(fontSize: 10,),),
+  //                            SizedBox(height: 3),
+  //                            // Text('${getWishListModel?.data!.webinar![index].userDigree}',style: TextStyle(fontSize: 10,),),
+  //                            SizedBox(height: 3),
+  //                            Text('${getWishListModel?.data!.webinar![index].userAddress}',style: TextStyle(fontSize: 10,),),
+  //                            SizedBox(height: 3),
+  //                            Text('${getWishListModel?.data!.webinar![index].description}',style: TextStyle(fontSize: 10,),),
+  //                            SizedBox(height: 10,),
+  //                            Row(
+  //                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                              children: [
+  //                                Container(
+  //                                  height: 25,
+  //                                  child: ElevatedButton(
+  //                                      onPressed: (){
+  //                                        launch('${getWishListModel?.data!.webinar![index].link}');
+  //                                      },
+  //                                      style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+  //                                      child: Text('Live link',style: TextStyle(color: Colors.white,fontSize: 10),)),
+  //                                ),
+  //                                SizedBox(width: 10),
+  //                                Container(
+  //                                  height: 25,
+  //                                  child: ElevatedButton(onPressed: (){
+  //                                    downloadFile('${getWishListModel?.data!.webinar![index].image}', getWishListModel?.data!.webinar![index].userName??'');
+  //                                  },
+  //                                      style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+  //                                      child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+  //                                ),
+  //                                // Row(
+  //                                //   children: [
+  //                                //     IconButton(onPressed: (){
+  //                                //       setState(() {
+  //                                //         getNewWishlistApi(webinarModel?.data[index].id??'');
+  //                                //         webinarModel?.data[index].isSelected = !(webinarModel?.data[index].isSelected ?? false );
+  //                                //       });
+  //                                //     },icon: webinarModel?.data[index].isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,))
+  //                                //   ],
+  //                                // )
+  //                              ],
+  //                            ),
+  //                            SizedBox(height: 20,)
+  //
+  //                          ],
+  //                        ),
+  //                      ],
+  //                    ),
+  //
+  //                  ],
+  //                ),
+  //              );
+  //            }),
+  //      ),
+  //    ],
+  //  );
+  // }
 
-                           ],
-                         ),
-                       ],
-                     ),
+  webinarsCustomCards(model,int i){
+    strObj  = getWishListModel!.data!.webinar![i].image?.split(".");
+    print('_____saaaaaaaasxsssssadasdadasdadawrwerraaaaaaaa_____${strObj![2]}_________');
+    return Column(
+      children: [
+        SizedBox(
+            child: getWishListModel?.data == null ? Center(child: CircularProgressIndicator())  : getWishListModel?.data?.webinar!.isEmpty ?? false ? Text("Not Approved by Admin"):
+            Card(
+              elevation: 5,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 30,
+                    width:MediaQuery.of(context).size.width/1.0,
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(11),topRight: Radius.circular(11))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('${getWishListModel?.data!.webinar![i].startDate.toString().substring(0,10)}',style: TextStyle(color: Colors.white,fontSize: 15),),
+                        SizedBox(width: 20,),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5,bottom: 5),
+                          child: VerticalDivider(thickness: 1,color: colors.whiteTemp,),
+                        ),
+                        SizedBox(width: 20,),
+                        Text('${getWishListModel?.data!.webinar![i].fromTime}',style: TextStyle(color: Colors.white,fontSize: 15),),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                strObj![2] == "pdf" ? Column(
+                                  children: [
 
-                   ],
-                 ),
-               );
-             }),
-       ),
-     ],
-   );
+                                    InkWell(
+                                      onTap: (){
+                                        downloadFile('${getWishListModel?.data?.webinar![i].image}', getWishListModel?.data?.webinar![i].title ?? '');
+                                      } ,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                            width: 55,
+                                            height: 55 ,
+                                            child: Column(
+                                              children: [
+                                                Icon(Icons.download,size: 35,color: colors.secondary,),
+                                                Text("pdf")
+                                              ],
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10,),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: InkWell(
+                                          onTap: (){
+                                            viewFile(getWishListModel?.data?.webinar![i].image ??  "", "File");
+                                          },
+                                          child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
+                                    ),
+                                  ],
+                                )   : Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: ClipRRect(
+                                        borderRadius:  BorderRadius.circular(10),
+                                        child: Image.network("${getWishListModel!.data!.webinar![i].image}",height: 120,width: 80,))),
+                                SizedBox(width: 10,),
+
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      children: [
+                                        Text("${getWishListModel!.data!.webinar![i].title}",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 16),),
+                                        SizedBox(height: 3,),
+                                        Text("${getWishListModel!.data!.webinar![i].topic}"),
+                                        SizedBox(height: 3,),
+                                        Text("${getWishListModel!.data!.webinar![i].moderator}"),
+                                        SizedBox(height: 3,),
+                                        Text("${getWishListModel!.data!.webinar![i].speaker}"),
+                                        SizedBox(height: 3,),
+                                        Text("${getWishListModel!.data!.webinar![i].title}"),
+
+                                      ],
+                                    )
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => Dialog(
+                                          child: ListView(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 16,
+                                            ),
+                                            shrinkWrap: true,
+                                            children: ['Remove from wishlist']
+                                                .map(
+                                                  (e) => InkWell(
+                                                onTap: () async {
+                                                  removeWishListApi(
+                                                      getWishListModel
+                                                          ?.data?.webinar!.first.id ??
+                                                          "", 3);
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 12,
+                                                    horizontal: 16,
+                                                  ),
+                                                  child: Text(e),
+                                                ),
+                                              ),
+                                            )
+                                                .toList(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(Icons.more_vert_rounded))
+                              ],
+                            )
+
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              height: 25,
+                              child: ElevatedButton(
+                                  onPressed: (){
+                                    launch('${getWishListModel?.data!.webinar![i].link}');
+                                  },
+                                  style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                                  child: Text('Live link',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                            ),
+                            SizedBox(width: 10),
+                            Container(
+                              height: 25,
+                              child: ElevatedButton(onPressed: (){
+                                downloadFile('${getWishListModel?.data!.webinar![i].image}', getWishListModel?.data!.webinar![i].userName??'');
+                              },
+                                  style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                                  child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                            ),
+                            // Row(
+                            //   children: [
+                            //     IconButton(onPressed: (){
+                            //       setState(() {
+                            //         getNewWishlistApi(webinarModel?.data[index].id??'');
+                            //         webinarModel?.data[index].isSelected = !(webinarModel?.data[index].isSelected ?? false );
+                            //       });
+                            //     },icon: webinarModel?.data[index].isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,))
+                            //   ],
+                            // )
+                          ],
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20,)
+
+
+                ],
+              ),
+            )
+        ),
+      ],
+    );
   }
   editorialCustomCards(){
    return Column(
@@ -925,6 +1270,7 @@ class _WishlistState extends State<Wishlist> {
                                  Text('${getWishListModel!.data!.editorial![index].userAddress}',style: TextStyle(fontSize: 10,color: colors.blackTemp),),
                                  SizedBox(height: 2),
                                  SizedBox(height: 15,),
+
                                  Row(
                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                    children: [
@@ -962,51 +1308,180 @@ class _WishlistState extends State<Wishlist> {
      ],
    );
   }
-  awarenessCustomCards(){
-   return Column(
-     children: [
-       // SizedBox(
-       //   height: 50,
-       //   child:  aaaaaModel?.data == null ? Center(child: CircularProgressIndicator())  : aaaaaModel?.data?.isEmpty?? false ? Text("Not Approved by Admin"):
-       //   ListView.builder(
-       //       scrollDirection: Axis.horizontal,
-       //       shrinkWrap: true,
-       //       itemCount: aaaaaModel!.data!.length,
-       //       itemBuilder: (BuildContext context, int index) {
-       //         return
-       //           Padding(
-       //             padding: const EdgeInsets.only(left: 8,top: 10,right: 8),
-       //             child: InkWell(
-       //               onTap: (){
-       //                 setState(() {
-       //                   //getNewListApi();
-       //                   _currentIndex = index;
-       //                 });
-       //                 print("this is curent index ${_currentIndex.toString()}");
-       //               },
-       //               child:
-       //               Container(
-       //                 padding: EdgeInsets.only(left: 15,right: 15),
-       //                 height: 50,
-       //                 width: 85,
-       //                 //width: MediaQuery.of(context).size.width/3.5,
-       //                 decoration: BoxDecoration(
-       //                     color: _currentIndex ==  index ?
-       //                     colors.secondary
-       //                         : colors.primary.withOpacity(0.2),
-       //                     borderRadius: BorderRadius.circular(5)
-       //                 ),
-       //                 child: Center(
-       //                   child: Text("${aaaaaModel!.data![index].title}",style: TextStyle(color: _currentIndex == index ?colors.whiteTemp:colors.blackTemp)),
-       //                 ),
-       //               ),
-       //             ),
-       //
-       //           );
-       //       }),
-       // ),
-     ],
-   );
+  // awarenessCustomCards(){
+  //  return Column(
+  //    children: [
+  //      // SizedBox(
+  //      //   height: 50,
+  //      //   child:  aaaaaModel?.data == null ? Center(child: CircularProgressIndicator())  : aaaaaModel?.data?.isEmpty?? false ? Text("Not Approved by Admin"):
+  //      //   ListView.builder(
+  //      //       scrollDirection: Axis.horizontal,
+  //      //       shrinkWrap: true,
+  //      //       itemCount: aaaaaModel!.data!.length,
+  //      //       itemBuilder: (BuildContext context, int index) {
+  //      //         return
+  //      //           Padding(
+  //      //             padding: const EdgeInsets.only(left: 8,top: 10,right: 8),
+  //      //             child: InkWell(
+  //      //               onTap: (){
+  //      //                 setState(() {
+  //      //                   //getNewListApi();
+  //      //                   _currentIndex = index;
+  //      //                 });
+  //      //                 print("this is curent index ${_currentIndex.toString()}");
+  //      //               },
+  //      //               child:
+  //      //               Container(
+  //      //                 padding: EdgeInsets.only(left: 15,right: 15),
+  //      //                 height: 50,
+  //      //                 width: 85,
+  //      //                 //width: MediaQuery.of(context).size.width/3.5,
+  //      //                 decoration: BoxDecoration(
+  //      //                     color: _currentIndex ==  index ?
+  //      //                     colors.secondary
+  //      //                         : colors.primary.withOpacity(0.2),
+  //      //                     borderRadius: BorderRadius.circular(5)
+  //      //                 ),
+  //      //                 child: Center(
+  //      //                   child: Text("${aaaaaModel!.data![index].title}",style: TextStyle(color: _currentIndex == index ?colors.whiteTemp:colors.blackTemp)),
+  //      //                 ),
+  //      //               ),
+  //      //             ),
+  //      //
+  //      //           );
+  //      //       }),
+  //      // ),
+  //    ],
+  //  );
+  // }
+  awarenessCustomCards(model, int i){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // _currentIndex == 1
+                //     ?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            //CircleAvatar
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: getWishListModel!.data!.awareness!.isEmpty
+                                  ? Center(child: CircularProgressIndicator())
+                                  : Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${getWishListModel?.data?.awareness![i].title}",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: colors.secondary,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text("${getWishListModel?.data?.awareness![i].awareLanguage}",),
+
+
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+
+
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                  child: ListView(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                    ),
+                                    shrinkWrap: true,
+                                    children: ['Remove from Awareness']
+                                        .map(
+                                          (e) => InkWell(
+                                        onTap: () async {
+
+                                          removeWishListApi(
+                                              getWishListModel
+                                                  ?.data?.awareness!.first.id ??
+                                                  "", 0);
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets
+                                              .symmetric(
+                                            vertical: 12,
+                                            horizontal: 16,
+                                          ),
+                                          child: Text(e),
+                                        ),
+                                      ),
+                                    )
+                                        .toList(),
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.more_vert_rounded))
+                      ],
+                    )
+                  ],
+                ),
+
+                // : SizedBox(),
+                Container(
+                  width: double.infinity,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child:  Image.network(
+                        "${getWishListModel?.data?.awareness![i].image}",
+                        fit: BoxFit.fill,
+                        height: 250,
+                      )),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("${getWishListModel?.data?.awareness![i].awareInput}",),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
+          )),
+    );
   }
   productCustomCards(){
    return Column(

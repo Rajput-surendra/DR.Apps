@@ -182,7 +182,7 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
                   ? const Center(
                       child: SingleChildScrollView(),
                     )
-                  : companyList.isEmpty ? Center(
+                  : companyList.isEmpty ? const Center(
                 child: CircularProgressIndicator()
               ) : SizedBox(
                 height: MediaQuery.of(context).size.height/1.0,
@@ -264,13 +264,16 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
     };
     var request =
         http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
+    // print('__________${}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
       final finalResult = NewSliderModel.fromJson(json.decode(result));
+      print('____hhhhhhhhh00______${newSliderModel?.data?[0].image}_________');
       setState(() {
         newSliderModel = finalResult;
+        print('____hhhhhhhhh00______${newSliderModel?.data?[0].image}_________');
       });
     } else {
       print(response.reasonPhrase);

@@ -712,6 +712,7 @@ searchProduct(String value) {
     }
     return dots;
   }
+
   _shareQrCode() async {
     iconVisible = true;
     iconVisible1 = true;

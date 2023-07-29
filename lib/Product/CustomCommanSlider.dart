@@ -8,6 +8,7 @@ class CustomCommanSlider extends StatefulWidget {
   final String file;
   final String typeID;
 
+
   @override
   State<CustomCommanSlider> createState() => _CustomCommanSliderState();
 }
@@ -50,7 +51,7 @@ class _CustomCommanSliderState extends State<CustomCommanSlider> {
         child: typeString == "jpg"
             ? InkWell(
           onTap: () async{
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>IpcaProductScreen2(PharmaProduct: widget.typeID,)));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>IpcaProductScreen2(PharmaProduct: widget.typeID,companyName: "Product" ,isTrue1: true,)));
             // Uri url = Uri.parse(widget.typeID);
             // if (!await launchUrl(
             //   url,

@@ -161,7 +161,8 @@ class _AddToCartState extends State<AddToCart> {
       key: _refreshIndicatorKey,
       child: Scaffold(
         bottomSheet:
-        userCartModel!.data!.length == 0 ? SizedBox.shrink():    Container(
+       userCartModel?.data?.length == "0" ? SizedBox.shrink():
+        Container(
             height: 60,
             child: InkWell(
               onTap: () async {
@@ -364,7 +365,7 @@ class _AddToCartState extends State<AddToCart> {
         //   ),
         // ),
         appBar: customAppBar(context: context, text:"Cart", isTrue: true, ),
-        body: userCartModel!.data  == null ?Center(child: CircularProgressIndicator()) : userCartModel!.data!.length == 0 ? Center(child: Text("cart is Empty!!")):Padding(
+        body: userCartModel?.data  == null ?Center(child: CircularProgressIndicator()) : userCartModel?.data?.length == 0 ? Center(child: Text("cart is Empty!!")):Padding(
           padding: const EdgeInsets.only(top: 10,left: 5,right: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

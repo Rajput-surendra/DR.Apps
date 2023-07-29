@@ -559,11 +559,14 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                             borderRadius: BorderRadius.circular(10),
                             color: colors.primary,
                           ),
-                          child: const Center(
-                              child: Text(
+                          child:  Center(
+                              child:dataList.length ==  0 ? Text(
+                                "Add",
+                                style: TextStyle(color: Colors.white),
+                              ) : Text(
                                 "Add more",
                                 style: TextStyle(color: Colors.white),
-                              ))),
+                              ) )),
                     ),
                   ),
                   const SizedBox(
@@ -623,6 +626,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                   const SizedBox(
                     height: 20,
                   ),
+                  dataList.length == 0 ?SizedBox.shrink():
                   Btn(
                     height: 50,
                     width: 320,

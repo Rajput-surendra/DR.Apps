@@ -51,12 +51,11 @@ GetWishListModel copyWith({  bool? status,
 
 class Data {
   Data({
-      List<News>? news, 
       List<Webinar>? webinar, 
       List<Event>? event, 
       List<Editorial>? editorial, 
       List<Awareness>? awareness,}){
-    _news = news;
+
     _webinar = webinar;
     _event = event;
     _editorial = editorial;
@@ -64,12 +63,6 @@ class Data {
 }
 
   Data.fromJson(dynamic json) {
-    if (json['news'] != null) {
-      _news = [];
-      json['news'].forEach((v) {
-        _news?.add(News.fromJson(v));
-      });
-    }
     if (json['webinar'] != null) {
       _webinar = [];
       json['webinar'].forEach((v) {
@@ -96,7 +89,6 @@ class Data {
     }
 
   }
-  List<News>? _news;
   List<Webinar>? _webinar;
   List<Event>? _event;
   List<Editorial>? _editorial;
@@ -106,13 +98,13 @@ Data copyWith({  List<News>? news,
   List<Event>? event,
   List<Editorial>? editorial,
   List<Awareness>? awareness,
-}) => Data(  news: news ?? _news,
+}) => Data(
   webinar: webinar ?? _webinar,
   event: event ?? _event,
   editorial: editorial ?? _editorial,
   awareness: awareness ?? _awareness,
 );
-  List<News>? get news => _news;
+
   List<Webinar>? get webinar => _webinar;
   List<Event>? get event => _event;
   List<Editorial>? get editorial => _editorial;
@@ -120,9 +112,7 @@ Data copyWith({  List<News>? news,
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    if (_news != null) {
-      map['news'] = _news?.map((v) => v.toJson()).toList();
-    }
+
     if (_webinar != null) {
       map['webinar'] = _webinar?.map((v) => v.toJson()).toList();
     }

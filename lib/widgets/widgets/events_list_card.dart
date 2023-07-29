@@ -12,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../Helper/Appbar.dart';
 import '../../Helper/Color.dart';
 
 import 'package:share_plus/share_plus.dart';
@@ -156,7 +157,7 @@ List? strObj;
                               height: 55 ,
                               child: Column(
                                 children: [
-                                  Icon(Icons.download,size: 40,color: colors.secondary,),
+                                  Icon(Icons.download,size: 35,color: colors.secondary,),
                                   Text("pdf")
                                 ],
                               )
@@ -248,9 +249,7 @@ List? strObj;
       String appDocPath = directory.path;
       String fileName = 'document.pdf';
       String filePath = '$appDocPath/$fileName';
-
       await dio.download(url, filePath);
-
       // Open PDF using FlutterPdfView plugin
       if (await File(filePath).exists()) {
         print('This is file path is here------${filePath}');
@@ -258,9 +257,7 @@ List? strObj;
           context,
           MaterialPageRoute(
             builder: (context) => Scaffold(
-              appBar: AppBar(
-                title: Text('PDF Viewer'),
-              ),
+              appBar: customAppBar(context: context, text: "View Pdf", isTrue: true, ),
               body: PDFView(
                 filePath: filePath,
               ),
@@ -287,7 +284,7 @@ List? strObj;
           print("path here ${file}");
           displayPDF(url);
           //  setSnackbar("File Downloaded successfully!", context);
-          Fluttertoast.showToast(msg: "File Downloaded successfully!");
+          Fluttertoast.showToast(msg: "File View successfully!");
           // var snackBar = SnackBar(
           //   backgroundColor: colors.primary,
           //   // content: Text('File Download Successfully '),
@@ -296,7 +293,6 @@ List? strObj;
           //This will be the path of the downloaded file
         });
   }
-
 
   downloadFile(String url, String filename, ) async {
     FileDownloader.downloadFile(

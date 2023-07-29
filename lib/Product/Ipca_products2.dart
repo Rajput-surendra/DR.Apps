@@ -16,8 +16,9 @@ import 'package:http/http.dart'as http;
 import '../Screen/AddToCart.dart';
 
 class IpcaProductScreen2 extends StatefulWidget {
-  const IpcaProductScreen2({Key? key,this.PharmaProduct,this.companyName}) : super(key: key);
+   IpcaProductScreen2({Key? key,this.PharmaProduct,this.companyName,required this.isTrue1}) : super(key: key);
   final PharmaProduct ,companyName;
+  bool isTrue1;
 
   @override
   State<IpcaProductScreen2> createState() => _IpcaProductScreen2State();
@@ -57,7 +58,7 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
     request.fields.addAll({
       'product_variant_ids': widget.PharmaProduct,
     });
-    print("thi si i9 s=------------>${request.fields}");
+    print("thi si i9 s=------------>${request.fields}----------${ApiService.getPharmaProducts}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -109,7 +110,7 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
       onRefresh: _refresh,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: customAppBar(context: context, text:"${widget.companyName}", isTrue: true, ),
+        appBar: customAppBar(context: context, text: widget.isTrue1 ? "Product" : "${widget.companyName}", isTrue: true, ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(5.0),

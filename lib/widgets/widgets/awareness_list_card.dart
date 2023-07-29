@@ -114,15 +114,15 @@ class _AwarenessState extends State<AwarenessListCard> {
                       )
                     ],
                   ),
-                  Container(
-                    width: double.infinity,
-                    child:  DecoratedBox(
-                        decoration:  BoxDecoration(
-                        ),
-                        child:widget.getAwareNess?.data.poster?[widget.index].image == null || widget.getAwareNess?.data.poster?[widget.index].image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getAwareNess?.data.poster?[widget.index].image}",fit: BoxFit.cover,)
-                    ),
-
-                  ),
+                  // Container(
+                  //   width: double.infinity,
+                  //   child:  DecoratedBox(
+                  //       decoration:  BoxDecoration(
+                  //       ),
+                  //       child:widget.getAwareNess?.data.poster?[widget.index].image == null || widget.getAwareNess?.data.poster?[widget.index].image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getAwareNess?.data.poster?[widget.index].image}",fit: BoxFit.cover,)
+                  //   ),
+                  //
+                  // ),
                   Container(
                     width: double.infinity,
                     child: ClipRRect(
@@ -485,31 +485,49 @@ class _AwarenessState extends State<AwarenessListCard> {
     ) : SizedBox()  ;
 
   }
-  downloadFile(String url, String filename) async {
+  // downloadFile(String url, String filename) async {
+  //   FileDownloader.downloadFile(
+  //       url: "${url}",
+  //       name: "${filename}",
+  //       onDownloadCompleted: (path) {
+  //         print(path);
+  //         String tempPath = path.toString().replaceAll("Download", "DR Apps");
+  //         final File file = File(tempPath);
+  //         print("path here ${file}");
+  //         var snackBar = SnackBar(
+  //           backgroundColor: colors.primary,
+  //           content: Row(
+  //             children: [
+  //               const Text('doctorapp Saved in your storage'),
+  //               TextButton(onPressed: (){}, child: Text("View"))
+  //
+  //             ],
+  //           ),
+  //         );
+  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //         //This will be the path of the downloaded file
+  //       });
+  // }
+
+  downloadFile(String url, String filename, ) async {
     FileDownloader.downloadFile(
-        url: "${url}",
+        url:  "${url}",
+        //'https://completewomencares.com/public/upload/1686124273.pdf',
         name: "${filename}",
         onDownloadCompleted: (path) {
           print(path);
-          String tempPath = path.toString().replaceAll("Download", "DR Apps");
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
           final File file = File(tempPath);
           print("path here ${file}");
+          //  setSnackbar("File Downloaded successfully!", context);
           var snackBar = SnackBar(
-            backgroundColor: colors.primary,
-            content: Row(
-              children: [
-                const Text('doctorapp Saved in your storage'),
-                TextButton(onPressed: (){}, child: Text("View"))
-
-              ],
-            ),
+            backgroundColor: colors.secondary,
+            content: Text('File Download Successfully'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           //This will be the path of the downloaded file
         });
   }
-
-
   _shareQrCode({String? text}) async {
     iconVisible = true ;
     var status =  await Permission.photos.request();

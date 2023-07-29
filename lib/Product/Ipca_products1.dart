@@ -127,7 +127,7 @@ final  String? pharmaCategory ,ProdectName ,SliderId, companyName;
                  var item =  pharmaProductsList[index];
                 return InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>IpcaProductScreen2(PharmaProduct:pharmaProductsList[index].id,companyName: widget.companyName,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>IpcaProductScreen2(PharmaProduct:pharmaProductsList[index].id,companyName: widget.companyName,isTrue1: false,)));
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
