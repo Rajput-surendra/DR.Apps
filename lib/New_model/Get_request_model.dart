@@ -1,6 +1,6 @@
-/// error : false
-/// message : "Request added successfully"
-/// data : [{"int":"3","user_id":"602","type":"Awareness inputs","json":{"dr_name":"tvfgffv","dr_association":"","degree":"fvfvvvf","place":"ffv","request":"Leaflet","awareness_request":null,"topic":"fvfv","clinic_hospital":"gvg ","email":" fgg@gmail.com","message":"fvvfg ","awareness_day":"","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-26 17:18:13","updated_at":"2023-07-26 17:18:13"},{"int":"5","user_id":"602","type":"Awareness inputs","json":{"dr_name":"vdgegdvdgdrh","dr_association":"","degree":"","place":"bdbdbfb","request":"Leaflet","awareness_request":null,"topic":"gsgeg","clinic_hospital":"bfbfbfh","email":"tttt@gmail.com","message":"bdbdh","awareness_day":"","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-26 17:33:44","updated_at":"2023-07-26 17:33:44"},{"int":"6","user_id":"602","type":"Worlds Awareness Day inputs","json":{"dr_name":"vtvtvtv","dr_association":"","degree":"mca","place":"fvfvgv","request":null,"awareness_request":"Poster","topic":"","clinic_hospital":"crcrc","email":"fvfvgv","message":"g g g ","awareness_day":"tvfgg","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-26 17:36:12","updated_at":"2023-07-26 17:36:12"},{"int":"7","user_id":"602","type":"Online Webinar Invitation Designs","json":{"dr_name":"","dr_association":"tggtg","degree":"vffvr","place":"vc g ","request":null,"awareness_request":"Poster","topic":"VF g ","clinic_hospital":"fvfvgv","email":"fvf f fvvxbttv@ail.com","message":"bgbybgbgb","awareness_day":"","moderator":"g. gvb","speaker_name":" f fgvtvt","date":"2023-07-27","time":"9:42 PM","event_name":"","conference":""},"created_at":"2023-07-26 17:40:54","updated_at":"2023-07-26 17:40:54"}]
+  /// error : false
+/// message : "Record found"
+/// data : [{"id":"42","user_id":"621","type":"Awareness inputs","json":{"dr_name":"Dr. Shivom Singh","dr_association":"","degree":"MBBS","place":"Vijay nagar indore ","request":"Poster","awareness_request":null,"topic":"Arthirits","clinic_hospital":"AIIMS","email":"shivom@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-29 12:05:55","updated_at":"2023-07-29 12:05:55","name":"Shivom singh","doc_digree":"MBBS","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690611849169.jpg"},{"id":"43","user_id":"621","type":"Worlds Awareness Day inputs","json":{"dr_name":"Dr. Shivom Singh","dr_association":"","degree":"MBBS","place":"VIJAY NAGAR INDORE ","request":null,"awareness_request":"Greeting","topic":"","clinic_hospital":"AIIMS","email":"shivom@gmail.com","message":" I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.","awareness_day":"World Kidney Day","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-29 12:06:59","updated_at":"2023-07-29 12:06:59","name":"Shivom singh","doc_digree":"MBBS","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690611849169.jpg"},{"id":"44","user_id":"621","type":"Event Invitation Designs","json":{"dr_name":"","dr_association":"MP Ortho Association ","degree":"MBBS","place":"Hotel Ankola Worli, Mumbai Maharashtra ","request":null,"awareness_request":"Greeting","topic":"Psoriasis In Dermatology ","clinic_hospital":"AIIMS ","email":"shivom@gmail.com","message":"I Request to pharma companies can you please design above Event invitation for our Event.","awareness_day":"","moderator":"","speaker_name":"","date":"2023-07-29","time":"12:10","event_name":"Miracon 2023","conference":"Dr. Asmani soni"},"created_at":"2023-07-29 12:11:28","updated_at":"2023-07-29 12:11:28","name":"Shivom singh","doc_digree":"MBBS","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690611849169.jpg"},{"id":"45","user_id":"621","type":"Awareness inputs","json":{"dr_name":"Vinod S","dr_association":"","degree":"MBBS","place":"Vasai","request":"Poster","awareness_request":null,"topic":"Rheumatoid arthritis ","clinic_hospital":"Viva hospital ","email":"viva@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-30 07:03:16","updated_at":"2023-07-30 07:03:16","name":"Shivom singh","doc_digree":"MBBS","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690611849169.jpg"},{"id":"46","user_id":"621","type":"Worlds Awareness Day inputs","json":{"dr_name":"Pratham S","dr_association":"","degree":"MBBS","place":"Vasai ","request":null,"awareness_request":"Greeting","topic":"","clinic_hospital":"Viva hospital","email":"viva@gmail.com","message":" I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.","awareness_day":"World Yoga Day ","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-30 07:06:33","updated_at":"2023-07-30 07:06:33","name":"Shivom singh","doc_digree":"MBBS","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690611849169.jpg"},{"id":"47","user_id":"621","type":"CME Invitation Designs","json":{"dr_name":"","dr_association":"IRACON 2023","degree":"MD","place":"Vasai","request":null,"awareness_request":"Greeting","topic":"Rheumatoid Arthritis","clinic_hospital":"Viva hospital ","email":"pratham@gmail.com","message":" I Request to pharma companies can you please design above CME invitation for our CME.","awareness_day":"","moderator":"Dr. Gharat","speaker_name":"Dr. Sunil apotikar","date":"2023-07-31","time":"10:00 AM","event_name":"","conference":""},"created_at":"2023-07-30 07:10:55","updated_at":"2023-07-30 07:10:55","name":"Shivom singh","doc_digree":"MBBS","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690611849169.jpg"},{"id":"48","user_id":"635","type":"Awareness inputs","json":{"dr_name":"","dr_association":"","degree":"","place":"Indore","request":"Leaflet","awareness_request":null,"topic":"Arthritis","clinic_hospital":"AIIMS","email":"Dr.shivom@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-31 16:19:51","updated_at":"2023-07-31 16:19:51","name":"ayes","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690784702441.jpg"},{"id":"49","user_id":"635","type":"Awareness inputs","json":{"dr_name":"","dr_association":"","degree":"","place":"INDORE","request":"Poster","awareness_request":null,"topic":"Psoriasis","clinic_hospital":"AIIMS","email":"Dr.shivom@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.testetstsydhdnxnhdjsjsnnsjdhdhdjddjjdhdhbcbxbxbxbbxbxbxbxbxbxbxbxbxbxbxbxbxbdhsgdhdhhd","awareness_day":"","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-31 16:25:56","updated_at":"2023-07-31 16:25:56","name":"ayes","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690784702441.jpg"},{"id":"50","user_id":"635","type":"Online Webinar Invitation Designs","json":{"dr_name":"","dr_association":"MP Ortho Association ","degree":"Mbbs","place":"Hotel Ankola ","request":null,"awareness_request":"Greeting","topic":"Psoriasis ","clinic_hospital":"Aiims","email":"shivansh@gmail.com","message":"I Request to pharma companies can you please design above Webinar invitation for our online webinar.","awareness_day":"","moderator":"Dr Shivani","speaker_name":"Dr Suresh","date":"2023-07-31","time":"4:42 PM","event_name":"","conference":""},"created_at":"2023-07-31 16:37:59","updated_at":"2023-07-31 16:37:59","name":"ayes","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690784702441.jpg"},{"id":"51","user_id":"635","type":"Worlds Awareness Day inputs","json":{"dr_name":"","dr_association":"","degree":"","place":"indore ","request":null,"awareness_request":"Greeting","topic":"","clinic_hospital":"Aiims","email":"test@gmail.com","message":" I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.hfhdhdhdhdhdudhdufhdydyd","awareness_day":"World kidney day","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-07-31 16:51:06","updated_at":"2023-07-31 16:51:06","name":"ayes","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690784702441.jpg"},{"id":"52","user_id":"635","type":"Online Webinar Invitation Designs","json":{"dr_name":"","dr_association":"sure","degree":"mbbs","place":"INDORE ","request":null,"awareness_request":"Online Webinar Invitation Designs","topic":"nothing ","clinic_hospital":"vijaynagar ","email":"surendr@gmail.com","message":"I Request to pharma companies can you please design above Webinar invitation for our online webinar. good morning sir please send me the meeting is new to you are not able to you are not able to you are ","awareness_day":"","moderator":"new ","speaker_name":"hello","date":"2023-08-04","time":"5:25 PM","event_name":"","conference":""},"created_at":"2023-07-31 17:20:27","updated_at":"2023-07-31 17:20:27","name":"ayes","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690784702441.jpg"},{"id":"53","user_id":"635","type":"Online Webinar Invitation Designs","json":{"dr_name":"","dr_association":"gvtvtvygv","degree":"","place":" ggv","request":null,"awareness_request":"Online Webinar Invitation Designs","topic":"gvtvvt","clinic_hospital":"yvvtvtgt","email":"yy@gmail.com","message":"I Request to pharma companies can you please design above Webinar invitation for our online webinar.","awareness_day":"","moderator":"bunubu","degree_moderator":"vttvtvt","speaker_name":"jjj","degree_speaker_name":"mbbbbbbb","degree_conference":"","date":"2023-07-31","time":"5:45 PM","event_name":"","conference":""},"created_at":"2023-07-31 17:40:47","updated_at":"2023-07-31 17:40:47","name":"ayes","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690784702441.jpg"}]
 
 class GetRequestModel {
   GetRequestModel({
@@ -48,98 +48,115 @@ GetRequestModel copyWith({  bool? error,
 
 }
 
-/// int : "3"
-/// user_id : "602"
+/// id : "42"
+/// user_id : "621"
 /// type : "Awareness inputs"
-/// json : {"dr_name":"tvfgffv","dr_association":"","degree":"fvfvvvf","place":"ffv","request":"Leaflet","awareness_request":null,"topic":"fvfv","clinic_hospital":"gvg ","email":" fgg@gmail.com","message":"fvvfg ","awareness_day":"","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""}
-/// created_at : "2023-07-26 17:18:13"
-/// updated_at : "2023-07-26 17:18:13"
+/// json : {"dr_name":"Dr. Shivom Singh","dr_association":"","degree":"MBBS","place":"Vijay nagar indore ","request":"Poster","awareness_request":null,"topic":"Arthirits","clinic_hospital":"AIIMS","email":"shivom@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","speaker_name":"","date":"","time":"","event_name":"","conference":""}
+/// created_at : "2023-07-29 12:05:55"
+/// updated_at : "2023-07-29 12:05:55"
+/// name : "Shivom singh"
+/// doc_digree : "MBBS"
+/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690611849169.jpg"
 
 class Data {
   Data({
-      String? int, 
+      String? id, 
       String? userId, 
       String? type, 
       Json? json, 
-      String? createdAt,
-      String? userImage,
-
-      String? updatedAt,}){
-    _int = int;
+      String? createdAt, 
+      String? updatedAt, 
+      String? name, 
+      String? docDigree, 
+      String? userImage,}){
+    _id = id;
     _userId = userId;
     _type = type;
     _json = json;
-    _userImage = userImage;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
+    _name = name;
+    _docDigree = docDigree;
+    _userImage = userImage;
 }
 
   Data.fromJson(dynamic json) {
-    _int = json['int'];
+    _id = json['id'];
     _userId = json['user_id'];
     _type = json['type'];
-    _userImage = json['user_image'];
     _json = json['json'] != null ? Json.fromJson(json['json']) : null;
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
+    _name = json['name'];
+    _docDigree = json['doc_digree'];
+    _userImage = json['user_image'];
   }
-  String? _int;
+  String? _id;
   String? _userId;
   String? _type;
-  String? _userImage;
   Json? _json;
   String? _createdAt;
   String? _updatedAt;
-Data copyWith({  String? int,
+  String? _name;
+  String? _docDigree;
+  String? _userImage;
+Data copyWith({  String? id,
   String? userId,
   String? type,
-  String? userImage,
   Json? json,
   String? createdAt,
   String? updatedAt,
-}) => Data(  int: int ?? _int,
+  String? name,
+  String? docDigree,
+  String? userImage,
+}) => Data(  id: id ?? _id,
   userId: userId ?? _userId,
   type: type ?? _type,
   json: json ?? _json,
-  userImage: userImage ?? _userImage,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
+  name: name ?? _name,
+  docDigree: docDigree ?? _docDigree,
+  userImage: userImage ?? _userImage,
 );
-  String? get int => _int;
+  String? get id => _id;
   String? get userId => _userId;
   String? get type => _type;
-  String? get userImage => _userImage;
   Json? get json => _json;
-
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
+  String? get name => _name;
+  String? get docDigree => _docDigree;
+  String? get userImage => _userImage;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['int'] = _int;
+    map['id'] = _id;
     map['user_id'] = _userId;
-    map['user_image'] = _userImage;
     map['type'] = _type;
     if (_json != null) {
       map['json'] = _json?.toJson();
     }
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
+    map['name'] = _name;
+    map['doc_digree'] = _docDigree;
+    map['user_image'] = _userImage;
     return map;
   }
 
 }
 
-/// dr_name : "tvfgffv"
+/// dr_name : "Dr. Shivom Singh"
 /// dr_association : ""
-/// degree : "fvfvvvf"
-/// place : "ffv"
-/// request : "Leaflet"
+/// degree : "MBBS"
+/// place : "Vijay nagar indore "
+/// request : "Poster"
 /// awareness_request : null
-/// topic : "fvfv"
-/// clinic_hospital : "gvg "
-/// email : " fgg@gmail.com"
-/// message : "fvvfg "
+/// topic : "Arthirits"
+/// clinic_hospital : "AIIMS"
+/// email : "shivom@gmail.com"
+/// message : "I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only."
 /// awareness_day : ""
 /// moderator : ""
 /// speaker_name : ""
@@ -150,8 +167,11 @@ Data copyWith({  String? int,
 
 class Json {
   Json({
-      String? drName, 
-      String? drAssociation, 
+      String? drName,
+      String? speakerNameDedree,
+      String? degreeConference,
+      String? degreeModerator,
+      String? drAssociation,
       String? degree, 
       String? place, 
       String? request, 
@@ -180,6 +200,9 @@ class Json {
     _awarenessDay = awarenessDay;
     _moderator = moderator;
     _speakerName = speakerName;
+    _speakerNameDedree = speakerNameDedree;
+    _degreeConference = degreeConference;
+     _degreeModerator = degreeModerator;
     _date = date;
     _time = time;
     _eventName = eventName;
@@ -200,6 +223,9 @@ class Json {
     _awarenessDay = json['awareness_day'];
     _moderator = json['moderator'];
     _speakerName = json['speaker_name'];
+    _speakerNameDedree = json['degree_speaker_name'];
+    _degreeConference = json['degree_conference'];
+    _degreeModerator = json['degree_moderator'];
     _date = json['date'];
     _time = json['time'];
     _eventName = json['event_name'];
@@ -218,6 +244,9 @@ class Json {
   String? _awarenessDay;
   String? _moderator;
   String? _speakerName;
+  String? _speakerNameDedree;
+  String? _degreeConference;
+  String? _degreeModerator;
   String? _date;
   String? _time;
   String? _eventName;
@@ -235,6 +264,9 @@ Json copyWith({  String? drName,
   String? awarenessDay,
   String? moderator,
   String? speakerName,
+  String? speakerNameDedree,
+  String? degreeConference,
+  String? degreeModerator,
   String? date,
   String? time,
   String? eventName,
@@ -252,6 +284,9 @@ Json copyWith({  String? drName,
   awarenessDay: awarenessDay ?? _awarenessDay,
   moderator: moderator ?? _moderator,
   speakerName: speakerName ?? _speakerName,
+  speakerNameDedree: speakerNameDedree ?? _speakerNameDedree,
+  degreeConference: degreeConference ?? _degreeConference,
+  degreeModerator: degreeModerator ?? _degreeModerator,
   date: date ?? _date,
   time: time ?? _time,
   eventName: eventName ?? _eventName,
@@ -270,6 +305,9 @@ Json copyWith({  String? drName,
   String? get awarenessDay => _awarenessDay;
   String? get moderator => _moderator;
   String? get speakerName => _speakerName;
+  String? get speakerNameDedree => _speakerNameDedree;
+  String? get degreeConference => _degreeConference;
+  String? get degreeModerator => _degreeModerator;
   String? get date => _date;
   String? get time => _time;
   String? get eventName => _eventName;
@@ -290,6 +328,9 @@ Json copyWith({  String? drName,
     map['awareness_day'] = _awarenessDay;
     map['moderator'] = _moderator;
     map['speaker_name'] = _speakerName;
+    map['degree_speaker_name'] = _speakerNameDedree;
+    map['degree_conference'] = _degreeConference;
+    map['degree_moderator'] = _degreeModerator;
     map['date'] = _date;
     map['time'] = _time;
     map['event_name'] = _eventName;

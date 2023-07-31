@@ -102,12 +102,10 @@ class _DoctorRequestState extends State<DoctorRequest> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          getRequestModel!.data![index].type == "Awareness inputs"  ||getRequestModel!.data![index].type == "Worlds Awareness Day inputs"   ? Text("${getRequestModel!.data![index].json!.drName}",style: TextStyle(
-                              color: colors.secondary,fontWeight: FontWeight.bold
-                          ),):Text("${getRequestModel!.data![index].json!.drAssociation}",style: TextStyle(
+                          Text("Dr.${getRequestModel!.data![index].name}",style: TextStyle(
                               color: colors.secondary,fontWeight: FontWeight.bold
                           ),),
-                          Text("Degree-${getRequestModel!.data![index].json!.degree}",style: TextStyle(color: colors.blackTemp),),
+                          Text("Degree-${getRequestModel!.data![index].docDigree}",style: TextStyle(color: colors.blackTemp),),
 
                         ],
                       ),
@@ -120,18 +118,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("${getRequestModel!.data![index].type}",style: TextStyle(color: colors.secondary,fontWeight: FontWeight.bold,fontSize: 20),),
-                          Divider(
-                            // indent: 5,
-                            // endIndent: 5,
-                            color: colors.black54,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-                              Text("${getRequestModel!.data![index].json!.place}",),
-                            ],
-                          ),
+
                           Divider(
                             color: colors.black54,
                           ),
@@ -145,6 +132,53 @@ class _DoctorRequestState extends State<DoctorRequest> {
                           Divider(
                             color: colors.black54,
                           ),
+                          getRequestModel!.data![index].type  == "Awareness inputs" ||  getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Dr.Association Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getRequestModel!.data![index].json!.drAssociation}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ) ,
+                          getRequestModel!.data![index].type == "Event Invitation Designs" ?  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Event Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getRequestModel!.data![index].json!.eventName}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                        getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getRequestModel!.data![index].json!.place}",),
+                                ],
+                              ),
+                              Divider(
+                                // indent: 5,
+                                // endIndent: 5,
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
                           getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -160,6 +194,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
                               ),
                             ],
                           ) ,
+
                           getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -175,7 +210,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
                               ),
                             ],
                           ):SizedBox.shrink(),
-                          getRequestModel!.data![index].type == "CME Invitation Designs" || getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
+                          getRequestModel!.data![index].type == "CME Invitation Designs" ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Column(
@@ -183,6 +218,8 @@ class _DoctorRequestState extends State<DoctorRequest> {
                                 children: [
                                   Text("Speaker Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
                                   Text("${getRequestModel!.data![index].json!.speakerName}",),
+                                  SizedBox(height: 3,),
+                                  Text("${getRequestModel!.data![index].json!.speakerNameDedree}",),
                                 ],
                               ),
                               Divider(
@@ -190,14 +227,16 @@ class _DoctorRequestState extends State<DoctorRequest> {
                               ),
                             ],
                           ):SizedBox.shrink(),
-                          getRequestModel!.data![index].type == "CME Invitation Designs" || getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
+                          getRequestModel!.data![index].type == "CME Invitation Designs"  ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Moderator :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("Moderator Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
                                   Text("${getRequestModel!.data![index].json!.moderator}",),
+                                  SizedBox(height: 3,),
+                                  Text("${getRequestModel!.data![index].json!.degreeModerator}",),
                                 ],
                               ),
                               Divider(
@@ -205,6 +244,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
                               ),
                             ],
                           ):SizedBox.shrink(),
+
                           getRequestModel!.data![index].type == "CME Invitation Designs" ||getRequestModel!.data![index].type == "Event Invitation Designs" ||  getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -235,6 +275,73 @@ class _DoctorRequestState extends State<DoctorRequest> {
                               ),
                             ],
                           ):SizedBox.shrink(),
+                          getRequestModel!.data![index].type == "CME Invitation Designs" ?  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getRequestModel!.data![index].json!.place}",),
+                                ],
+                              ),
+                              Divider(
+                                // indent: 5,
+                                // endIndent: 5,
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getRequestModel!.data![index].type == "Event Invitation Designs" ?  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getRequestModel!.data![index].json!.place}",),
+                                ],
+                              ),
+                              Divider(
+                                // indent: 5,
+                                // endIndent: 5,
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                           getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Speaker Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getRequestModel!.data![index].json!.speakerName}",),
+                                 SizedBox(height: 2,),
+                                 Text("${getRequestModel!.data![index].json!.speakerNameDedree}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                      getRequestModel!.data![index].type == "Online Webinar Invitation Designs"   ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Moderator :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getRequestModel!.data![index].json!.moderator}",),
+                                  Text("${getRequestModel!.data![index].json!.degreeModerator}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
                          getRequestModel!.data![index].type == "Event Invitation Designs" ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -243,6 +350,8 @@ class _DoctorRequestState extends State<DoctorRequest> {
                                 children: [
                                   Text("Conference Secretariat Dr Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
                                   Text("${getRequestModel!.data![index].json!.conference}",),
+                                  SizedBox.shrink(),
+                                  Text("${getRequestModel!.data![index].json!.degreeConference}",),
                                 ],
                               ),
                               Divider(
@@ -265,6 +374,23 @@ class _DoctorRequestState extends State<DoctorRequest> {
                               ),
                             ],
                           ),
+                          getRequestModel!.data![index].type == "Awareness inputs" || getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getRequestModel!.data![index].json!.place}",),
+                                ],
+                              ),
+                              Divider(
+                                // indent: 5,
+                                // endIndent: 5,
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -275,25 +401,31 @@ class _DoctorRequestState extends State<DoctorRequest> {
                                   Text("${getRequestModel!.data![index].json!.email}",),
                                 ],
                               ),
-                              Divider(
-                                color: colors.black54,
-                              ),
+
                             ],
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
+                          SizedBox(height: 10,),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: colors.blackTemp.withOpacity(0.4))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Message for Pharma Company :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-                                  Text("${getRequestModel!.data![index].json!.message}",),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Message for Pharma Company :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                      Text("${getRequestModel!.data![index].json!.message}",),
+                                    ],
+                                  ),
+
                                 ],
                               ),
-                              Divider(
-                                color: colors.black54,
-                              ),
-                            ],
+                            ),
                           )
 
                         ],

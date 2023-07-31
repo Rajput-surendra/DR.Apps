@@ -149,13 +149,14 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   }
 
   GetWebinarModel? webinarModel;
-
+  String? specialityId;
   getOnlineWebinarApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
     String? Roll = preferences.getString('roll');
-    String? specialityId = preferences.getString('specialityId');
+     specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
+    print('____specialityId______${specialityId}_____${localId}____');
     var headers = {
       'Cookie': 'ci_session=ff45191bc42e12d2471ecac1e726d8107925e77c'
     };
@@ -165,7 +166,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'roll': '$Roll',
       'speciality_id': localId == null || localId== '' ?  specialityId ?? '' : localId
     });
-
+    print('_____localId_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -252,12 +253,13 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
         _isReady = true;
       });
     });
-    getS();
+    // getS();
   }
-  String? specialityId;
+  // String? specialityId;
   getS() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     specialityId = preferences.getString('specialityId');
+    print('___specialityId____surendra___${specialityId}_________');
   }
   String dateTime = '2023-03-25 13:45:05';
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =

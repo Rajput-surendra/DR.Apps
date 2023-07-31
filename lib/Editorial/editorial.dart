@@ -52,7 +52,7 @@ class _EditorialState extends State<Editorial> {
     String? Roll = preferences.getString('roll');
     specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print("getEventUserId--------------->${userId}");
+    print("getEventUserId--------------->${localId}");
     print("getRoll--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=ac2ad75ade0fea45b016a264f634bc030be7f15b'
@@ -60,9 +60,9 @@ class _EditorialState extends State<Editorial> {
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getEditorial}'));
     request.fields.addAll({
       'user_id': '$userId',
-      'speciality_id': localId==null || localId== '' ?  specialityId ?? '' : localId
+      'speciality_id': localId == null || localId == '' ?  specialityId ?? '' : localId.toString()
     });
-    print("getRollwwwwwwwwwww--------------->${request.fields}");
+    print("getRollwwwwwwwwwww---------ddddddd------>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {

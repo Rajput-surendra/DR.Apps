@@ -73,6 +73,7 @@ class Booklet {
     this.userDigree,
     this.id,
     this.title,
+    this.thumbnail,
     this.awareInput,
     this.awareLanguage,
     this.date,
@@ -89,6 +90,7 @@ class Booklet {
   String? userAddress;
   String? userPhone;
   String? userDigree;
+  String? thumbnail;
   String? id;
   String? title;
   String? awareInput;
@@ -107,6 +109,7 @@ class Booklet {
     userAddress: json["user_address"],
     userPhone: json["user_phone"],
     userDigree: json["user_digree"],
+      thumbnail: json["thumbnail"],
     id: json["id"],
     title: json["title"],
     awareInput: json["aware_input"],
@@ -124,6 +127,7 @@ class Booklet {
     "user_name": userName,
     "user_image": userImage,
     "user_address": userAddress,
+    "thumbnail": thumbnail,
     "user_phone": userPhone,
     "user_digree": userDigreeValues.reverse[userDigree],
     "id": id,
