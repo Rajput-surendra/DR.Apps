@@ -47,15 +47,22 @@ class _AddRequestState extends State<AddRequest> {
   TextEditingController  awarenessController = TextEditingController();
   TextEditingController  drAssociationController = TextEditingController();
   TextEditingController  speakerController = TextEditingController();
+  TextEditingController  degreespeakerController = TextEditingController();
   TextEditingController  moderatorController = TextEditingController();
   TextEditingController  moderatorDegreeController = TextEditingController();
   TextEditingController  eventController = TextEditingController();
   TextEditingController  conferenceController = TextEditingController();
+  TextEditingController  conferencedegreeController = TextEditingController();
+  TextEditingController  requestCMEController = TextEditingController();
+  TextEditingController  requestEventController = TextEditingController();
+  TextEditingController  requestOnlineController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    requestCMEController = TextEditingController(text: "CME Invitation Designs");
+    requestEventController = TextEditingController(text: "Event Invitation Designs");
+    requestOnlineController = TextEditingController(text: "Online Webinar Invitation Designs");
     messageAwereController =  TextEditingController(text:'I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.');
     messageWorldAwereController =  TextEditingController(text:' I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.');
     messageWorldEmeController =  TextEditingController(text:' I Request to pharma companies can you please design above CME invitation for our CME.');
@@ -67,12 +74,9 @@ class _AddRequestState extends State<AddRequest> {
   List  requestListForJson = [];
   String? newData ;
   String? staticDdfsdfsfsdfsdfsdfsdata;
-
   Widget build(BuildContext context) {
-    print('_____dddddddddddd_____${selectedValue}_________');
     return Scaffold(
       appBar: customAppBar(context: context, text:"Add Request", isTrue: true, ),
-
       body: SingleChildScrollView(
         child: Form(
           key:  _formKey,
@@ -181,503 +185,13 @@ class _AddRequestState extends State<AddRequest> {
   }
   String? _email;
   bool isValidEmail(String value) {
-    // Simple email validation using a regular expression
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value);
   }
-  // String? requestValue ;
-  // final List<String> items = ['*Poster', '*Leaflet', '*Booklet','*Video'];
   awareness(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ?
-           Column(
-             children: [
-               Row(children: [
-                 Text("Dr.Name" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-               ],),
-               SizedBox(height: 3,),
-               SizedBox(
-                 // height: 45,
-                 child: TextFormField(
-                   controller: drController,
-                   validator: (value) {
-                     if ((selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs") && value!.isEmpty) {
-                       return 'Please Enter a Dr. Name';
-                     }
-                     return null;
-                   },
-                   decoration: InputDecoration(
-                       border: OutlineInputBorder(
-                         borderRadius: BorderRadius.circular(10),
-                       )
-                   ),
-
-                 ),
-               ),
-             ],
-           ):
-          Column(
-         children: [
-           Row(children: [
-             Text("Doctor Association Name" ,textAlign: TextAlign.start)
-           ],),
-           SizedBox(height: 3,),
-           SizedBox(
-             // height: 45,
-             child: TextFormField(
-               controller: drAssociationController,
-
-               decoration: InputDecoration(
-                   border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(10),
-                   )
-               ),
-
-             ),
-           ),
-         ],
-       ),
-        //selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? SizedBox(height: 10,):SizedBox.shrink(),
-        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" ? SizedBox(height: 10,):SizedBox.shrink(),
-        selectedValue == "CME Invitation Designs" || selectedValue ==  "Online Webinar Invitation Designs" ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              Text("Topic" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-            ],),
-            SizedBox(height: 3,),
-            SizedBox(
-              // height: 45,
-              child: TextFormField(
-                controller: topicController,
-                validator: (value) {
-                  if ((selectedValue == "CME Invitation Designs" || selectedValue ==  "Online Webinar Invitation Designs") && value!.isEmpty) {
-                    return 'Please Enter a Topic';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  hintText: "e.g. Why Psoriasis",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )
-                ),
-
-              ),
-            ),
-          ],
-        ) :SizedBox.shrink(),
-        // selectedValue == "CME Invitation Designs" ||
-        //     selectedValue == "Event Invitation Designs" ?
-
-        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ?  Column(
-          children: [
-            Row(children: [
-              Text("Degree" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-            ],),
-            SizedBox(height: 3,),
-            SizedBox(
-              // height: 45,
-              child: TextFormField(
-                controller: degreeController,
-                validator: (value) {
-                  if ((selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" )&& value!.isEmpty) {
-                    return 'Please Enter a Degree';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )
-                ),
-
-              ),
-            ),
-          ],
-        ):SizedBox.shrink(),
-      
-            // :SizedBox.shrink(),
-        selectedValue == "Event Invitation Designs"  ?
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              Text("Event Name" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-            ],),
-            SizedBox(height: 3,),
-            SizedBox(
-              // height: 45,
-              child: TextFormField(
-                controller: eventController,
-                validator: (value) {
-                  if ((selectedValue == "Event Invitation Designs") && value!.isEmpty) {
-                    return 'Please Enter a Event Name';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )
-                ),
-
-              ),
-            ),
-          ],
-        ) :SizedBox.shrink(),
-
-        selectedValue == "Event Invitation Designs" ?
-
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              Text("Topic" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-            ],),
-            SizedBox(height: 3,),
-            SizedBox(
-              // height: 45,
-              child: TextFormField(
-                controller: topicController,
-                validator: (value) {
-                  if ((selectedValue == "Event Invitation Designs") && value!.isEmpty) {
-                    return 'Please Enter a Topic';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                    hintText: "e.g. Why Psoriasis",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )
-                ),
-
-              ),
-            ),
-          ],
-        ) :SizedBox.shrink(),
-
-        selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
-          Row(children: [
-            Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-
-          ],),
-          SizedBox(height: 3,),
-          SizedBox(
-            child: TextFormField(
-              controller: placeController,
-              validator: (value) {
-                if ((selectedValue == "Online Webinar Invitation Designs") && value!.isEmpty) {
-                  return 'Please Enter a Place';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )
-              ),
-
-            ),
-          ),
-        ],):SizedBox.shrink(),
-        selectedValue == "Online Webinar Invitation Designs" ? Column(
-          children: [
-            Row(
-              children: [
-                Text("Date" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-              ],
-            ),
-            SizedBox(height: 3,),
-            TextFormField(
-              readOnly: true,
-              onTap: (){
-                _selectDateStart();
-              },
-              controller:dateController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  counterText: "",
-                  hintText: 'Select Date',
-                  contentPadding: EdgeInsets.only(left: 10)
-              ),
-              validator: (v) {
-                if ((selectedValue == "Online Webinar Invitation Designs") && v!.isEmpty) {
-                  return "Start Date is required";
-                }
-
-              },
-            ),
-            SizedBox(height: 10,),
-            Row(children: [
-              Text("Time" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-            ],),
-            SizedBox(height: 3,),
-            TextFormField(
-              readOnly: true,
-              onTap: (){
-                chooseTime(context);
-              },
-              controller:timeController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  counterText: "",
-                  hintText: 'Select Time',
-                  contentPadding: EdgeInsets.only(left: 10)
-              ),
-              validator: (v) {
-                if ((selectedValue == "Online Webinar Invitation Designs") && v!.isEmpty) {
-                  return "Time Date is required";
-                }
-
-              },
-            ),
-          ],):SizedBox.shrink(),
-        // SizedBox(height: 10,),
-        // selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" ?  SizedBox(height: 10,):SizedBox.shrink(),
-    selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs"   ?
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(children: [
-                  Text("Speaker Dr. Name" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-                ],),
-                SizedBox(height: 3,),
-                SizedBox(
-                  // height: 45,
-                  child: TextFormField(
-                    controller: speakerController,
-                    validator: (value) {
-                      if ((selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs") && value!.isEmpty) {
-                        return 'Please Enter a Speaker Dr. Name';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )
-                    ),
-
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Row(children: [
-                  Text("Degree" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-                ],),
-                SizedBox(height: 3,),
-                SizedBox(
-                  // height: 45,
-                  child: TextFormField(
-                    controller: degreeController,
-                    validator: (value) {
-                      if ((selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs") && value!.isEmpty) {
-                        return 'Please Enter a Degree';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )
-                    ),
-
-                  ),
-                ),
-              ],
-            ),
-          ],
-        )
-        :SizedBox.shrink(),
-        // selectedValue == "Event Invitation Designs"  ||    selectedValue == "Online Webinar Invitation Designs"  ?  SizedBox.shrink():
-        // selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs"  ?SizedBox(height: 10,):SizedBox.shrink(),
-        selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs"  ?
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              Text("Moderator Name" ,textAlign: TextAlign.start),  Text("" ,style: TextStyle(color: colors.red),)
-            ],),
-            SizedBox(height: 3,),
-            SizedBox(
-              // height: 45,
-              child: TextFormField(
-                controller: moderatorController,
-                // validator: (value) {
-                //   if (value!.isEmpty) {
-                //     return 'Please Enter a Moderator Name';
-                //   }
-                //   return null;
-                // },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )
-                ),
-
-              ),
-            ),
-
-            Row(children: [
-              Text("Degree" ,textAlign: TextAlign.start),
-            ],),
-            SizedBox(height: 3,),
-            SizedBox(height: 3,),
-            SizedBox(
-              // height: 45,
-              child: TextFormField(
-                controller: moderatorDegreeController,
-                // validator: (value) {
-                //   if (value!.isEmpty) {
-                //     return 'Please Enter a Moderator Name';
-                //   }
-                //   return null;
-                // },
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )
-                ),
-
-              ),
-            ),
-          ],
-        ) :SizedBox.shrink(),
-        SizedBox(height: 10,),
-        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  || selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink():Column(
-          children: [
-          Row(
-            children: [
-            Text("Date" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-          ],
-          ),
-          SizedBox(height: 3,),
-          TextFormField(
-            readOnly: true,
-            onTap: (){
-              _selectDateStart();
-            },
-            controller:dateController,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                counterText: "",
-                hintText: 'Select Date',
-                contentPadding: EdgeInsets.only(left: 10)
-            ),
-            validator: (v) {
-              if (v!.isEmpty) {
-                return "Start Date is required";
-              }
-
-            },
-          ),
-          SizedBox(height: 10,),
-          Row(children: [
-            Text("Time" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-          ],),
-          SizedBox(height: 3,),
-          TextFormField(
-            readOnly: true,
-            onTap: (){
-              chooseTime(context);
-            },
-            controller:timeController,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                counterText: "",
-                hintText: 'Select Time',
-                contentPadding: EdgeInsets.only(left: 10)
-            ),
-            validator: (v) {
-              if (v!.isEmpty) {
-                return "Time Date is required";
-              }
-
-            },
-          ),
-        ],),
-        SizedBox(height: 5,),
-      selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink():Column(children: [
-        Row(children: [
-          Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-
-        ],),
-        SizedBox(height: 3,),
-        SizedBox(
-          child: TextFormField(
-            controller: placeController,
-            validator: (value) {
-              if ((selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  || selectedValue == "Event Invitation Designs" ||selectedValue == "CME Invitation Designs") && value!.isEmpty) {
-                return 'Please Enter a Place';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                )
-            ),
-
-          ),
-        ),
-        ],),
-
-        SizedBox(height: 10,),
-      selectedValue  == "Event Invitation Designs"  ?Column(
-          children: [
-            Row(children: [
-              Text("Conference Secretariat Dr Name" ,textAlign: TextAlign.start),  Text("" ,style: TextStyle(color: colors.red),)
-            ],),
-            SizedBox(height: 3,),
-            SizedBox(
-              // height: 45,
-              child: TextFormField(
-                controller: conferenceController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )
-                ),
-
-              ),
-            ),
-             SizedBox(height: 10,),
-            Row(children: [
-              Text("Degree" ,textAlign: TextAlign.start),
-            ],),
-            SizedBox(height: 3,),
-            SizedBox(
-              // height: 45,
-              child: TextFormField(
-                controller: degreeController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )
-                ),
-
-              ),
-            ),
-          ],
-        ):SizedBox.shrink(),
-        selectedValue  == "Event Invitation Designs"  ?  SizedBox(height: 10,):SizedBox.shrink(),
-      selectedValue == "Awareness inputs" ? Column(
+        selectedValue == "Awareness inputs" ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
@@ -756,109 +270,434 @@ class _AddRequestState extends State<AddRequest> {
 
             ),
           ],
-        ):Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            Text("Request for" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-          ],),
-          SizedBox(height: 3,),
-          Container(
-              padding: EdgeInsets.only(right: 5, top: 12),
-              width: MediaQuery.of(context).size.width,
-              height: 55,
-              decoration:
-              BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all( color: colors.black54),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton2<String>(
-                  dropdownMaxHeight: 220,
-                  hint: const Padding(
-                    padding: EdgeInsets.only(bottom: 15),
-                    child: Text("Select Request",
-                      style: TextStyle(
-                          color: colors.blackTemp,fontWeight: FontWeight.normal
-                      ),),
-                  ),
-                  // dropdownColor: colors.primary,
-                  value: awarenessValue,
-                  icon:  const Padding(
-                    padding: EdgeInsets.only(bottom: 30),
-                    child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
-                  ),
-                  // elevation: 16,
-                  style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                  underline: Padding(
-                    padding: const EdgeInsets.only(left: 0,right: 0),
-                    child: Container(
-                      // height: 2,
-                      color:  colors.whiteTemp,
+        ) :selectedValue == "Worlds Awareness Day inputs" ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              Text("Request for" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            Container(
+                padding: EdgeInsets.only(right: 5, top: 12),
+                width: MediaQuery.of(context).size.width,
+                height: 55,
+                decoration:
+                BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all( color: colors.black54),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2<String>(
+                    dropdownMaxHeight: 220,
+                    hint: const Padding(
+                      padding: EdgeInsets.only(bottom: 15),
+                      child: Text("Select Request",
+                        style: TextStyle(
+                            color: colors.blackTemp,fontWeight: FontWeight.normal
+                        ),),
                     ),
-                  ),
-                  onChanged: (String? value) {
-                    // This is called when the user selects an item.
-                    setState(() {
-                      awarenessValue = value!;
-
-                    });
-                  },
-
-                  items: awarenesslist
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child:
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
-                          ),
-                          const Divider(
-                            thickness: 0.2,
-                            color: colors.black54,
-                          )
-                        ],
+                    // dropdownColor: colors.primary,
+                    value: awarenessValue,
+                    icon:  const Padding(
+                      padding: EdgeInsets.only(bottom: 30),
+                      child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                    ),
+                    // elevation: 16,
+                    style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                    underline: Padding(
+                      padding: const EdgeInsets.only(left: 0,right: 0),
+                      child: Container(
+                        // height: 2,
+                        color:  colors.whiteTemp,
                       ),
-                    );
+                    ),
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        awarenessValue = value!;
 
-                  }).toList(),
+                      });
+                    },
+
+                    items: awarenesslist
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child:
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                            ),
+                            const Divider(
+                              thickness: 0.2,
+                              color: colors.black54,
+                            )
+                          ],
+                        ),
+                      );
+
+                    }).toList(),
+
+                  ),
+
+                )
+
+            ),
+          ],):SizedBox.shrink(),
+        selectedValue == "CME Invitation Designs" ? Column(children: [
+              Row(children: [
+                Text("Request for" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+              ],),
+              SizedBox(height: 3,),
+              SizedBox(
+                // height: 45,
+                child: TextFormField(
+                  readOnly: true,
+                  controller: requestCMEController,
+                  decoration: InputDecoration(
+
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )
+                  ),
 
                 ),
-
               )
+            ],) : SizedBox.shrink(),
+        selectedValue == "Event Invitation Designs" ? Column(children: [
+              Row(children: [
+                Text("Request for" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+              ],),
+              SizedBox(height: 3,),
+              SizedBox(
+                // height: 45,
+                child: TextFormField(
+                  readOnly: true,
+                  controller: requestEventController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )
+                  ),
 
+                ),
+              )
+            ],) : SizedBox.shrink(),
+        selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+              Row(children: [
+                Text("Request for" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+              ],),
+              SizedBox(height: 3,),
+              SizedBox(
+                // height: 45,
+                child: TextFormField(
+                  readOnly: true,
+                  controller: requestOnlineController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )
+                  ),
+
+                ),
+              )
+            ],) : SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? SizedBox.shrink()  : Column(
+          children: [
+           Row(children: [
+             Text("Doctor Association Name" ,textAlign: TextAlign.start)
+           ],),
+           SizedBox(height: 3,),
+           SizedBox(
+             // height: 45,
+             child: TextFormField(
+               controller: drAssociationController,
+
+               decoration: InputDecoration(
+                   border: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(10),
+                   )
+               ),
+
+             ),
+           ),
+         ],),
+        SizedBox(height: 3,),
+        selectedValue == "Awareness inputs"  ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text("Topic" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: topicController,
+                validator: (value) {
+                  if ((selectedValue == "Awareness inputs") && value!.isEmpty) {
+                    return 'Please Enter a Topic';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: "e.g. Arthritis,Psoriasis,Cancer",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ) :SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "Worlds Awareness Day inputs"  ?  Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text("Awareness Day" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: awarenessController,
+                validator: (value) {
+                  if ((selectedValue == "Worlds Awareness Day inputs") && value!.isEmpty) {
+                    return 'Please Enter a Awareness Day';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: "e.g. World Kidney Day, World Heart Day",
+                    border: OutlineInputBorder(
+
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ):SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "CME Invitation Designs"  ?Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text("Topic" ,textAlign: TextAlign.start), Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: topicController,
+                validator: (value) {
+                  if ((selectedValue == "CME Invitation Designs" ) && value!.isEmpty) {
+                    return 'Please Enter a Topic';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: "e.g. Why Psoriasis",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ) :SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" ? Column(children: [
+            Row(children: [
+              Text("For Clinic or Hospital Name" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: clinicHospitalController,
+                validator: (value) {
+                  if ((selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ) && value!.isEmpty) {
+                    return 'Please Enter a Clinic or Hospital';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ):SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "Event Invitation Designs"  ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text("Event Name" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: eventController,
+                validator: (value) {
+                  if ((selectedValue == "Event Invitation Designs") && value!.isEmpty) {
+                    return 'Please Enter a Event Name';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ) :SizedBox.shrink(),
+        selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+          Row(children: [
+            Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+
+          ],),
+          SizedBox(height: 3,),
+          SizedBox(
+            child: TextFormField(
+              controller: placeController,
+              validator: (value) {
+                if ((selectedValue == "Online Webinar Invitation Designs") && value!.isEmpty) {
+                  return 'Please Enter a Place';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )
+              ),
+
+            ),
           ),
-        ],
-      ),
+        ],):SizedBox.shrink(),
+        selectedValue == "Event Invitation Designs"  || selectedValue ==  "Online Webinar Invitation Designs"? Column(
+          crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [Text("Topic" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: topicController,
+                validator: (value) {
+                  if ((selectedValue == "Event Invitation Designs" && selectedValue ==  "Online Webinar Invitation Designs") && value!.isEmpty) {
+                    return 'Please Enter a Topic';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: "e.g. Why Psoriasis",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
 
-        SizedBox(height: 10,),
-        // selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? selectedValue == "CME Invitation Designs" ? SizedBox.shrink():
-        selectedValue == "Awareness inputs"  ?
+              ),
+            ),
+          ],
+        ) :SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+            Row(
+              children: [
+                Text("Date" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+              ],
+            ),
+            SizedBox(height: 3,),
+            TextFormField(
+              readOnly: true,
+              onTap: (){
+                _selectDateStart();
+              },
+              controller:dateController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  counterText: "",
+                  hintText: 'Select Date',
+                  contentPadding: EdgeInsets.only(left: 10)
+              ),
+              validator: (v) {
+                if ((selectedValue == "Online Webinar Invitation Designs") && v!.isEmpty) {
+                  return "Start Date is required";
+                }
+
+              },
+            ),
+            SizedBox(height: 10,),
+            Row(children: [
+              Text("Time" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            TextFormField(
+              readOnly: true,
+              onTap: (){
+                chooseTime(context);
+              },
+              controller:timeController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  counterText: "",
+                  hintText: 'Select Time',
+                  contentPadding: EdgeInsets.only(left: 10)
+              ),
+              validator: (v) {
+                if ((selectedValue == "Online Webinar Invitation Designs") && v!.isEmpty) {
+                  return "Time Date is required";
+                }
+
+              },
+            ),
+          ],):SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs" ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                  Text("Topic" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                  Text("Speaker Dr. Name" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
                 ],),
                 SizedBox(height: 3,),
                 SizedBox(
                   // height: 45,
                   child: TextFormField(
-                    controller: topicController,
+                    controller: speakerController,
                     validator: (value) {
-                      if ((selectedValue == "Awareness inputs") && value!.isEmpty) {
-                        return 'Please Enter a Topic';
+                      if ((selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs") && value!.isEmpty) {
+                        return 'Please Enter a Speaker Dr. Name';
                       }
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: "e.g. Arthritis,Psoriasis,Cancer",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         )
@@ -867,49 +706,156 @@ class _AddRequestState extends State<AddRequest> {
                   ),
                 ),
               ],
-            ) :SizedBox.shrink(),
-        selectedValue == "Worlds Awareness Day inputs"  ?  Column(
-           crossAxisAlignment: CrossAxisAlignment.start,
-             children: [
-               Row(children: [
-                 Text("Awareness Day" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-               ],),
+            ),
+            Column(
+              children: [
+                Row(children: [
+                  Text("Degree" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                ],),
+                SizedBox(height: 3,),
+                SizedBox(
+                  // height: 45,
+                  child: TextFormField(
+                    controller: degreespeakerController,
+                    validator: (value) {
+                      if ((selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs") && value!.isEmpty) {
+                        return 'Please Enter a Degree';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )
+                    ),
 
-           SizedBox(height: 3,),
-           SizedBox(
-          // height: 45,
-          child: TextFormField(
-            controller: awarenessController,
-            validator: (value) {
-              if ((selectedValue == "Worlds Awareness Day inputs") && value!.isEmpty) {
-                return 'Please Enter a Awareness Day';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-                hintText: "e.g. World Kidney Day, World Heart Day",
-                border: OutlineInputBorder(
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ) :SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs" ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text("Moderator Name" ,textAlign: TextAlign.start),  Text("" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: moderatorController,
+                // validator: (value) {
+                //   if (value!.isEmpty) {
+                //     return 'Please Enter a Moderator Name';
+                //   }
+                //   return null;
+                // },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
 
-                  borderRadius: BorderRadius.circular(10),
-                )
+              ),
             ),
 
+            Row(children: [
+              Text("Degree" ,textAlign: TextAlign.start),
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: moderatorDegreeController,
+                // validator: (value) {
+                //   if (value!.isEmpty) {
+                //     return 'Please Enter a Moderator Name';
+                //   }
+                //   return null;
+                // },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ) :SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" || selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink():Column(
+          children: [
+          Row(
+            children: [
+            Text("Date" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+          ],
           ),
-        ),
-             ],
-           ):SizedBox.shrink(),
-        SizedBox(height: 10,),
-        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" ?  Row(children: [
-          Text("For Clinic or Hospital Name" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-        ],) : Text("For Clinic or Hospital Name" ,textAlign: TextAlign.start),
+          SizedBox(height: 3,),
+          TextFormField(
+            readOnly: true,
+            onTap: (){
+              _selectDateStart();
+            },
+            controller:dateController,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                counterText: "",
+                hintText: 'Select Date',
+                contentPadding: EdgeInsets.only(left: 10)
+            ),
+            validator: (v) {
+              if (v!.isEmpty) {
+                return "Start Date is required";
+              }
+
+            },
+          ),
+          SizedBox(height: 10,),
+          Row(children: [
+            Text("Time" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+          ],),
+          SizedBox(height: 3,),
+          TextFormField(
+            readOnly: true,
+            onTap: (){
+              chooseTime(context);
+            },
+            controller:timeController,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                counterText: "",
+                hintText: 'Select Time',
+                contentPadding: EdgeInsets.only(left: 10)
+            ),
+            validator: (v) {
+              if (v!.isEmpty) {
+                return "Time Date is required";
+              }
+
+            },
+          ),
+        ],),
+        SizedBox(height: 3,),
+        selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink(): Column(children: [
+        Row(children: [
+          Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+
+        ],),
         SizedBox(height: 3,),
         SizedBox(
-          // height: 45,
           child: TextFormField(
-            controller: clinicHospitalController,
+            controller: placeController,
             validator: (value) {
-              if ((selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ) && value!.isEmpty) {
-                return 'Please Enter a Clinic or Hospital';
+              if ((selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  || selectedValue == "Event Invitation Designs" ||selectedValue == "CME Invitation Designs") && value!.isEmpty) {
+                return 'Please Enter a Place';
               }
               return null;
             },
@@ -921,7 +867,71 @@ class _AddRequestState extends State<AddRequest> {
 
           ),
         ),
-        SizedBox(height: 10,),
+        ],),
+        SizedBox(height: 3,),
+        selectedValue  == "Event Invitation Designs"  ?Column(
+          children: [
+            Row(children: [
+              Text("Conference Secretariat Dr Name" ,textAlign: TextAlign.start),  Text("" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: conferenceController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+             SizedBox(height: 10,),
+            Row(children: [
+              Text("Degree" ,textAlign: TextAlign.start),
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: conferencedegreeController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ):SizedBox.shrink(),
+        SizedBox(height: 3,),
+        selectedValue == "Event Invitation Designs"  || selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+          Row(children: [
+            Text("For Clinic or Hospital Name" ,textAlign: TextAlign.start)
+          ],),
+          SizedBox(height: 3,),
+          SizedBox(
+            // height: 45,
+            child: TextFormField(
+              controller: clinicHospitalController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter a Clinic or Hospital';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )
+              ),
+
+            ),
+          ),
+        ],):SizedBox.shrink(),
+        SizedBox(height: 5,),
         Row(children: [
           Text("Dr. Contact Email ID" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
         ],),
@@ -948,7 +958,7 @@ class _AddRequestState extends State<AddRequest> {
 
           ),
         ),
-        SizedBox(height: 10,),
+        SizedBox(height: 3,),
         selectedValue == "Awareness inputs" ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -977,6 +987,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ):SizedBox(),
+        SizedBox(height: 3,),
         selectedValue == "Worlds Awareness Day inputs" ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1005,6 +1016,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ):SizedBox(),
+        SizedBox(height: 3,),
         selectedValue == "CME Invitation Designs" ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1033,6 +1045,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ):SizedBox(),
+        SizedBox(height: 3,),
         selectedValue == "Event Invitation Designs" ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1061,6 +1074,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ):SizedBox(),
+        SizedBox(height: 3,),
         selectedValue == "Online Webinar Invitation Designs" ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1089,45 +1103,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ):SizedBox(),
-
-        // SizedBox(height: 10,),
-        // Row(children: [
-        //   Text("Dr.Profile" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-        // ],),
-        // SizedBox(height: 3,),
-        // InkWell(
-        //   onTap: () {
-        //     showExitPopup1();
-        //   },
-        //   child: Container(
-        //     height: imageFile == null ? 50:155,
-        //     child: DottedBorder(
-        //       borderType: BorderType.RRect,
-        //       radius: Radius.circular(5),
-        //       dashPattern: [5, 5],
-        //       color: Colors.grey,
-        //       strokeWidth: 2,
-        //       child: imageFile == null || imageFile == ""
-        //           ? const Center(
-        //           child: Icon(
-        //             Icons.drive_folder_upload_outlined,
-        //             color: Colors.grey,
-        //             size: 30,
-        //           ))
-        //           : Column(
-        //         children: [
-        //           Image.file(
-        //             imageFile!,
-        //             height: 150,
-        //             width: double.infinity,
-        //             fit: BoxFit.cover,
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        SizedBox(height: 10,),
+        SizedBox(height: 20,),
         InkWell(
           onTap: (){
             if(_formKey.currentState!.validate()){
@@ -1143,17 +1119,20 @@ class _AddRequestState extends State<AddRequest> {
               "degree":degreeController.text,
               "place":placeController.text,
               "request":requestValue,
-              "awareness_request":awarenessValue,
+              "awareness_request": selectedValue  == "CME Invitation Designs" ? requestCMEController.text:selectedValue == "Event Invitation Designs" ?requestEventController.text :selectedValue == "Online Webinar Invitation Designs" ? requestOnlineController.text :awarenessValue,
               "topic":topicController.text,
               "clinic_hospital":clinicHospitalController.text,
               "email":emailController.text,
-            "message": selectedValue == "Awareness inputs" ?messageAwereController.text:
+            "message": selectedValue == "Awareness inputs" ?messageAwereController.text:selectedValue == "Worlds Awareness Day inputs" ? messageWorldAwereController.text :
             selectedValue == "Worlds Awareness Day inputs" ? messageWorldAwereController.text :
             selectedValue  == "CME Invitation Designs"? messageWorldEmeController.text :selectedValue == "Event Invitation Designs" ? messageEventController.text
             : messageWebinarController.text,
               "awareness_day":awarenessController.text,
                "moderator":moderatorController.text,
+               "degree_moderator":moderatorDegreeController.text,
                "speaker_name":speakerController.text,
+               "degree_speaker_name":degreespeakerController.text,
+               "degree_conference":conferencedegreeController.text,
                "date":dateController.text,
                "time":timeController.text,
                "event_name":eventController.text,
@@ -1174,12 +1153,9 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ),
         ),
-
-
       ],
     );
   }
-
   Future<bool> showExitPopup1() async {
     return await showDialog(
       //show confirm dialogue
@@ -1245,7 +1221,6 @@ class _AddRequestState extends State<AddRequest> {
   }
   var imagePathList1;
   bool isImages =  false;
-
   void getCropImage(BuildContext context, int i, var image) async {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
       sourcePath: image.path,

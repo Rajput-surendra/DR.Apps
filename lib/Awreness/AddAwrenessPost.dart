@@ -527,6 +527,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                           ),
                         )
                       : const SizedBox(),
+                  SizedBox(height: 10,),
                   InkWell(
                     onTap: () {
                       setState(() {
