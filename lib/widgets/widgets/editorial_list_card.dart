@@ -123,13 +123,11 @@ class _EditorialListCardState extends State<EditorialListCard> {
                                   child: Icon(Icons.share)),
                           IconButton(onPressed: (){
                             setState(() {
-                              getNewWishlistApi(widget.getEdoDataList?.id ?? '',
-                                  widget.getEdoDataList?.type ?? "");
+                              getNewWishlistApi(widget.getEdoDataList?.id ?? '',widget.getEdoDataList?.type ?? "");
                               widget.getEdoDataList?.isSelected = !(widget.getEdoDataList?.isSelected ?? false );
                             });
                           },icon: widget.getEdoDataList?.isFav ?? false ?
-                          Icon(Icons.favorite,color: colors.red,): widget.getEdoDataList?.isSelected ??
-                              false ?Icon(Icons.favorite,color: colors.red,) :
+                          Icon(Icons.favorite,color: colors.red,): widget.getEdoDataList?.isSelected ?? false ?Icon(Icons.favorite,color: colors.red,) :
                           Icon(Icons.favorite_outline,color: colors.red,)),
                           if(userId ==  widget.getEdoDataList?.pharmaId)
                           InkWell(

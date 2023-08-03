@@ -37,6 +37,7 @@ class _AddRequestState extends State<AddRequest> {
   TextEditingController degreeController = TextEditingController();
   TextEditingController placeController = TextEditingController();
   TextEditingController topicController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
   TextEditingController  clinicHospitalController = TextEditingController();
   TextEditingController  emailController = TextEditingController();
   TextEditingController  messageAwereController = TextEditingController();
@@ -159,7 +160,7 @@ class _AddRequestState extends State<AddRequest> {
               ),
 
               SizedBox(height: 10),
-           getViewBasedOnSelectedValue(),
+             getViewBasedOnSelectedValue(),
             ],
             ),
           ),
@@ -348,6 +349,8 @@ class _AddRequestState extends State<AddRequest> {
 
             ),
           ],):SizedBox.shrink(),
+        SizedBox(height: 5,),
+
         selectedValue == "CME Invitation Designs" ? Column(children: [
               Row(children: [
                 Text("Request for" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -407,6 +410,24 @@ class _AddRequestState extends State<AddRequest> {
               )
             ],) : SizedBox.shrink(),
         SizedBox(height: 3,),
+        Row(children: [Text("Mobile No" ,textAlign: TextAlign.start)
+        ],),
+        SizedBox(height: 2,),
+        SizedBox(
+          // height: 45,
+          child: TextFormField(
+            maxLength: 10,
+            keyboardType: TextInputType.number,
+            controller: mobileController,
+            decoration: InputDecoration(
+                counterText: "",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                )
+            ),
+
+          ),
+        ),
         selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? SizedBox.shrink()  : Column(
           children: [
            Row(children: [
@@ -1114,6 +1135,7 @@ class _AddRequestState extends State<AddRequest> {
              //
             }
             newData = (jsonEncode({
+              "mobile_no":mobileController.text,
               "dr_name":drController.text,
               "dr_association":drAssociationController.text,
               "degree":degreeController.text,

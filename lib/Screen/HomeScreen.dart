@@ -692,8 +692,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(50)),
                 child: Image.asset(
-                  "assets/images/drawer1.png",
-                  color: colors.black54,
+                  "assets/images/MY PROFILE.png",
+                  // color: colors.black54,
                   scale: 1.3,
                   height: 40,
                   width: 40,
@@ -715,8 +715,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
          role == "1"  ? ListTile(
             leading: Image.asset(
-              "assets/images/update.png",
-              color: colors.black54,
+              "assets/images/UPDATE.png",
+              // color: colors.black54,
               height: 35,
               width: 40,
             ),
@@ -734,7 +734,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ListTile(
             leading: Image.asset(
               "assets/images/home.png",
-              color: colors.black54,
+              // color: colors.black54,
               height: 40,
               width: 40,
             ),
@@ -753,8 +753,8 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 5),
               child: Image.asset(
-                "assets/images/booking-icon.png",
-                color: colors.black54,
+                "assets/images/BOOKING.png",
+                // color: colors.black54,
                 height: 23,
                 width: 30,
               ),
@@ -772,8 +772,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
           ListTile(
             leading: Image.asset(
-              "assets/images/sub.png",
-              color: colors.black54,
+              "assets/images/SUBSCRIPTION PLAN.png",
+              // color: colors.black54,
               height: 40,
               width: 40,
             ),
@@ -791,8 +791,8 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: Padding(
               padding: const EdgeInsets.only(left: 3),
               child: Image.asset(
-                "assets/images/histo.png",
-                color: colors.black54,
+                "assets/images/HISTORY.png",
+                // color: colors.black54,
                 height: 26,
                 width: 30,
               ),
@@ -808,13 +808,11 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           ListTile(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 5.0),
-              child: Icon(
-                Icons.favorite_outline_rounded,
-                size: 30,
-                color: colors.black54,
-              ),
+            leading: Image.asset(
+              "assets/images/WISHLIST.png",
+              // color: colors.black54,
+              height: 40,
+              width: 40,
             ),
             title: Text(
               'Wishlist',
@@ -828,8 +826,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Image.asset(
-              "assets/images/Change Password.png",
-              color: colors.black54,
+              "assets/images/CHANGE PASSWORD.png",
+              // color: colors.black54,
               height: 40,
               width: 40,
             ),
@@ -848,7 +846,7 @@ class _HomeScreenState extends State<HomeScreen> {
               "assets/images/Term & Conditions.png",
               height: 40,
               width: 40,
-              color: colors.black54,
+              // color: colors.black54,
             ),
             title: Text(
               'Terms &Conditions',
@@ -862,8 +860,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Image.asset(
-              "assets/images/Privacy Policy.png",
-              color: colors.black54,
+              "assets/images/PRIVACY POLICY.png",
+              // color: colors.black54,
               height: 40,
               width: 40,
             ),
@@ -879,8 +877,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Image.asset(
-              "assets/images/Share App.png",
-              color: colors.black54,
+              "assets/images/SHARE APP.png",
+              // color: colors.black54,
               height: 40,
               width: 40,
             ),
@@ -897,8 +895,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Image.asset(
-              "assets/images/deleteuser.png",
-              color: colors.black54,
+              "assets/images/DELETE.png",
+              // color: colors.black54,
               height: 25,
               width: 40,
             ),
@@ -915,8 +913,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Image.asset(
-              "assets/images/Sign Out.png",
-              color: colors.black54,
+              "assets/images/SIGN OUT.png",
+              // color: colors.black54,
               height: 40,
               width: 40,
               //color: Colors.grey.withOpacity(0.8),

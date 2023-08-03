@@ -152,7 +152,7 @@ class _WishlistState extends State<Wishlist> {
               // ),
               Container(
                 height: 30,
-                width: 90,
+                width: 110,
                 decoration: ShapeDecoration(
                     shape: const StadiumBorder(),
                     gradient: LinearGradient(
@@ -165,7 +165,7 @@ class _WishlistState extends State<Wishlist> {
                   shape: const StadiumBorder(),
                   onPressed: () => setSegmentValue(1),
                   child: Text(
-                    'Event',
+                    "Dr.Requests",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -190,7 +190,7 @@ class _WishlistState extends State<Wishlist> {
                   shape: const StadiumBorder(),
                   onPressed: () => setSegmentValue(2),
                   child: Text(
-                    'Webinars',
+                    'Event',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -202,7 +202,7 @@ class _WishlistState extends State<Wishlist> {
               ),
               Container(
                 height: 30,
-                width: 90,
+                width: 95,
                 decoration: ShapeDecoration(
                     shape: const StadiumBorder(),
                     gradient: LinearGradient(
@@ -215,7 +215,7 @@ class _WishlistState extends State<Wishlist> {
                   shape: const StadiumBorder(),
                   onPressed: () => setSegmentValue(3),
                   child: Text(
-                    'Editorial',
+                    'Webinars',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -272,7 +272,6 @@ class _WishlistState extends State<Wishlist> {
   @override
 
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: customAppBar(
           context: context,
@@ -288,18 +287,18 @@ class _WishlistState extends State<Wishlist> {
                   child: getWishListModel?.data == null ||
                           getWishListModel?.data == ""
                       ? Center(child: CircularProgressIndicator())
-                    //   : selectedSegmentVal == 0 ? getWishListModel?.data?.news?.isEmpty ?? true ? Center(child: Text('News not available'),) :
-                    //   ListView.builder(
-                    // // scrollDirection: Axis.vertical,
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //   shrinkWrap: true,
-                    //   reverse: true,
-                    //   itemCount: getWishListModel?.data?.news?.length,
-                    //   itemBuilder: (BuildContext context, int index) {
-                    //        return  newCustomCards(getWishListModel, index);
-                    //   })
+                      : selectedSegmentVal == 1 ? getWishListModel?.data?.requests?.isEmpty ?? true ? Center(child: Text('Request not available'),) :
+                      ListView.builder(
+                    // scrollDirection: Axis.vertical,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      reverse: true,
+                      itemCount: getWishListModel?.data?.requests?.length,
+                      itemBuilder: (BuildContext context, int index) {
+                           return  newCustomCards(getWishListModel, index);
+                      })
 
-                      : selectedSegmentVal == 1 ? getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :
+                      : selectedSegmentVal == 2 ? getWishListModel?.data?.event?.isEmpty ?? true ? Center(child: Text('Event not available'),) :
                   ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
@@ -310,7 +309,7 @@ class _WishlistState extends State<Wishlist> {
                         return  eventCustomCards(getWishListModel, index);
                       })
 
-                      :  selectedSegmentVal == 2 ? getWishListModel?.data?.webinar?.isEmpty ?? true ? Center(child: Text('Webiner not available'),) :
+                      :  selectedSegmentVal == 3 ? getWishListModel?.data?.webinar?.isEmpty ?? true ? Center(child: Text('Webiner not available'),) :
                   ListView.builder(
                     // scrollDirection: Axis.vertical,
                       physics: NeverScrollableScrollPhysics(),
@@ -321,16 +320,16 @@ class _WishlistState extends State<Wishlist> {
                         return  webinarsCustomCards(getWishListModel, index);
                       })
 
-                      :  selectedSegmentVal == 3 ? getWishListModel?.data?.editorial?.isEmpty ?? true ? Center(child: Text('Editorial not available'),) :
-                  ListView.builder(
-                    // scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      reverse: true,
-                      itemCount: getWishListModel?.data?.editorial?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return   editorialCustomCards();
-                      })
+                  //     :  selectedSegmentVal == 3 ? getWishListModel?.data?.editorial?.isEmpty ?? true ? Center(child: Text('Editorial not available'),) :
+                  // ListView.builder(
+                  //   // scrollDirection: Axis.vertical,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     shrinkWrap: true,
+                  //     reverse: true,
+                  //     itemCount: getWishListModel?.data?.editorial?.length,
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //       return   editorialCustomCards();
+                  //     })
 
                       : selectedSegmentVal == 4 ? getWishListModel?.data?.awareness?.isEmpty ?? true ? Center(child: Text('Awareness not available'),) :
                   ListView.builder(
@@ -348,6 +347,34 @@ class _WishlistState extends State<Wishlist> {
             ],
           ),
         ));
+  }
+
+  requestWishListRemoveApi(String ? requestId) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString('userId');
+    print("getEventUserId--------------->${userId}");
+      var headers = {
+        'Cookie': 'ci_session=6f1de5370d8c25e7d0c07b421f024a150f5afda9'
+      };
+      var request = http.MultipartRequest('POST', Uri.parse('${ApiService.addWishlistApi}'));
+      request.fields.addAll({
+        'user_id': userId.toString(),
+        'request_id': requestId.toString()
+      });
+      print('_____request.fields_____${request.fields}_________');
+
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        var result  = await response.stream.bytesToString();
+        var finalResult = jsonDecode(result);
+        Fluttertoast.showToast(msg: "${finalResult['message']}");
+        getWishListApi(1);
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
   }
   removeWishListApi(String id, int i) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -407,158 +434,453 @@ class _WishlistState extends State<Wishlist> {
       print(response.reasonPhrase);
     }
   }
-  // newCustomCards(model, int i) {
-  //
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8.0),
-  //     child: Card(
-  //         elevation: 4,
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(5),
-  //         ),
-  //         child: Padding(
-  //           padding: EdgeInsets.only(left: 10, right: 10),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               _currentIndex == 1
-  //                   ? Row(
-  //                       crossAxisAlignment: CrossAxisAlignment.start,
-  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                       children: [
-  //                         Row(
-  //                           children: [
-  //                             Padding(
-  //                               padding:
-  //                                   const EdgeInsets.only(top: 5, bottom: 8),
-  //                               child: CircleAvatar(
-  //                                 backgroundImage: NetworkImage(
-  //                                     "${getWishListModel?.data?.news![i].userImage}"),
-  //                                 backgroundColor: colors.primary,
-  //                                 radius: 25,
-  //                               ),
-  //                             ), //CircleAvatar
-  //                             Padding(
-  //                               padding: const EdgeInsets.only(left: 5),
-  //                               child: getWishListModel!.data!.news!.isEmpty
-  //                                   ? Center(child: CircularProgressIndicator())
-  //                                   : Column(
-  //                                       crossAxisAlignment:
-  //                                           CrossAxisAlignment.start,
-  //                                       children: [
-  //                                         Text(
-  //                                           "${getWishListModel?.data?.news![i].userName}",
-  //                                           style: const TextStyle(
-  //                                               fontSize: 14,
-  //                                               color: colors.secondary,
-  //                                               fontWeight: FontWeight.bold),
-  //                                         ),
-  //                                         SizedBox(
-  //                                           height: 2,
-  //                                         ),
-  //                                         Text(
-  //                                           "${getWishListModel?.data?.news![i].userDigree}",
-  //                                           style: TextStyle(fontSize: 10),
-  //                                         ),
-  //                                         SizedBox(
-  //                                           height: 2,
-  //                                         ),
-  //                                         Container(
-  //
-  //                                             child: Text(
-  //                                           "${getWishListModel?.data?.news![i].userAddress}",
-  //                                           style: TextStyle(fontSize: 10),
-  //                                           overflow: TextOverflow.ellipsis,
-  //                                           maxLines: 1,
-  //                                         )),
-  //                                       ],
-  //                                     ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                         Row(
-  //                           children: [
-  //                             IconButton(
-  //                                 onPressed: () {
-  //                                   showDialog(
-  //                                     context: context,
-  //                                     builder: (context) => Dialog(
-  //                                       child: ListView(
-  //                                         padding: const EdgeInsets.symmetric(
-  //                                           vertical: 16,
-  //                                         ),
-  //                                         shrinkWrap: true,
-  //                                         children: ['Remove from wishlist']
-  //                                             .map(
-  //                                               (e) => InkWell(
-  //                                                 onTap: () async {
-  //                                                   removeWishListApi(
-  //                                                       getWishListModel
-  //                                                               ?.data?.news!.first.id ??
-  //                                                           "", 0);
-  //                                                   Navigator.of(context).pop();
-  //                                                 },
-  //                                                 child: Container(
-  //                                                   padding: const EdgeInsets
-  //                                                       .symmetric(
-  //                                                     vertical: 12,
-  //                                                     horizontal: 16,
-  //                                                   ),
-  //                                                   child: Text(e),
-  //                                                 ),
-  //                                               ),
-  //                                             )
-  //                                             .toList(),
-  //                                       ),
-  //                                     ),
-  //                                   );
-  //                                 },
-  //                                 icon: Icon(Icons.more_vert_rounded))
-  //                           ],
-  //                         )
-  //                       ],
-  //                     )
-  //                   : SizedBox(),
-  //               Container(
-  //                 width: double.infinity,
-  //                 child: ClipRRect(
-  //                     borderRadius: BorderRadius.circular(5),
-  //                     child: getWishListModel?.data?.news![i].userImage == null ||
-  //                         getWishListModel?.data?.news![i].userImage == ""
-  //                         ? Image.asset("assets/splash/splashimages.png")
-  //                         : Image.network(
-  //                             "${getWishListModel?.data?.news![i].image}",
-  //                             fit: BoxFit.fill,
-  //                             height: 250,
-  //                           )),
-  //               ),
-  //               SizedBox(
-  //                 height: 8,
-  //               ),
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: [
-  //                   Column(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       Container(
-  //                         width: 310,
-  //                         child: Text('${getWishListModel?.data?.news![i].title}',overflow: TextOverflow.ellipsis,)),
-  //                       Container(
-  //                           width: 310,
-  //                           child: Text('${getWishListModel?.data?.news![i].description}',overflow: TextOverflow.ellipsis,)),
-  //                     ],
-  //                   ),
-  //                 ],
-  //               ),
-  //               SizedBox(
-  //                 height: 10,
-  //               )
-  //             ],
-  //           ),
-  //         )),
-  //   );
-  // }
+  newCustomCards(model, int index) {
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _currentIndex == 1
+                    ? Card(
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          ClipRRect(
+                              child:  getWishListModel!.data!.requests![index].userImage == null ? Container(
+                                  height: 70,
+                                  width: 70  ,
+                                  child: CircleAvatar()):ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Container(
+                                    color: colors.blackTemp,
+
+                                    height: 70,
+                                    width: 70,
+                                    child: Image.network("${getWishListModel!.data!.requests![index].userImage}")),
+                              )
+                          ),
+                          SizedBox(width: 5,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("Dr.${getWishListModel!.data!.requests![index].name}",style: TextStyle(
+                                  color: colors.secondary,fontWeight: FontWeight.bold
+                              ),),
+                              Text("Degree-${getWishListModel!.data!.requests![index].docDigree}",style: TextStyle(color: colors.blackTemp),),
+
+                            ],
+                          ),
+                          SizedBox(width: 95,),
+                            Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => Dialog(
+                                        child: ListView(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 16,
+                                          ),
+                                          shrinkWrap: true,
+                                          children: ['Remove from wishlist']
+                                              .map(
+                                                (e) => InkWell(
+                                              onTap: () async {
+                                                requestWishListRemoveApi(
+                                                    getWishListModel
+                                                        ?.data?.requests![index].id ??
+                                                        "", );
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                  vertical: 12,
+                                                  horizontal: 16,
+                                                ),
+                                                child: Text(e),
+                                              ),
+                                            ),
+                                          )
+                                              .toList(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(Icons.more_vert_rounded))
+                            ],
+                          )
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Request for :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                              getWishListModel!.data!.requests![index].type  == "Awareness inputs" ?Text("${getWishListModel!.data!.requests![index].json!.request}",):Text("${getWishListModel!.data!.requests![index].json!.awarenessRequest}",)
+                            ],
+                          ),
+                          Divider(
+                            color: colors.black54,
+                          ),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Mobile No :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                              Text("${getWishListModel!.data!.requests![index].json!.mobileNo}",)
+                            ],
+                          ),
+                          Divider(
+                            color: colors.black54,
+                          ),
+                          getWishListModel!.data!.requests![index].type  == "Awareness inputs" ||  getWishListModel!.data!.requests![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Dr.Association Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.drAssociation}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ) ,
+                          getWishListModel!.data!.requests![index].type == "Event Invitation Designs" ?  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Event Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.eventName}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "Online Webinar Invitation Designs" ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.place}",),
+                                ],
+                              ),
+                              Divider(
+                                // indent: 5,
+                                // endIndent: 5,
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Topic :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.topic}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ) ,
+
+                          getWishListModel!.data!.requests![index].type == "Worlds Awareness Day inputs" ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Awarenes Day:",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.awarenessDay}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "CME Invitation Designs" ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Speaker Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.speakerName}",),
+                                  SizedBox(height: 3,),
+                                  Text("${getWishListModel!.data!.requests![index].json!.degreeSpeakerName}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "CME Invitation Designs"  ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Moderator Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.moderator}",),
+                                  SizedBox(height: 3,),
+                                  Text("${getWishListModel!.data!.requests![index].json!.degreeModerator}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+
+                          getWishListModel!.data!.requests![index].type == "CME Invitation Designs" ||getWishListModel!.data!.requests![index].type == "Event Invitation Designs" ||  getWishListModel!.data!.requests![index].type == "Online Webinar Invitation Designs" ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Date :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.date}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "CME Invitation Designs" ||getWishListModel!.data!.requests![index].type == "Event Invitation Designs" ||  getWishListModel!.data!.requests![index].type == "Online Webinar Invitation Designs" ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Time :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.time}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "CME Invitation Designs" ?  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.place}",),
+                                ],
+                              ),
+                              Divider(
+                                // indent: 5,
+                                // endIndent: 5,
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "Event Invitation Designs" ?  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.place}",),
+                                ],
+                              ),
+                              Divider(
+                                // indent: 5,
+                                // endIndent: 5,
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "Online Webinar Invitation Designs" ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Speaker Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.speakerName}",),
+                                  SizedBox(height: 2,),
+                                  Text("${getWishListModel!.data!.requests![index].json!.degreeSpeakerName}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "Online Webinar Invitation Designs"   ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Moderator :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.moderator}",),
+                                  Text("${getWishListModel!.data!.requests![index].json!.degreeModerator}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          getWishListModel!.data!.requests![index].type == "Event Invitation Designs" ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Conference Secretariat Dr Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.conference}",),
+                                  SizedBox.shrink(),
+                                  Text("${getWishListModel!.data!.requests![index].json!.degreeConference}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("For Clinic or Hospital Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.clinicHospital}",),
+                                ],
+                              ),
+                              Divider(
+                                color: colors.black54,
+                              ),
+                            ],
+                          ),
+                          getWishListModel!.data!.requests![index].type == "Awareness inputs" || getWishListModel!.data!.requests![index].type == "Worlds Awareness Day inputs" ?  Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.place}",),
+                                ],
+                              ),
+                              Divider(
+                                // indent: 5,
+                                // endIndent: 5,
+                                color: colors.black54,
+                              ),
+                            ],
+                          ):SizedBox.shrink(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Dr.Contact Email Id  :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                  Text("${getWishListModel!.data!.requests![index].json!.email}",),
+                                ],
+                              ),
+
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: colors.blackTemp.withOpacity(0.4))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Message for Pharma Company :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                      Text("${getWishListModel!.data!.requests![index].json!.message}",),
+                                    ],
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                          )
+
+                        ],
+                      )
+
+                    ],
+                  ),
+                )
+                    : SizedBox(),
+
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Container(
+                //           width: 310,
+                //           child: Text('${getWishListModel?.data?.news![i].title}',overflow: TextOverflow.ellipsis,)),
+                //         Container(
+                //             width: 310,
+                //             child: Text('${getWishListModel?.data?.news![i].description}',overflow: TextOverflow.ellipsis,)),
+                //       ],
+                //     ),
+                //   ],
+                // ),
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            ),
+          )),
+    );
+  }
   List? strObjWeb;
   eventCustomCards(model, int i) {
     strObjWeb = getWishListModel!.data!.event![i].image?.split(".");
@@ -1181,133 +1503,133 @@ class _WishlistState extends State<Wishlist> {
       ],
     );
   }
-  editorialCustomCards(){
-   return Column(
-     children: [
-       SizedBox(
-         child: getWishListModel!.data!.editorial == null ? Center(child: CircularProgressIndicator())  : getWishListModel!.data!.editorial!.isEmpty?? false ? Text("Not Approved by Admin"):
-         ListView.builder(
-             scrollDirection: Axis.vertical,
-             physics: NeverScrollableScrollPhysics(),
-             shrinkWrap: true,
-             itemCount: getWishListModel!.data!.editorial!.length,
-             itemBuilder: (BuildContext context, int index) {
-               return Card(
-                   elevation: 5,
-                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15,top: 5),
-                            child: Text("${getWishListModel!.data!.editorial![index].date?.substring(0,10)}",style: TextStyle(fontSize: 15,color: colors.secondary)),
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => Dialog(
-                                        child: ListView(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 16,
-                                          ),
-                                          shrinkWrap: true,
-                                          children: ['Remove from wishlist']
-                                              .map(
-                                                (e) => InkWell(
-                                              onTap: () async {
-                                                removeWishListApi(
-                                                    getWishListModel
-                                                        ?.data?.editorial!.first.id ??
-                                                        "", 3);
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                  vertical: 12,
-                                                  horizontal: 16,
-                                                ),
-                                                child: Text(e),
-                                              ),
-                                            ),
-                                          )
-                                              .toList(),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  icon: Icon(Icons.more_vert_rounded))
-                            ],
-                          )
-                        ],
-                      ),
-                       Divider(thickness: 1,color: colors.black54.withOpacity(0.2),),
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.start,
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-
-                           Padding(
-                             padding: const EdgeInsets.all(8.0),
-                             child: ClipRRect(
-                                 borderRadius: BorderRadius.circular(20),
-                                 child: Image.network('${getWishListModel!.data!.editorial![index].userImage}',height: 90,width:100,)),
-                           ),
-                           Padding(
-                             padding: const EdgeInsets.only(top: 10),
-                             child: Column(
-                               crossAxisAlignment: CrossAxisAlignment.start,
-                               children: [
-                                 Text('${getWishListModel!.data!.editorial![index].title}',style: TextStyle(fontSize: 14,color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                                 SizedBox(height: 2),
-                                 Text('${getWishListModel!.data!.editorial![index].userDigree}',style: TextStyle(fontSize: 10,color: colors.blackTemp),),
-                                 SizedBox(height: 2),
-                                 Text('${getWishListModel!.data!.editorial![index].userAddress}',style: TextStyle(fontSize: 10,color: colors.blackTemp),),
-                                 SizedBox(height: 2),
-                                 SizedBox(height: 15,),
-
-                                 Row(
-                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                   children: [
-                                     Text('Dr. ${getWishListModel!.data!.editorial![index].userName}',style: TextStyle(fontSize: 10,color: colors.secondary),),
-                                     SizedBox(width: 10,),
-                                     Container(
-                                       height: 25,
-                                       child: ElevatedButton(onPressed: (){
-                                          downloadFile('${getWishListModel!.data!.editorial![index].image}', getWishListModel!.data!.editorial![index].userName??'');
-                                       },
-                                           style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                                           child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                                     ),
-                                     SizedBox(width: 20,),
-                                     // IconButton(onPressed: (){
-                                     //   setState(() {
-                                     //     isSelected =!isSelected;
-                                     //   });
-                                     // },icon: isSelected ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,))
-                                   ],
-                                 ),
-                                 SizedBox(height: 20,)
-                               ],
-                             ),
-                           ),
-                         ],
-                       ),
-                     ],
-                   )
-
-
-               );
-             }),
-       ),
-     ],
-   );
-  }
+  // editorialCustomCards(){
+  //  return Column(
+  //    children: [
+  //      SizedBox(
+  //        child: getWishListModel!.data!.editorial == null ? Center(child: CircularProgressIndicator())  : getWishListModel!.data!.editorial!.isEmpty?? false ? Text("Not Approved by Admin"):
+  //        ListView.builder(
+  //            scrollDirection: Axis.vertical,
+  //            physics: NeverScrollableScrollPhysics(),
+  //            shrinkWrap: true,
+  //            itemCount: getWishListModel!.data!.editorial!.length,
+  //            itemBuilder: (BuildContext context, int index) {
+  //              return Card(
+  //                  elevation: 5,
+  //                  child: Column(
+  //                    crossAxisAlignment: CrossAxisAlignment.start,
+  //                    children: [
+  //                     Row(
+  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                       children: [
+  //                         Padding(
+  //                           padding: const EdgeInsets.only(left: 15,top: 5),
+  //                           child: Text("${getWishListModel!.data!.editorial![index].date?.substring(0,10)}",style: TextStyle(fontSize: 15,color: colors.secondary)),
+  //                         ),
+  //                         Row(
+  //                           children: [
+  //                             IconButton(
+  //                                 onPressed: () {
+  //                                   showDialog(
+  //                                     context: context,
+  //                                     builder: (context) => Dialog(
+  //                                       child: ListView(
+  //                                         padding: const EdgeInsets.symmetric(
+  //                                           vertical: 16,
+  //                                         ),
+  //                                         shrinkWrap: true,
+  //                                         children: ['Remove from wishlist']
+  //                                             .map(
+  //                                               (e) => InkWell(
+  //                                             onTap: () async {
+  //                                               removeWishListApi(
+  //                                                   getWishListModel
+  //                                                       ?.data?.editorial!.first.id ??
+  //                                                       "", 3);
+  //                                               Navigator.of(context).pop();
+  //                                             },
+  //                                             child: Container(
+  //                                               padding: const EdgeInsets
+  //                                                   .symmetric(
+  //                                                 vertical: 12,
+  //                                                 horizontal: 16,
+  //                                               ),
+  //                                               child: Text(e),
+  //                                             ),
+  //                                           ),
+  //                                         )
+  //                                             .toList(),
+  //                                       ),
+  //                                     ),
+  //                                   );
+  //                                 },
+  //                                 icon: Icon(Icons.more_vert_rounded))
+  //                           ],
+  //                         )
+  //                       ],
+  //                     ),
+  //                      Divider(thickness: 1,color: colors.black54.withOpacity(0.2),),
+  //                      Row(
+  //                        mainAxisAlignment: MainAxisAlignment.start,
+  //                        crossAxisAlignment: CrossAxisAlignment.start,
+  //                        children: [
+  //
+  //                          Padding(
+  //                            padding: const EdgeInsets.all(8.0),
+  //                            child: ClipRRect(
+  //                                borderRadius: BorderRadius.circular(20),
+  //                                child: Image.network('${getWishListModel!.data!.editorial![index].userImage}',height: 90,width:100,)),
+  //                          ),
+  //                          Padding(
+  //                            padding: const EdgeInsets.only(top: 10),
+  //                            child: Column(
+  //                              crossAxisAlignment: CrossAxisAlignment.start,
+  //                              children: [
+  //                                Text('${getWishListModel!.data!.editorial![index].title}',style: TextStyle(fontSize: 14,color: colors.blackTemp,fontWeight: FontWeight.bold),),
+  //                                SizedBox(height: 2),
+  //                                Text('${getWishListModel!.data!.editorial![index].userDigree}',style: TextStyle(fontSize: 10,color: colors.blackTemp),),
+  //                                SizedBox(height: 2),
+  //                                Text('${getWishListModel!.data!.editorial![index].userAddress}',style: TextStyle(fontSize: 10,color: colors.blackTemp),),
+  //                                SizedBox(height: 2),
+  //                                SizedBox(height: 15,),
+  //
+  //                                Row(
+  //                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                                  children: [
+  //                                    Text('Dr. ${getWishListModel!.data!.editorial![index].userName}',style: TextStyle(fontSize: 10,color: colors.secondary),),
+  //                                    SizedBox(width: 10,),
+  //                                    Container(
+  //                                      height: 25,
+  //                                      child: ElevatedButton(onPressed: (){
+  //                                         downloadFile('${getWishListModel!.data!.editorial![index].image}', getWishListModel!.data!.editorial![index].userName??'');
+  //                                      },
+  //                                          style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+  //                                          child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+  //                                    ),
+  //                                    SizedBox(width: 20,),
+  //                                    // IconButton(onPressed: (){
+  //                                    //   setState(() {
+  //                                    //     isSelected =!isSelected;
+  //                                    //   });
+  //                                    // },icon: isSelected ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,))
+  //                                  ],
+  //                                ),
+  //                                SizedBox(height: 20,)
+  //                              ],
+  //                            ),
+  //                          ),
+  //                        ],
+  //                      ),
+  //                    ],
+  //                  )
+  //
+  //
+  //              );
+  //            }),
+  //      ),
+  //    ],
+  //  );
+  // }
   // awarenessCustomCards(){
   //  return Column(
   //    children: [

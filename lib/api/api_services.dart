@@ -60,4 +60,5 @@ class ApiService {
     static const String getRequestApi = baseUrl+'get_request';
     static const String deleteApi = baseUrl+'account_delete';
     static const String getGraphicApi = baseUrl+'get_free_graphics';
+    static const String addWishlistApi = baseUrl+'add_wishlists';
 }

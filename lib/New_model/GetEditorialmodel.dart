@@ -52,7 +52,7 @@ class GetEdoDataList {
     required this.isFav,
     this.isSelected
   });
- bool? isSelected;
+   bool? isSelected;
   String userName;
   String userImage;
   String userAddress;

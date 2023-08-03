@@ -44,16 +44,13 @@ class _EditorialState extends State<Editorial> {
   }
   String? specialityId;
   String dateTime = '2023-03-24 16:09:30';
-
   GetEditorialmodel? editorialmodel;
   getEdiorialApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    String? Roll = preferences.getString('roll');
     specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print("getEventUserId--------------->${localId}");
-    print("getRoll--------------->${Roll}");
+
     var headers = {
       'Cookie': 'ci_session=ac2ad75ade0fea45b016a264f634bc030be7f15b'
     };

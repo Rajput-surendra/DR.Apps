@@ -193,7 +193,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
       print(response.reasonPhrase);
     }
   }
-
   List<CompanyDataList> companyList= [];
   GetCompanyNewModel? getCompanyNewModel;
   getCompanyName() async {
@@ -218,8 +217,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
       print(response.reasonPhrase);
     }
   }
-
-
   GetStateResponseModel?getStateResponseModel;
   getStateApi() async {
      SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -291,9 +288,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
       print(response.reasonPhrase);
     }
   }
-
-
-
 @override
   void initState() {
     // TODO: implement initState
@@ -352,11 +346,11 @@ class _DoctorResignationState extends State<DoctorResignation> {
       if(statuses[Permission.photos] == PermissionStatus.granted&& statuses[Permission.mediaLibrary] == PermissionStatus.granted){
           getImage(ImageSource.gallery, context, 1);
 
-
       }else{
         getImageCmera(ImageSource.camera,context,1);
       }
     }
+
     Future getImage(ImageSource source, BuildContext context, int i) async {
       var image = await ImagePicker().pickImage(
         source: source,
@@ -364,6 +358,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
       getCropImage(context, i, image);
       Navigator.pop(context);
     }
+
     Future getImageCmera(ImageSource source, BuildContext context, int i) async {
       var image = await ImagePicker().pickImage(
         source: source,
@@ -371,6 +366,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
       getCropImage(context, i, image);
       Navigator.pop(context);
     }
+
     var imagePathList1;
     bool isImages =  false;
 
@@ -389,10 +385,9 @@ class _DoctorResignationState extends State<DoctorResignation> {
         if (i == 1) {
           imageFile = File(croppedFile!.path);
         }
-
       });
-
     }
+
   SignUpModel? detailsData;
   registration() async {
     isLoading ==  true;
