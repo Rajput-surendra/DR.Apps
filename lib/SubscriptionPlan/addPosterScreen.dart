@@ -12,6 +12,7 @@ import 'package:http/http.dart'as http;
 import '../Helper/AppBtn.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
+import '../New_model/getUserProfileModel.dart';
 import '../api/api_services.dart';
 
 class AddPosterScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class AddPosterScreen extends StatefulWidget {
   @override
   State<AddPosterScreen> createState() => _AddPosterScreenState();
 }
-
+String? selectedValue ;
 class _AddPosterScreenState extends State<AddPosterScreen> {
   String? userId;
   @override
@@ -28,6 +29,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     // TODO: implement initState
     super.initState();
     getRole();
+    getUserProfile();
   }
   getRole() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -90,11 +92,13 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     request.fields.addAll({
       'user_id': '$userId',
       'link': linkController.text,
-      if(role == "1" )
-       'type': role == "1" ? "" : dropdownInput
+      // if(role == "1" )
+      //  'type': role == "1" ? "" : dropdownInput
+        'type': dropdownInput
     });
     print("getEventUserId--------------->${request.fields}");
-    if(_value == 1) {
+    if(files == null) {
+      print('________2__________');
       if (filesVideo != null) {
         request.files.add(await http.MultipartFile.fromPath(
             'image',  filesVideo[0].path ?? '' ));
@@ -134,12 +138,12 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   bool isImage = false;
   var dropdownInput ;
   List<Map<String, dynamic>> list = [
-    {'id': 'doctor_news_slide', 'name' : 'New'},
-    {'id': 'event_slide', 'name' : 'Event'},
-    {'id': 'webinar_slide', 'name' : 'Webinar'},
+    {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
+    {'id': 'event_webinars_slide', 'name' : 'Event & Webinars'},
     {'id': 'pharma_product_slide', 'name' : 'Pharma Product'},
-    {'id': 'editorial_slide', 'name' : 'Editorial'},
-    {'id': 'awareness', 'name' : 'Awareness '},
+    {'id': 'free_graphic_slide', 'name' : 'Free Graphic'},
+    {'id': 'awareness', 'name' : 'Awareness Input'},
+    {'id': 'doctor_plus_slide', 'name' : 'Doctor plus'},
 
   ];
   @override
@@ -152,214 +156,465 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
             height: 50,
             title: isloader == true ? "Please wait......" : 'Advertisment',
             onPress: () {
-              getUploadBannerNewApi();
+              if(filesVideo == null && files ==  null){
+                Fluttertoast.showToast(msg: "AAAAAAAA");
+                if(dropdownInput == null){
+                  Fluttertoast.showToast(msg: "jhvcjsdd");
+                }
+              }else {
+                setState(() {
+                  isloader = false;
+                });
+                getUploadBannerNewApi();
+
+              }
+
             },
           ),
         ),
       ),
-      appBar: customAppBar(context: context, text:"Advertisment", isTrue: true, ),
-      body: Padding(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: colors.secondary,
+        title: Image.asset("assets/images/dr_plus_logo.png",height: 50,),
+        leading: InkWell(
+          onTap: (){
+            Navigator.pop(context);
+          },
+            child: Icon(Icons.arrow_back_ios_sharp)),
+      ),
+      body:getprofile == null ? Center(child: CircularProgressIndicator()) :Padding(
         padding: EdgeInsets.only(left: 20,right: 20,top: 10),
-        child: Form(
-          // key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20,),
-             Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Radio(
-                    value: 1,
-                    fillColor: MaterialStateColor.resolveWith(
-                            (states) =>  colors.secondary),
-                    activeColor:  colors.secondary,
-                    groupValue: _value,
-                    onChanged: (int? value) {
-                      setState(() {
-                        _value = value!;
-                        isVideo = false;
-                      });
+        child: SingleChildScrollView(
+          child: Form(
+            // key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 10,),
+               role == "1" ? Text("Advertisement for DR Plus app and DR Plus website",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),):Text("Advertisement",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                SizedBox(height: 15,),
+                //  Row(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Radio(
+                //       value: 1,
+                //       fillColor: MaterialStateColor.resolveWith(
+                //               (states) =>  colors.secondary),
+                //       activeColor:  colors.secondary,
+                //       groupValue: _value,
+                //       onChanged: (int? value) {
+                //         setState(() {
+                //           _value = value!;
+                //           isVideo = false;
+                //         });
+                //       },
+                //     ),
+                //     Text(
+                //       "Video",
+                //       style: TextStyle(
+                //           color: colors.secondary, fontSize: 21),
+                //     ),
+                //     Radio(
+                //         value: 2,
+                //         fillColor: MaterialStateColor.resolveWith(
+                //                 (states) => colors.secondary),
+                //         activeColor:   colors.secondary,
+                //         groupValue: _value,
+                //         onChanged: (int? value) {
+                //           setState(() {
+                //             _value = value!;
+                //             isImage = true;
+                //           });
+                //         }),
+                //     // SizedBox(width: 10.0,),
+                //     Text(
+                //       "Images",
+                //       style: TextStyle(
+                //           color:  colors.secondary, fontSize: 21),
+                //     ),
+                //   ],
+                // ),
+                Row(
+                  children: [
+                  Text("Select AD format" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                ],
+                ),
+                SizedBox(height: 2,),
+                Container(
+                    padding: EdgeInsets.only(right: 5, top: 12),
+                    width: MediaQuery.of(context).size.width,
+                    height: 55,
+                    decoration:
+                    BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all( color: colors.black54),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        dropdownMaxHeight: 300,
+                        hint: const Padding(
+                          padding: EdgeInsets.only(bottom: 12,top: 0),
+                          child: Text("Select AD For Format",
+                            style: TextStyle(
+                                color: colors.blackTemp,fontWeight: FontWeight.normal,fontSize: 14
+                            ),),
+                        ),
+                        // dropdownColor: colors.primary,
+                        value: selectedValue,
+                        icon:  const Padding(
+                          padding: EdgeInsets.only(bottom: 30,left: 10),
+                          child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                        ),
+                        // elevation: 16,
+                        style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                        underline: Padding(
+                          padding: const EdgeInsets.only(left: 0,right: 0),
+                          child: Container(
+                            // height: 2,
+                            color:  colors.whiteTemp,
+                          ),
+                        ),
+                        onChanged: (String? value) {
+                          // This is called when the user selects an item.
+                          setState(() {
+                            selectedValue = value!;
+
+                          });
+                        },
+
+                        items: ['Image AD','Video AD']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+
+                            child:
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                                ),
+                                const Divider(
+                                  thickness: 0.2,
+                                  color: colors.black54,
+                                )
+                              ],
+                            ),
+                          );
+
+                        }).toList(),
+
+                      ),
+
+                    )
+
+                ),
+                SizedBox(height: 15,),
+                getViewBasedOnSelectedValue(),
+                SizedBox(height: 15,),
+                Row(
+                  children: [Text("Select App Dash Board" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                  ],),
+                 SizedBox(height: 3,),
+                 Container(
+                    padding: EdgeInsets.only(right: 5, top: 5),
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    decoration:
+                    BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all( color: colors.black54),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        hint: Padding(
+                          padding: const EdgeInsets.only(top: 0),
+                          child: Text("Select App Dash Board",
+                            style: TextStyle(
+                                color: colors.black54,fontWeight: FontWeight.normal
+                            ),),
+                        ),
+                        // dropdownColor: colors.primary,
+                        value: dropdownInput,
+                        icon:  Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                        // elevation: 16,
+                        style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                        underline: Container(
+                          // height: 2,
+                          color:  colors.whiteTemp,
+                        ),
+                        onChanged: (String? value) {
+                          // This is called when the user selects an item.
+                          setState(() {
+                            dropdownInput = value!;
+                          });
+                        },
+                        items: list.map((items) {
+                          return DropdownMenuItem(
+                            value: items['id'].toString(),
+                            child:  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 6),
+                                  child: Container(
+                                      width: 250,
+                                      child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.black54,fontWeight: FontWeight.normal),)),
+                                ),
+                                Divider(
+                                  thickness: 0.2,
+                                  color: colors.black54,
+                                )
+                              ],
+                            ),
+
+                          );
+                        }).toList(),
+
+                      ),
+                    )
+                ),
+                // _value == 1  ?   video(): image(),
+                SizedBox(height: 15,),
+                Row(
+                  children: [
+                    Text("Link" ,textAlign: TextAlign.start)
+                  ],
+                ),
+                SizedBox(height: 3,),
+                Container(
+                  height: 50,
+                  child: TextFormField(
+                    controller: linkController,
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(top: 5,left: 5),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintText: '(Link Optional)'
+                    ),
+                    validator: (v) {
+                      if (v!.isEmpty) {
+                        return "Link is required";
+                      }
                     },
                   ),
-                  Text(
-                    "Video",
-                    style: TextStyle(
-                        color: colors.secondary, fontSize: 21),
-                  ),
-                  Radio(
-                      value: 2,
-                      fillColor: MaterialStateColor.resolveWith(
-                              (states) => colors.secondary),
-                      activeColor:   colors.secondary,
-                      groupValue: _value,
-                      onChanged: (int? value) {
-                        setState(() {
-                          _value = value!;
-                          isImage = true;
-                        });
-                      }),
-                  // SizedBox(width: 10.0,),
-                  Text(
-                    "Images",
-                    style: TextStyle(
-                        color:  colors.secondary, fontSize: 21),
-                  ),
-                ],
-              ),
-              _value == 1 ? role == 1 ? SizedBox.shrink():Container(
-                  padding: EdgeInsets.only(right: 5, top: 5),
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  decoration:
-                  BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all( color: colors.black54),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton2<String>(
-                      hint: Padding(
-                        padding: const EdgeInsets.only(top: 0),
-                        child: Text("Awareness Input Upload",
-                          style: TextStyle(
-                              color: colors.black54,fontWeight: FontWeight.normal
-                          ),),
-                      ),
-                      // dropdownColor: colors.primary,
-                      value: dropdownInput,
-                      icon:  Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
-                      // elevation: 16,
-                      style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                      underline: Container(
-                        // height: 2,
-                        color:  colors.whiteTemp,
-                      ),
-                      onChanged: (String? value) {
-                        // This is called when the user selects an item.
-                        setState(() {
-                          dropdownInput = value!;
-                        });
-                      },
-                      items: list.map((items) {
-                        return DropdownMenuItem(
-                          value: items['id'].toString(),
-                          child:  Column(
+                ),
+                SizedBox(height: 15,),
+
+               //role  == "1" ?
+               Column(
+                 children: [
+                   Row(
+                     children: [
+                       Text("Selected Doctor's Speciality" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                     ],),
+                   SizedBox(height: 3,),
+                   Container(
+                     height: 50,
+                     width: double.infinity,
+                     decoration: BoxDecoration(
+                         border: Border.all(color: colors.black54),
+                         borderRadius: BorderRadius.circular(10)
+                     ),
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: Text("${getprofile!.user!.userData!.first.categoryId}"),
+                         ),
+                       ],
+                     ),
+                   )
+                 ],
+               ),
+
+                  // :SizedBox(),
+                SizedBox(height: 15,),
+
+                role  == "1" ?
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text("Selected State" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                          ],),
+                        SizedBox(height: 3,),
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: colors.black54),
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 6),
-                                child: Container(
-                                    width: 250,
-                                    child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.black54,fontWeight: FontWeight.normal),)),
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("${getprofile!.user!.userData!.first.stateName}"),
                               ),
-                              Divider(
-                                thickness: 0.2,
-                                color: colors.black54,
-                              )
                             ],
                           ),
+                        )
+                      ],
+                    )
 
-                        );
-                      }).toList(),
-
-                    ),
-                  )
-              ): SizedBox.shrink(),
-              SizedBox(height: 20,),
-              _value == 1  ?   InkWell(
-                onTap: (){
-                  // showExitPopup();
-                  _getFromGalleryVideo(true);
-                },
-                child: Container(
-                  // height: MediaQuery.of(context).size.height/6,
-                  height: newImageFile == null ?60:120,
-                  child: DottedBorder(
-                    borderType: BorderType.RRect,
-                    radius: Radius.circular(5),
-                    dashPattern: [5, 5],
-                    color: Colors.grey,
-                    strokeWidth: 2,
-                    child: filesVideo.length > 0  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("${filesVideo[0]}")),
-                    ) :
-                    Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Center(
-                          child:
-                          Column(
-                            children: [
-                              Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
-                              Text("Video file Upload",style: TextStyle(color: colors.red),)
-                            ],
-                          )
-
+                    :SizedBox(),
+                SizedBox(height: 15,),
+                role  == "1" ? Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text("Selected City" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                      ],),
+                    SizedBox(height: 3,),
+                    Container(
+                      height: 50,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: colors.black54),
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("${getprofile!.user!.userData!.first.cityName}"),
+                          ),
+                        ],
                       ),
                     ),
+                  ],
+                ):SizedBox.shrink(),
 
-                  ),
-                ),
-              ):InkWell(onTap: (){
-                  // showExitPopup();
-                  _getFromGallery(true);
-                }, child: Container(
-                  // height: MediaQuery.of(context).size.height/6,
-                  height: imageFile == null ?60:120,
-                  child: DottedBorder(
-                    borderType: BorderType.RRect,
-                    radius: Radius.circular(5),
-                    dashPattern: [5, 5],
-                    color: Colors.grey,
-                    strokeWidth: 2,
-                    child: files.length > 0  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("${files[0]}")),
-                    ) :
-                    Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Center(
-                          child:
-                          Column(
-                            children: [
-                              Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
-                              Text("Banner file Upload",style: TextStyle(color: colors.red),)
-                            ],
-                          )
+                SizedBox(height: 100,),
 
-                      ),
-                    ),
-
-                  ),
-                ),
-              ),
-              SizedBox(height: 20,),
-              Container(
-                height: 50,
-                child: TextFormField(
-                  controller: linkController,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(top: 5,left: 5),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: '(Link Optional)'
-                  ),
-                  validator: (v) {
-                    if (v!.isEmpty) {
-                      return "Link is required";
-                    }
-                  },
-                ),
-              ),
-              SizedBox(height: 20,),
-
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+  Widget getViewBasedOnSelectedValue() {
+    switch (selectedValue) {
+      case 'Image AD':
+        return image();
+      case 'Video AD':
+        return video();
+      default:
+        return SizedBox();
+    }
+  }
+
+  video(){
+    return InkWell(
+      onTap: (){
+        // showExitPopup();
+        _getFromGalleryVideo(true);
+      },
+      child: Container(
+        // height: MediaQuery.of(context).size.height/6,
+        height: newImageFile == null ?60:120,
+        child: DottedBorder(
+          borderType: BorderType.RRect,
+          radius: Radius.circular(5),
+          dashPattern: [5, 5],
+          color: Colors.grey,
+          strokeWidth: 2,
+          child: filesVideo.length > 0  ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(child: Text("${filesVideo[0]}")),
+          ) :
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Center(
+                child:
+                Column(
+                  children: [
+                    Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
+                    Text("Video file Upload",style: TextStyle(color: colors.red),)
+                  ],
+                )
+
+            ),
+          ),
+
+        ),
+      ),
+    );
+  }
+  image(){
+    return InkWell(
+      onTap: (){
+        // showExitPopup();
+        _getFromGallery(true);
+      }, child: Container(
+      height: imageFile == null ?60:130,
+      child: DottedBorder(
+        borderType: BorderType.RRect,
+        radius: Radius.circular(5),
+        dashPattern: [5, 5],
+        color: Colors.grey,
+        strokeWidth: 2,
+        child: files.length > 0  ? Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(child: Text("${files[0]}")),
+        ) :
+        Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Center(
+              child:
+              Column(
+                children: [
+                  Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
+                  Text("Banner file Upload",style: TextStyle(color: colors.red),)
+                ],
+              )
+
+          ),
+        ),
+
+      ),
+    ),);
+  }
+
+  GetUserProfileModel? getprofile;
+  getUserProfile() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString('userId');
+
+    var headers = {
+      'Cookie': 'ci_session=9aba5e78ffa799cbe054723c796d2bd8f2f7d120'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getUserProfile}'));
+    request.fields.addAll(
+        {'user_id': "${userId}"}
+    );
+    print('______request.fields____${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var finalResult = await response.stream.bytesToString();
+      final jsonResponse =
+      GetUserProfileModel.fromJson(json.decode(finalResult));
+      setState(() {
+        getprofile = jsonResponse;
+      });
+    } else {
+      print(response.reasonPhrase);
+    }
   }
 }

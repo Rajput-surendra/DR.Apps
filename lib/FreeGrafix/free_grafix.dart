@@ -70,7 +70,7 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
                   crossAxisCount: 3,
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
-                  childAspectRatio: 3/3.5
+                  childAspectRatio: 3/4.1
 
               ),
               itemCount:getGraphicModel!.data!.length, // Number of items in the grid
@@ -90,7 +90,7 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 100,
+                          height: 110,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10)
@@ -121,8 +121,6 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
             ),
           )
            // gridView(),
-
-
          ],
         ),
       ),

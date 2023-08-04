@@ -434,6 +434,7 @@ class _WishlistState extends State<Wishlist> {
       print(response.reasonPhrase);
     }
   }
+
   newCustomCards(model, int index) {
 
     return Padding(
@@ -1311,14 +1312,13 @@ class _WishlistState extends State<Wishlist> {
   //    ],
   //  );
   // }
-
   webinarsCustomCards(model,int i){
     strObj  = getWishListModel!.data!.webinar![i].image?.split(".");
     print('_____saaaaaaaasxsssssadasdadasdadawrwerraaaaaaaa_____${strObj![2]}_________');
     return Column(
       children: [
         SizedBox(
-            child: getWishListModel?.data == null ? Center(child: CircularProgressIndicator())  : getWishListModel?.data?.webinar!.isEmpty ?? false ? Text("Not Approved by Admin"):
+            child: getWishListModel?.data == null ? Center(child: CircularProgressIndicator()):getWishListModel?.data?.webinar!.isEmpty ?? false ? Text("Not Approved by Admin"):
             Card(
               elevation: 5,
               child: Column(

@@ -89,7 +89,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // }
 
   GetUserProfileModel? getprofile;
-
   getuserProfile() async {
     setState(() {
       isLoder == true

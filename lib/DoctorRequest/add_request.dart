@@ -158,7 +158,6 @@ class _AddRequestState extends State<AddRequest> {
                   )
 
               ),
-
               SizedBox(height: 10),
              getViewBasedOnSelectedValue(),
             ],
