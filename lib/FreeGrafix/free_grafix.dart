@@ -67,10 +67,10 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  childAspectRatio: 3/4.1
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 0.0,
+                  crossAxisSpacing: 0.0,
+                  childAspectRatio: 3/3.4
 
               ),
               itemCount:getGraphicModel!.data!.length, // Number of items in the grid
@@ -81,33 +81,43 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
 
                    Navigator.push(context, MaterialPageRoute(builder: (context)=>FreeGraphicDetailsScreen(childList: getGraphicModel!.data![index].childs,)));
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10)
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
                     ),
-
+                    // decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(10)
+                    // ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 110,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 140 ,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network("${getGraphicModel!.data![index].image}",fit: BoxFit.fill)),
                           ),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network("${getGraphicModel!.data![index].image}",fit: BoxFit.fill)),
                         ),
                         SizedBox(height: 5,),
                           Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Column(
+                            padding: const EdgeInsets.only(left: 5,right: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("${getGraphicModel!.data![index].title}",style: TextStyle(
-                                    color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 12
-                                ),),
+                                Container(
+                                  width: 85,
+
+                                  child: Text("${getGraphicModel!.data![index].title}",maxLines: 1,style: TextStyle(
+                                      color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 12,overflow: TextOverflow.ellipsis,
+                                  ),),
+                                ),
 
                                 Text("${getGraphicModel!.data![index].total}")
                               ],
@@ -260,8 +270,7 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
                       child: Image.network("${getGraphicModel?.data?[index].image}",fit: BoxFit.fill)),
                 ),
-                Text("dsfdfdfd"),
-                Text("dfdf")
+
               ],
             ),
           );

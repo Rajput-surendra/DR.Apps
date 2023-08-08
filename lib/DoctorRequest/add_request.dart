@@ -29,8 +29,12 @@ class _AddRequestState extends State<AddRequest> {
   final _formKey = GlobalKey<FormState>();
   String? awarenessValue ;
   final List<String> awarenesslist = ['Greeting','Poster', 'Video'];
+  String? doctorValue ;
+  final List<String> doctorlist = ['Yes', 'No'];
   String? requestValue ;
   final List<String> items = ['Poster', 'Leaflet', 'Booklet','Video'];
+  String? standyValue ;
+  final List<String> standyValueList = ['Standy','Poster', 'Leaflet', 'Booklet',];
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController drController = TextEditingController();
@@ -42,6 +46,7 @@ class _AddRequestState extends State<AddRequest> {
   TextEditingController  emailController = TextEditingController();
   TextEditingController  messageAwereController = TextEditingController();
   TextEditingController  messageWorldAwereController = TextEditingController();
+  TextEditingController  messagPersonalizedController = TextEditingController();
   TextEditingController  messageWorldEmeController = TextEditingController();
   TextEditingController  messageEventController = TextEditingController();
   TextEditingController  messageWebinarController = TextEditingController();
@@ -64,6 +69,7 @@ class _AddRequestState extends State<AddRequest> {
     requestCMEController = TextEditingController(text: "CME Invitation Designs");
     requestEventController = TextEditingController(text: "Event Invitation Designs");
     requestOnlineController = TextEditingController(text: "Online Webinar Invitation Designs");
+    messagPersonalizedController = TextEditingController(text: "I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only");
     messageAwereController =  TextEditingController(text:'I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.');
     messageWorldAwereController =  TextEditingController(text:' I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.');
     messageWorldEmeController =  TextEditingController(text:' I Request to pharma companies can you please design above CME invitation for our CME.');
@@ -128,7 +134,7 @@ class _AddRequestState extends State<AddRequest> {
                         });
                       },
 
-                      items: ['Awareness inputs','Worlds Awareness Day inputs','CME Invitation Designs','Event Invitation Designs','Online Webinar Invitation Designs']
+                      items: ['Awareness inputs','Worlds Awareness Day inputs','CME Invitation Designs','Event Invitation Designs','Online Webinar Invitation Designs','Personalized Awareness']
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -178,6 +184,8 @@ class _AddRequestState extends State<AddRequest> {
       case 'Event Invitation Designs':
         return awareness();
       case 'Online Webinar Invitation Designs':
+        return awareness();
+        case 'Personalized Awareness':
         return awareness();
       default:
         return Container();
@@ -270,8 +278,7 @@ class _AddRequestState extends State<AddRequest> {
 
             ),
           ],
-        ) :selectedValue == "Worlds Awareness Day inputs" ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start, children: [
+        ) :selectedValue == "Worlds Awareness Day inputs" ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
               Text("Request for" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
             ],),
@@ -349,8 +356,88 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],):SizedBox.shrink(),
         SizedBox(height: 5,),
+        selectedValue == "Personalized Awareness" ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text("Request for Personalized" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            Container(
+                padding: EdgeInsets.only(right: 5, top: 12),
+                width: MediaQuery.of(context).size.width,
+                height: 55,
+                decoration:
+                BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all( color: colors.black54),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2<String>(
+                    dropdownMaxHeight: 220,
+                    hint: const Padding(
+                      padding: EdgeInsets.only(bottom: 15),
+                      child: Text("Select Request",
+                        style: TextStyle(
+                            color: colors.blackTemp,fontWeight: FontWeight.normal
+                        ),),
+                    ),
+                    // dropdownColor: colors.primary,
+                    value: standyValue,
+                    icon:  const Padding(
+                      padding: EdgeInsets.only(bottom: 30),
+                      child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                    ),
+                    // elevation: 16,
+                    style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                    underline: Padding(
+                      padding: const EdgeInsets.only(left: 0,right: 0),
+                      child: Container(
+                        // height: 2,
+                        color:  colors.whiteTemp,
+                      ),
+                    ),
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        standyValue = value!;
 
-        selectedValue == "CME Invitation Designs" ? Column(children: [
+                      });
+                    },
+
+                    items: standyValueList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child:
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                            ),
+                            const Divider(
+                              thickness: 0.2,
+                              color: colors.black54,
+                            )
+                          ],
+                        ),
+                      );
+
+                    }).toList(),
+
+                  ),
+
+                )
+
+            ),
+          ],
+        ):SizedBox.shrink(),
+        selectedValue == "CME Invitation Designs" ? Column(
+          children: [
               Row(children: [
                 Text("Request for" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
               ],),
@@ -409,25 +496,28 @@ class _AddRequestState extends State<AddRequest> {
               )
             ],) : SizedBox.shrink(),
         SizedBox(height: 3,),
-        Row(children: [Text("Mobile No" ,textAlign: TextAlign.start)
-        ],),
-        SizedBox(height: 2,),
-        SizedBox(
-          // height: 45,
-          child: TextFormField(
-            maxLength: 10,
-            keyboardType: TextInputType.number,
-            controller: mobileController,
-            decoration: InputDecoration(
-                counterText: "",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                )
-            ),
+        selectedValue == "Personalized Awareness" ? SizedBox.shrink():  Column(children: [
+          Row(children: [Text("Mobile No" ,textAlign: TextAlign.start)
+          ],),
+          SizedBox(height: 2,),
+          SizedBox(
+            // height: 45,
+            child: TextFormField(
+              maxLength: 10,
+              keyboardType: TextInputType.number,
+              controller: mobileController,
+              decoration: InputDecoration(
+                  counterText: "",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )
+              ),
 
+            ),
           ),
-        ),
-        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? SizedBox.shrink()  : Column(
+        ],),
+
+        selectedValue == "Personalized Awareness"  ||  selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? SizedBox.shrink()  : Column(
           children: [
            Row(children: [
              Text("Doctor Association Name" ,textAlign: TextAlign.start)
@@ -447,7 +537,36 @@ class _AddRequestState extends State<AddRequest> {
              ),
            ),
          ],),
-        SizedBox(height: 3,),
+
+        selectedValue == "Personalized Awareness"  ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text("Topic" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: topicController,
+                validator: (value) {
+                  if ((selectedValue == "Awareness inputs") && value!.isEmpty) {
+                    return 'Please Enter a Topic';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    hintText: "e.g. Arthritis,Psoriasis,Cancer",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ) :SizedBox.shrink(),
+
         selectedValue == "Awareness inputs"  ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -476,7 +595,248 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ) :SizedBox.shrink(),
-        SizedBox(height: 3,),
+
+        selectedValue == "Personalized Awareness" ?  Column(
+          children: [
+            Row(children: [
+              Text("Doctor Name" ,textAlign: TextAlign.start), Text("*" ,textAlign: TextAlign.start,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: drController,
+
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+                validator: (value) {
+                  if ((selectedValue == "Personalized Awareness") && value!.isEmpty) {
+                    return 'Please Enter a Topic';
+                  }
+                  return null;
+                },
+
+              ),
+            ),
+          ],):SizedBox.shrink(),
+
+        selectedValue == "Personalized Awareness" ? Column(
+          children: [
+            Row(children: [
+              Text("Degree" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: degreespeakerController,
+                validator: (value) {
+                  if ((selectedValue == "Personalized Awareness") && value!.isEmpty) {
+                    return 'Please Enter a Degree';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ):SizedBox.shrink(),
+        selectedValue == "Personalized Awareness" ? Column(children: [
+          Row(children: [
+            Text("For Clinic or Hospital Name" ,textAlign: TextAlign.start)
+          ],),
+          SizedBox(height: 3,),
+          SizedBox(
+            // height: 45,
+            child: TextFormField(
+              controller: clinicHospitalController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter a Clinic or Hospital';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )
+              ),
+
+            ),
+          ),
+        ],):SizedBox.shrink(),
+        selectedValue == "Personalized Awareness" ? Column(children: [
+          Row(children: [
+            Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+
+          ],),
+          SizedBox(height: 3,),
+          SizedBox(
+            child: TextFormField(
+              controller: placeController,
+              validator: (value) {
+                if ((selectedValue == "Personalized Awareness") && value!.isEmpty) {
+                  return 'Please Enter a Place';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )
+              ),
+
+            ),
+          ),
+        ],):SizedBox.shrink(),
+        selectedValue == "Personalized Awareness" ? Column(
+          children: [
+            Row(children: [
+              Text("Dr. Contact Email ID" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+                validator: (value) {
+                  if ((selectedValue == "Personalized Awareness") && value == null || value!.isEmpty) {
+                    return 'Please Enter an Email ID';
+                  }
+                  return null; // Return null if the input is valid
+                },
+                onSaved: (value) {
+                  _email = value;
+                },
+
+              ),
+            ),
+          ],
+        ):SizedBox.shrink(),
+        selectedValue == "Personalized Awareness" ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            Text("Dr.Photo Require On Input" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+          ],),
+          SizedBox(height: 3,),
+          Container(
+              padding: EdgeInsets.only(right: 5, top: 12),
+              width: MediaQuery.of(context).size.width,
+              height: 55,
+              decoration:
+              BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all( color: colors.black54),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton2<String>(
+                  dropdownMaxHeight: 220,
+                  hint: const Padding(
+                    padding: EdgeInsets.only(bottom: 15),
+                    child: Text("Select Dr.Photo Require On Input",
+                      style: TextStyle(
+                          color: colors.blackTemp,fontWeight: FontWeight.normal
+                      ),),
+                  ),
+                  // dropdownColor: colors.primary,
+                  value: doctorValue,
+                  icon:  const Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                    child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                  ),
+                  // elevation: 16,
+                  style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                  underline: Padding(
+                    padding: const EdgeInsets.only(left: 0,right: 0),
+                    child: Container(
+                      // height: 2,
+                      color:  colors.whiteTemp,
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                    setState(() {
+                      doctorValue = value!;
+
+                    });
+                  },
+
+                  items: doctorlist
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child:
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                          ),
+                          const Divider(
+                            thickness: 0.2,
+                            color: colors.black54,
+                          )
+                        ],
+                      ),
+                    );
+
+                  }).toList(),
+
+                ),
+
+              )
+
+          ),
+        ],):SizedBox.shrink(),
+        selectedValue == "Personalized Awareness" ?  Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text("Message for pharma company" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+            ],),
+            SizedBox(height: 3,),
+            SizedBox(
+              // height: 45,
+              child: TextFormField(
+                readOnly: true,
+                controller: messagPersonalizedController,
+                maxLines: 4,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please Enter a pharma company';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )
+                ),
+
+              ),
+            ),
+          ],
+        ):SizedBox(),
+
+
+
         selectedValue == "Worlds Awareness Day inputs"  ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -537,7 +897,8 @@ class _AddRequestState extends State<AddRequest> {
           ],
         ) :SizedBox.shrink(),
         SizedBox(height: 3,),
-        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" ? Column(children: [
+        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" ? Column(
+          children: [
             Row(children: [
               Text("For Clinic or Hospital Name" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
             ],),
@@ -560,8 +921,7 @@ class _AddRequestState extends State<AddRequest> {
 
               ),
             ),
-          ],
-        ):SizedBox.shrink(),
+          ],):SizedBox.shrink(),
         SizedBox(height: 3,),
         selectedValue == "Event Invitation Designs"  ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -590,7 +950,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ) :SizedBox.shrink(),
-        selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+        selectedValue == "Personalized Awareness" ? SizedBox.shrink():  selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
           Row(children: [
             Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
 
@@ -641,7 +1001,7 @@ class _AddRequestState extends State<AddRequest> {
           ],
         ) :SizedBox.shrink(),
         SizedBox(height: 3,),
-        selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+        selectedValue == "Personalized Awareness" ? SizedBox.shrink():  selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
             Row(
               children: [
                 Text("Date" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -807,7 +1167,7 @@ class _AddRequestState extends State<AddRequest> {
           ],
         ) :SizedBox.shrink(),
         SizedBox(height: 3,),
-        selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" || selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink():Column(
+        selectedValue == "Personalized Awareness" ? SizedBox.shrink() :  selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" || selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink():Column(
           children: [
           Row(
             children: [
@@ -864,7 +1224,7 @@ class _AddRequestState extends State<AddRequest> {
           ),
         ],),
         SizedBox(height: 3,),
-        selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink(): Column(children: [
+        selectedValue == "Personalized Awareness" ? SizedBox.shrink():   selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink(): Column(children: [
         Row(children: [
           Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
 
@@ -927,7 +1287,8 @@ class _AddRequestState extends State<AddRequest> {
           ],
         ):SizedBox.shrink(),
         SizedBox(height: 3,),
-        selectedValue == "Event Invitation Designs"  || selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+        selectedValue == "Event Invitation Designs"  || selectedValue == "CME Invitation Designs"  || selectedValue == "Online Webinar Invitation Designs" ?
+        Column(children: [
           Row(children: [
             Text("For Clinic or Hospital Name" ,textAlign: TextAlign.start)
           ],),
@@ -952,32 +1313,36 @@ class _AddRequestState extends State<AddRequest> {
           ),
         ],):SizedBox.shrink(),
         SizedBox(height: 5,),
-        Row(children: [
-          Text("Dr. Contact Email ID" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-        ],),
-        SizedBox(height: 3,),
-        SizedBox(
-          // height: 45,
-          child: TextFormField(
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                )
-            ),
-            validator: (value) {
-              if ((selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  || selectedValue == "Event Invitation Designs" || selectedValue == "CME Invitation Designs" || selectedValue == "Online Webinar Invitation Designs") && value == null || value!.isEmpty) {
-                return 'Please Enter an Email ID';
-              }
-              return null; // Return null if the input is valid
-            },
-            onSaved: (value) {
-              _email = value;
-            },
+        selectedValue == "Personalized Awareness" ? SizedBox.shrink():Column(
+           children: [
+             Row(children: [
+               Text("Dr. Contact Email ID" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+             ],),
+             SizedBox(height: 3,),
+             SizedBox(
+               // height: 45,
+               child: TextFormField(
+                 controller: emailController,
+                 keyboardType: TextInputType.emailAddress,
+                 decoration: InputDecoration(
+                     border: OutlineInputBorder(
+                       borderRadius: BorderRadius.circular(10),
+                     )
+                 ),
+                 validator: (value) {
+                   if ((selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  || selectedValue == "Event Invitation Designs" || selectedValue == "CME Invitation Designs" || selectedValue == "Online Webinar Invitation Designs") && value == null || value!.isEmpty) {
+                     return 'Please Enter an Email ID';
+                   }
+                   return null; // Return null if the input is valid
+                 },
+                 onSaved: (value) {
+                   _email = value;
+                 },
 
-          ),
-        ),
+               ),
+             ),
+           ],
+         ) ,
         SizedBox(height: 3,),
         selectedValue == "Awareness inputs" ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -989,6 +1354,7 @@ class _AddRequestState extends State<AddRequest> {
             SizedBox(
               // height: 45,
               child: TextFormField(
+                readOnly: true,
                 controller: messageAwereController,
                 maxLines: 4,
                 validator: (value) {
@@ -1018,6 +1384,7 @@ class _AddRequestState extends State<AddRequest> {
             SizedBox(
               // height: 45,
               child: TextFormField(
+                readOnly: true,
                 controller: messageWorldAwereController,
                 maxLines: 4,
                 validator: (value) {
@@ -1047,6 +1414,7 @@ class _AddRequestState extends State<AddRequest> {
             SizedBox(
               // height: 45,
               child: TextFormField(
+                readOnly: true,
                 controller: messageWorldEmeController,
                 maxLines: 4,
                 validator: (value) {
@@ -1076,6 +1444,7 @@ class _AddRequestState extends State<AddRequest> {
             SizedBox(
               // height: 45,
               child: TextFormField(
+                readOnly: true,
                 controller: messageEventController,
                 maxLines: 4,
                 validator: (value) {
@@ -1105,6 +1474,7 @@ class _AddRequestState extends State<AddRequest> {
             SizedBox(
               // height: 45,
               child: TextFormField(
+                readOnly: true,
                 controller: messageWebinarController,
                 maxLines: 4,
                 validator: (value) {
@@ -1144,7 +1514,7 @@ class _AddRequestState extends State<AddRequest> {
               "topic":topicController.text,
               "clinic_hospital":clinicHospitalController.text,
               "email":emailController.text,
-            "message": selectedValue == "Awareness inputs" ?messageAwereController.text:selectedValue == "Worlds Awareness Day inputs" ? messageWorldAwereController.text :
+            "message": selectedValue == "Personalized Awareness" ?messagPersonalizedController.text:selectedValue == "Awareness inputs" ?messageAwereController.text:selectedValue == "Worlds Awareness Day inputs" ? messageWorldAwereController.text :
             selectedValue == "Worlds Awareness Day inputs" ? messageWorldAwereController.text :
             selectedValue  == "CME Invitation Designs"? messageWorldEmeController.text :selectedValue == "Event Invitation Designs" ? messageEventController.text
             : messageWebinarController.text,
@@ -1158,6 +1528,8 @@ class _AddRequestState extends State<AddRequest> {
                "time":timeController.text,
                "event_name":eventController.text,
                "conference":conferenceController.text,
+               "dr_photo":doctorValue,
+               "dr_personalized":standyValue,
 
 
             }));

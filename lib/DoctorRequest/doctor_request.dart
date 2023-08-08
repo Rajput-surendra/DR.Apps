@@ -68,11 +68,11 @@ class _DoctorRequestState extends State<DoctorRequest> {
      ),
 
       appBar: customAppBar(context: context, text:" Doctor's Request", isTrue: true, ),
-      body: getRequestModel  ==  null ? Center(child: CircularProgressIndicator(color: colors.primary,)) :  getRequestModel!.data == 0 ? Text("No Doctor Resquest !!"):ListView(
+      body: ListView(
          children: [
            getSlider(),
            button(),
-           viewCard(),
+           getRequestModel  ==  null ? Center(child: CircularProgressIndicator(color: colors.primary,)) :  getRequestModel!.data!.length == 0 ? Center(child: Text("No Doctor Resquest !!")): viewCard(),
            SizedBox(height: 70,)
 
          ],
@@ -183,7 +183,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
 
                          ],
                        ),
-                       SizedBox(width: MediaQuery.of(context).size.width/3.5,),
+                       SizedBox(width: MediaQuery.of(context).size.width/4.5,),
                        iconVisible ? Row(
                          children: [
                            InkWell(
@@ -220,25 +220,28 @@ class _DoctorRequestState extends State<DoctorRequest> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                                getRequestModel!.data![index].type  == "Awareness inputs" ?Text("${getRequestModel!.data![index].json!.request}",):Text("${getRequestModel!.data![index].json!.awarenessRequest}",)
+                                getRequestModel!.data![index].type == "Personalized Awareness" ?  Text("Standy for Personalized :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),):Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                                getRequestModel!.data![index].type ==  "Personalized Awareness" ? Text("${getRequestModel!.data![index].json!.drPersonalized}",): getRequestModel!.data![index].type  == "Awareness inputs" ?Text("${getRequestModel!.data![index].json!.request}",):Text("${getRequestModel!.data![index].json!.awarenessRequest}",)
                               ],
                             ),
                             Divider(
                               color: colors.black54,
                             ),
 
-                            Column(
+                            getRequestModel!.data![index].type == "Personalized Awareness" ?SizedBox.shrink():  Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Mobile No :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-                              Text("${getRequestModel!.data![index].json!.mobileNo}",)
+                              Text("${getRequestModel!.data![index].json!.mobileNo}",),
+                                Divider(
+                                  color: colors.black54,
+                                ),
                               ],
                             ),
-                            Divider(
-                              color: colors.black54,
-                            ),
-                            getRequestModel!.data![index].type  == "Awareness inputs" ||  getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
+
+                            getRequestModel!.data![index].type  == "Personalized Awareness" ?
+                            SizedBox.shrink():getRequestModel!.data![index].type  == "Awareness inputs" ||
+                                getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Column(
@@ -300,6 +303,43 @@ class _DoctorRequestState extends State<DoctorRequest> {
                                 ),
                               ],
                             ) ,
+                            getRequestModel!.data![index].type  == "Personalized Awareness" ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Dr. Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                    Text("${getRequestModel!.data![index].json!.drName}",),
+                                  ],
+                                ),
+                                Divider(
+                                  color: colors.black54,
+                                ),
+                              ],
+                            ):SizedBox.shrink(),
+
+
+                            getRequestModel!.data![index].type  == "Personalized Awareness" ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Degree :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                    Text("${getRequestModel!.data![index].json!.degreeSpeakerName}",),
+                                  ],
+                                ),
+                                Divider(
+                                  color: colors.black54,
+                                ),
+                              ],
+                            ):SizedBox.shrink(),
+
+
+
+
+
 
                             getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -480,6 +520,40 @@ class _DoctorRequestState extends State<DoctorRequest> {
                                 ),
                               ],
                             ),
+                            getRequestModel!.data![index].type  == "Personalized Awareness" ?  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                    Text("${getRequestModel!.data![index].json!.place}",),
+                                  ],
+                                ),
+                                Divider(
+                                  // indent: 5,
+                                  // endIndent: 5,
+                                  color: colors.black54,
+                                ),
+                              ],
+                            ):SizedBox.shrink(),
+                            getRequestModel!.data![index].type  == "Personalized Awareness" ?  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Dr.Photo Require On Input  :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
+                                    Text("${getRequestModel!.data![index].json!.drPhoto}",),
+                                  ],
+                                ),
+                                Divider(
+                                  // indent: 5,
+                                  // endIndent: 5,
+                                  color: colors.black54,
+                                ),
+                              ],
+                            ):SizedBox.shrink(),
                             getRequestModel!.data![index].type == "Awareness inputs" || getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

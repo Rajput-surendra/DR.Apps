@@ -336,7 +336,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                           padding: const EdgeInsets.only(top: 0),
                           child: Text("Select App Dash Board",
                             style: TextStyle(
-                                color: colors.black54,fontWeight: FontWeight.normal
+                                color: colors.blackTemp,fontWeight: FontWeight.normal
                             ),),
                         ),
                         // dropdownColor: colors.primary,
@@ -365,7 +365,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                                   padding: const EdgeInsets.only(top: 6),
                                   child: Container(
                                       width: 250,
-                                      child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.black54,fontWeight: FontWeight.normal),)),
+                                      child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.normal),)),
                                 ),
                                 Divider(
                                   thickness: 0.2,

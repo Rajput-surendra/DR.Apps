@@ -28,7 +28,7 @@ import 'package:http/http.dart'as http;
 import '../widgets/widgets/onlinewebnar_list_card.dart';
 import 'AddEventPost.dart';
 import 'event_deatils.dart';
-
+String? Roll;
 class EventAndWebiner extends StatefulWidget {
   const EventAndWebiner({Key? key}) : super(key: key);
 
@@ -41,6 +41,8 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   bool _isReady = false;
   bool isSelected =  false;
   GetEventModel? eventModel;
+
+
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
@@ -147,7 +149,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     }
 
   }
-
   GetWebinarModel? webinarModel;
   String? specialityId;
   getOnlineWebinarApi() async {
@@ -253,6 +254,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
         _isReady = true;
       });
     });
+    getrole();
     // getS();
   }
   // String? specialityId;
@@ -260,6 +262,12 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     specialityId = preferences.getString('specialityId');
     print('___specialityId____surendra___${specialityId}_________');
+  }
+
+  getrole() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    Roll = preferences.getString('roll');
+    print('___Roll____Roll___${Roll}_________');
   }
   String dateTime = '2023-03-25 13:45:05';
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -274,11 +282,13 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   int _currentIndex = 1 ;
   @override
   Widget build(BuildContext context) {
+    print('_____roll_____${Roll}_________');
     return RefreshIndicator(
       onRefresh: _refresh,
       key: _refreshIndicatorKey,
       child: Scaffold(
-          floatingActionButton: FloatingActionButton(
+
+       floatingActionButton: Roll == "1" ? FloatingActionButton(
             onPressed: () {
               if(_currentIndex == 1){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> AddEventPost()));
@@ -289,7 +299,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
             },
             backgroundColor: colors.secondary,
             child: Icon(Icons.add),
-          ),
+          ):SizedBox.shrink(),
           appBar: customAppBar(context: context, text:"Event & Online Webinar", isTrue: true, ),
         body:
         ListView(

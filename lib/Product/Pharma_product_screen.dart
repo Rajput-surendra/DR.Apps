@@ -32,11 +32,12 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
   GetSliderModel? _sliderModel;
   GetPharmaProductsCategory? _pharmaProductsCategory;
 
-  String? roll;
+  String? roll,userId;
   getProductroll() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     roll = preferences.getString('roll');
-    print("this is reeeeeeeeererererer==============>${roll}");
+    userId = preferences.getString('userId');
+    print("this is reeeeeeeeererererer==============>${userId}");
   }
 
   List <PharmaProductCategoryDataList> pharmaProductList = [];
@@ -239,7 +240,7 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
 
   List<Widget> _buildDots() {
     List<Widget> dots = [];
-    for (int i = 0; i < (newSliderModel?.data?.length ?? 10); i++) {
+    for (int i = 0; i < (newSliderModel?.data.length ?? 10); i++) {
       dots.add(
         Container(
           margin: EdgeInsets.all(1.5),
@@ -270,10 +271,10 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
       final finalResult = NewSliderModel.fromJson(json.decode(result));
-      print('____hhhhhhhhh00______${newSliderModel?.data?[0].image}_________');
+      print('____hhhhhhhhh00______${newSliderModel?.data[0].image}_________');
       setState(() {
         newSliderModel = finalResult;
-        print('____hhhhhhhhh00______${newSliderModel?.data?[0].image}_________');
+        print('____hhhhhhhhh00______${newSliderModel?.data[0].image}_________');
       });
     } else {
       print(response.reasonPhrase);
@@ -282,28 +283,59 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
 
   List<CompanyDataList> companyList= [];
   GetCompanyModel? getCompanyModel;
+
+
   getCompanyName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+   String? roll = preferences.getString('roll');
+    String? userId = preferences.getString('userId');
     var headers = {
-      'Cookie': 'ci_session=e5dbfebfc51701fd8aba3e57be6c399b3a13750d'
+      'Cookie': 'ci_session=0ec04d87609b14b76e535cbab26b1d1b8d3323e3'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getCompaniesApi}'));
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getCompaniesApi}'));
+    request.fields.addAll({
+      'user_id': roll== "2"?userId.toString():""
+    });
+   print('______request.fields____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-   var result =    await response.stream.bytesToString();
-   var finalResult  = GetCompanyModel.fromJson(json.decode(result));
-   print('____sdsdfsdd______${finalResult}_________');
-   setState(() {
-     getCompanyModel = finalResult;
-    companyList = finalResult.data ?? [];
-   });
-    }
+      var result =    await response.stream.bytesToString();
+      var finalResult  = GetCompanyModel.fromJson(json.decode(result));
+      print('____sdsdfsdd______${finalResult}_________');
+      setState(() {
+        getCompanyModel = finalResult;
+        companyList = finalResult.data ?? [];
+      });
 
+    }
     else {
     print(response.reasonPhrase);
     }
 
   }
+  // getCompanyName() async {
+  //   var headers = {
+  //     'Cookie': 'ci_session=e5dbfebfc51701fd8aba3e57be6c399b3a13750d'
+  //   };
+  //   var request = http.Request('GET', Uri.parse('${ApiService.getCompaniesApi}'));
+  //   request.headers.addAll(headers);
+  //   http.StreamedResponse response = await request.send();
+  //   if (response.statusCode == 200) {
+  //  var result =    await response.stream.bytesToString();
+  //  var finalResult  = GetCompanyModel.fromJson(json.decode(result));
+  //  print('____sdsdfsdd______${finalResult}_________');
+  //  setState(() {
+  //    getCompanyModel = finalResult;
+  //   companyList = finalResult.data ?? [];
+  //  });
+  //   }
+  //
+  //   else {
+  //   print(response.reasonPhrase);
+  //   }
+  //
+  // }
   getPharmaProductsCategory() async {
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'

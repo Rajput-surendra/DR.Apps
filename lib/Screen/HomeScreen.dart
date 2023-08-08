@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //preferences.setString('id', "Id");
       final result = await response.stream.bytesToString();
       final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
-      print('_____Surendra _____${finalResult}_________');
+      print('_____Surendra_____${finalResult}_________');
 
       setState(() {
         selectCatModel = finalResult;
@@ -749,7 +749,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
 
-          ListTile(
+          role == "1" ?  ListTile(
             leading: Padding(
               padding: const EdgeInsets.only(left: 5),
               child: Image.asset(
@@ -768,7 +768,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) =>BookingScreen()),
               );
             },
-          ),
+          ):SizedBox.shrink(),
 
           ListTile(
             leading: Image.asset(

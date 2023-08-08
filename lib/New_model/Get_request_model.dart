@@ -1,6 +1,6 @@
 /// error : false
 /// message : "Record found"
-/// data : [{"id":"65","user_id":"617","type":"Awareness inputs","json":{"mobile_no":"4849496464","dr_name":"","dr_association":"","degree":"","place":"hrhhdhrh","request":"Leaflet","awareness_request":"Greeting","topic":"gdhrrrh","clinic_hospital":"hrbddhh","email":"ttttt@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":""},"created_at":"2023-08-03 13:12:32","updated_at":"2023-08-03 13:12:32","name":"surendra","doc_digree":"mbba","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690549503758.jpg","is_favorite":true}]
+/// data : [{"id":"71","user_id":"639","type":"Personalized Awareness","json":{"mobile_no":"","dr_name":"demo","dr_association":"","degree":"","place":"indoor ","request":null,"awareness_request":null,"topic":"yyyy","clinic_hospital":"india ","email":"indor@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"mbbs","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":"Yes","dr_personalized":"Standy"},"created_at":"2023-08-08 17:53:05","updated_at":"2023-08-08 17:53:05","name":"rr rr","doc_digree":"mmm","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1691142548716.jpg","is_favorite":true}]
 
 class GetRequestModel {
   GetRequestModel({
@@ -48,15 +48,15 @@ GetRequestModel copyWith({  bool? error,
 
 }
 
-/// id : "65"
-/// user_id : "617"
-/// type : "Awareness inputs"
-/// json : {"mobile_no":"4849496464","dr_name":"","dr_association":"","degree":"","place":"hrhhdhrh","request":"Leaflet","awareness_request":"Greeting","topic":"gdhrrrh","clinic_hospital":"hrbddhh","email":"ttttt@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":""}
-/// created_at : "2023-08-03 13:12:32"
-/// updated_at : "2023-08-03 13:12:32"
-/// name : "surendra"
-/// doc_digree : "mbba"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1690549503758.jpg"
+/// id : "71"
+/// user_id : "639"
+/// type : "Personalized Awareness"
+/// json : {"mobile_no":"","dr_name":"demo","dr_association":"","degree":"","place":"indoor ","request":null,"awareness_request":null,"topic":"yyyy","clinic_hospital":"india ","email":"indor@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"mbbs","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":"Yes","dr_personalized":"Standy"}
+/// created_at : "2023-08-08 17:53:05"
+/// updated_at : "2023-08-08 17:53:05"
+/// name : "rr rr"
+/// doc_digree : "mmm"
+/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1691142548716.jpg"
 /// is_favorite : true
 
 class Data {
@@ -71,8 +71,7 @@ class Data {
       String? docDigree, 
       String? userImage,
       bool? isSelected,
-      bool? isFavorite,
-  }){
+      bool? isFavorite,}){
     _id = id;
     _userId = userId;
     _type = type;
@@ -83,12 +82,9 @@ class Data {
     _docDigree = docDigree;
     _userImage = userImage;
     _isFavorite = isFavorite;
-
-
 }
 
   Data.fromJson(dynamic json) {
-    isSelected: false;
     _id = json['id'];
     _userId = json['user_id'];
     _type = json['type'];
@@ -111,8 +107,6 @@ class Data {
   String? _userImage;
   bool? _isFavorite;
   bool? isSelected;
-
-
 Data copyWith({  String? id,
   String? userId,
   String? type,
@@ -134,7 +128,6 @@ Data copyWith({  String? id,
   docDigree: docDigree ?? _docDigree,
   userImage: userImage ?? _userImage,
   isFavorite: isFavorite ?? _isFavorite,
-
 );
   String? get id => _id;
   String? get userId => _userId;
@@ -146,7 +139,6 @@ Data copyWith({  String? id,
   String? get docDigree => _docDigree;
   String? get userImage => _userImage;
   bool? get isFavorite => _isFavorite;
-
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -167,27 +159,29 @@ Data copyWith({  String? id,
 
 }
 
-/// mobile_no : "4849496464"
-/// dr_name : ""
+/// mobile_no : ""
+/// dr_name : "demo"
 /// dr_association : ""
 /// degree : ""
-/// place : "hrhhdhrh"
-/// request : "Leaflet"
-/// awareness_request : "Greeting"
-/// topic : "gdhrrrh"
-/// clinic_hospital : "hrbddhh"
-/// email : "ttttt@gmail.com"
-/// message : "I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only."
+/// place : "indoor "
+/// request : null
+/// awareness_request : null
+/// topic : "yyyy"
+/// clinic_hospital : "india "
+/// email : "indor@gmail.com"
+/// message : "I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only"
 /// awareness_day : ""
 /// moderator : ""
 /// degree_moderator : ""
 /// speaker_name : ""
-/// degree_speaker_name : ""
+/// degree_speaker_name : "mbbs"
 /// degree_conference : ""
 /// date : ""
 /// time : ""
 /// event_name : ""
 /// conference : ""
+/// dr_photo : "Yes"
+/// dr_personalized : "Standy"
 
 class Json {
   Json({
@@ -196,8 +190,8 @@ class Json {
       String? drAssociation, 
       String? degree, 
       String? place, 
-      String? request, 
-      String? awarenessRequest, 
+      dynamic request, 
+      dynamic awarenessRequest, 
       String? topic, 
       String? clinicHospital, 
       String? email, 
@@ -211,7 +205,9 @@ class Json {
       String? date, 
       String? time, 
       String? eventName, 
-      String? conference,}){
+      String? conference, 
+      String? drPhoto, 
+      String? drPersonalized,}){
     _mobileNo = mobileNo;
     _drName = drName;
     _drAssociation = drAssociation;
@@ -233,6 +229,8 @@ class Json {
     _time = time;
     _eventName = eventName;
     _conference = conference;
+    _drPhoto = drPhoto;
+    _drPersonalized = drPersonalized;
 }
 
   Json.fromJson(dynamic json) {
@@ -257,14 +255,16 @@ class Json {
     _time = json['time'];
     _eventName = json['event_name'];
     _conference = json['conference'];
+    _drPhoto = json['dr_photo'];
+    _drPersonalized = json['dr_personalized'];
   }
   String? _mobileNo;
   String? _drName;
   String? _drAssociation;
   String? _degree;
   String? _place;
-  String? _request;
-  String? _awarenessRequest;
+  dynamic _request;
+  dynamic _awarenessRequest;
   String? _topic;
   String? _clinicHospital;
   String? _email;
@@ -279,13 +279,15 @@ class Json {
   String? _time;
   String? _eventName;
   String? _conference;
+  String? _drPhoto;
+  String? _drPersonalized;
 Json copyWith({  String? mobileNo,
   String? drName,
   String? drAssociation,
   String? degree,
   String? place,
-  String? request,
-  String? awarenessRequest,
+  dynamic request,
+  dynamic awarenessRequest,
   String? topic,
   String? clinicHospital,
   String? email,
@@ -300,6 +302,8 @@ Json copyWith({  String? mobileNo,
   String? time,
   String? eventName,
   String? conference,
+  String? drPhoto,
+  String? drPersonalized,
 }) => Json(  mobileNo: mobileNo ?? _mobileNo,
   drName: drName ?? _drName,
   drAssociation: drAssociation ?? _drAssociation,
@@ -321,14 +325,16 @@ Json copyWith({  String? mobileNo,
   time: time ?? _time,
   eventName: eventName ?? _eventName,
   conference: conference ?? _conference,
+  drPhoto: drPhoto ?? _drPhoto,
+  drPersonalized: drPersonalized ?? _drPersonalized,
 );
   String? get mobileNo => _mobileNo;
   String? get drName => _drName;
   String? get drAssociation => _drAssociation;
   String? get degree => _degree;
   String? get place => _place;
-  String? get request => _request;
-  String? get awarenessRequest => _awarenessRequest;
+  dynamic get request => _request;
+  dynamic get awarenessRequest => _awarenessRequest;
   String? get topic => _topic;
   String? get clinicHospital => _clinicHospital;
   String? get email => _email;
@@ -343,6 +349,8 @@ Json copyWith({  String? mobileNo,
   String? get time => _time;
   String? get eventName => _eventName;
   String? get conference => _conference;
+  String? get drPhoto => _drPhoto;
+  String? get drPersonalized => _drPersonalized;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -367,6 +375,8 @@ Json copyWith({  String? mobileNo,
     map['time'] = _time;
     map['event_name'] = _eventName;
     map['conference'] = _conference;
+    map['dr_photo'] = _drPhoto;
+    map['dr_personalized'] = _drPersonalized;
     return map;
   }
 

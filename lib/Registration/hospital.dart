@@ -222,11 +222,14 @@ class _HospitalState extends State<Hospital> {
         "json": '${newList}'
 
       });
-      if (widget.profileImages == null) {
-        Fluttertoast.showToast(msg: "Add images");
-      }else{
-        request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
-      }
+       if(widget.profileImages == null){
+         request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
+       }
+      // if (widget.profileImages == null) {
+      //   Fluttertoast.showToast(msg: "Add images");
+      // }else{
+      //   request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
+      // }
       print('_____ccimages_____${request.files}_________');
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();

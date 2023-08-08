@@ -358,7 +358,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
       getCropImage(context, i, image);
       Navigator.pop(context);
     }
-
     Future getImageCmera(ImageSource source, BuildContext context, int i) async {
       var image = await ImagePicker().pickImage(
         source: source,
@@ -366,10 +365,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
       getCropImage(context, i, image);
       Navigator.pop(context);
     }
-
     var imagePathList1;
     bool isImages =  false;
-
     void getCropImage(BuildContext context, int i, var image) async {
       CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
         sourcePath: image.path,
@@ -387,9 +384,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
         }
       });
     }
-
   SignUpModel? detailsData;
-  registration() async {
+  registration1() async {
     isLoading ==  true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('otp', "otp");
@@ -439,7 +435,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
         });
 
         if (imageFile != null) {
-          request.files.add(await http.MultipartFile.fromPath(
+            request.files.add(await http.MultipartFile.fromPath(
               'image', imageFile?.path ?? ''));
         }
         print('_____surendra_____${request.files}_________');
@@ -448,8 +444,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
         request.headers.addAll(headers);
         http.StreamedResponse response = await request.send();
         print("${request.fields}");
-      print("${request.url}");
-      print("${request.files.first}");
+         print("${request.url}");
+         print("${request.files.first}");
         if (response.statusCode == 200) {
           final reslut = await response.stream.bytesToString();
           var finalResult = SignUpModel.fromJson(json.decode(reslut));
@@ -475,6 +471,135 @@ class _DoctorResignationState extends State<DoctorResignation> {
         }
       //}
     }
+  }
+
+  registration() async {
+    isLoading ==  true;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('otp', "otp");
+      String? token;
+      try {
+        token = await FirebaseMessaging.instance.getToken();
+      } on FirebaseException {
+
+      }
+
+      // if (false) {
+      //   // Fluttertoast.showToast(msg: 'Please select category');
+      // } else {
+      //   print("this is user registration ");
+      var headers = {
+        'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
+      };
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('${ApiService.userRegister}'));
+      request.fields.addAll({
+        'email': emailController.text,
+        'mobile': mobileController.text,
+        'username': nameController.text,
+        'gender': gender.toString(),
+        'doc_degree': docdegreeController.text,
+        'address': "",
+        'c_address': clinikaddressController.text,
+        'cat_type': widget.role == 2 ?SelectedPharma.toString():"",
+        'category_id': widget.role == 2 ?catDrop!.id.toString():widget.id.toString(),
+        'designation_id':widget.role == 2 ? results.id.toString():"",
+        'password': passController.text,
+        'roll': widget.role.toString(),
+        'confirm_password': CpassController.text,
+        'fcm_id': token ?? '',
+        'city': cityController.text,
+        'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
+        "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
+        "company_division":widget.role == 2? catDrop!.id.toString():"",
+        "state_id":widget.role == 1 ?'$stateId':"",
+        "city_id": widget.role == 1 ? "$cityId":"",
+        "area_id":widget.role == 1 ? "$placeId":"",
+        "experience": experienceC.text,
+
+      });
+
+
+    // request.files.add(await http.MultipartFile.fromPath(
+    //     'image', imageFile!.path ?? ''));
+    if(imageFile!= null){
+      request.files.add(await http.MultipartFile.fromPath(
+          'image', imageFile?.path ?? ''));
+    }
+
+      // print(
+      //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        final reslut = await response.stream.bytesToString();
+        var finalResult = SignUpModel.fromJson(json.decode(reslut));
+        setState(() {
+          detailsData = finalResult;
+        });
+
+        if (finalResult.error == false) {
+          var otp = detailsData!.data!.otp.toString();
+          var mobile = detailsData!.data!.mobile.toString();
+          Fluttertoast.showToast(msg: detailsData!.message.toString());
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+        }
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        print(response.reasonPhrase);
+      }
+      //}
+
+  }
+
+
+  newRegistration() async {
+    var headers = {
+      'Cookie': 'ci_session=a59ad27eb0beece8f779167599be66aefe502946'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/user_register'));
+    request.fields.addAll({
+      'email': 'kabir3@gmail.com',
+      'mobile': '7897897893',
+      'username': 'ajay',
+      'gender': 'male',
+      'doc_degree': 'mbbs',
+      'address': 'Vijay nagar',
+      'c_address': 'indore',
+      'cat_type': '1',
+      'category_id': '371',
+      'designation_id': '5',
+      'password': '12345678',
+      'roll': '2',
+      'confirm_password': '12345678',
+      'fcm_id': 'fgdggfgdfgd',
+      'city': 'indore',
+      'title': 'Social',
+      'company_name': 'pharma',
+      'company_division': '',
+      'state_id': '5',
+      'city_id': '383',
+      'area_id': '1',
+      'experience': '5'
+    });
+    request.files.add(await http.MultipartFile.fromPath('image', '/C:/Users/indian 5/Downloads/splash screen (2).png'));
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
   }
   void _showMultiSelect(int category) async {
     results = await showDialog(
@@ -1914,15 +2039,13 @@ class _DoctorResignationState extends State<DoctorResignation> {
                           if (_formKey.currentState!.validate()) {
                             print("hhhhhhhhhhhhhhhhhhhhhh${widget.role}");
                             if(widget.role == 1){
-
-                              print('______ssdfsdfsdf____${imageFile!.path}_________');
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
                                     ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
                                   cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",
-                                  profileImages: imageFile!.path,roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
+                                  profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
                             }else {
                               print("surennnnnnnnnnnnnnnn");
-                             registration();
+                              registration();
 
                             }
                             // Navigator.push(context,
