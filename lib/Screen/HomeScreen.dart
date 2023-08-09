@@ -138,12 +138,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   GetSliderModel? _sliderModel;
   getSliderApi() async {
-    String type = '/doctor_news_slide';
+    String type = '/dashboard_slider';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getSlider}'));
+    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
     request.headers.addAll(headers);
+    print('____sssssssssssss______${ApiService.getPharmaSlider}_________');
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
@@ -669,11 +670,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 2,
                       ),
-                      // Text("${getprofile?.user?.userData?.first.placeName}",style: TextStyle(
-                      //     color: Colors.white,
-                      //     fontSize: 13,
-                      //     fontWeight: FontWeight.normal),
-                      // ),
+                      getprofile?.user?.userData?.first.placeName == null ? Text("Vijay Nagar",style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal),) :Text("${getprofile?.user?.userData?.first.placeName}",style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal),
+                      ),
                     ],
                   ),
                 ),

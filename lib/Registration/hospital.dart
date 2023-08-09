@@ -244,7 +244,7 @@ class _HospitalState extends State<Hospital> {
         _selectedTimeOld = null;
         final result = await response.stream.bytesToString();
         var finalResult = json.decode(result);
-        msg = finalResult['message'];
+          msg = finalResult['message'];
         Fluttertoast.showToast(msg: finalResult['message']);
         if (finalResult['error'] == false) {
           int? otp = finalResult['data']['otp'];

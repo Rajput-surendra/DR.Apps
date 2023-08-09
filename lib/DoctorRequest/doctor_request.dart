@@ -716,11 +716,11 @@ class _DoctorRequestState extends State<DoctorRequest> {
   }
   GetSliderModel? _sliderModel ;
   getSliderApi() async {
-    String type = '/doctor_news_slide';
+    String type = '/doctor_plus_home';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getSlider}$type'));
+    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
     request.headers.addAll(headers);
     print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();

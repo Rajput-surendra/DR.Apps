@@ -50,7 +50,7 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
   getProoductListDetails() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
+    print("getEventUserId----------surendra----->${userId}");
     var headers = {
       'Cookie': 'ci_session=a630fb673049b6a5421081e350d6b8be2b23ab2c'
     };

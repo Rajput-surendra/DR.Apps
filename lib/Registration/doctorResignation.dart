@@ -472,7 +472,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
       //}
     }
   }
-
+  String? msg;
   registration() async {
     isLoading ==  true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -534,10 +534,12 @@ class _DoctorResignationState extends State<DoctorResignation> {
       if (response.statusCode == 200) {
         final reslut = await response.stream.bytesToString();
         var finalResult = SignUpModel.fromJson(json.decode(reslut));
+
         setState(() {
           detailsData = finalResult;
         });
 
+        Fluttertoast.showToast(msg: detailsData!.message.toString());
         if (finalResult.error == false) {
           var otp = detailsData!.data!.otp.toString();
           var mobile = detailsData!.data!.mobile.toString();

@@ -31,51 +31,94 @@ final  String? pharmaCategory ,ProdectName ,SliderId, companyName;
     // TODO: implement initState
     getPharmaProducts();
     super.initState();
+    //getUserId();
 
   }
+  // String? userId;
+  // getUserId() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   userId  =  preferences.getString('userId');
+  // print('_____aaaaaaaa_____${userId}_________');
+  // }
+
 
   getPharmaProducts() async {
-    isLoading = false ;
-    setState(() {
-    });
-    String? userId;
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? roll  =  preferences.getString('roll');
-    if(roll == '1')
-    {
-     userId  =  preferences.getString('userId');
-    }
+    String? userId = preferences.getString('userId');
     var headers = {
-      'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
+      'Cookie': 'ci_session=2b4970bf3e00bebbcd43347053dbdd8e75912c54'
     };
-    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getPharmaProducts}'));
-
-    request.headers.addAll(headers);
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('${ApiService.getPharmaProducts}'));
     request.fields.addAll({
       'category_id': widget.pharmaCategory.toString(),
+      'user_id': userId.toString()
     });
-    print("fieldss===========>11111111111111111${request.url}");
-    print("fieldss===========>11111111111111111${request.fields}");
+    print("this is a response===========>${request.fields}");
+    request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
       print("this is a response===========>${result}");
       final finalResult = GetPharmaProducts.fromJson(json.decode(result));
+      print('____finalResult______${finalResult}_________');
       setState(() {
         pharmaProductsList = finalResult.data ?? [];
-
-        isLoading = false ;
-
+        isLoading = false;
       });
     } else {
-      isLoading = false ;
+      isLoading = false;
       setState(() {
 
       });
-      print(response.reasonPhrase);
     }
   }
+  // getPharmaProducts() async {
+  //   isLoading = false ;
+  //   setState(() {
+  //   });
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   String?  userId  =  preferences.getString('userId');
+  //  // String? userId;
+  //   // SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   // String? roll  =  preferences.getString('roll');
+  //   // if(roll == '1')
+  //   // {
+  //   //  userId  =  preferences.getString('userId');
+  //   // }
+  //   var headers = {
+  //     'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
+  //   };
+  //   var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getPharmaProducts}'));
+  //
+  //   request.headers.addAll(headers);
+  //   request.fields.addAll({
+  //     'category_id': widget.pharmaCategory.toString(),
+  //      'user_id': userId.toString(),
+  //   });
+  //   print("fieldss===========>11111111111111111${request.fields}");
+  //   print("fieldss===========>11111111111111111${request.fields}");
+  //   http.StreamedResponse response = await request.send();
+  //   print("response.statusCode===========>${response.statusCode}");
+  //   if (response.statusCode == 200) {
+  //     var result = await response.stream.bytesToString();
+  //     print("this is a response===========>${result}");
+  //     final finalResult = GetPharmaProducts.fromJson(json.decode(result));
+  //     print('____finalResult______${finalResult}_________');
+  //     setState(() {
+  //       pharmaProductsList = finalResult.data ?? [];
+  //
+  //       isLoading = false ;
+  //
+  //     });
+  //   } else {
+  //     isLoading = false ;
+  //     setState(() {
+  //
+  //     });
+  //     print(response.reasonPhrase);
+  //   }
+  // }
   @override
   Widget build(BuildContext context)  {
     print('__________${pharmaProducts?.data?.length}_____________');
@@ -118,9 +161,10 @@ final  String? pharmaCategory ,ProdectName ,SliderId, companyName;
               //   ),
               // ),
               const SizedBox(height: 10,),
-              isLoading ? const Center(child: CircularProgressIndicator(),) : pharmaProductsList.isEmpty ? Center(child: Text('No Data Found !!'),) :
+              pharmaProductsList == null ?  Center(child: CircularProgressIndicator(),) : pharmaProductsList.length == "0" ? Center(child: Text('No Data Found !!'),) :
               ListView.builder(
                 shrinkWrap: true,
+                reverse: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: pharmaProductsList.length ?? 2,
                 itemBuilder: (context, index) {

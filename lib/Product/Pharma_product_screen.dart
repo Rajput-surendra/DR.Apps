@@ -117,7 +117,7 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
                           enlargeCenterPage: false,
                           scrollDirection: Axis.horizontal,
                           height: 200.0),
-                      items: newSliderModel!.data!.map((item) {
+                      items: newSliderModel!.data.map((item) {
                         return
                           Builder(
                           builder: (BuildContext context) {
@@ -283,7 +283,6 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
 
   List<CompanyDataList> companyList= [];
   GetCompanyModel? getCompanyModel;
-
 
   getCompanyName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
