@@ -666,6 +666,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 13),
                         ),
                       ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      // Text("${getprofile?.user?.userData?.first.placeName}",style: TextStyle(
+                      //     color: Colors.white,
+                      //     fontSize: 13,
+                      //     fontWeight: FontWeight.normal),
+                      // ),
                     ],
                   ),
                 ),

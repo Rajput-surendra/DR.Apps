@@ -34,7 +34,7 @@ class _AddRequestState extends State<AddRequest> {
   String? requestValue ;
   final List<String> items = ['Poster', 'Leaflet', 'Booklet','Video'];
   String? standyValue ;
-  final List<String> standyValueList = ['Standy','Poster', 'Leaflet', 'Booklet',];
+  final List<String> standyValueList = ['Standy Video','Poster Video', 'Leaflet Video', 'Booklet Video',];
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController drController = TextEditingController();

@@ -41,6 +41,13 @@ class _DoctorRequestState extends State<DoctorRequest> {
         _isReady = true;
       });
     });
+    getRole();
+  }
+  String? role;
+  getRole()async{
+    SharedPreferences preferences  = await  SharedPreferences.getInstance();
+    role = preferences.getString("roll");
+    print('_____role_____${role}_________');
   }
   bool iconVisible = true;
   bool _isReady = true ;
@@ -49,7 +56,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     bottomSheet: Padding(
+     bottomSheet: role == "1" ?Padding(
        padding: const EdgeInsets.all(8.0),
        child: InkWell(
          onTap: (){
@@ -65,7 +72,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
            ),
          ),
        ),
-     ),
+     ):SizedBox.shrink(),
 
       appBar: customAppBar(context: context, text:" Doctor's Request", isTrue: true, ),
       body: ListView(
