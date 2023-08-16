@@ -134,7 +134,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
     if (response.statusCode == 200) {
       var result  = await response.stream.bytesToString();
       var finalResult = jsonDecode(result);
-      Fluttertoast.showToast(msg: "${finalResult['message']}");
+      Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
     }
     else {
     print(response.reasonPhrase);

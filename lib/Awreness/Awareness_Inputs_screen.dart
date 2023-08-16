@@ -16,6 +16,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
+import '../Event/event_and_webiner.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import 'package:http/http.dart'as http;
@@ -24,7 +25,7 @@ import '../New_model/GetAwarenessModel.dart';
 import '../Screen/video_testing.dart';
 import '../api/api_services.dart';
 import '../Awreness/AddAwrenessPost.dart';
-
+String? Roll;
 class AwarenessScreen extends StatefulWidget {
   const AwarenessScreen({Key? key}) : super(key: key);
 
@@ -43,9 +44,14 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     getSliderApi();
     getAwarenessList();
     String date = dateTime.substring(11,16);
+    getrole();
     print("aaaaaaaaaaaaa====>${date}");
   }
-
+  getrole() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    Roll = preferences.getString('roll');
+    print('___Roll____Roll___${Roll}_________');
+  }
   String? specialityId;
   bool isSliderLoading = false ;
   bool isScreenLoading = false ;
@@ -146,7 +152,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
      var  reslut   = await response.stream.bytesToString();
      var finalReslut  =  jsonDecode(reslut);
      setState(() {
-       Fluttertoast.showToast(msg: "${finalReslut['message']}");
+       Fluttertoast.showToast(msg: "${finalReslut['message']}",backgroundColor: colors.secondary);
      });
      getAwarenessList();
     }
@@ -190,7 +196,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
+    var request = http.Request('GET', Uri.parse('${ApiService.getSlider}$type'));
     request.headers.addAll(headers);
     print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
@@ -275,7 +281,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
       print("thi os ojon=result=========>${result}");
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
       isScreenLoading = false ;
       setState(() {
@@ -372,14 +378,14 @@ searchProduct(String value) {
       child: RefreshIndicator(
         onRefresh: _refresh,
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: Roll == "2" ? FloatingActionButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context)=> AddAwanessPost()));
           // Navigator.push(context, MaterialPageRoute(builder: (context)=> VideoThumbnailScreen()));
             },
             backgroundColor: colors.secondary,
             child: Icon(Icons.add),
-          ),
+          ):SizedBox.shrink(),
           appBar: AppBar(
             backgroundColor: colors.secondary,
             centerTitle: true,

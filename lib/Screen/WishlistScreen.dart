@@ -368,7 +368,7 @@ class _WishlistState extends State<Wishlist> {
       if (response.statusCode == 200) {
         var result  = await response.stream.bytesToString();
         var finalResult = jsonDecode(result);
-        Fluttertoast.showToast(msg: "${finalResult['message']}");
+        Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
         getWishListApi(1);
       }
       else {
@@ -401,7 +401,7 @@ class _WishlistState extends State<Wishlist> {
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
       getWishListApi(i);
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
     } else {
       print(response.reasonPhrase);
     }
@@ -1109,7 +1109,7 @@ class _WishlistState extends State<Wishlist> {
           print("path here ${file}");
           displayPDF(url);
           //  setSnackbar("File Downloaded successfully!", context);
-          Fluttertoast.showToast(msg: "File View successfully!");
+          Fluttertoast.showToast(msg: "File View successfully!",backgroundColor: colors.secondary);
           // var snackBar = SnackBar(
           //   backgroundColor: colors.primary,
           //   // content: Text('File Download Successfully '),

@@ -629,7 +629,7 @@ String? catName ;
                     const Padding(
                       padding: EdgeInsets.all(5.0),
                       child: Text("City Name", style: TextStyle(
-                          color: colors.blackTemp, fontWeight: FontWeight.bold),),
+                          color: colors.black54, fontWeight: FontWeight.bold),),
                     ),
                     const SizedBox(height: 10,),
                     TextFormField(
@@ -645,7 +645,7 @@ String? catName ;
                       ),
                     ),
                    SizedBox(height: 10,),
-                   roll ==  "1"  ? Column(
+                    Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
@@ -666,7 +666,7 @@ String? catName ;
                                   child: DropdownButton2<String>(
                                     hint: Text('${stateselected}',
                                       style: const TextStyle(
-                                          color: colors.black54,fontWeight: FontWeight.bold,fontSize:15
+                                          color: colors.blackTemp,fontWeight: FontWeight.normal,fontSize:15
                                       ),),
                                     // dropdownColor: colors.primary,
                                     value: selectedState,
@@ -750,11 +750,11 @@ String? catName ;
                                             color: colors.black54,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(
-                                        "*",
-                                        style: TextStyle(
-                                            color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                                      ),
+                                      // Text(
+                                      //   "*",
+                                      //   style: TextStyle(
+                                      //       color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                                      // ),
                                     ],
                                   )
 
@@ -772,7 +772,7 @@ String? catName ;
                                   child: DropdownButton2<String>(
                                     hint:Text('${cityselected}',
                                       style: const TextStyle(
-                                          color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                                          color: colors.blackTemp,fontWeight: FontWeight.normal,fontSize:15
                                       ),),
                                     // dropdownColor: colors.primary,
                                     value: selectedCity,
@@ -842,160 +842,160 @@ String? catName ;
                             ],
                           ),
                           SizedBox(height: 10,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child:Row(
-                                    children: const [
-                                      Text(
-                                        "Select Place",
-                                        style: TextStyle(
-                                            color: colors.black54,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        "*",
-                                        style: TextStyle(
-                                            color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                                      ),
-                                    ],
-                                  )
-
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width/1.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: colors.black54)
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton2<String>(
-                                    hint:  Text('${placeselected}',
-                                      style: const TextStyle(
-                                          color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
-                                      ),),
-                                    // dropdownColor: colors.primary,
-                                    value: selectedPlace,
-                                    icon:  const Padding(
-                                      padding: EdgeInsets.only(left:10.0),
-                                      child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
-                                    ),
-                                    // elevation: 16,
-                                    style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                                    underline: Padding(
-                                      padding: const EdgeInsets.only(left: 0,right: 0),
-                                      child: Container(
-                                        // height: 2,
-                                        color:  colors.whiteTemp,
-                                      ),
-                                    ),
-                                    onChanged: (String? value) {
-                                      // This is called when the user selects an item.
-                                      setState(() {
-                                        selectedPlace = value!;
-                                        getPlaceResponseModel!.data!.forEach((element) {
-                                          if(element.name == value){
-                                            selectedSateIndex = getPlaceResponseModel!.data!.indexOf(element);
-                                            placeId = element.id;
-                                            //selectedCity = null;
-                                            //selectedPlace = null;
-
-                                            print('_____Surdfdgdgendra_____${placeId}_________');
-                                            //getStateApi();
-                                          }
-                                        });
-                                      });
-                                    },
-                                    items: getPlaceResponseModel?.data?.map((items) {
-                                      return DropdownMenuItem(
-                                        value: items.name.toString(),
-                                        child:  Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 5),
-                                              child: Container(
-                                                  width: MediaQuery.of(context).size.width/1.42,
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(top: 10),
-                                                    child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
-                                                  )),
-                                            ),
-                                            const Divider(
-                                              thickness: 0.2,
-                                              color: colors.black54,
-                                            ),
-
-                                          ],
-                                        ),
-                                      );
-                                    })
-                                        .toList(),
-
-
-                                  ),
-
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Text("Experience ", style: TextStyle(
-                                    color: colors.black54, fontWeight: FontWeight.bold),),
-                              ),
-                              SizedBox(height: 10,),
-                              TextFormField(
-                                controller: ExpController,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    hintText: 'Experience Name',
-                                    hintStyle: TextStyle(
-                                        fontSize: 15.0, color: colors.blackTemp),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10)),
-                                    contentPadding: EdgeInsets.only(left: 10, top: 10)
-                                ),
-                                // validator: (v) {
-                                //   if (v!.isEmpty) {
-                                //     return "Date of Birth is required";
-                                //   }
-                                //
-                                // },
-                              ),
-                              SizedBox(height: 10,),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text("Degree ", style: TextStyle(
-                                    color: colors.black54, fontWeight: FontWeight.bold),),
-                              ),
-                              SizedBox(height: 10,),
-                              TextFormField(
-                                controller: deegreeController,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    hintText: 'Degree',
-                                    hintStyle: TextStyle(
-                                        fontSize: 15.0, color: colors.blackTemp),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10)),
-                                    contentPadding: EdgeInsets.only(left: 10, top: 10)
-                                ),
-                              )
-                            ],
-                          ),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     Padding(
+                          //         padding: const EdgeInsets.all(5.0),
+                          //         child:Row(
+                          //           children: const [
+                          //             Text(
+                          //               "Select Place",
+                          //               style: TextStyle(
+                          //                   color: colors.black54,
+                          //                   fontWeight: FontWeight.bold),
+                          //             ),
+                          //             Text(
+                          //               "*",
+                          //               style: TextStyle(
+                          //                   color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                          //             ),
+                          //           ],
+                          //         )
+                          //
+                          //     ),
+                          //     const SizedBox(
+                          //       height: 5,
+                          //     ),
+                          //     Container(
+                          //       width: MediaQuery.of(context).size.width/1.0,
+                          //       decoration: BoxDecoration(
+                          //           borderRadius: BorderRadius.circular(10),
+                          //           border: Border.all(color: colors.black54)
+                          //       ),
+                          //       child: DropdownButtonHideUnderline(
+                          //         child: DropdownButton2<String>(
+                          //           hint:  Text('${placeselected}',
+                          //             style: const TextStyle(
+                          //                 color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                          //             ),),
+                          //           // dropdownColor: colors.primary,
+                          //           value: selectedPlace,
+                          //           icon:  const Padding(
+                          //             padding: EdgeInsets.only(left:10.0),
+                          //             child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                          //           ),
+                          //           // elevation: 16,
+                          //           style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                          //           underline: Padding(
+                          //             padding: const EdgeInsets.only(left: 0,right: 0),
+                          //             child: Container(
+                          //               // height: 2,
+                          //               color:  colors.whiteTemp,
+                          //             ),
+                          //           ),
+                          //           onChanged: (String? value) {
+                          //             // This is called when the user selects an item.
+                          //             setState(() {
+                          //               selectedPlace = value!;
+                          //               getPlaceResponseModel!.data!.forEach((element) {
+                          //                 if(element.name == value){
+                          //                   selectedSateIndex = getPlaceResponseModel!.data!.indexOf(element);
+                          //                   placeId = element.id;
+                          //                   //selectedCity = null;
+                          //                   //selectedPlace = null;
+                          //
+                          //                   print('_____Surdfdgdgendra_____${placeId}_________');
+                          //                   //getStateApi();
+                          //                 }
+                          //               });
+                          //             });
+                          //           },
+                          //           items: getPlaceResponseModel?.data?.map((items) {
+                          //             return DropdownMenuItem(
+                          //               value: items.name.toString(),
+                          //               child:  Column(
+                          //                 crossAxisAlignment: CrossAxisAlignment.start,
+                          //                 mainAxisAlignment: MainAxisAlignment.center,
+                          //                 children: [
+                          //                   Padding(
+                          //                     padding: const EdgeInsets.only(top: 5),
+                          //                     child: Container(
+                          //                         width: MediaQuery.of(context).size.width/1.42,
+                          //                         child: Padding(
+                          //                           padding: const EdgeInsets.only(top: 10),
+                          //                           child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                          //                         )),
+                          //                   ),
+                          //                   const Divider(
+                          //                     thickness: 0.2,
+                          //                     color: colors.black54,
+                          //                   ),
+                          //
+                          //                 ],
+                          //               ),
+                          //             );
+                          //           })
+                          //               .toList(),
+                          //
+                          //
+                          //         ),
+                          //
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          // SizedBox(height: 10,),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     Padding(
+                          //       padding: EdgeInsets.all(5.0),
+                          //       child: Text("Experience ", style: TextStyle(
+                          //           color: colors.black54, fontWeight: FontWeight.bold),),
+                          //     ),
+                          //     SizedBox(height: 10,),
+                          //     TextFormField(
+                          //       controller: ExpController,
+                          //       keyboardType: TextInputType.text,
+                          //       decoration: InputDecoration(
+                          //           hintText: 'Experience Name',
+                          //           hintStyle: TextStyle(
+                          //               fontSize: 15.0, color: colors.blackTemp),
+                          //           border: OutlineInputBorder(
+                          //               borderRadius: BorderRadius.circular(10)),
+                          //           contentPadding: EdgeInsets.only(left: 10, top: 10)
+                          //       ),
+                          //       // validator: (v) {
+                          //       //   if (v!.isEmpty) {
+                          //       //     return "Date of Birth is required";
+                          //       //   }
+                          //       //
+                          //       // },
+                          //     ),
+                          //     SizedBox(height: 10,),
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(5.0),
+                          //       child: Text("Degree ", style: TextStyle(
+                          //           color: colors.black54, fontWeight: FontWeight.bold),),
+                          //     ),
+                          //     SizedBox(height: 10,),
+                          //     TextFormField(
+                          //       controller: deegreeController,
+                          //       keyboardType: TextInputType.text,
+                          //       decoration: InputDecoration(
+                          //           hintText: 'Degree',
+                          //           hintStyle: TextStyle(
+                          //               fontSize: 15.0, color: colors.blackTemp),
+                          //           border: OutlineInputBorder(
+                          //               borderRadius: BorderRadius.circular(10)),
+                          //           contentPadding: EdgeInsets.only(left: 10, top: 10)
+                          //       ),
+                          //     )
+                          //   ],
+                          // ),
                         ],
-                      ):SizedBox.shrink(),
+                      ),
 
 
 
@@ -1216,7 +1216,7 @@ String? catName ;
       final finalResult = json.encode(result);
       print("thi os ojon==========>${finalResult}");
      // Fluttertoast.showToast(msg: finalResult['message']);
-      Fluttertoast.showToast(msg:'Updated Successfully');
+      Fluttertoast.showToast(msg:'Updated Successfully',backgroundColor: colors.secondary);
       Navigator.pop(context);
       setState(() {
         isLodding =  false;

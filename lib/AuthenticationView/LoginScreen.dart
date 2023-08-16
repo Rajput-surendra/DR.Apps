@@ -73,7 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
       'mobile': mobileController.text,
       'fcm_id' : '${token}'
     });
-    print("aaaaaaaaaaaaaaa${request.fields}");
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -81,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print("this is truuuuuuuuuuuuu");
       var finalresponse = await response.stream.bytesToString();
       final jsonresponse = json.decode(finalresponse);
-      print("this is final responsesssssssssss${finalresponse}");
+
       // Future.delayed(Duration(seconds: 1)).then((_) {
       //   Navigator.pushReplacement(
       //       context,
@@ -93,10 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (jsonresponse['error'] == false) {
         int? otp = jsonresponse["otp"];
         String mobile = jsonresponse["mobile"];
-        print("otppppppppppppp${otp.toString()}");
-        print("mobillllllllllllll${mobile.toString()}");
-        print("this is final responsesssssssssss${finalresponse}");
-        Fluttertoast.showToast(msg: '${jsonresponse['message']}');
+        Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -104,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ));
       }
       else{
-        Fluttertoast.showToast(msg: "${jsonresponse['message']}");
+        Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);
       }
     }
     else {
@@ -149,14 +145,11 @@ class _LoginScreenState extends State<LoginScreen> {
         prefs.setString('userMobile', logInResponse?.data?.first.mobile ?? "8989898989" );
         prefs.setBool('isLogin', true );
         String? Data =  prefs.getString('roll');
-        print("this is data Id=========>sure${Data}");
-        print("rooooooooooooooooooooooooooooo${logInResponse?.data?.first.roll}");
-        print("this is data mobile=========>sure${logInResponse?.data?.first.mobile}");
-        Fluttertoast.showToast(msg: logInResponse?.message ?? '' );
+        Fluttertoast.showToast(msg: logInResponse?.message ?? '' ,backgroundColor: colors.secondary);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
       }
       else{
-        Fluttertoast.showToast(msg: logInResponse?.message ?? '' );
+        Fluttertoast.showToast(msg: logInResponse?.message ?? '' ,backgroundColor: colors.secondary);
         setState(() {
           isLoading1 = false;
         });
@@ -541,7 +534,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     setState((){
                                       isLoading = false;
                                     });
-                                    Fluttertoast.showToast(msg: "Please enter valid mobile number!");
+                                    Fluttertoast.showToast(msg: "Please enter valid mobile number!",backgroundColor: colors.secondary);
                                   }
                                 },
                                 child:  Container(

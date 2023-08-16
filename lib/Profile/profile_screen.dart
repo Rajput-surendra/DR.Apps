@@ -117,9 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(response.reasonPhrase);
     }
   }
-
   CheckPlanModel? checkPlanModel;
-
   checkSubscriptionApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
@@ -174,6 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Future.delayed(Duration(milliseconds: 300), () {
       return getuserProfile();
     });
+
     getRoll();
   }
 
@@ -497,6 +496,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ],
                                   ),
                                 ),
+                           Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('State Name',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700)),
+                                const SizedBox(
+                                  width: 50,
+                                ),
+                                Container(
+                                  width: 150,
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.only(left: 0.0),
+                                    child:getprofile?.user?.userData?.first.stateId == null ? Text("No State Name"): Text(
+                                      "${getprofile?.user?.userData?.first.stateId}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 5,),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('City Name',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700)),
+                                const SizedBox(
+                                  width: 50,
+                                ),
+                                Container(
+                                  width: 150,
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.only(left: 0.0),
+                                    child:getprofile?.user?.userData?.first.cityId == null ? Text("No City Name"): Text(
+                                      "${getprofile?.user?.userData?.first.cityId}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                           roll == "1"
                               ? SizedBox.shrink()
                               : Padding(

@@ -506,6 +506,7 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (i == 4) {
           Navigator.push(
               context, MaterialPageRoute(builder: (C) => AwarenessScreen()));
+
         } else {
           checkSubscriptionApi();
           // if(role == "1")
@@ -644,6 +645,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         children: [
                           Text(
+                            "${getprofile?.user?.userData?.first.title}",
+                            style: TextStyle(
+                                color: colors.whiteTemp,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
                             "${getprofile?.user?.username}",
                             style: TextStyle(
                                 color: Colors.white,
@@ -655,6 +663,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
+                   role == "1"  ? Text(
+                        "Degree - ${getprofile?.user?.degree}",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500),
+                      ):
+                   Container(
+                     width: 150,
+                     child: Text(
+                       "${getprofile?.user?.userData?.first.categoryId}",overflow: TextOverflow.ellipsis,maxLines: 1,
+                       style: TextStyle(
+                           color: Colors.white,
+                           fontSize: 15,
+                           fontWeight: FontWeight.w500),
+                     ),
+                   ),
                       SizedBox(
                         width: 150,
                         child: Text(
@@ -1058,7 +1083,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (response.statusCode == 200) {
        var result = await response.stream.bytesToString();
        var finalResult =  jsonDecode(result);
-       Fluttertoast.showToast(msg: "${finalResult['message']}");
+       Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
     }
     else {

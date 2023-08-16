@@ -17,6 +17,8 @@ import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import 'package:http/http.dart'as http;
 
+import '../New_model/getUserProfileModel.dart';
+
 class AddRequest extends StatefulWidget {
   const AddRequest({Key? key}) : super(key: key);
 
@@ -34,7 +36,7 @@ class _AddRequestState extends State<AddRequest> {
   String? requestValue ;
   final List<String> items = ['Poster', 'Leaflet', 'Booklet','Video'];
   String? standyValue ;
-  final List<String> standyValueList = ['Standy Video','Poster Video', 'Leaflet Video', 'Booklet Video',];
+  final List<String> standyValueList = ['Standy ','Poster ', 'Leaflet ', 'Booklet ',];
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController drController = TextEditingController();
@@ -66,6 +68,8 @@ class _AddRequestState extends State<AddRequest> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getUserProfile();
+
     requestCMEController = TextEditingController(text: "CME Invitation Designs");
     requestEventController = TextEditingController(text: "Event Invitation Designs");
     requestOnlineController = TextEditingController(text: "Online Webinar Invitation Designs");
@@ -75,6 +79,37 @@ class _AddRequestState extends State<AddRequest> {
     messageWorldEmeController =  TextEditingController(text:' I Request to pharma companies can you please design above CME invitation for our CME.');
     messageEventController =  TextEditingController(text:'I Request to pharma companies can you please design above Event invitation for our Event.');
     messageWebinarController =  TextEditingController(text:'I Request to pharma companies can you please design above Webinar invitation for our online webinar.');
+  }
+  bool isLoder = true;
+  GetUserProfileModel? getprofile;
+  getUserProfile() async {
+    setState(() {
+      isLoder == true
+          ? const Center(child: CircularProgressIndicator())
+          : SizedBox();
+    });
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString('userId');
+
+    var headers = {
+      'Cookie': 'ci_session=9aba5e78ffa799cbe054723c796d2bd8f2f7d120'
+    };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('${ApiService.getUserProfile}'));
+    request.fields.addAll({'user_id': "${userId}"});
+    print('_____ request.fields_____${ request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var finalResult = await response.stream.bytesToString();
+      final jsonResponse = GetUserProfileModel.fromJson(json.decode(finalResult));
+      setState(() {
+        getprofile = jsonResponse;
+        emailController.text = getprofile!.user!.email ??  '' ;
+      });
+    } else {
+      print(response.reasonPhrase);
+    }
   }
   @override
   List newList = [];
@@ -497,7 +532,7 @@ class _AddRequestState extends State<AddRequest> {
             ],) : SizedBox.shrink(),
         SizedBox(height: 3,),
         selectedValue == "Personalized Awareness" ? SizedBox.shrink():  Column(children: [
-          Row(children: [Text("Mobile No" ,textAlign: TextAlign.start)
+          Row(children: [Text("Mobile No(optional)" ,textAlign: TextAlign.start)
           ],),
           SizedBox(height: 2,),
           SizedBox(
@@ -706,6 +741,7 @@ class _AddRequestState extends State<AddRequest> {
             SizedBox(
               // height: 45,
               child: TextFormField(
+                readOnly: true,
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
@@ -1322,9 +1358,11 @@ class _AddRequestState extends State<AddRequest> {
              SizedBox(
                // height: 45,
                child: TextFormField(
+                 readOnly: true,
                  controller: emailController,
                  keyboardType: TextInputType.emailAddress,
                  decoration: InputDecoration(
+
                      border: OutlineInputBorder(
                        borderRadius: BorderRadius.circular(10),
                      )

@@ -58,7 +58,7 @@ List<String> daysLists = [];
       var result = await response.stream.bytesToString();
       var finalResul = jsonDecode(result);
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: "${finalResul['message']}");
+      Fluttertoast.showToast(msg: "${finalResul['message']}",backgroundColor: colors.secondary);
     }
     else {
     print(response.reasonPhrase);

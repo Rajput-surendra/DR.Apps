@@ -196,9 +196,10 @@ class _AddEventPostState extends State<AddEventPost> {
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
-      final finalResult = json.encode(result);
-      print("thi os ojon==========>${finalResult}");
-      //Fluttertoast.showToast(msg: finalResult['message']);
+      final finalResult = json.decode(result);
+      Fluttertoast.showToast(msg: 'Your input will be displayed in a few times after verification',backgroundColor: colors.secondary);
+      // print("thi os ojon==========>${finalResult}");
+      // Fluttertoast.showToast(msg: "${finalResult['message']}");
       titleController.clear();
       endDateController.clear();
       startDateController.clear();

@@ -245,12 +245,12 @@ class _HospitalState extends State<Hospital> {
         final result = await response.stream.bytesToString();
         var finalResult = json.decode(result);
           msg = finalResult['message'];
-        Fluttertoast.showToast(msg: finalResult['message']);
+       // Fluttertoast.showToast(msg: finalResult['message']);
         if (finalResult['error'] == false) {
           int? otp = finalResult['data']['otp'];
           String?  mobile = finalResult['data']['mobile'];
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
-          Fluttertoast.showToast(msg: finalResult['message']);
+          Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
         }
 
         setState(() {
@@ -260,7 +260,7 @@ class _HospitalState extends State<Hospital> {
         setState(() {
           isLoading = false;
         });
-        Fluttertoast.showToast(msg:'Email & Mobile Number Already registered');
+        Fluttertoast.showToast(msg:'Email & Mobile Number Already registered',backgroundColor: colors.secondary);
         print(response.reasonPhrase);
       }
       //}
@@ -444,7 +444,7 @@ class _HospitalState extends State<Hospital> {
                           color: colors.secondary,
                           onPress: () {
                             if(clinicListForJson.isEmpty){
-                              Fluttertoast.showToast(msg: "Please Add Hospital/Clinic Details");
+                              Fluttertoast.showToast(msg: "Please Add Hospital/Clinic Details",backgroundColor: colors.secondary);
                             }
                             else{
                               registration();
@@ -462,7 +462,7 @@ class _HospitalState extends State<Hospital> {
                           color: colors.secondary,
                           onPress: () {
                             if(_formKey.currentState!.validate()){
-                              Fluttertoast.showToast(msg: 'Data Add Successfully');
+                              Fluttertoast.showToast(msg: 'Data Add Successfully',backgroundColor: colors.secondary);
                               if (_formKey.currentState!.validate()) {
                                 days = results!.join(",");
                                 clinicListForJson.add({

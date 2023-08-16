@@ -72,7 +72,7 @@ class _EventDeatilsState extends State<EventDeatils> {
           child: Column(
             children: [
               Container(
-                height: 230,
+                height: 235,
                 color: colors.primary,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 25),
@@ -80,18 +80,20 @@ class _EventDeatilsState extends State<EventDeatils> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("${widget.getEventModel!.name}",style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold,fontSize: 20),),
+
                       Row(
                         children: [
-                          Text("${widget.getEventModel!.address}",style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold,fontSize: 20),),
+                          Text("${widget.getEventModel!.address}",style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold,fontSize: 16),),
                           Row(
                             children: [
-                            Text("${widget.getEventModel!.startDate}",style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold,fontSize: 20),),
+
 
 
                           ],)
 
                         ],
                       ),
+                      Text("${widget.getEventModel!.startDate}",style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold,fontSize: 16 ),),
                       SizedBox(height: 5,),
                       Align(
                         alignment: Alignment.topRight,
@@ -110,8 +112,10 @@ class _EventDeatilsState extends State<EventDeatils> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
+                                            Container(
+                                                child: Text("${widget.getEventModel!.designation}",
+                                                  style: TextStyle(color: colors.blackTemp,fontSize: 16),overflow: TextOverflow.ellipsis,maxLines: 3,)),
                                             Text("${widget.getEventModel!.name}",style: TextStyle(color: colors.blackTemp,fontSize: 16,fontWeight: FontWeight.bold),),
-                                            Text("${widget.getEventModel!.designation}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
                                             Text("${widget.getEventModel!.mobile}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
                                           ],
                                         ),
@@ -122,7 +126,7 @@ class _EventDeatilsState extends State<EventDeatils> {
                             );
                           },
                               style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),),
-                              child: Text('Sponsored',style: TextStyle(color: Colors.white,fontSize: 15),)),
+                              child: Text('Contact for Sponsorship',style: TextStyle(color: Colors.white,fontSize: 12),)),
                         ),
                       ),
                       SizedBox(height: 20,),
@@ -130,7 +134,7 @@ class _EventDeatilsState extends State<EventDeatils> {
                         children: [
                           Expanded(
                             child: Container(
-                              height: 70,
+                              height: 60,
                               child: ElevatedButton(onPressed: (){
                                 downloadFile('${widget.getEventModel?.image}', widget.getEventModel?.userName ?? '');
                               },
@@ -141,7 +145,7 @@ class _EventDeatilsState extends State<EventDeatils> {
                           SizedBox(width: 2,),
                           Expanded(
                             child:Container(
-                              height: 70,
+                              height: 60,
 
                               child: ElevatedButton(onPressed: (){
                                 launch("${widget.getEventModel?.link}");

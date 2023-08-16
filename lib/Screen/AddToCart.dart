@@ -78,7 +78,7 @@ class _AddToCartState extends State<AddToCart> {
       getUserCartApi();
      final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       print('thi i si  mi========?${finalResult}');
     }
     else {
@@ -111,7 +111,7 @@ class _AddToCartState extends State<AddToCart> {
       final resutl =  await response.stream.bytesToString();
       final finalResult = json.decode(resutl);
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       print("ttttttttttttttttt=>${finalResult}");
      setState(() {
        result == null;

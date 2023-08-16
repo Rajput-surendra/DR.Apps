@@ -61,4 +61,5 @@ class ApiService {
     static const String deleteApi = baseUrl+'account_delete';
     static const String getGraphicApi = baseUrl+'get_free_graphics';
     static const String addWishlistApi = baseUrl+'add_wishlists';
+    static const String checkMobileEmail = baseUrl+'check_mobile_email';
 }

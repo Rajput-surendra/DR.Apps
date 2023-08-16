@@ -240,7 +240,7 @@ class _EditorialListCardState extends State<EditorialListCard> {
           print("path here ${file}");
           displayPDF(url);
           //  setSnackbar("File Downloaded successfully!", context);
-          Fluttertoast.showToast(msg: "File View successfully!");
+          Fluttertoast.showToast(msg: "File View successfully!",backgroundColor: colors.secondary);
           // var snackBar = SnackBar(
           //   backgroundColor: colors.primary,
           //   // content: Text('File Download Successfully '),
@@ -348,7 +348,7 @@ class _EditorialListCardState extends State<EditorialListCard> {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
 
     }

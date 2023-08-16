@@ -12,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../Event/event_deatils.dart';
 import '../../Helper/Appbar.dart';
 import '../../Helper/Color.dart';
 
@@ -186,12 +187,33 @@ List? strObj;
 
                   ),
                   SizedBox(height: 10,),
-
-                  widget.index == 0 ?  Text("Surendra") : SizedBox(),
-                    SizedBox(height: 8,),
-                    Text("${widget.getEventModel?.address}",),
+                  Text("${widget.getEventModel?.address}",),
                   SizedBox(height: 5,),
-                    Text("${widget.getEventModel?.startDate}"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment:CrossAxisAlignment.start,
+                      children: [
+                        Text("${widget.getEventModel?.startDate}"),
+                        Container(
+                         height: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: colors.secondary
+                          ),
+                          child: TextButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: widget.getEventModel)));
+                            // Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: widget eventDataList[index])));
+
+                          }, child: Text("Click For Details",style: TextStyle(
+                            color: colors.whiteTemp
+                          ),)),
+                        ),
+
+                      ],
+                    ),
+                    SizedBox(height: 8,),
+
+
 
                     const SizedBox(height: 10,),
 
@@ -284,7 +306,7 @@ List? strObj;
           print("path here ${file}");
           displayPDF(url);
           //  setSnackbar("File Downloaded successfully!", context);
-          Fluttertoast.showToast(msg: "File View successfully!");
+          Fluttertoast.showToast(msg: "File View successfully!",backgroundColor: colors.secondary);
           // var snackBar = SnackBar(
           //   backgroundColor: colors.primary,
           //   // content: Text('File Download Successfully '),
@@ -360,7 +382,7 @@ List? strObj;
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
 
     }

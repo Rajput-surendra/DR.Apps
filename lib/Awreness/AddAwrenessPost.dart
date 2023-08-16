@@ -174,7 +174,8 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
       isButtonLoading = false;
       setState(() {});
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: 'Your input will be displayed in a few times after verification',backgroundColor: colors.secondary);
+      // Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       doctoreController.clear();
       pickedFiles = null;
       setState(() {
@@ -546,7 +547,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                           thumbnailFile = null ;
                         } else {
                           Fluttertoast.showToast(
-                              msg: 'Select file and language');
+                              msg: 'Select file and language',backgroundColor: colors.secondary);
                         }
                       });
                       // }
@@ -641,7 +642,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                         setState(() {
                           isloader = false;
                         });
-                        Fluttertoast.showToast(msg: "All Field required");
+                        Fluttertoast.showToast(msg: "All Field required",backgroundColor: colors.secondary);
                       }
                     },
                   ),

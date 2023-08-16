@@ -85,7 +85,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     if (response.statusCode == 200) {
    var result =   await response.stream.bytesToString();
    final finalResult = json.decode(result);
-   Fluttertoast.showToast(msg: finalResult['message']);
+   Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
    print('____Sdfdfdfdff______${finalResult}_________');
    setState(() {

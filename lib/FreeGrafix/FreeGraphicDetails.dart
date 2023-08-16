@@ -170,7 +170,7 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                            child: Image.network("${widget.childList![index].image}",fit: BoxFit.fill, height: MediaQuery.of(context).size.height/1.4,width: MediaQuery.of(context).size.height/1.5,)),
+                            child: Center(child: Image.network("${widget.childList![index].image}",fit: BoxFit.fill, height: MediaQuery.of(context).size.height/2.4,width: MediaQuery.of(context).size.height/1.5,))),
                       ),
                   ],
                 ),

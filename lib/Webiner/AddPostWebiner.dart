@@ -211,7 +211,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
       final finalResult = json.decode(jsonEncode(result));
 
       print("thi os ojon==========>${finalResult}");
-      Fluttertoast.showToast(msg: 'Webinar Added Successfully');
+      Fluttertoast.showToast(msg: 'Your input will be displayed in a few times after verification',backgroundColor: colors.secondary);
       Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
      doctoreController.clear();
      linkController.clear();

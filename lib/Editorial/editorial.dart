@@ -232,7 +232,7 @@ class _EditorialState extends State<Editorial> {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
 
     }

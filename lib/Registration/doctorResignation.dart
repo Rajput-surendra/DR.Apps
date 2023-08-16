@@ -512,40 +512,43 @@ class _DoctorResignationState extends State<DoctorResignation> {
         'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
         "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
         "company_division":widget.role == 2? catDrop!.id.toString():"",
-        "state_id":widget.role == 1 ?'$stateId':"",
-        "city_id": widget.role == 1 ? "$cityId":"",
+        "state_id":'$stateId',
+        "city_id": "$cityId",
         "area_id":widget.role == 1 ? "$placeId":"",
         "experience": experienceC.text,
 
       });
-
-
+      print('___request.fields_______${request.fields}_________');
     // request.files.add(await http.MultipartFile.fromPath(
     //     'image', imageFile!.path ?? ''));
     if(imageFile!= null){
       request.files.add(await http.MultipartFile.fromPath(
           'image', imageFile?.path ?? ''));
     }
-
       // print(
       //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       if (response.statusCode == 200) {
-        final reslut = await response.stream.bytesToString();
-        var finalResult = SignUpModel.fromJson(json.decode(reslut));
+        final result = await response.stream.bytesToString();
+        var finalResult = json.decode(result);
+        // var finalResult = SignUpModel.fromJson(json.decode(reslut));
 
-        setState(() {
-          detailsData = finalResult;
-        });
-
-        Fluttertoast.showToast(msg: detailsData!.message.toString());
-        if (finalResult.error == false) {
-          var otp = detailsData!.data!.otp.toString();
-          var mobile = detailsData!.data!.mobile.toString();
-          Fluttertoast.showToast(msg: detailsData!.message.toString());
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+        msg = finalResult['message'];
+          Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary );
+        // setState(() {
+        //   detailsData = finalResult;
+        // });
+        // Fluttertoast.showToast(msg: detailsData!.message.toString());
+        if (finalResult['error'] == false) {
+          int? otp = finalResult['data']['otp'];
+          String?  mobile = finalResult['data']['mobile'];
+          // var otp = detailsData!.data!.otp.toString();
+          // var mobile = detailsData!.data!.mobile.toString();
+          // Fluttertoast.showToast(msg: detailsData!.message.toString());
+          Fluttertoast.showToast(msg: finalResult['message']);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+          // Fluttertoast.showToast(msg: finalResult['message']);
         }
         setState(() {
           isLoading = false;
@@ -561,48 +564,48 @@ class _DoctorResignationState extends State<DoctorResignation> {
   }
 
 
-  newRegistration() async {
-    var headers = {
-      'Cookie': 'ci_session=a59ad27eb0beece8f779167599be66aefe502946'
-    };
-    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/user_register'));
-    request.fields.addAll({
-      'email': 'kabir3@gmail.com',
-      'mobile': '7897897893',
-      'username': 'ajay',
-      'gender': 'male',
-      'doc_degree': 'mbbs',
-      'address': 'Vijay nagar',
-      'c_address': 'indore',
-      'cat_type': '1',
-      'category_id': '371',
-      'designation_id': '5',
-      'password': '12345678',
-      'roll': '2',
-      'confirm_password': '12345678',
-      'fcm_id': 'fgdggfgdfgd',
-      'city': 'indore',
-      'title': 'Social',
-      'company_name': 'pharma',
-      'company_division': '',
-      'state_id': '5',
-      'city_id': '383',
-      'area_id': '1',
-      'experience': '5'
-    });
-    request.files.add(await http.MultipartFile.fromPath('image', '/C:/Users/indian 5/Downloads/splash screen (2).png'));
-    request.headers.addAll(headers);
-
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-    print(await response.stream.bytesToString());
-    }
-    else {
-    print(response.reasonPhrase);
-    }
-
-  }
+  // newRegistration() async {
+  //   var headers = {
+  //     'Cookie': 'ci_session=a59ad27eb0beece8f779167599be66aefe502946'
+  //   };
+  //   var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/user_register'));
+  //   request.fields.addAll({
+  //     'email': 'kabir3@gmail.com',
+  //     'mobile': '7897897893',
+  //     'username': 'ajay',
+  //     'gender': 'male',
+  //     'doc_degree': 'mbbs',
+  //     'address': 'Vijay nagar',
+  //     'c_address': 'indore',
+  //     'cat_type': '1',
+  //     'category_id': '371',
+  //     'designation_id': '5',
+  //     'password': '12345678',
+  //     'roll': '2',
+  //     'confirm_password': '12345678',
+  //     'fcm_id': 'fgdggfgdfgd',
+  //     'city': 'indore',
+  //     'title': 'Social',
+  //     'company_name': 'pharma',
+  //     'company_division': '',
+  //     'state_id': '5',
+  //     'city_id': '383',
+  //     'area_id': '1',
+  //     'experience': '5'
+  //   });
+  //   request.files.add(await http.MultipartFile.fromPath('image', '/C:/Users/indian 5/Downloads/splash screen (2).png'));
+  //   request.headers.addAll(headers);
+  //
+  //   http.StreamedResponse response = await request.send();
+  //
+  //   if (response.statusCode == 200) {
+  //   print(await response.stream.bytesToString());
+  //   }
+  //   else {
+  //   print(response.reasonPhrase);
+  //   }
+  //
+  // }
   void _showMultiSelect(int category) async {
     results = await showDialog(
       context: context,
@@ -1306,48 +1309,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Row(
-                        children: const [
-                          Text(
-                            "Email Id",
-                            style: TextStyle(
-                                color: colors.black54, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "*",
-                            style: TextStyle(
-                                color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                          ),
 
-                        ],
-                      )
-
-                  ),
-                  TextFormField(
-                    style: TextStyle(color: colors.black54),
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                        hintText: '',
-                        hintStyle: const TextStyle(
-                            fontSize: 15.0, color: colors.secondary),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        contentPadding: EdgeInsets.only(left: 10, top: 10)),
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return "Email is required";
-                      }
-                      if (!v.contains("@")) {
-                        return "Enter Valid Email Id";
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1506,250 +1468,255 @@ class _DoctorResignationState extends State<DoctorResignation> {
                   const SizedBox(
                     height: 10,
                   ),
-                  widget.role == 1
-                      ? Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Row(
+                        children: const [
+                          Text(
+                            "Email Id",
+                            style: TextStyle(
+                                color: colors.black54, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                                color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                          ),
+
+                        ],
+                      )
+
+                  ),
+                  TextFormField(
+                    style: TextStyle(color: colors.black54),
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        hintText: '',
+                        hintStyle: const TextStyle(
+                            fontSize: 15.0, color: colors.secondary),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        contentPadding: EdgeInsets.only(left: 10, top: 10)),
+                    validator: (v) {
+                      if (v!.isEmpty) {
+                        return "Email is required";
+                      }
+                      if (!v.contains("@")) {
+                        return "Enter Valid Email Id";
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 10,),
+                  Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child:Row(
+                        children: const [
+                          Text(
+                            "Select State",
+                            style: TextStyle(
+                                color: colors.black54,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                                color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                          ),
+                        ],
+                      )
+
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  getStateResponseModel== null? Center(child: CircularProgressIndicator()):
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: colors.black54)
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        hint: const Text('State',
+                          style: TextStyle(
+                              color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                          ),),
+                        // dropdownColor: colors.primary,
+                        value: selectedState,
+                        icon:  const Padding(
+                          padding: EdgeInsets.only(left:10.0),
+                          child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                        ),
+                        // elevation: 16,
+                        style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                        underline: Padding(
+                          padding: const EdgeInsets.only(left: 0,right: 0),
+                          child: Container(
+                            // height: 2,
+                            color:  colors.whiteTemp,
+                          ),
+                        ),
+                        onChanged: (String? value) {
+                          // This is called when the user selects an item.
+                          setState(() {
+                            selectedState = value!;
+                            print('__________${getStateResponseModel!.data!.first.name}_________');
+                            getStateResponseModel!.data!.forEach((element) {
+                              if(element.name == value){
+                                selectedSateIndex = getStateResponseModel!.data!.indexOf(element);
+                                stateId = element.id;
+                                selectedCity = null;
+                                selectedPlace = null;
+                                getCityApi(stateId!);
+                                onTapCall1();
+
+                                print('_____Surendra_____${stateId}_________');
+                                //getStateApi();
+                              }
+                            });
+                          });
+                        },
+                        items: getStateResponseModel!.data!.map((items) {
+                          return DropdownMenuItem(
+                            value: items.name.toString(),
+                            child:  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width/1.42,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                                      )),
+                                ),
+                                const Divider(
+                                  thickness: 0.2,
+                                  color: colors.black54,
+                                ),
+
+                              ],
+                            ),
+                          );
+                        })
+                            .toList(),
+
+
+                      ),
+
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child:Row(
+                        children: const [
+                          Text(
+                            "Select City",
+                            style: TextStyle(
+                                color: colors.black54,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                                color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                          ),
+                        ],
+                      )
+
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  // getCitiesResponseModel== null? Center(child: CircularProgressIndicator()):
+                  Container(
+                    width: MediaQuery.of(context).size.width/1.0,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: colors.black54)
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        hint: const Text('City',
+                          style: TextStyle(
+                              color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                          ),),
+                        // dropdownColor: colors.primary,
+                        value: selectedCity,
+                        icon:  const Padding(
+                          padding: EdgeInsets.only(left:10.0),
+                          child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                        ),
+                        // elevation: 16,
+                        style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                        underline: Padding(
+                          padding: const EdgeInsets.only(left: 0,right: 0),
+                          child: Container(
+                            // height: 2,
+                            color:  colors.whiteTemp,
+                          ),
+                        ),
+                        onChanged: (String? value) {
+                          // This is called when the user selects an item.
+                          setState(() {
+                            selectedCity = value!;
+                            print('__________${selectedCity}_________');
+                            getCitiesResponseModel!.data!.forEach((element) {
+                              if(element.name == value){
+                                selectedSateIndex = getCitiesResponseModel!.data!.indexOf(element);
+                                cityId = element.id;
+                                selectedPlace = null;
+                                getPlaceApi(cityId!);
+                                onTapCall2();
+                                setState(() {
+
+                                });
+                              }
+                            });
+                          });
+                        },
+                        items: getCitiesResponseModel?.data?.map((items) {
+                          return DropdownMenuItem(
+                            value: items.name.toString(),
+                            child:  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width/1.42,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                                      )),
+                                ),
+                                const Divider(
+                                  thickness: 0.2,
+                                  color: colors.black54,
+                                ),
+
+                              ],
+                            ),
+                          );
+                        })
+                            .toList(),
+
+
+                      ),
+
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  widget.role == 1 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Text(
-                          "City Name",
-                          style: TextStyle(
-                              color: colors.black54,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        style: TextStyle(color: colors.black54),
-                        controller: cityController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            hintText: '',
-                            hintStyle: const TextStyle(
-                                fontSize: 15.0, color: colors.secondary),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            contentPadding:
-                            const EdgeInsets.only(left: 10, top: 10)),
-                        validator: (v) {
-                          if (v!.isEmpty && widget.role == 1) {
-                            return "City Name is required";
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child:Row(
-                            children: const [
-                              Text(
-                                "Select State",
-                                style: TextStyle(
-                                    color: colors.black54,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "*",
-                                style: TextStyle(
-                                    color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                              ),
-                             ],
-                          )
-
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      getStateResponseModel== null? Center(child: CircularProgressIndicator()):
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: colors.black54)
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2<String>(
-                            hint: const Text('State',
-                              style: TextStyle(
-                                  color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
-                              ),),
-                            // dropdownColor: colors.primary,
-                            value: selectedState,
-                            icon:  const Padding(
-                              padding: EdgeInsets.only(left:10.0),
-                              child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
-                            ),
-                            // elevation: 16,
-                            style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                            underline: Padding(
-                              padding: const EdgeInsets.only(left: 0,right: 0),
-                              child: Container(
-                                // height: 2,
-                                color:  colors.whiteTemp,
-                              ),
-                            ),
-                            onChanged: (String? value) {
-                              // This is called when the user selects an item.
-                              setState(() {
-                                selectedState = value!;
-                                print('__________${getStateResponseModel!.data!.first.name}_________');
-                                getStateResponseModel!.data!.forEach((element) {
-                                  if(element.name == value){
-                                    selectedSateIndex = getStateResponseModel!.data!.indexOf(element);
-                                    stateId = element.id;
-                                    selectedCity = null;
-                                    selectedPlace = null;
-                                    getCityApi(stateId!);
-                                    onTapCall1();
-
-                                    print('_____Surendra_____${stateId}_________');
-                                    //getStateApi();
-                                  }
-                                });
-                              });
-                            },
-                            items: getStateResponseModel!.data!.map((items) {
-                              return DropdownMenuItem(
-                                value: items.name.toString(),
-                                child:  Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Container(
-                                          width: MediaQuery.of(context).size.width/1.42,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(top: 10),
-                                            child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
-                                          )),
-                                    ),
-                                    const Divider(
-                                      thickness: 0.2,
-                                      color: colors.black54,
-                                    ),
-
-                                  ],
-                                ),
-                              );
-                            })
-                                .toList(),
-
-
-                          ),
-
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child:Row(
-                            children: const [
-                              Text(
-                                "Select City",
-                                style: TextStyle(
-                                    color: colors.black54,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "*",
-                                style: TextStyle(
-                                    color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                              ),
-                            ],
-                          )
-
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      // getCitiesResponseModel== null? Center(child: CircularProgressIndicator()):
-                      Container(
-                        width: MediaQuery.of(context).size.width/1.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: colors.black54)
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2<String>(
-                            hint: const Text('City',
-                              style: TextStyle(
-                                  color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
-                              ),),
-                            // dropdownColor: colors.primary,
-                            value: selectedCity,
-                            icon:  const Padding(
-                              padding: EdgeInsets.only(left:10.0),
-                              child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
-                            ),
-                            // elevation: 16,
-                            style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                            underline: Padding(
-                              padding: const EdgeInsets.only(left: 0,right: 0),
-                              child: Container(
-                                // height: 2,
-                                color:  colors.whiteTemp,
-                              ),
-                            ),
-                            onChanged: (String? value) {
-                              // This is called when the user selects an item.
-                              setState(() {
-                                selectedCity = value!;
-                                print('__________${selectedCity}_________');
-                                getCitiesResponseModel!.data!.forEach((element) {
-                                  if(element.name == value){
-                                    selectedSateIndex = getCitiesResponseModel!.data!.indexOf(element);
-                                    cityId = element.id;
-                                    selectedPlace = null;
-                                    getPlaceApi(cityId!);
-                                    onTapCall2();
-                                    setState(() {
-
-                                    });
-                                  }
-                                });
-                              });
-                            },
-                            items: getCitiesResponseModel?.data?.map((items) {
-                              return DropdownMenuItem(
-                                value: items.name.toString(),
-                                child:  Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Container(
-                                          width: MediaQuery.of(context).size.width/1.42,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(top: 10),
-                                            child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
-                                          )),
-                                    ),
-                                    const Divider(
-                                      thickness: 0.2,
-                                      color: colors.black54,
-                                    ),
-
-                                  ],
-                                ),
-                              );
-                            })
-                                .toList(),
-
-
-                          ),
-
-                        ),
-                      ),
-                      SizedBox(height: 10,),
                       Padding(
                           padding: const EdgeInsets.all(5.0),
                           child:Row(
@@ -1853,6 +1820,48 @@ class _DoctorResignationState extends State<DoctorResignation> {
                       const SizedBox(
                         height: 10,
                       ),
+                    ],
+                  ):SizedBox.shrink(),
+                  widget.role == 1
+                      ? Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text(
+                          "City Name",
+                          style: TextStyle(
+                              color: colors.black54,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        style: TextStyle(color: colors.black54),
+                        controller: cityController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            hintText: '',
+                            hintStyle: const TextStyle(
+                                fontSize: 15.0, color: colors.secondary),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            contentPadding:
+                            const EdgeInsets.only(left: 10, top: 10)),
+                        validator: (v) {
+                          if (v!.isEmpty && widget.role == 1) {
+                            return "City Name is required";
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+
                       Padding(
                           padding: const EdgeInsets.all(5.0),
                           child:Row(
@@ -2040,15 +2049,16 @@ class _DoctorResignationState extends State<DoctorResignation> {
                         onPress: () {
                           if (_formKey.currentState!.validate()) {
                             print("hhhhhhhhhhhhhhhhhhhhhh${widget.role}");
+
                             if(widget.role == 1){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
-                                    ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
-                                  cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",
-                                  profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
+                              checkEmailMobileApi();
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
+                                  //   ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
+                                  // cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",
+                                  // profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
                             }else {
                               print("surennnnnnnnnnnnnnnn");
                               registration();
-
                             }
                             // Navigator.push(context,
                             //     MaterialPageRoute(builder: (context) =>HomeScreen()));
@@ -2068,6 +2078,37 @@ class _DoctorResignationState extends State<DoctorResignation> {
             ),
           ),
         ));
+  }
+
+  checkEmailMobileApi() async {
+    var headers = {
+      'Cookie': 'ci_session=b30b2c63f84840fcbad140cdb85d5d945da2fcf5'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.checkMobileEmail}'));
+    request.fields.addAll({
+      'mobile': mobileController.text,
+      'email': emailController.text
+    });
+    print('______request.fields____${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var  result =  await response.stream.bytesToString();
+       var finalResult = jsonDecode(result);
+       if(finalResult['error'] == false){
+         Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
+           ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
+           cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",
+           profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
+       }else{
+         Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor:  colors.secondary);
+       }
+
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
   }
   Widget select() {
     return InkWell(

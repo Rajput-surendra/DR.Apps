@@ -105,7 +105,7 @@ class _HomePageState extends State<UpdsateScreen>
       var result =  await response.stream.bytesToString();
       var finalResult = jsonDecode(result);
       getNewListApi(0);
-      Fluttertoast.showToast(msg: "${finalResult['message']}");
+      Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
     }
     else {
       print(response.reasonPhrase);
@@ -413,7 +413,7 @@ class _HomePageState extends State<UpdsateScreen>
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
 
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
     }
     else {
     print(response.reasonPhrase);

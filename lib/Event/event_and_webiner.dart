@@ -68,7 +68,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
 
     }
@@ -454,9 +454,9 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
                 itemCount: eventModel!.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return  InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: eventDataList[index])));
-                      },
+                      // onTap: (){
+                      //
+                      // },
                       child: EventsListCard(index: eventDataList.length, getEventModel: eventDataList[index],i: index,onTop: (){
                         deletePostEventApi(eventModel!.data[index].id);
                       },));

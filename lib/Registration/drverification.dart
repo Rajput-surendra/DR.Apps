@@ -54,11 +54,10 @@ class _NewCerificationState extends State<NewCerification> {
     print("ooooooooooooo>>>>>>>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    print("this is userId===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var finalresponse = await response.stream.bytesToString();
       final jsonresponse = json.decode(finalresponse);
-      print("this is final responsesssssssssss${finalresponse}");
+
       if (!jsonresponse['error']){
         String? otp = jsonresponse["otp"];
         String userId = jsonresponse["data"]['id'];
@@ -66,9 +65,7 @@ class _NewCerificationState extends State<NewCerification> {
         preferences.setBool('isLogin', true );
         preferences.setString('userId',userId);
         preferences.setString('roll',roll);
-        print("this is userId===========111111111111surennnnn>${userId}");
-        Fluttertoast.showToast(msg: '${jsonresponse['message']}');
-        print("this is userId===========111111111111>${jsonresponse['data']['id']}");
+        Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -76,7 +73,7 @@ class _NewCerificationState extends State<NewCerification> {
             ));
       }
       else{
-        Fluttertoast.showToast(msg: "${jsonresponse['message']}");
+        Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);
       }
     }
     else {
@@ -87,9 +84,9 @@ class _NewCerificationState extends State<NewCerification> {
     String? token ;
     try{
       token  = await FirebaseMessaging.instance.getToken();
-      print("-----------token:-----${token}");
+
     } on FirebaseException{
-      print('__________FirebaseException_____________');
+
     }
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('otp', "otp");
@@ -103,15 +100,14 @@ class _NewCerificationState extends State<NewCerification> {
       'mobile': widget.mobile,
       'fcm_id' : '${token}'
     });
-    print("aaaaaaaaaaaaaaa${request.fields}");
+
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-      print("this is truuuuuuuuuuuuu");
+
       var finalresponse = await response.stream.bytesToString();
       final jsonresponse = json.decode(finalresponse);
-      print("this is final responsesssssssssss${finalresponse}");
       // Future.delayed(Duration(seconds: 1)).then((_) {
       //   Navigator.pushReplacement(
       //       context,
@@ -119,13 +115,10 @@ class _NewCerificationState extends State<NewCerification> {
       //           builder: (context) => VerifyOtp()
       //       ));
       // });
-      print(" respomse here ${jsonresponse}");
+
       if (jsonresponse['error'] == false) {
         int? otp = jsonresponse["otp"];
         String mobile = jsonresponse["mobile"];
-        print("otppppppppppppp${otp.toString()}");
-        print("mobillllllllllllll${mobile.toString()}");
-        print("this is final responsesssssssssss${finalresponse}");
         Fluttertoast.showToast(msg: '${jsonresponse['message']}');
         Navigator.pushReplacement(
             context,
@@ -202,8 +195,8 @@ class _NewCerificationState extends State<NewCerification> {
                         "+91${widget.mobile}",
                         style: TextStyle(color:  colors.blackTemp,fontWeight:FontWeight.w500,fontSize: 18),
                       ),
-                      SizedBox(height: 5,),
-                      Text("OTP: ${widget.otp}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15),),
+                      // SizedBox(height: 5,),
+                      // Text("OTP: ${widget.otp}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15),),
                     ],
                   ),
                   SizedBox(
@@ -296,14 +289,13 @@ class _NewCerificationState extends State<NewCerification> {
                     color: colors.secondary,
                     height: 45,
                     width: 300,
-                    title: 'Done',
+                    title: 'Submit',
                     onPress: () {
-                       verifyOtp();
-                      if(pinController.text== widget.otp){
-                       // verifyOtp();
+                      if(pinController.text.isEmpty){
+                        Fluttertoast.showToast(msg: "Please Enter Otp!!!!",backgroundColor: colors.secondary);
                       }else{
+                        verifyOtp();
 
-                        Fluttertoast.showToast(msg: "Please enter valid otp!");
                       }
                       // Navigator.push(context,
                       //     MaterialPageRoute(builder: (context) => HomeScreen()));
