@@ -80,16 +80,13 @@ class _BookingScreenState extends State<BookingScreen> {
     }
 
   }
-
-
   CencelbookingModel?cencelbookingModel;
-
   acceptedApi(String id ,String status) async {
  print("idddddddddddddddddddd${id}");
     var headers = {
       'Cookie': 'ci_session=5a635878f9da494ef0b40bd7b646d7db01adacf3'
     };
-    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/cancel_booking'));
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.cancleBooking}'));
     request.fields.addAll({
       'id':id.toString(),
       'status': '${status}'
@@ -108,6 +105,27 @@ class _BookingScreenState extends State<BookingScreen> {
 
 
   }
+  deleteApi() async {
+    var headers = {
+      'Cookie': 'ci_session=a747c1d1c18333959dd066ea89715ea8b440c263'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.deleteBooking}'));
+    request.fields.addAll({
+      'id': '2'
+    });
+
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+     var result = await response.stream.bytesToString();
+     var finalResult =  jsonDecode(result);
+     Fluttertoast.showToast(msg: "${finalResult['message']}");
+    }
+    else {
+    print(response.reasonPhrase);
+    }
+
+  }
 
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -115,11 +133,8 @@ class _BookingScreenState extends State<BookingScreen> {
    Future<Null> _refresh() {
      return callApi();
    }
-
-
    Future<Null> callApi() async {
      getBookingDetails();
-
    }
 
   @override
@@ -128,7 +143,6 @@ class _BookingScreenState extends State<BookingScreen> {
     getBookingDetails();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -234,10 +248,15 @@ class _BookingScreenState extends State<BookingScreen> {
                                 ),
                                 Column(
                                   children: [
-                               getBookingDetailsModel!.data![index].status == "2" ?     Container(
-                                      height: 35,
-                                      width: 60,
-                                      decoration: BoxDecoration(
+                                    // InkWell(
+                                    //   onTap: (){
+                                    //     deleteApi();
+                                    //   },
+                                    //     child: Icon(Icons.delete)),
+                                        getBookingDetailsModel!.data![index].status == "2" ? Container(
+                                         height: 35,
+                                         width: 60,
+                                         decoration: BoxDecoration(
                                           color:colors.yellow,
                                           borderRadius: BorderRadius.circular(10)
                                       ),

@@ -9,6 +9,8 @@ class ApiService {
 
   static const String userRegister = baseUrl+'user_register';
   static const String getBooking = baseUrl+'bookings';
+  static const String cancleBooking = baseUrl+'cancel_booking';
+  static const String deleteBooking = baseUrl+'delete_booking';
   static const String sendOTP = baseUrl+'v_send_otp';
   static const String login = baseUrl+'login';
   static const String getupdateUser = baseUrl+'update_user';

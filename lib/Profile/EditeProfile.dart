@@ -626,24 +626,24 @@ String? catName ;
                       ),
                     ),
                     SizedBox(height: 10,),
-                    const Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Text("City Name", style: TextStyle(
-                          color: colors.black54, fontWeight: FontWeight.bold),),
-                    ),
-                    const SizedBox(height: 10,),
-                    TextFormField(
-                      controller: cityController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'City Name',
-                          hintStyle: TextStyle(
-                              fontSize: 15.0, color: colors.secondary),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding: EdgeInsets.only(left: 10, top: 5)
-                      ),
-                    ),
+                    // const Padding(
+                    //   padding: EdgeInsets.all(5.0),
+                    //   child: Text("City Name", style: TextStyle(
+                    //       color: colors.black54, fontWeight: FontWeight.bold),),
+                    // ),
+                    // const SizedBox(height: 10,),
+                    // TextFormField(
+                    //   controller: cityController,
+                    //   keyboardType: TextInputType.text,
+                    //   decoration: InputDecoration(
+                    //       hintText: 'City Name',
+                    //       hintStyle: TextStyle(
+                    //           fontSize: 15.0, color: colors.secondary),
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(10)),
+                    //       contentPadding: EdgeInsets.only(left: 10, top: 5)
+                    //   ),
+                    // ),
                    SizedBox(height: 10,),
                     Column(
                      crossAxisAlignment: CrossAxisAlignment.start,

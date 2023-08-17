@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentindex = 0;
 
   GetUserProfileModel? getprofile;
+
   getuserProfile() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
@@ -104,10 +105,18 @@ class _HomeScreenState extends State<HomeScreen> {
       //preferences.setString('id', "Id");
       final result = await response.stream.bytesToString();
       final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
-      print('_____Surendra_____${finalResult}_________');
 
+      String? speciality;
+
+      finalResult.data?.forEach((element) {
+        if(element.isSelected ?? false) {
+          speciality = element.id ;
+        }
+      });
+      preferences.setString('specialityId', speciality ?? '');
       setState(() {
         selectCatModel = finalResult;
+        getCounting();
       });
     } else {
       print(response.reasonPhrase);
@@ -162,7 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
      role = preferences.getString('roll');
     String? specialityId = preferences.getString('specialityId');
-    print('${specialityId}____________jklgjfdkgj');
+
+
     String? localId = preferences.getString('LocalId');
     var headers = {
       'Cookie': 'ci_session=3ea10fa720ffb83b4465c35fc49dc217178fc84a'
@@ -194,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return getuserProfile();
     });
     getSliderApi();
-    getCounting();
+    //getCounting();
     getCatApi();
     if(widget.speciality == true){
       setState(() {
@@ -364,6 +374,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     itemBuilder: (BuildContext context, int index) {
                                       if (selectCatModel?.data?[index].isSelected ==
                                           true) {
+
+
                                         return InkWell(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterSpeciality())).then((value){
@@ -553,7 +565,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         countingModel?.data?[i].counter == ""
                     ? SizedBox()
                     : Positioned(
-                        right: 32,
+                        right: 40,
                         top: 10,
                         height: 20,
                         width: 20,

@@ -99,7 +99,7 @@ class _MySpecialityState extends State<MySpeciality> {
                     itemBuilder: (BuildContext context, int index) {
                       return   InkWell(
                         onTap: () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context)=>DoctorResignation(id: selectCatModel?.data?[index].id,role: 1,)));
+                          Navigator.push(context,MaterialPageRoute(builder: (context)=> DoctorResignation( id: selectCatModel?.data?[index].id,role: 1,)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

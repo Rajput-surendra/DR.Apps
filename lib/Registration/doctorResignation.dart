@@ -197,8 +197,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
   GetCompanyNewModel? getCompanyNewModel;
   getCompanyName() async {
 
-
-
     var headers = {
       'Cookie': 'ci_session=e5dbfebfc51701fd8aba3e57be6c399b3a13750d'
     };
@@ -508,7 +506,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
         'roll': widget.role.toString(),
         'confirm_password': CpassController.text,
         'fcm_id': token ?? '',
-        'city': cityController.text,
+        'send_otp': "true",
         'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
         "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
         "company_division":widget.role == 2? catDrop!.id.toString():"",
@@ -564,48 +562,95 @@ class _DoctorResignationState extends State<DoctorResignation> {
   }
 
 
-  // newRegistration() async {
-  //   var headers = {
-  //     'Cookie': 'ci_session=a59ad27eb0beece8f779167599be66aefe502946'
-  //   };
-  //   var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/user_register'));
-  //   request.fields.addAll({
-  //     'email': 'kabir3@gmail.com',
-  //     'mobile': '7897897893',
-  //     'username': 'ajay',
-  //     'gender': 'male',
-  //     'doc_degree': 'mbbs',
-  //     'address': 'Vijay nagar',
-  //     'c_address': 'indore',
-  //     'cat_type': '1',
-  //     'category_id': '371',
-  //     'designation_id': '5',
-  //     'password': '12345678',
-  //     'roll': '2',
-  //     'confirm_password': '12345678',
-  //     'fcm_id': 'fgdggfgdfgd',
-  //     'city': 'indore',
-  //     'title': 'Social',
-  //     'company_name': 'pharma',
-  //     'company_division': '',
-  //     'state_id': '5',
-  //     'city_id': '383',
-  //     'area_id': '1',
-  //     'experience': '5'
-  //   });
-  //   request.files.add(await http.MultipartFile.fromPath('image', '/C:/Users/indian 5/Downloads/splash screen (2).png'));
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //   print(await response.stream.bytesToString());
-  //   }
-  //   else {
-  //   print(response.reasonPhrase);
-  //   }
-  //
-  // }
+  registration2() async {
+    isLoading ==  true;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('otp', "otp");
+    String? token;
+    try {
+      token = await FirebaseMessaging.instance.getToken();
+    } on FirebaseException {
+
+    }
+
+    // if (false) {
+    //   // Fluttertoast.showToast(msg: 'Please select category');
+    // } else {
+    //   print("this is user registration ");
+    var headers = {
+      'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
+    };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('${ApiService.userRegister}'));
+    request.fields.addAll({
+      'email': emailController.text,
+      'mobile': mobileController.text,
+      'username': nameController.text,
+      'gender': gender.toString(),
+      'doc_degree': docdegreeController.text,
+      'address': "",
+      'c_address': clinikaddressController.text,
+      'cat_type': widget.role == 2 ?SelectedPharma.toString():"",
+      'category_id': widget.role == 2 ?catDrop!.id.toString():widget.id.toString(),
+      'designation_id':widget.role == 2 ? results.id.toString():"",
+      'password': passController.text,
+      'roll': widget.role.toString(),
+      'confirm_password': CpassController.text,
+      'fcm_id': token ?? '',
+      'send_otp': "false",
+      'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
+      "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
+      "company_division":widget.role == 2? catDrop!.id.toString():"",
+      "state_id":'$stateId',
+      "city_id": "$cityId",
+      "area_id":widget.role == 1 ? "$placeId":"",
+      "experience": experienceC.text,
+
+    });
+    print('___request.fields_______${request.fields}_________');
+    // request.files.add(await http.MultipartFile.fromPath(
+    //     'image', imageFile!.path ?? ''));
+    if(imageFile!= null){
+      request.files.add(await http.MultipartFile.fromPath(
+          'image', imageFile?.path ?? ''));
+    }
+    // print(
+    //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      final result = await response.stream.bytesToString();
+      var finalResult = json.decode(result);
+      // var finalResult = SignUpModel.fromJson(json.decode(reslut));
+
+      msg = finalResult['message'];
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary );
+      // setState(() {
+      //   detailsData = finalResult;
+      // });
+      // Fluttertoast.showToast(msg: detailsData!.message.toString());
+      if (finalResult['error'] == false) {
+        int? otp = finalResult['data']['otp'];
+        String?  mobile = finalResult['data']['mobile'];
+        // var otp = detailsData!.data!.otp.toString();
+        // var mobile = detailsData!.data!.mobile.toString();
+        // Fluttertoast.showToast(msg: detailsData!.message.toString());
+        Fluttertoast.showToast(msg: finalResult['message']);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+        // Fluttertoast.showToast(msg: finalResult['message']);
+      }
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      print(response.reasonPhrase);
+    }
+    //}
+
+  }
   void _showMultiSelect(int category) async {
     results = await showDialog(
       context: context,
@@ -993,8 +1038,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
                           ),
                         ],
                       )
-
-
                   ),
                   TextFormField(
                     style: TextStyle(color: colors.black54),
@@ -1229,42 +1272,42 @@ class _DoctorResignationState extends State<DoctorResignation> {
                        },
                      )
                      : const SizedBox.shrink(),
-                     Padding(
-                         padding: EdgeInsets.all(5.0),
-                         child:Row(
-                           children: const [
-                             Text(
-                               "City Name",
-                               style: TextStyle(
-                                   color: colors.black54, fontWeight: FontWeight.bold),
-                             ),
-                             Text(
-                               "*",
-                               style: TextStyle(
-                                   color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                             ),
-                           ],
-                         )
-
-
-                     ),
-                     TextFormField(
-                       style: TextStyle(color: colors.black54),
-                       controller: cityController,
-                       keyboardType: TextInputType.text,
-                       decoration: InputDecoration(
-                           hintText: '',
-                           hintStyle: const TextStyle(
-                               fontSize: 15.0, color: colors.secondary),
-                           border: OutlineInputBorder(
-                               borderRadius: BorderRadius.circular(10)),
-                           contentPadding: EdgeInsets.only(left: 10, top: 10)),
-                       validator: (v) {
-                         if (v!.isEmpty) {
-                           return " City name is required";
-                         }
-                       },
-                     ),
+                     // Padding(
+                     //     padding: EdgeInsets.all(5.0),
+                     //     child:Row(
+                     //       children: const [
+                     //         Text(
+                     //           "City Name",
+                     //           style: TextStyle(
+                     //               color: colors.black54, fontWeight: FontWeight.bold),
+                     //         ),
+                     //         Text(
+                     //           "*",
+                     //           style: TextStyle(
+                     //               color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                     //         ),
+                     //       ],
+                     //     )
+                     //
+                     //
+                     // ),
+                     // TextFormField(
+                     //   style: TextStyle(color: colors.black54),
+                     //   controller: cityController,
+                     //   keyboardType: TextInputType.text,
+                     //   decoration: InputDecoration(
+                     //       hintText: '',
+                     //       hintStyle: const TextStyle(
+                     //           fontSize: 15.0, color: colors.secondary),
+                     //       border: OutlineInputBorder(
+                     //           borderRadius: BorderRadius.circular(10)),
+                     //       contentPadding: EdgeInsets.only(left: 10, top: 10)),
+                     //   validator: (v) {
+                     //     if (v!.isEmpty) {
+                     //       return " City name is required";
+                     //     }
+                     //   },
+                     // ),
                    ],
                  ):SizedBox(),
                   const SizedBox(
@@ -1827,39 +1870,39 @@ class _DoctorResignationState extends State<DoctorResignation> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Text(
-                          "City Name",
-                          style: TextStyle(
-                              color: colors.black54,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        style: TextStyle(color: colors.black54),
-                        controller: cityController,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            hintText: '',
-                            hintStyle: const TextStyle(
-                                fontSize: 15.0, color: colors.secondary),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            contentPadding:
-                            const EdgeInsets.only(left: 10, top: 10)),
-                        validator: (v) {
-                          if (v!.isEmpty && widget.role == 1) {
-                            return "City Name is required";
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      // const Padding(
+                      //   padding: EdgeInsets.all(5.0),
+                      //   child: Text(
+                      //     "City Name",
+                      //     style: TextStyle(
+                      //         color: colors.black54,
+                      //         fontWeight: FontWeight.bold),
+                      //   ),
+                      // ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // TextFormField(
+                      //   style: TextStyle(color: colors.black54),
+                      //   controller: cityController,
+                      //   keyboardType: TextInputType.text,
+                      //   decoration: InputDecoration(
+                      //       hintText: '',
+                      //       hintStyle: const TextStyle(
+                      //           fontSize: 15.0, color: colors.secondary),
+                      //       border: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(10)),
+                      //       contentPadding:
+                      //       const EdgeInsets.only(left: 10, top: 10)),
+                      //   validator: (v) {
+                      //     if (v!.isEmpty && widget.role == 1) {
+                      //       return "City Name is required";
+                      //     }
+                      //   },
+                      // ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
 
 
                       Padding(
@@ -2057,7 +2100,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                   // cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",
                                   // profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
                             }else {
-                              print("surennnnnnnnnnnnnnnn");
                               registration();
                             }
                             // Navigator.push(context,

@@ -122,29 +122,17 @@ class _VerifyOtpState extends State<VerifyOtp> {
       'mobile': widget.mobile,
       'fcm_id' : '${token}'
     });
-    print("aaaaaaaaaaaaaaa${request.fields}");
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-      print("this is truuuuuuuuuuuuu");
+
       var finalresponse = await response.stream.bytesToString();
       final jsonresponse = json.decode(finalresponse);
-      print("this is final responsesssssssssss${finalresponse}");
-      // Future.delayed(Duration(seconds: 1)).then((_) {
-      //   Navigator.pushReplacement(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => VerifyOtp()
-      //       ));
-      // });
-      print(" respomse here ${jsonresponse}");
+
       if (jsonresponse['error'] == false) {
         int? otp = jsonresponse["otp"];
         String mobile = jsonresponse["mobile"];
-        print("otppppppppppppp${otp.toString()}");
-        print("mobillllllllllllll${mobile.toString()}");
-        print("this is final responsesssssssssss${finalresponse}");
         Fluttertoast.showToast(msg: '${jsonresponse['message']}');
         Navigator.pushReplacement(
             context,

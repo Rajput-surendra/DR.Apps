@@ -234,8 +234,19 @@ class _AddEventPostState extends State<AddEventPost> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+               Row(
+                 children: [
+                   Text("Event Name",style: TextStyle(
+                       color: colors.blackTemp,fontSize: 15
+                   ),),
+                   Text("*",style: TextStyle(
+                       color: colors.red,fontSize: 15
+                   ),)
+                 ],
+               ),
+                SizedBox(height: 5,),
                 Container(
-                  height: 55,
+                  // height: 55,
                   child: TextFormField(
                     controller: titleController,
                     decoration: InputDecoration(
@@ -253,11 +264,20 @@ class _AddEventPostState extends State<AddEventPost> {
                     },
                   ),
                 ),
-
                 SizedBox(height: 10,),
-
+                Row(
+                  children: [
+                    Text("City Name",style: TextStyle(
+                        color: colors.blackTemp,fontSize: 15
+                    ),),
+                    Text("*",style: TextStyle(
+                        color: colors.red,fontSize: 15
+                    ),)
+                  ],
+                ),
+                SizedBox(height: 5,),
                 Container(
-                  height: 45,
+                  // height: 45,
                   child: TextFormField(
                     controller: addressController,
                     decoration: InputDecoration(
@@ -276,6 +296,17 @@ class _AddEventPostState extends State<AddEventPost> {
                   ),
                 ),
                 SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Text("Start Date",style: TextStyle(
+                        color: colors.blackTemp,fontSize: 15
+                    ),),
+                    Text("*",style: TextStyle(
+                        color: colors.red,fontSize: 15
+                    ),)
+                  ],
+                ),
+                SizedBox(height: 5,),
                 TextFormField(
                   onTap: (){
                     _selectDateStart();
@@ -297,6 +328,17 @@ class _AddEventPostState extends State<AddEventPost> {
                   },
                 ),
                 SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Text("End Date",style: TextStyle(
+                        color: colors.blackTemp,fontSize: 15
+                    ),),
+                    Text("*",style: TextStyle(
+                        color: colors.red,fontSize: 15
+                    ),)
+                  ],
+                ),
+                SizedBox(height: 5,),
                 TextFormField(
                   onTap: (){
                     _selectDateEnd();
@@ -319,13 +361,13 @@ class _AddEventPostState extends State<AddEventPost> {
                 ),
                 SizedBox(height: 10,),
 
-                Text("Sponsored",style: TextStyle(
+                Text("Contect for Sponsorship",style: TextStyle(
                   color: colors.blackTemp,fontSize: 20
                 ),),
                 SizedBox(height: 10,),
 
                 Container(
-                  height: 45,
+                  // height: 45,
                   child: TextFormField(
                     controller: linkController,
                     decoration: InputDecoration(
@@ -335,17 +377,28 @@ class _AddEventPostState extends State<AddEventPost> {
                         ),
                         hintText: 'Registration Link'
                     ),
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return "Registration Link is Empty";
-                      }
+                    // validator: (v) {
+                    //   if (v!.isEmpty) {
+                    //     return "Registration Link is Empty";
+                    //   }
 
-                    },
+                    //},
                   ),
                 ),
                 SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Text("Name ",style: TextStyle(
+                        color: colors.blackTemp,fontSize: 15
+                    ),),
+                    Text("*",style: TextStyle(
+                        color: colors.red,fontSize: 15
+                    ),)
+                  ],
+                ),
+                SizedBox(height: 5,),
                 Container(
-                  height: 45,
+                  // height: 45,
                   child: TextFormField(
                     controller: nameController,
                     decoration: InputDecoration(
@@ -364,8 +417,19 @@ class _AddEventPostState extends State<AddEventPost> {
                   ),
                 ),
                 SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Text("Mobile No",style: TextStyle(
+                        color: colors.blackTemp,fontSize: 15
+                    ),),
+                    Text("*",style: TextStyle(
+                        color: colors.red,fontSize: 15
+                    ),)
+                  ],
+                ),
+                SizedBox(height: 5,),
                 Container(
-                  height: 45,
+                  // height: 45,
                   child: TextFormField(
                     controller: mobileController,
                     keyboardType: TextInputType.phone,
@@ -387,9 +451,19 @@ class _AddEventPostState extends State<AddEventPost> {
                   ),
                 ),
                 SizedBox(height: 10,),
-
+                Row(
+                  children: [
+                    Text("Designation",style: TextStyle(
+                        color: colors.blackTemp,fontSize: 15
+                    ),),
+                    Text("*",style: TextStyle(
+                        color: colors.red,fontSize: 15
+                    ),)
+                  ],
+                ),
+                SizedBox(height: 5,),
                 Container(
-                  height: 45,
+                  // height: 45,
                   child: TextFormField(
                     controller: designController,
                     decoration: InputDecoration(

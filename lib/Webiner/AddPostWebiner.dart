@@ -314,7 +314,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                      Text("Title"),
                   SizedBox(height: 5,),
                   Container(
-                    height: 50,
+                    // height: 50,
                     child: TextFormField(
                       controller: doctoreController,
                       decoration: InputDecoration(
@@ -336,7 +336,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   ),
                   SizedBox(height: 5,),
                   Container(
-                    height: 45,
+                    // height: 45,
                     child: TextFormField(
                       controller: topictController,
                       decoration: InputDecoration(
@@ -362,7 +362,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   ),
                   SizedBox(height: 5,),
                   Container(
-                    height: 45,
+                    // height: 45,
                     child: TextFormField(
                       controller: SpeakerController,
                       decoration: InputDecoration(
@@ -384,7 +384,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   Text("Moderator"),
                   SizedBox(height: 5,),
                   Container(
-                    height: 45,
+                    // height: 45,
                     child: TextFormField(
                       controller: moderatorController,
                       decoration: InputDecoration(
@@ -463,7 +463,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   ),
                   SizedBox(height: 5,),
                   Container(
-                    height: 45,
+                    // height: 45,
                     child: TextFormField(
                       controller: linkController,
                       decoration: InputDecoration(

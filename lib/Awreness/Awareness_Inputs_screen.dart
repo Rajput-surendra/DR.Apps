@@ -26,6 +26,8 @@ import '../Screen/video_testing.dart';
 import '../api/api_services.dart';
 import '../Awreness/AddAwrenessPost.dart';
 String? Roll;
+String? localId;
+String? specialityId;
 class AwarenessScreen extends StatefulWidget {
   const AwarenessScreen({Key? key}) : super(key: key);
 
@@ -47,18 +49,23 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     getrole();
     print("aaaaaaaaaaaaa====>${date}");
   }
-  getrole() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    Roll = preferences.getString('roll');
-    print('___Roll____Roll___${Roll}_________');
-  }
-  String? specialityId;
-  bool isSliderLoading = false ;
-  bool isScreenLoading = false ;
-
   String dateTime = '2023-03-24 16:09:30';
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
   new GlobalKey<RefreshIndicatorState>();
+
+
+  getrole() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    Roll = preferences.getString('roll');
+    specialityId = preferences.getString('specialityId');
+     localId = preferences.getString('LocalId');
+    print('___Roll____Roll________${specialityId}___${localId}_');
+  }
+
+  bool isSliderLoading = false ;
+  bool isScreenLoading = false ;
+
+
   Future<Null> _refresh() {
     return callApi();
   }
@@ -69,23 +76,22 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
 
   int _currentIndex = 0;
   GetAModel? getAwareNess;
-  String? specialityId1 ;
   getAwarenessList() async {
     setState(() {
       isScreenLoading = true;
     });
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    specialityId1 = preferences.getString('specialityId');
+    specialityId = preferences.getString('specialityId');
       String? localId = preferences.getString('LocalId');
-      print('______specialityId1____${specialityId1}_________');
+     print('______specialityId1____${specialityId}_________');
     var headers = {
       'Cookie': 'ci_session=24cf09ce78eebd805097f2d1bcece02c6e418346'
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getAwareness}'));
     request.fields.addAll({
       'user_id': '$userId',
-      'speciality_id': localId==null || localId== ''  ?  specialityId1 ?? '' : localId
+      'speciality_id': localId==null || localId== ''  ?  specialityId ?? '' : localId
     });
     print("this is is request===cvbcbvcbvc====dsdsdfs==>${request.fields}------------${ApiService.getAwareness}");
     request.headers.addAll(headers);

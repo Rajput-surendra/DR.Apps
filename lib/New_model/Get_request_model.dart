@@ -6,7 +6,7 @@ class GetRequestModel {
   GetRequestModel({
       bool? error, 
       String? message, 
-      List<Data>? data,}){
+      List<RequetDataList>? data,}){
     _error = error;
     _message = message;
     _data = data;
@@ -18,23 +18,23 @@ class GetRequestModel {
     if (json['data'] != null) {
       _data = [];
       json['data'].forEach((v) {
-        _data?.add(Data.fromJson(v));
+        _data?.add(RequetDataList.fromJson(v));
       });
     }
   }
   bool? _error;
   String? _message;
-  List<Data>? _data;
+  List<RequetDataList>? _data;
 GetRequestModel copyWith({  bool? error,
   String? message,
-  List<Data>? data,
+  List<RequetDataList>? data,
 }) => GetRequestModel(  error: error ?? _error,
   message: message ?? _message,
   data: data ?? _data,
 );
   bool? get error => _error;
   String? get message => _message;
-  List<Data>? get data => _data;
+  List<RequetDataList>? get data => _data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -59,8 +59,8 @@ GetRequestModel copyWith({  bool? error,
 /// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1691142548716.jpg"
 /// is_favorite : true
 
-class Data {
-  Data({
+class RequetDataList {
+  RequetDataList({
       String? id, 
       String? userId, 
       String? type, 
@@ -84,7 +84,7 @@ class Data {
     _isFavorite = isFavorite;
 }
 
-  Data.fromJson(dynamic json) {
+  RequetDataList.fromJson(dynamic json) {
     _id = json['id'];
     _userId = json['user_id'];
     _type = json['type'];
@@ -107,7 +107,7 @@ class Data {
   String? _userImage;
   bool? _isFavorite;
   bool? isSelected;
-Data copyWith({  String? id,
+RequetDataList copyWith({  String? id,
   String? userId,
   String? type,
   Json? json,
@@ -118,7 +118,7 @@ Data copyWith({  String? id,
   String? userImage,
   bool? isFavorite,
   bool? isSelected,
-}) => Data(  id: id ?? _id,
+}) => RequetDataList(  id: id ?? _id,
   userId: userId ?? _userId,
   type: type ?? _type,
   json: json ?? _json,

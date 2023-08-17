@@ -141,14 +141,7 @@ class _AwarenessState extends State<AwarenessListCard> {
 
                         ],
                       ),
-                      Container(
-                        height: 30,
-                        child: ElevatedButton(onPressed: (){
-                          downloadFile('${widget.getAwareNess!.data.poster![widget.index].image}', widget.getAwareNess!.data.poster![widget.index].userName ?? '');
-                        },
-                            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                            child: Text('Poster PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                      ),
+
                       iconVisible ?  Row(
                         children: [
                           IconButton(onPressed: (){
@@ -160,6 +153,14 @@ class _AwarenessState extends State<AwarenessListCard> {
                               // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
                             });
                           }, icon: Icon(Icons.share)),
+                          Container(
+                            height: 30,
+                            child: ElevatedButton(onPressed: (){
+                              downloadFile('${widget.getAwareNess!.data.poster![widget.index].image}', widget.getAwareNess!.data.poster![widget.index].userName ?? '');
+                            },
+                                style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                                child: Text('Poster PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          ),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getAwareNess?.data.poster?[widget.index].id ??'',widget.getAwareNess?.data.poster?[widget.index].type ?? "");
@@ -243,14 +244,14 @@ class _AwarenessState extends State<AwarenessListCard> {
                           Text('${widget.getAwareNess?.data.booklets?[widget.index].awareLanguage}'),
                         ],
                       ),
-                      Container(
-                        height: 30,
-                        child: ElevatedButton(onPressed: (){
-                          downloadFile('${widget.getAwareNess!.data.booklets![widget.index].image}', widget.getAwareNess!.data.booklets![widget.index].userName ?? '');
-                        },
-                            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                            child: Text('Leaflets PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                      ),
+                      // Container(
+                      //   height: 30,
+                      //   child: ElevatedButton(onPressed: (){
+                      //     downloadFile('${widget.getAwareNess!.data.booklets![widget.index].image}', widget.getAwareNess!.data.booklets![widget.index].userName ?? '');
+                      //   },
+                      //       style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                      //       child: Text('Leaflets PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                      // ),
                       iconVisible1?  Row(
                         children: [
                           IconButton(onPressed: (){
@@ -263,6 +264,14 @@ class _AwarenessState extends State<AwarenessListCard> {
                             });
                             // _shareQrCode();
                           }, icon: Icon(Icons.share)),
+                          Container(
+                            height: 30,
+                            child: ElevatedButton(onPressed: (){
+                              downloadFile('${widget.getAwareNess!.data.booklets![widget.index].image}', widget.getAwareNess!.data.booklets![widget.index].userName ?? '');
+                            },
+                                style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                                child: Text('Leaflets PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          ),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getAwareNess?.data.booklets?[widget.index].id ??'',widget.getAwareNess?.data.booklets?[widget.index].type ?? "");
@@ -342,14 +351,7 @@ class _AwarenessState extends State<AwarenessListCard> {
                           Text('${widget.getAwareNess?.data.leaflets?[widget.index].awareLanguage}',style: TextStyle(fontSize: 16,color: colors.blackTemp,fontWeight: FontWeight.normal)),
                         ],
                       ),
-                      Container(
-                        height: 30,
-                        child: ElevatedButton(onPressed: (){
-                          downloadFile('${widget.getAwareNess!.data.leaflets![widget.index].image}', widget.getAwareNess!.data.leaflets![widget.index].userName ?? '');
-                        },
-                            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                            child: Text('Leaflets PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                      ),
+
                       iconVisible2 ?  Row(
                         children: [
                           IconButton(onPressed: (){
@@ -361,6 +363,15 @@ class _AwarenessState extends State<AwarenessListCard> {
                               // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
                             });
                           }, icon: Icon(Icons.share)),
+
+                          Container(
+                            height: 30,
+                            child: ElevatedButton(onPressed: (){
+                              downloadFile('${widget.getAwareNess!.data.leaflets![widget.index].image}', widget.getAwareNess!.data.leaflets![widget.index].userName ?? '');
+                            },
+                                style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                                child: Text('Leaflets PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          ),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getAwareNess?.data.leaflets?[widget.index].id ??'',widget.getAwareNess?.data.leaflets?[widget.index].type ?? "");
@@ -376,7 +387,8 @@ class _AwarenessState extends State<AwarenessListCard> {
                         ],
                       ):SizedBox.shrink()
                     ],
-                  )
+                  ),
+                  SizedBox(height: 10,)
 
 
 
@@ -440,14 +452,7 @@ class _AwarenessState extends State<AwarenessListCard> {
                           Text('${widget.getAwareNess?.data.mPoster?[widget.index].awareLanguage}',style: TextStyle(fontSize: 16,color: colors.blackTemp,fontWeight: FontWeight.normal)),
                         ],
                       ),
-                      Container(
-                        height: 30,
-                        child: ElevatedButton(onPressed: (){
-                          downloadFile('${widget.getAwareNess!.data.mPoster![widget.index].image}', widget.getAwareNess!.data.mPoster![widget.index].userName ?? '');
-                        },
-                            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                            child: Text('Postrer PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                      ),
+
                       iconVisible3 ?  Row(
                         children: [
                           IconButton(onPressed: (){
@@ -459,6 +464,14 @@ class _AwarenessState extends State<AwarenessListCard> {
                               // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
                             });
                           }, icon: Icon(Icons.share)),
+                          Container(
+                            height: 30,
+                            child: ElevatedButton(onPressed: (){
+                              downloadFile('${widget.getAwareNess!.data.mPoster![widget.index].image}', widget.getAwareNess!.data.mPoster![widget.index].userName ?? '');
+                            },
+                                style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                                child: Text('Postrer PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          ),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getAwareNess?.data.mPoster?[widget.index].id ??'',widget.getAwareNess?.data.mPoster?[widget.index].type ?? "");
@@ -587,7 +600,6 @@ class _AwarenessState extends State<AwarenessListCard> {
     }
   }
   bool isScreenLoading = false ;
-
   getNewWishlistApi(String id, String event) async {
 
     isScreenLoading = true ;

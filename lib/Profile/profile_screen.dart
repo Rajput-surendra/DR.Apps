@@ -446,26 +446,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text('City Name',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700)),
-                                const SizedBox(
-                                  width: 50,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 0.0),
-                                  child: Text(
-                                      "${getprofile?.user?.userData?.first.city}"),
-                                )
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       const Text('City Name',
+                          //           style: TextStyle(
+                          //               fontSize: 15,
+                          //               fontWeight: FontWeight.w700)),
+                          //       const SizedBox(
+                          //         width: 50,
+                          //       ),
+                          //       Padding(
+                          //         padding: const EdgeInsets.only(left: 0.0),
+                          //         child: Text(
+                          //             "${getprofile?.user?.userData?.first.city}"),
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
                           roll == "1"
                               ? SizedBox.shrink()
                               : Padding(
@@ -481,15 +481,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       const SizedBox(
                                         width: 50,
                                       ),
-                                      Container(
-                                        width: 150,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 0.0),
-                                          child: Text(
-                                            "${getprofile?.user?.userData?.first.companyName}",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Container(
+                                          width: 150,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 0.0),
+                                            child: Text(
+                                              "${getprofile?.user?.userData?.first.companyName}",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
                                           ),
                                         ),
                                       )
@@ -509,18 +512,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(
                                   width: 50,
                                 ),
-                                Container(
-                                  width: 150,
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.only(left: 0.0),
-                                    child:getprofile?.user?.userData?.first.stateId == null ? Text("No State Name"): Text(
-                                      "${getprofile?.user?.userData?.first.stateId}",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(left: 0.0),
+                                  child:
+                                  getprofile?.user?.userData?.first.stateName == null ? Text("No State Name"): Text(
+                                    "${getprofile?.user?.userData?.first.stateName}",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
-                                )
+                                ),
+
+
+                                // Container(
+                                //   width: 150,
+                                //   child:
+                                // )
                               ],
                             ),
                           ),
@@ -538,16 +545,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(
                                   width: 50,
                                 ),
-                                Container(
-                                  width: 150,
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.only(left: 0.0),
-                                    child:getprofile?.user?.userData?.first.cityId == null ? Text("No City Name"): Text(
-                                      "${getprofile?.user?.userData?.first.cityId}",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(left: 0.0),
+                                  child:getprofile?.user?.userData?.first.cityName == null ? Text("No City Name"): Text(
+                                    "${getprofile?.user?.userData?.first.cityName}",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
                                   ),
                                 )
                               ],

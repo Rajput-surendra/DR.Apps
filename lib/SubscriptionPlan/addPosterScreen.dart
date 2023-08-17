@@ -186,322 +186,327 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       body:getprofile == null ? Center(child: CircularProgressIndicator()) :Padding(
         padding: EdgeInsets.only(left: 20,right: 20,top: 10),
         child: SingleChildScrollView(
-          child: Form(
-            // key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 10,),
-               role == "1" ? Text("Advertisement for DR Plus app and DR Plus website",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),):Text("Advertisement",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                SizedBox(height: 15,),
-                //  Row(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Radio(
-                //       value: 1,
-                //       fillColor: MaterialStateColor.resolveWith(
-                //               (states) =>  colors.secondary),
-                //       activeColor:  colors.secondary,
-                //       groupValue: _value,
-                //       onChanged: (int? value) {
-                //         setState(() {
-                //           _value = value!;
-                //           isVideo = false;
-                //         });
-                //       },
-                //     ),
-                //     Text(
-                //       "Video",
-                //       style: TextStyle(
-                //           color: colors.secondary, fontSize: 21),
-                //     ),
-                //     Radio(
-                //         value: 2,
-                //         fillColor: MaterialStateColor.resolveWith(
-                //                 (states) => colors.secondary),
-                //         activeColor:   colors.secondary,
-                //         groupValue: _value,
-                //         onChanged: (int? value) {
-                //           setState(() {
-                //             _value = value!;
-                //             isImage = true;
-                //           });
-                //         }),
-                //     // SizedBox(width: 10.0,),
-                //     Text(
-                //       "Images",
-                //       style: TextStyle(
-                //           color:  colors.secondary, fontSize: 21),
-                //     ),
-                //   ],
-                // ),
-                Row(
-                  children: [
-                  Text("Select AD format" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-                ],
-                ),
-                SizedBox(height: 2,),
-                Container(
-                    padding: EdgeInsets.only(right: 5, top: 12),
-                    width: MediaQuery.of(context).size.width,
-                    height: 55,
-                    decoration:
-                    BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all( color: colors.black54),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2<String>(
-                        dropdownMaxHeight: 300,
-                        hint: const Padding(
-                          padding: EdgeInsets.only(bottom: 12,top: 0),
-                          child: Text("Select AD For Format",
-                            style: TextStyle(
-                                color: colors.blackTemp,fontWeight: FontWeight.normal,fontSize: 14
-                            ),),
+          child: WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: Form(
+              // key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10,),
+                 role == "1" ? Text("Advertisement for DR Plus app and DR Plus website",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),):Text("Advertisement",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                  SizedBox(height: 15,),
+                  //  Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Radio(
+                  //       value: 1,
+                  //       fillColor: MaterialStateColor.resolveWith(
+                  //               (states) =>  colors.secondary),
+                  //       activeColor:  colors.secondary,
+                  //       groupValue: _value,
+                  //       onChanged: (int? value) {
+                  //         setState(() {
+                  //           _value = value!;
+                  //           isVideo = false;
+                  //         });
+                  //       },
+                  //     ),
+                  //     Text(
+                  //       "Video",
+                  //       style: TextStyle(
+                  //           color: colors.secondary, fontSize: 21),
+                  //     ),
+                  //     Radio(
+                  //         value: 2,
+                  //         fillColor: MaterialStateColor.resolveWith(
+                  //                 (states) => colors.secondary),
+                  //         activeColor:   colors.secondary,
+                  //         groupValue: _value,
+                  //         onChanged: (int? value) {
+                  //           setState(() {
+                  //             _value = value!;
+                  //             isImage = true;
+                  //           });
+                  //         }),
+                  //     // SizedBox(width: 10.0,),
+                  //     Text(
+                  //       "Images",
+                  //       style: TextStyle(
+                  //           color:  colors.secondary, fontSize: 21),
+                  //     ),
+                  //   ],
+                  // ),
+                  Row(
+                    children: [
+                    Text("Select AD format" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                  ],
+                  ),
+                  SizedBox(height: 2,),
+                  Container(
+                      padding: EdgeInsets.only(right: 5, top: 12),
+                      width: MediaQuery.of(context).size.width,
+                      height: 55,
+                      decoration:
+                      BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all( color: colors.black54),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          dropdownMaxHeight: 300,
+                          hint: const Padding(
+                            padding: EdgeInsets.only(bottom: 12,top: 0),
+                            child: Text("Select AD For Format",
+                              style: TextStyle(
+                                  color: colors.blackTemp,fontWeight: FontWeight.normal,fontSize: 14
+                              ),),
+                          ),
+                          // dropdownColor: colors.primary,
+                          value: selectedValue,
+                          icon:  const Padding(
+                            padding: EdgeInsets.only(bottom: 30,left: 10),
+                            child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                          ),
+                          // elevation: 16,
+                          style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                          underline: Padding(
+                            padding: const EdgeInsets.only(left: 0,right: 0),
+                            child: Container(
+                              // height: 2,
+                              color:  colors.whiteTemp,
+                            ),
+                          ),
+                          onChanged: (String? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              selectedValue = value!;
+
+                            });
+                          },
+
+                          items: ['Image AD','Video AD']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+
+                              child:
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                                  ),
+                                  const Divider(
+                                    thickness: 0.2,
+                                    color: colors.black54,
+                                  )
+                                ],
+                              ),
+                            );
+
+                          }).toList(),
+
                         ),
-                        // dropdownColor: colors.primary,
-                        value: selectedValue,
-                        icon:  const Padding(
-                          padding: EdgeInsets.only(bottom: 30,left: 10),
-                          child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
-                        ),
-                        // elevation: 16,
-                        style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                        underline: Padding(
-                          padding: const EdgeInsets.only(left: 0,right: 0),
-                          child: Container(
+
+                      )
+
+                  ),
+                  SizedBox(height: 15,),
+                  getViewBasedOnSelectedValue(),
+                  SizedBox(height: 15,),
+                  Row(
+                    children: [Text("Select App Dash Board" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                    ],),
+                   SizedBox(height: 3,),
+                   Container(
+                      padding: EdgeInsets.only(right: 5, top: 5),
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration:
+                      BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all( color: colors.black54),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          hint: Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: Text("Select App Dash Board",
+                              style: TextStyle(
+                                  color: colors.blackTemp,fontWeight: FontWeight.normal
+                              ),),
+                          ),
+                          // dropdownColor: colors.primary,
+                          value: dropdownInput,
+                          icon:  Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                          // elevation: 16,
+                          style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                          underline: Container(
                             // height: 2,
                             color:  colors.whiteTemp,
                           ),
-                        ),
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            selectedValue = value!;
-
-                          });
-                        },
-
-                        items: ['Image AD','Video AD']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-
-                            child:
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
-                                ),
-                                const Divider(
-                                  thickness: 0.2,
-                                  color: colors.black54,
-                                )
-                              ],
-                            ),
-                          );
-
-                        }).toList(),
-
-                      ),
-
-                    )
-
-                ),
-                SizedBox(height: 15,),
-                getViewBasedOnSelectedValue(),
-                SizedBox(height: 15,),
-                Row(
-                  children: [Text("Select App Dash Board" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-                  ],),
-                 SizedBox(height: 3,),
-                 Container(
-                    padding: EdgeInsets.only(right: 5, top: 5),
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    decoration:
-                    BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all( color: colors.black54),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2<String>(
-                        hint: Padding(
-                          padding: const EdgeInsets.only(top: 0),
-                          child: Text("Select App Dash Board",
-                            style: TextStyle(
-                                color: colors.blackTemp,fontWeight: FontWeight.normal
-                            ),),
-                        ),
-                        // dropdownColor: colors.primary,
-                        value: dropdownInput,
-                        icon:  Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
-                        // elevation: 16,
-                        style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                        underline: Container(
-                          // height: 2,
-                          color:  colors.whiteTemp,
-                        ),
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            dropdownInput = value!;
-                          });
-                        },
-                        items: list.map((items) {
-                          return DropdownMenuItem(
-                            value: items['id'].toString(),
-                            child:  Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Container(
-                                      width: 250,
-                                      child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.normal),)),
-                                ),
-                                Divider(
-                                  thickness: 0.2,
-                                  color: colors.black54,
-                                )
-                              ],
-                            ),
-
-                          );
-                        }).toList(),
-
-                      ),
-                    )
-                ),
-                // _value == 1  ?   video(): image(),
-                SizedBox(height: 15,),
-                Row(
-                  children: [
-                    Text("Link" ,textAlign: TextAlign.start)
-                  ],
-                ),
-                SizedBox(height: 3,),
-                Container(
-                  height: 50,
-                  child: TextFormField(
-                    controller: linkController,
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(top: 5,left: 5),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        hintText: '(Link Optional)'
-                    ),
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return "Link is required";
-                      }
-                    },
-                  ),
-                ),
-                SizedBox(height: 15,),
-
-               //role  == "1" ?
-               Column(
-                 children: [
-                   Row(
-                     children: [
-                       Text("Selected Doctor's Speciality" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-                     ],),
-                   SizedBox(height: 3,),
-                   Container(
-                     height: 50,
-                     width: double.infinity,
-                     decoration: BoxDecoration(
-                         border: Border.all(color: colors.black54),
-                         borderRadius: BorderRadius.circular(10)
-                     ),
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: [
-                         Padding(
-                           padding: const EdgeInsets.all(8.0),
-                           child: Text("${getprofile!.user!.userData!.first.categoryId}"),
-                         ),
-                       ],
-                     ),
-                   )
-                 ],
-               ),
-
-                  // :SizedBox(),
-                SizedBox(height: 15,),
-
-                role  == "1" ?
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text("Selected State" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-                          ],),
-                        SizedBox(height: 3,),
-                        Container(
-                          height: 50,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: colors.black54),
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("${getprofile!.user!.userData!.first.stateName}"),
+                          onChanged: (String? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              dropdownInput = value!;
+                            });
+                          },
+                          items: list.map((items) {
+                            return DropdownMenuItem(
+                              value: items['id'].toString(),
+                              child:  Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 6),
+                                    child: Container(
+                                        width: 250,
+                                        child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.normal),)),
+                                  ),
+                                  Divider(
+                                    thickness: 0.2,
+                                    color: colors.black54,
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
-                        )
-                      ],
-                    )
 
-                    :SizedBox(),
-                SizedBox(height: 15,),
-                role  == "1" ? Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text("Selected City" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-                      ],),
-                    SizedBox(height: 3,),
-                    Container(
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: colors.black54),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("${getprofile!.user!.userData!.first.cityName}"),
+                            );
+                          }).toList(),
+
+                        ),
+                      )
+                  ),
+                  // _value == 1  ?   video(): image(),
+                  SizedBox(height: 15,),
+                  Row(
+                    children: [
+                      Text("Link" ,textAlign: TextAlign.start)
+                    ],
+                  ),
+                  SizedBox(height: 3,),
+                  Container(
+                    height: 50,
+                    child: TextFormField(
+                      controller: linkController,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(top: 5,left: 5),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        ],
+                          hintText: '(Link Optional)'
                       ),
+                      validator: (v) {
+                        if (v!.isEmpty) {
+                          return "Link is required";
+                        }
+                      },
                     ),
-                  ],
-                ):SizedBox.shrink(),
+                  ),
+                  SizedBox(height: 15,),
 
-                SizedBox(height: 100,),
+                 //role  == "1" ?
+                 Column(
+                   children: [
+                     Row(
+                       children: [
+                         Text("Selected Doctor's Speciality" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                       ],),
+                     SizedBox(height: 3,),
+                     Container(
+                       height: 50,
+                       width: double.infinity,
+                       decoration: BoxDecoration(
+                           border: Border.all(color: colors.black54),
+                           borderRadius: BorderRadius.circular(10)
+                       ),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Padding(
+                             padding: const EdgeInsets.all(8.0),
+                             child: Text("${getprofile!.user!.userData!.first.categoryId}"),
+                           ),
+                         ],
+                       ),
+                     )
+                   ],
+                 ),
 
-              ],
+                    // :SizedBox(),
+                  SizedBox(height: 15,),
+
+                  role  == "1" ?
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text("Selected State" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                            ],),
+                          SizedBox(height: 3,),
+                          Container(
+                            height: 50,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: colors.black54),
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("${getprofile!.user!.userData!.first.stateName}"),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+
+                      :SizedBox(),
+                  SizedBox(height: 15,),
+                  role  == "1" ? Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text("Selected City" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                        ],),
+                      SizedBox(height: 3,),
+                      Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: colors.black54),
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${getprofile!.user!.userData!.first.cityName}"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ):SizedBox.shrink(),
+
+                  SizedBox(height: 100,),
+
+                ],
+              ),
             ),
           ),
         ),
