@@ -249,7 +249,7 @@ class _HospitalState extends State<Hospital> {
         if (finalResult['error'] == false) {
           int? otp = finalResult['data']['otp'];
           String?  mobile = finalResult['data']['mobile'];
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
           Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
         }
 

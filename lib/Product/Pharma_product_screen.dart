@@ -97,7 +97,7 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
                     )
                   : InkWell(
                     onTap: (){
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>PharmaProductsDataScreen(SliderId:_sliderModel!.data!.first.typeId)));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>PharmaProductsDataScreen(SliderId:_sliderModel!.data!.first.typeId)));
                     },
                     child: CarouselSlider(
                       options: CarouselOptions(
@@ -237,7 +237,6 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
   }
 
   int _currentPost =  0;
-
   List<Widget> _buildDots() {
     List<Widget> dots = [];
     for (int i = 0; i < (newSliderModel?.data.length ?? 10); i++) {
@@ -283,7 +282,6 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
 
   List<CompanyDataList> companyList= [];
   GetCompanyModel? getCompanyModel;
-
   getCompanyName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
    String? roll = preferences.getString('roll');

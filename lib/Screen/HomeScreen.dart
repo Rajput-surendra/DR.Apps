@@ -21,6 +21,7 @@ import '../DoctorRequest/doctor_request.dart';
 import '../Editorial/editorial.dart';
 import '../Event/event_and_webiner.dart';
 import '../FreeGrafix/free_grafix.dart';
+import '../Generic&Brand/generic_brand_screen.dart';
 import '../New_model/Check_plan_model.dart';
 import '../New_model/GetCountingModel.dart';
 import '../New_model/GetSelectCatModel.dart';
@@ -509,7 +510,8 @@ class _HomeScreenState extends State<HomeScreen> {
               context, MaterialPageRoute(builder: (C) => EventAndWebiner()));
         } else if (i == 2) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (C) => PharmaProductScreen()));
+              // MaterialPageRoute(builder: (C) => PharmaProductScreen()));
+              MaterialPageRoute(builder: (C) => GenericBrandScreen()));
         } else if (i == 3) {
           Navigator.push(
              // context, MaterialPageRoute(builder: (C) => Editorial()));
