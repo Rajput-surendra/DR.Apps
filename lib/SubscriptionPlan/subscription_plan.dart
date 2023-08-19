@@ -98,7 +98,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
     }
   }
   String id = '';
-
   void openCheckout(amount) async {
     double res = double.parse(amount.toString());
     pricerazorpayy= int.parse(res.toStringAsFixed(0)) * 100;
@@ -119,14 +118,11 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
       debugPrint('Error: e');
     }
   }
-
-
   Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
     Fluttertoast.showToast(msg: "Subscription added successfully");
     getplanPurchaseSuccessApi();
    // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
   }
-
   void _handlePaymentError(PaymentFailureResponse response) {
     Fluttertoast.showToast(msg: "Payment cancelled by user");
     // setSnackbar("ERROR", context);

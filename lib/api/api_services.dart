@@ -64,4 +64,8 @@ class ApiService {
     static const String getGraphicApi = baseUrl+'get_free_graphics';
     static const String addWishlistApi = baseUrl+'add_wishlists';
     static const String checkMobileEmail = baseUrl+'check_mobile_email';
+    static const String createBrandApi = baseUrl+'create_brand';
+    static const String getBrandApi = baseUrl+'get_brands';
+    static const String getBrandDetailsPlansApi = baseUrl+'get_brand_details_plans';
+    static const String addBrandDetailApi = baseUrl+'add_brand_detail';
 }

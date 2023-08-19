@@ -461,7 +461,7 @@ class _HospitalState extends State<Hospital> {
                           title: isLoading ? "Please wait......" : 'Add',
                           color: colors.secondary,
                           onPress: () {
-                            if(_formKey.currentState!.validate()){
+                            if(_formKey.currentState!.validate()) {
                               Fluttertoast.showToast(msg: 'Data Add Successfully',backgroundColor: colors.secondary);
                               if (_formKey.currentState!.validate()) {
                                 days = results!.join(",");

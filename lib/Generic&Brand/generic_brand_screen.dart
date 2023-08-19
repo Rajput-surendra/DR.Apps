@@ -15,6 +15,8 @@ import '../Product/CustomCommanSlider.dart';
 import '../api/api_services.dart';
 import 'generic_brand_details_screen.dart';
 
+String? catName,catId;
+
 class GenericBrandScreen extends StatefulWidget {
   const GenericBrandScreen({Key? key}) : super(key: key);
 
@@ -90,6 +92,8 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
           itemBuilder: (BuildContext ctx, index) {
             return InkWell(
               onTap: (){
+                catName =  selectCatModel?.data?[index].name;
+                catId =  selectCatModel?.data?[index].id;
               Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen(catId: selectCatModel!.data![index].id,catName: selectCatModel?.data?[index].name,)));
               },
               child: Card(
