@@ -13,10 +13,12 @@ import 'package:http/http.dart'as http;
 
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
+import 'genericRx_Dosage_Details_Screen.dart';
+import 'generic_brand_details_screen.dart';
 
 class GenericRxDosageScreen extends StatefulWidget {
- GenericRxDosageScreen({Key? key, this.catName}) : super(key: key);
- String? catName;
+ GenericRxDosageScreen({Key? key, this.catName,this.id}) : super(key: key);
+ String? catName,id;
 
   @override
   State<GenericRxDosageScreen> createState() => _GenericRxDosageScreenState();
@@ -31,8 +33,9 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    print('______id_Surendra___${widget.id}_________');
     return Scaffold(
-      appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
+        appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -426,23 +429,28 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                       InkWell(
                         onTap: (){
                           if(_formKey.currentState!.validate()){
-                            addBrandDetailApi();
+                            brandListForJson.add(json.encode({
+                              "name":person1C.text,
+                              "mobile":mobile1C.text,}));
+
+                            brandListForJson.add(json.encode({
+                              "name":person2C.text,
+                              "mobile":mobile2C.text,}));
+
+                            brandListForJson.add(json.encode({
+                              "name":person3C.text,
+                              "mobile":mobile3C.text,}));
+
+                            setState(() {
+                              brandListForJson.forEach((element) {print(element);});
+                              print('__brandListForJson________${brandListForJson}_________');
+                            });
+                          addBrandDetailApi();
                           }else{
                             Fluttertoast.showToast(msg: "Please fill all field");
                           }
 
-                          brandListForJson.add({
-                            "name":person1C.text,
-                            "mobile":mobile1C.text,
-                            "name":person2C.text,
-                            "mobile":mobile2C.text,
-                            "name":person3C.text,
-                            "mobile":mobile3C.text,
-                          });
-                          setState(() {
-                            brandListForJson.forEach((element) {print(element);});
-                            print('__brandListForJson________${brandListForJson}_________');
-                          });
+
                         },
 
                         child: Container(
@@ -453,7 +461,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                             color: colors.secondary,
                             // border: Border.all(color: colors.primary,width: 4),
                           ),
-                          child: Center(
+                          child: islodder  ? Center(child: CircularProgressIndicator()):Center(
                             child: RichText(
                               text: TextSpan(
                                 text: 'Submit',style: TextStyle(fontSize: 18),
@@ -692,14 +700,17 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   TextEditingController mobile1C =  TextEditingController();
   TextEditingController mobile2C =  TextEditingController();
   TextEditingController mobile3C =  TextEditingController();
-
+  bool islodder =  false ;
   addBrandDetailApi() async {
+    setState(() {
+      islodder = true;
+    });
     var headers = {
       'Cookie': 'ci_session=2135ff66fdd844c383bff78b985f0f45377b4718'
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.addBrandDetailApi}'));
     request.fields.addAll({
-      'id': catId.toString(),
+      'id': widget.id.toString(),
       'indication': indicationC.text,
       'dosage': dosageC.text,
       'rx_info': rx_infoC.text,
@@ -710,20 +721,46 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     // request.files.add(await http.MultipartFile.fromPath('images[]', ''));
     // request.files.add(await http.MultipartFile.fromPath('images[]', ''));
     // request.files.add(await http.MultipartFile.fromPath('images[]', ''));
-    request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
-    request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
-    request.files.add(await http.MultipartFile.fromPath('images[]', imageFile2?.path ?? ""));
-    request.files.add(await http.MultipartFile.fromPath('images[]', imageFile3?.path ?? ""));
+    if(imageFile == null ){
+      Fluttertoast.showToast(msg: "kfhsdfidfdgdsg");
+    }else {
+      request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
+      request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
+      request.files.add(await http.MultipartFile.fromPath('images[]', imageFile2?.path ?? ""));
+      request.files.add(await http.MultipartFile.fromPath('images[]', imageFile3?.path ?? ""));
+    }
+
     print('__request.files________${request.files}_________');
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-   var result =   await response.stream.bytesToString();
-   var finalResult =  jsonDecode(result);
+   var result = await response.stream.bytesToString();
+   var finalResult = jsonDecode(result);
     Fluttertoast.showToast(msg: "${finalResult['message']}");
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen()));
+    person1C.clear();
+    person2C.clear();
+    person3C.clear();
+    mobile1C.clear();
+    mobile2C.clear();
+    mobile3C.clear();
+    indicationC.clear();
+    dosageC.clear();
+    rx_infoC.clear();
+    imageFile == null;
+    imageFile1  == null;
+    imageFile2  == null;
+    imageFile3  == null;
+     setState(() {
+     islodder = false;
+     });
     }
+
     else {
+      setState(() {
+        islodder = false;
+      });
     print(response.reasonPhrase);
     }
 

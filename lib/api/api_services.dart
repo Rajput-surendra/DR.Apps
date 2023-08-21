@@ -68,4 +68,5 @@ class ApiService {
     static const String getBrandApi = baseUrl+'get_brands';
     static const String getBrandDetailsPlansApi = baseUrl+'get_brand_details_plans';
     static const String addBrandDetailApi = baseUrl+'add_brand_detail';
+    static const String addSliderApi = baseUrl+'get_pharma_ads_plans';
 }
