@@ -62,6 +62,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                       ? Center(child: Text("No brand list ??"))
                       : ListView.builder(
                           shrinkWrap: true,
+                          reverse: true ,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: getBrandModel!.data == null ||
                                   getBrandModel!.data == ""
@@ -116,7 +117,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                       Expanded(
                                         child: InkWell(
                                           onTap: () {
-                                            if(branddata[i].isDetailPlanSubscribed == true){
+                                            if(branddata[i].isDetailPlanSubscribed == false){
                                               _showAlertDialog(context);
                                             }else{
                                               cardId = branddata[i].id;
@@ -127,7 +128,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
 
 
                                           },
-                                          child: Container(
+                                          child:branddata[i].isDetailPlanSubscribed == false ? Container(
                                             height: 40,
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.only(
@@ -135,7 +136,8 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                         Radius.circular(10)),
                                                 color: colors.red),
                                             child: Center(
-                                              child: BlinkText(
+                                              child:
+                                              BlinkText(
                                                   '${branddata[i].detailText}',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
@@ -146,7 +148,25 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                   times: 1000,
                                                   duration: Duration(seconds: 1)),
                                             ),
-                                          ),
+                                          ):Container(
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    bottomRight:
+                                                    Radius.circular(10)),
+                                                color: colors.secondary),
+                                            child: Center(
+                                              child:
+                                              Text(
+                                                  '${branddata[i].detailText}',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12),
+
+                                              ),
+                                            ),
+                                          )
                                         ),
                                       ),
                                     ],
@@ -162,7 +182,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(height: 20,),
-              Padding(
+           role == "2" ?  Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
                   onTap: () {
@@ -185,7 +205,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                         )),
                   ),
                 ),
-              ),
+              ): SizedBox.shrink()
             ],
           ),
         ),
@@ -204,7 +224,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
     var request =
         http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll(
-        {'user_id': userId.toString(), 'category_id': widget.catId.toString()});
+        {'user_id': role == "2" ? userId.toString() : '', 'category_id': widget.catId.toString()});
     print('__________${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -220,12 +240,13 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
     }
   }
 
-  String? userId;
+  String? userId,role;
 
   getRole() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString("userId");
-    print('_____userId_____${userId}_________');
+    role = preferences.getString("roll");
+    print('_____userId_____${role}_________');
   }
 
   @override
@@ -272,7 +293,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                   //   child: Center(child: Text("Logo upload area\n image size : 200 pixel * 100 pixed",style: TextStyle(fontSize: 12),)),
                   // ),
                   SizedBox(height: 30,),
-                  InkWell(
+                  role == "2" ? InkWell(
                     onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandDetailsPlansScreen()));
                     },
@@ -297,7 +318,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                         )
 
                     ),
-                  )
+                  ):SizedBox.shrink()
                 ],
               )),
           // actions: [],

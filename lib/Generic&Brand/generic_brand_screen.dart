@@ -35,7 +35,7 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
-      body:selectCatModel == null ? Center(child: CircularProgressIndicator()): SingleChildScrollView(
+      body:selectCatModel?.data == null ? Center(child: CircularProgressIndicator()): selectCatModel?.data?.length == 0 ? Center(child: Text("No Category List Found !!!")) : SingleChildScrollView(
         child: Column(
           children: [
             Stack(

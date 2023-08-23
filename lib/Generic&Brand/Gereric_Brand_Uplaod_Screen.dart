@@ -179,7 +179,7 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
        var  result = await response.stream.bytesToString();
        var finalResult = jsonDecode(result);
        Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericBrandScreen()));
        brandNameC.clear();
        genericNameC.clear();
        companyNameC.clear();

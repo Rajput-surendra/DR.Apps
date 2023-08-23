@@ -21,6 +21,7 @@ import '../DoctorRequest/doctor_request.dart';
 import '../Editorial/editorial.dart';
 import '../Event/event_and_webiner.dart';
 import '../FreeGrafix/free_grafix.dart';
+import '../Generic&Brand/advertisement_screen.dart';
 import '../Generic&Brand/generic_brand_screen.dart';
 import '../New_model/Check_plan_model.dart';
 import '../New_model/GetCountingModel.dart';
@@ -520,8 +521,10 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (i == 4) {
           Navigator.push(
               context, MaterialPageRoute(builder: (C) => AwarenessScreen()));
+              // context, MaterialPageRoute(builder: (C) => AdvertisementScreen()));
 
         } else {
+
           checkSubscriptionApi();
           // if(role == "1")
           //   {

@@ -126,9 +126,9 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                           child: Center(child: Text("Edit Details",style: TextStyle(color: colors.whiteTemp),)),
                         ),
                         SizedBox(width: 15,),
-                        InkWell(
+                        role == "2"?  getBrandsRxDosageModel?.data?.first.isAddPlanSubscribed == false ? InkWell(
                           onTap: (){
-                            if(getBrandsRxDosageModel!.data!.first.isDetailPlanSubscribed ==  true){
+                            if(getBrandsRxDosageModel!.data!.first.isDetailPlanSubscribed == false){
                               _showAlertDialog(context);
                             }else{
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
@@ -145,7 +145,26 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                             width: MediaQuery.of(context).size.width/1.8  ,
                             child: Center(child: Text("Link this page to sliding ad",style: TextStyle(color: colors.whiteTemp))),
                           ),
-                        )
+                        ) :InkWell(
+                          onTap: (){
+                            if(getBrandsRxDosageModel!.data!.first.isDetailPlanSubscribed == false){
+                              _showAlertDialog(context);
+                            }else{
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
+                            }
+
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: colors.secondary,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+
+                            height: 50,
+                            width: MediaQuery.of(context).size.width/1.8  ,
+                            child: Center(child: Text("Change sliding ad image",style: TextStyle(color: colors.whiteTemp))),
+                          ),
+                        ) :SizedBox.shrink()
                       ],
                     )
 
@@ -459,7 +478,14 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
 
     super.initState();
     renericRxDosageDetailsApi();
+    getRole();
   }
+  String? role;
 
+  getRole() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    role = preferences.getString("roll");
+    print('_____userId_____${role}_________');
+  }
 
 }
