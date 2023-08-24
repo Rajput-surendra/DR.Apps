@@ -139,7 +139,7 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
                                 borderRadius: BorderRadius.circular(15)
                             ),
 
-                            child: Center(child: Text("Upload",style: TextStyle(color: colors.whiteTemp),)),
+                            child: Center(child: islodder ?Center(child: CircularProgressIndicator()): Text("Upload",style: TextStyle(color: colors.whiteTemp),)),
                           ),
                         ),
                       ),
@@ -156,10 +156,14 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
       ) ,
     );
   }
+  bool islodder = false;
   TextEditingController brandNameC =  TextEditingController();
   TextEditingController genericNameC =  TextEditingController();
   TextEditingController companyNameC =  TextEditingController();
   uploadBrandApi() async {
+    setState(() {
+      islodder =  true;
+    });
     var headers = {
       'Cookie': 'ci_session=82be97770e4a4583108b0ce7341eef3db295b57c'
     };
@@ -183,8 +187,15 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
        brandNameC.clear();
        genericNameC.clear();
        companyNameC.clear();
+       setState(() {
+         islodder = false;
+       });
     }
+
     else {
+      setState(() {
+        islodder = false;
+      });
     print(response.reasonPhrase);
     }
 

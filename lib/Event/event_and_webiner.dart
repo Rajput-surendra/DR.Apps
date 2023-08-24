@@ -141,7 +141,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       final finalResult = json.decode(result);
       print("thi os ojon==========>${finalResult}");
 
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       Navigator.pop(context);
     }
     else {
@@ -387,7 +387,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       var result =  await response.stream.bytesToString();
       var finalResult = jsonDecode(result);
       getEventList();
-      Fluttertoast.showToast(msg: "${finalResult['message']}");
+      Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
     }
     else {
       print(response.reasonPhrase);
@@ -409,7 +409,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     if (response.statusCode == 200) {
       var result =  await response.stream.bytesToString();
       var finalResult = jsonDecode(result);
-      Fluttertoast.showToast(msg: "${finalResult['message']}");
+      Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
       getOnlineWebinarApi();
     }
     else {

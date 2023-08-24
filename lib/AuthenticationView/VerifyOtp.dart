@@ -7,8 +7,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Helper/AppBtn.dart';
 import '../Helper/Appbar.dart';
@@ -32,9 +32,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
   @override
 
   verifyOtp() async {
+    print('____widget.otp______${widget.otp}_________');
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    print("successsssssssssssss");
     var headers = {
       'Cookie': 'ci_session=1fae43cb24be06ee09e394b6be82b42f6d887269'
     };
@@ -46,24 +46,20 @@ class _VerifyOtpState extends State<VerifyOtp> {
     print("ooooooooooooo>>>>>>>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    print("this is userId===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var finalresponse = await response.stream.bytesToString();
       final jsonresponse = json.decode(finalresponse);
-      print("this is final responsesssssssssss${finalresponse}");
       if (!jsonresponse['error']){
         String? otp = jsonresponse["otp"];
+        print('__________${otp}__Otp_______');
         String userId = jsonresponse["data"]['id'];
         String roll = jsonresponse["data"]['roll'];
         String mobile = jsonresponse["data"]['mobile'];
-        preferences.setBool('isLogin', true );
+        preferences.setBool('isLogin', true);
         preferences.setString('userId',userId);
         preferences.setString('roll',roll);
         preferences.setString('userMobile',mobile);
-        print("this is userId===========111111111111surennnnn>${mobile}");
-        print("this is userId===========111111111111surennnnn>${otp}");
-        Fluttertoast.showToast(msg: '${jsonresponse['message']}');
-        print("this is userId===========111111111111>${jsonresponse['data']['id']}");
+        Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -71,7 +67,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ));
       }
       else{
-        Fluttertoast.showToast(msg: "${jsonresponse['message']}");
+        Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);
       }
     }
     else {
@@ -79,29 +75,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
     }
   }
 
-  final defaultPinTheme = PinTheme(
-    width: 66,
-    height: 60,
-    textStyle: TextStyle(fontSize: 20, color: Color.fromRGBO(30, 60, 87, 1), fontWeight: FontWeight.w600),
-    decoration: BoxDecoration(
-      border: Border.all(color: colors.primary),
-      borderRadius: BorderRadius.circular(50),
-    ),
-  );
-
-  // final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-  //   border: Border.all(color: Color.fromRGBO(114, 178, 238, 1)),
-  //   borderRadius: BorderRadius.circular(8),
-  // );
-  //
-  // final submittedPinTheme = defaultPinTheme.copyWith(
-  //   decoration: defaultPinTheme.decoration.copyWith(
-  //     color: Color.fromRGBO(234, 239, 243, 1),
-  //   ),
-  // );
-
-  // @override
-
+   @override
   loginwitMobile() async {
     String? token ;
     try{
@@ -133,7 +107,8 @@ class _VerifyOtpState extends State<VerifyOtp> {
       if (jsonresponse['error'] == false) {
         int? otp = jsonresponse["otp"];
         String mobile = jsonresponse["mobile"];
-        Fluttertoast.showToast(msg: '${jsonresponse['message']}');
+        Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
+        print('_____otp_____${otp}_________');
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -141,7 +116,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ));
       }
       else{
-        Fluttertoast.showToast(msg: "${jsonresponse['message']}");
+        Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);
       }
     }
     else {
@@ -162,6 +137,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
   }
   Widget build(BuildContext context) {
+    print('____widget.otp______${widget.otp}_________');
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
@@ -232,59 +208,30 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Directionality(
-                            // Specify direction if desired
-                            textDirection: TextDirection.ltr,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 40,right: 40),
-                              child:Pinput(
-                                controller: pinController,
-                                defaultPinTheme: defaultPinTheme,
-                                // focusedPinTheme: ,
-                                // submittedPinTheme: submittedPinTheme,
-                                validator: (s) {
-                                  return s == '${widget.otp}' ? null : 'Pin is incorrect';
-                                },
-                                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                                showCursor: true,
-                                onCompleted: (pin) => print(pin),
-                              ),
-                              // Pinput(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   controller: pinController,
-                              //   // focusNode: focusNode,
-                              //   androidSmsAutofillMethod:
-                              //   AndroidSmsAutofillMethod.smsUserConsentApi,
-                              //   listenForMultipleSmsOnAndroid: true,
-                              //   // defaultPinTheme: defaultPinTheme,
-                              //   // validator: (value) {
-                              //   //   return value == '2222' ? null : 'Pin is incorrect';
-                              //   // },
-                              //   onClipboardFound: (value) {
-                              //     debugPrint('onClipboardFound: $value');
-                              //     pinController.setText(value);
-                              //   },
-                              //   hapticFeedbackType: HapticFeedbackType.lightImpact,
-                              //   onCompleted: (pin) {
-                              //     debugPrint('onCompleted: $pin');
-                              //   },
-                              //   onChanged: (value) {
-                              //     debugPrint('onChanged: $value');
-                              //   },
-                              //   cursor: Column(
-                              //     mainAxisAlignment: MainAxisAlignment.end,
-                              //     children: [
-                              //       Container(
-                              //         color: colors.whiteTemp,
-                              //         margin:  EdgeInsets.only(bottom: 9),
-                              //         width: 22,
-                              //         height: 1,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                            ),
-                          )
+                          OtpTextField(
+                            numberOfFields: 4,
+                            borderRadius: BorderRadius.circular(50),
+                            borderColor: colors.secondary,
+                            focusedBorderColor: colors.secondary,
+                            showFieldAsBox: true,
+                            borderWidth: 1.0,
+                            fieldWidth: 60,
+
+                            //runs when a code is typed in
+                            onCodeChanged: (String code) {
+                              print(code);
+
+                            },
+                            onSubmit: (String verificationCode) {
+                              pinController.text = verificationCode;
+                              if(widget.otp == pinController.text){
+                                Fluttertoast.showToast(msg: "Otp  is match ",backgroundColor: colors.secondary);
+                              }else{
+                                Fluttertoast.showToast(msg: "Otp Incorrect ",backgroundColor: colors.secondary);
+                              }
+
+                            },),
+
                         ],
                       ),
                     ),
@@ -315,7 +262,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         verifyOtp();
                       }else{
 
-                        Fluttertoast.showToast(msg: "Please enter valid otp!");
+                        Fluttertoast.showToast(msg: "Please enter valid otp!",backgroundColor: colors.secondary);
                       }
                       // Navigator.push(context,
                       //     MaterialPageRoute(builder: (context) => HomeScreen()));

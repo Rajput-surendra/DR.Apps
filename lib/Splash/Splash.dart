@@ -23,38 +23,30 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds:2),() async{
-      SharedPreferences prefs  = await SharedPreferences.getInstance();
-      bool? isLogin  =  prefs.getBool('isLogin');
-      if(isLogin ?? false) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
-      }else{
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
-      }
-
-      // checkFirstSeen();
-
-      // if(uid == null || uid == ""){
-      //   // return SeekerDrawerScreen();
-      //   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-      // }
-      // else{
-      //   if(type == "seeker") {
-      //     Navigator.push(context,
-      //         MaterialPageRoute(builder: (context) => RecruiterDashboard()));
-      //   }
-      //   else{
-      //     /// jsut for ddummy data RecruiterDashboard data is use
-      //   }
-      //     Navigator.push(context,
-      //         MaterialPageRoute(builder: (context) => RecruiterDashboard()));
-      //   }
-      //return SignInScreen();
-    });
+    inIt();
     // Timer(Duration(seconds: 3), () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> IntroSlider()));});
     super.initState();
 
   }
+  inIt() {
+    Future.delayed(const Duration(seconds:2),() async{
+
+      SharedPreferences prefs  = await SharedPreferences.getInstance();
+      bool? isLogin  =  prefs.getBool('isLogin');
+      print('__________${isLogin}_________');
+      if(isLogin == true) {
+        if(mounted) Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
+      }else if(isLogin == null){
+        if(mounted) Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+
+      }else{
+        if(mounted) Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
+      }
+
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
