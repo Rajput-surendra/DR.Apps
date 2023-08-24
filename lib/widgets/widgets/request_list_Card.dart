@@ -65,55 +65,63 @@ class _RequestListCardState extends State<RequestListCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ClipRRect(
-                      child:  widget.getRequestModel?.userImage == null ? Container(
-                          height: 70,
-                          width: 70  ,
-                          child: CircleAvatar()):ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Container(
-                            color: colors.blackTemp,
-
-                            height: 70,
-                            width: 70,
-                            child: Image.network("${widget.getRequestModel?.userImage}")),
-                      )
-                  ),
-                  SizedBox(width: 5,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  Row(
                     children: [
-                      Text("Dr.${widget.getRequestModel?.name}",style: TextStyle(
-                          color: colors.secondary,fontWeight: FontWeight.bold
-                      ),),
-                      Text("Degree-${widget.getRequestModel?.docDigree}",style: TextStyle(color: colors.blackTemp),),
+                      ClipRRect(
+                          child:  widget.getRequestModel?.userImage == null ? Container(
+                              height: 70,
+                              width: 70  ,
+                              child: CircleAvatar()):ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Container(
+                                color: colors.blackTemp,
+
+                                height: 70,
+                                width: 70,
+                                child: Image.network("${widget.getRequestModel?.userImage}")),
+                          )
+                      ),
+                      SizedBox(width: 5,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("Dr.${widget.getRequestModel?.name}",style: TextStyle(
+                              color: colors.secondary,fontWeight: FontWeight.bold
+                          ),),
+                          Text("Degree-${widget.getRequestModel?.docDigree}",style: TextStyle(color: colors.blackTemp),),
+
+                        ],
+                      ),
+                      SizedBox(width: 50,),
 
                     ],
                   ),
-                  SizedBox(width: 30,),
-                  // SizedBox(width: MediaQuery.of(context).size.width/7.5,),
                   iconVisible ? Row(
                     children: [
-                      IconButton(onPressed: (){
+                      // IconButton(onPressed: (){
+                      //
+                      //
+                      // }, icon:
+                      InkWell(onTap: (){
                         setState(() {
                           iconVisible = false;
                         });
                         Future.delayed(Duration(milliseconds: 500), (){
-                          //_CaptureScreenShot(index: index);
-                          // _shareQrCode(text: widget.getRequestModel!.userImage ?? '');
-                         _shareQrCode(text : widget.getRequestModel!.json?.message ?? '',context: widget.getRequestModel!.userImage! ?? "" );
+                          _shareQrCode(text : widget.getRequestModel!.json?.message ?? '',context: widget.getRequestModel!.userImage! ?? "" );
                         });
-
-                      }, icon: Icon(Icons.share)),
-                      IconButton(onPressed: (){
-                        setState(() {
-                          wishListApi(widget.getRequestModel?.id ?? '', );
-                          widget.getRequestModel?.isSelected = !(widget.getRequestModel?.isSelected ?? false );
-                        });
-                        print('____dddddddddddd______${widget.getRequestModel?.isSelected}_____${widget.getRequestModel?.isFavorite}____');
-                      },icon: widget.getRequestModel?.isSelected ?? false ?
+                      },
+                          child: Icon(Icons.share)),
+                      IconButton(
+                          onPressed: (){
+                            setState(() {
+                              wishListApi(widget.getRequestModel?.id ?? '', );
+                              widget.getRequestModel?.isSelected = !(widget.getRequestModel?.isSelected ?? false );
+                            });
+                            print('____dddddddddddd______${widget.getRequestModel?.isSelected}_____${widget.getRequestModel?.isFavorite}____');
+                          },icon: widget.getRequestModel?.isSelected ?? false ?
                       Icon(Icons.favorite,color: colors.red,): widget.getRequestModel?.isSelected ?? false
                           ?Icon(Icons.favorite,color: colors.red,) :
                       Icon(Icons.favorite_outline,color: colors.blackTemp,)),
@@ -123,6 +131,11 @@ class _RequestListCardState extends State<RequestListCard> {
                             child: Icon(Icons.delete)),
                     ],
                   ):SizedBox.shrink()
+
+                  // SizedBox(width: MediaQuery.of(context).size.width/7.5,),
+
+
+
 
 
 

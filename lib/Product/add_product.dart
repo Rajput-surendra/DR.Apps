@@ -96,7 +96,7 @@ class _AddProductSrcreenState extends State<AddProductSrcreen> {
       final finalResult = jsonDecode(result);
       Navigator.pop(context);
       // print("thi os ojon==========>${finalResult}");
-       Fluttertoast.showToast(msg: finalResult['message']);
+       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       nameController.clear();
       descriptionController.clear();
       indicationController.clear();
@@ -361,7 +361,7 @@ class _AddProductSrcreenState extends State<AddProductSrcreen> {
                         });
                         Fluttertoast.showToast(
                             msg:
-                            "All Field required");
+                            "All Field required",backgroundColor: colors.secondary);
                       }
                     },
                   ),

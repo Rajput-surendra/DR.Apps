@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:doctorapp/Helper/CustomButton.dart';
+import 'package:doctorapp/Screen/HomeScreen.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
@@ -19,6 +20,8 @@ import 'package:http/http.dart'as http;
 
 import '../New_model/GetSelectCatModel.dart';
 import '../api/api_services.dart';
+import 'genericRx_Dosage_Details_Screen.dart';
+import 'generic_brand_screen.dart';
 
 class AdvertisementScreen extends StatefulWidget {
   const AdvertisementScreen({Key? key}) : super(key: key);
@@ -317,7 +320,7 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
                     decoration: BoxDecoration(
                         color: colors.secondary, borderRadius: BorderRadius.circular(15)),
                     child: Center(
-                        child: Text(
+                        child: isloader ? Center(child: CircularProgressIndicator()):Text(
                           "Published Sliding ad",
                           style: TextStyle(color: colors.whiteTemp),
                         )),
@@ -536,7 +539,8 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
         request.files.add(await http.MultipartFile.fromPath(
             'image',  filesVideo[0].path ?? '' ));
       }
-    }else{
+    }
+    else{
       if (files != null) {
         print('__________3_________');
         request.files.add(await http.MultipartFile.fromPath(
@@ -544,14 +548,18 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
       }
     }
 
-    print("files--------------->${request.files}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
-      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
+
+      if(finalResult['status']== true){
+        Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      }else{
+
+      }
       linkController.clear();
       files.clear();
       Navigator.pop(context);

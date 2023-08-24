@@ -249,12 +249,12 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
     }
   }
   Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    Fluttertoast.showToast(msg: "Subscription added successfully");
+    Fluttertoast.showToast(msg: "Subscription added successfully",backgroundColor: colors.secondary);
     getplanPurchaseSuccessApi();
     // Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
   }
   void _handlePaymentError(PaymentFailureResponse response) {
-    Fluttertoast.showToast(msg: "Payment cancelled by user");
+    Fluttertoast.showToast(msg: "Payment cancelled by user",backgroundColor: colors.secondary);
     // setSnackbar("ERROR", context);
     // setSnackbar("Payment cancelled by user", context);
   }

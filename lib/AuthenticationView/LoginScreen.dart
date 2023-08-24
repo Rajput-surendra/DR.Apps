@@ -59,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
       token  = await FirebaseMessaging.instance.getToken();
       print("-----------token:-----${token}");
     } on FirebaseException{
-      print('__________FirebaseException_____________');
     }
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('otp', "otp");
@@ -77,18 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-      print("this is truuuuuuuuuuuuu");
       var finalresponse = await response.stream.bytesToString();
       final jsonresponse = json.decode(finalresponse);
 
-      // Future.delayed(Duration(seconds: 1)).then((_) {
-      //   Navigator.pushReplacement(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => VerifyOtp()
-      //       ));
-      // });
-      print(" respomse here ${jsonresponse}");
         if (jsonresponse['error'] == false) {
         int? otp = jsonresponse["otp"];
         String mobile = jsonresponse["mobile"];
@@ -133,8 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var finalResponse = await response.stream.bytesToString();
+      print(finalResponse);
       final jsonResponse = LogInResponse.fromJson(json.decode(finalResponse));
-      print("this is userIbbbbbbbbbbbbbbbbbbbbb=========>${jsonResponse}");
       setState(() {
         logInResponse = jsonResponse;
       });
@@ -143,8 +133,11 @@ class _LoginScreenState extends State<LoginScreen> {
         prefs.setString('roll',logInResponse?.data?.first.roll ?? '1');
         prefs.setString('userId', logInResponse?.data?.first.id ?? "54" );
         prefs.setString('userMobile', logInResponse?.data?.first.mobile ?? "8989898989" );
-        prefs.setBool('isLogin', true );
+        prefs.setBool('isLogin', true);
         String? Data =  prefs.getString('roll');
+
+        print('__________${prefs.getString('userId')}_________');
+
         Fluttertoast.showToast(msg: logInResponse?.message ?? '' ,backgroundColor: colors.secondary);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
       }
@@ -416,7 +409,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       });
                                       Fluttertoast.showToast(
                                           msg:
-                                          "Please Enter Correct Credentials!!");
+                                          "Please Enter Correct Credentials!!",backgroundColor: colors.secondary);
                                     }
                                   },
                                 ),

@@ -245,11 +245,10 @@ class _HospitalState extends State<Hospital> {
         final result = await response.stream.bytesToString();
         var finalResult = json.decode(result);
           msg = finalResult['message'];
-       // Fluttertoast.showToast(msg: finalResult['message']);
         if (finalResult['error'] == false) {
           int? otp = finalResult['data']['otp'];
           String?  mobile = finalResult['data']['mobile'];
-          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
           Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
         }
 
@@ -290,10 +289,6 @@ class _HospitalState extends State<Hospital> {
                       itemCount:clinicListForJson.length ,
                       reverse: true,
                       itemBuilder: (BuildContext context, int i) {
-                      print('____asasdsadsadasd______${clinicListForJson.length}_________');
-                      print('__Clinic Data_____${clinicListForJson[i]}_________');
-                     // print('____asasdsadsasfdssfsfsdasd___sfffretgret___${clinicListForJson[morning_shift]}_________');
-                    //  print('____Dhahgujhgdjkgfdj_____${clinicListForJson[i]['morning_shift_new']}_________');
                       return Container(
                           width: MediaQuery.of(context).size.width/1.2,
                           child: Padding(
@@ -476,7 +471,6 @@ class _HospitalState extends State<Hospital> {
                                 setState(() {
                                 });
                                 clinicListForJson.forEach((element) {print(element);});
-                                print('${clinicListForJson.first}__________0');
                                 addressC.clear();
                                 results?.clear();
                                 numberC.clear();

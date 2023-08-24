@@ -33,7 +33,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    print('______id_Surendra___${widget.id}_________');
+    print('______id_Surendra___${cardId}_________');
     return Scaffold(
         appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
@@ -447,7 +447,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                             });
                           addBrandDetailApi();
                           }else{
-                            Fluttertoast.showToast(msg: "Please fill all field");
+                            Fluttertoast.showToast(msg: "Please fill all field",backgroundColor: colors.secondary);
                           }
 
 
@@ -710,7 +710,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.addBrandDetailApi}'));
     request.fields.addAll({
-      'id': widget.id.toString(),
+      'id': cardId.toString(),
       'indication': indicationC.text,
       'dosage': dosageC.text,
       'rx_info': rx_infoC.text,

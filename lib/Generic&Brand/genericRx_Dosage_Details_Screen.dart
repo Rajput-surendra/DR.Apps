@@ -14,10 +14,10 @@ import '../New_model/Get_brands_Rx_dosage_model.dart';
 import 'advertisement_screen.dart';
 import 'generic_brand_screen.dart';
 import 'package:http/http.dart' as http;
-
 class GenericRxDosageDetailsScreen extends StatefulWidget {
-  const GenericRxDosageDetailsScreen({Key? key}) : super(key: key);
-
+   GenericRxDosageDetailsScreen({Key? key,this.Id, this.isTrueId,this.brand,this.des}) : super(key: key);
+   String? Id ,brand,des;
+   bool? isTrueId;
   @override
   State<GenericRxDosageDetailsScreen> createState() => _GenericRxDosageDetailsScreenState();
 }
@@ -27,12 +27,13 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
 
 
   Widget build(BuildContext context) {
+    print('__________${widget.isTrueId}____${widget.Id}_____');
     return Scaffold(
       appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: SingleChildScrollView(
-          child:getBrandsRxDosageModel ==  null ? Center(child: CircularProgressIndicator()): getBrandsRxDosageModel!.data!.length == 0 ? Text("No Data Found !!!!"): Column(
+          child:getBrandsRxDosageModel ==  null ? Center(child: CircularProgressIndicator()): getBrandsRxDosageModel!.data!.length == 0 ? Center(child: Text("No Data Found !!!!")): Column(
             children: [
               Card(
                 elevation: 5,
@@ -99,9 +100,9 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       ],
                     ),
                     SizedBox(height: 10,),
-                    Text("${brandName}",style: TextStyle(color: colors.secondary,fontSize: 30),),
+                    Text("${widget.isTrueId ?? false ? widget.brand:brandName}",style: TextStyle(color: colors.secondary,fontSize: 30),),
                     SizedBox(height: 5,),
-                    Text("${brandDes}"),
+                    Text("${widget.isTrueId ?? false ? widget.des:brandDes}"),
                     SizedBox(height: 20,),
                     sliderCard(),
                     SizedBox(height: 5,),
@@ -115,20 +116,22 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                     SizedBox(height: 10,),
                     Row(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: colors.secondary,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-
-                          height: 50,
-                          width: MediaQuery.of(context).size.width/3 ,
-                          child: Center(child: Text("Edit Details",style: TextStyle(color: colors.whiteTemp),)),
-                        ),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       color: colors.secondary,
+                        //       borderRadius: BorderRadius.circular(10)
+                        //   ),
+                        //
+                        //   height: 50,
+                        //   width: MediaQuery.of(context).size.width/3 ,
+                        //   child: Center(child: Text("Edit Details",style: TextStyle(color: colors.whiteTemp),)),
+                        // ),
                         SizedBox(width: 15,),
-                        role == "2"?  getBrandsRxDosageModel?.data?.first.isAddPlanSubscribed == false ? InkWell(
+                        role == "2"?
+                        //getBrandsRxDosageModel?.data?.first.isDetailsAdded == false ?
+                        InkWell(
                           onTap: (){
-                            if(getBrandsRxDosageModel!.data!.first.isDetailPlanSubscribed == false){
+                            if(getBrandsRxDosageModel!.data!.first.isAddPlanSubscribed == false){
                               _showAlertDialog(context);
                             }else{
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
@@ -142,29 +145,32 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                             ),
 
                             height: 50,
-                            width: MediaQuery.of(context).size.width/1.8  ,
-                            child: Center(child: Text("Link this page to sliding ad",style: TextStyle(color: colors.whiteTemp))),
+                            width: MediaQuery.of(context).size.width/1.2  ,
+                            child: Center(child: Text("Link this page to sliding ad",style: TextStyle(color: colors.whiteTemp,fontSize: 18))),
                           ),
-                        ) :InkWell(
-                          onTap: (){
-                            if(getBrandsRxDosageModel!.data!.first.isDetailPlanSubscribed == false){
-                              _showAlertDialog(context);
-                            }else{
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
-                            }
-
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: colors.secondary,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-
-                            height: 50,
-                            width: MediaQuery.of(context).size.width/1.8  ,
-                            child: Center(child: Text("Change sliding ad image",style: TextStyle(color: colors.whiteTemp))),
-                          ),
-                        ) :SizedBox.shrink()
+                        )
+                        //     :InkWell(
+                        //   onTap: (){
+                        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
+                        //     // if(getBrandsRxDosageModel!.data!.first.isDetailsAdded == false){
+                        //     //   _showAlertDialog(context);
+                        //     // }else{
+                        //     //
+                        //     // }
+                        //
+                        //   },
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //         color: colors.secondary,
+                        //         borderRadius: BorderRadius.circular(10)
+                        //     ),
+                        //
+                        //     height: 50,
+                        //     width: MediaQuery.of(context).size.width/1.8  ,
+                        //     child: Center(child: Text("Change sliding ad image",style: TextStyle(color: colors.whiteTemp))),
+                        //   ),
+                        // )
+                            :SizedBox.shrink()
                       ],
                     )
 
@@ -454,8 +460,8 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll({
-      'user_id': userId.toString(),
-      'id': cardId.toString()
+      'user_id':  role == "1" ? ""  : userId.toString(),
+     'id':widget.isTrueId ?? false ? widget.Id.toString():cardId.toString()
     });
     print('____request.fields______${request.fields}_________');
     request.headers.addAll(headers);
@@ -477,15 +483,16 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
   void initState() {
 
     super.initState();
-    renericRxDosageDetailsApi();
     getRole();
+    renericRxDosageDetailsApi();
+
   }
   String? role;
 
   getRole() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     role = preferences.getString("roll");
-    print('_____userId_____${role}_________');
+    print('_____role_____${role}_________');
   }
 
 }

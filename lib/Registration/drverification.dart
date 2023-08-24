@@ -6,8 +6,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pinput/pinput.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AuthenticationView/VerifyOtp.dart';
@@ -30,15 +31,6 @@ class NewCerification extends StatefulWidget {
 
 class _NewCerificationState extends State<NewCerification> {
   TextEditingController pinController = TextEditingController();
-  final defaultPinTheme = PinTheme(
-    width: 66,
-    height: 60,
-    textStyle: TextStyle(fontSize: 20, color: Color.fromRGBO(30, 60, 87, 1), fontWeight: FontWeight.w600),
-    decoration: BoxDecoration(
-      border: Border.all(color: colors.primary),
-      borderRadius: BorderRadius.circular(50),
-    ),
-  );
   verifyOtp() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -62,7 +54,7 @@ class _NewCerificationState extends State<NewCerification> {
         String? otp = jsonresponse["otp"];
         String userId = jsonresponse["data"]['id'];
         String roll = jsonresponse["data"]['roll'];
-        preferences.setBool('isLogin', true );
+        // preferences.setBool('isLogin', true );
         preferences.setString('userId',userId);
         preferences.setString('roll',roll);
         Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
@@ -117,9 +109,11 @@ class _NewCerificationState extends State<NewCerification> {
       // });
 
       if (jsonresponse['error'] == false) {
+
         int? otp = jsonresponse["otp"];
         String mobile = jsonresponse["mobile"];
-        Fluttertoast.showToast(msg: '${jsonresponse['message']}');
+        Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
+        print('____Surendra______${otp}_________');
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -127,7 +121,7 @@ class _NewCerificationState extends State<NewCerification> {
             ));
       }
       else{
-        Fluttertoast.showToast(msg: "${jsonresponse['message']}");
+        Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);
       }
     }
     else {
@@ -137,6 +131,7 @@ class _NewCerificationState extends State<NewCerification> {
   }
   @override
   Widget build(BuildContext context) {
+    print('___widget.otp_______${widget.otp}_________');
     return  SafeArea(
       child: WillPopScope(
         onWillPop: () async {
@@ -213,59 +208,29 @@ class _NewCerificationState extends State<NewCerification> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Directionality(
-                            // Specify direction if desired
-                            textDirection: TextDirection.ltr,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 40,right: 40),
-                              child:Pinput(
-                                controller: pinController,
-                                defaultPinTheme: defaultPinTheme,
-                                // focusedPinTheme: ,
-                                // submittedPinTheme: submittedPinTheme,
-                                validator: (s) {
-                                  return s == '${widget.otp}' ? null : 'Pin is incorrect';
-                                },
-                                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                                showCursor: true,
-                                onCompleted: (pin) => print(pin),
-                              ),
-                              // Pinput(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   controller: pinController,
-                              //   // focusNode: focusNode,
-                              //   androidSmsAutofillMethod:
-                              //   AndroidSmsAutofillMethod.smsUserConsentApi,
-                              //   listenForMultipleSmsOnAndroid: true,
-                              //   // defaultPinTheme: defaultPinTheme,
-                              //   // validator: (value) {
-                              //   //   return value == '2222' ? null : 'Pin is incorrect';
-                              //   // },
-                              //   onClipboardFound: (value) {
-                              //     debugPrint('onClipboardFound: $value');
-                              //     pinController.setText(value);
-                              //   },
-                              //   hapticFeedbackType: HapticFeedbackType.lightImpact,
-                              //   onCompleted: (pin) {
-                              //     debugPrint('onCompleted: $pin');
-                              //   },
-                              //   onChanged: (value) {
-                              //     debugPrint('onChanged: $value');
-                              //   },
-                              //   cursor: Column(
-                              //     mainAxisAlignment: MainAxisAlignment.end,
-                              //     children: [
-                              //       Container(
-                              //         color: colors.whiteTemp,
-                              //         margin:  EdgeInsets.only(bottom: 9),
-                              //         width: 22,
-                              //         height: 1,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                            ),
-                          )
+                          OtpTextField(
+                            numberOfFields: 4,
+                            borderRadius: BorderRadius.circular(50),
+                            borderColor: colors.secondary,
+                            focusedBorderColor: colors.secondary,
+                            showFieldAsBox: true,
+                            borderWidth: 1.0,
+                            fieldWidth: 60,
+                            onCodeChanged: (String code) {
+                              print(code);
+
+                            },
+                            //runs when every textfield is filled
+                            onSubmit: (String verificationCode) {
+                              pinController.text = verificationCode;
+                              if(widget.otp == pinController.text){
+                                Fluttertoast.showToast(msg: "Otp is match ",backgroundColor: colors.secondary);
+                              }else{
+                                Fluttertoast.showToast(msg: "Otp Incorrect ",backgroundColor: colors.secondary);
+                              }
+
+                            },),
+
                         ],
                       ),
                     ),

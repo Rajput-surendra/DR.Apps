@@ -367,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               selectCatModel?.data == null
                                   ? CircularProgressIndicator()
                                   : Container(
-                                     height: 25,
+                                     height: 29,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     physics: NeverScrollableScrollPhysics(),
@@ -376,8 +376,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     itemBuilder: (BuildContext context, int index) {
                                       if (selectCatModel?.data?[index].isSelected ==
                                           true) {
-
-
                                         return InkWell(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterSpeciality())).then((value){
@@ -990,11 +988,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               ElevatedButton.styleFrom(primary: colors.primary),
                           child: Text("YES"),
                           onPressed: () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            setState(() {
-                              prefs.clear();
-                            });
+                            print('__________${userId}_________');
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.clear();
                             Navigator.push(
                               context,
                               MaterialPageRoute(

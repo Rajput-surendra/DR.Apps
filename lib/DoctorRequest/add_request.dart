@@ -36,7 +36,7 @@ class _AddRequestState extends State<AddRequest> {
   String? requestValue ;
   final List<String> items = ['Poster', 'Leaflet', 'Booklet','Video'];
   String? standyValue ;
-  final List<String> standyValueList = ['Standy ','Poster ', 'Leaflet ', 'Booklet ',];
+  final List<String> standyValueList = ['Standy ','Poster ', 'Leaflet ', 'Booklet ','Video ',];
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController drController = TextEditingController();
@@ -111,97 +111,104 @@ class _AddRequestState extends State<AddRequest> {
       print(response.reasonPhrase);
     }
   }
-  @override
   List newList = [];
   List  requestListForJson = [];
   String? newData ;
   String? staticDdfsdfsfsdfsdfsdfsdata;
+  Future<bool> _onWillPop() async {
+    return false; 
+  }
+  @override
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(context: context, text:"Add Request", isTrue: true, ),
-      body: SingleChildScrollView(
-        child: Form(
-          key:  _formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                  padding: EdgeInsets.only(right: 5, top: 12),
-                  width: MediaQuery.of(context).size.width,
-                  height: 55,
-                  decoration:
-                  BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all( color: colors.black54),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton2<String>(
-                      dropdownMaxHeight: 300,
-                      hint: const Padding(
-                        padding: EdgeInsets.only(bottom: 12,top: 0),
-                        child: Text("Select Your Request to Pharma Company ",
-                          style: TextStyle(
-                              color: colors.blackTemp,fontWeight: FontWeight.normal,fontSize: 14
-                          ),),
-                      ),
-                      // dropdownColor: colors.primary,
-                      value: selectedValue,
-                      icon:  const Padding(
-                        padding: EdgeInsets.only(bottom: 30,left: 10),
-                        child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
-                      ),
-                      // elevation: 16,
-                      style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                      underline: Padding(
-                        padding: const EdgeInsets.only(left: 0,right: 0),
-                        child: Container(
-                          // height: 2,
-                          color:  colors.whiteTemp,
-                        ),
-                      ),
-                      onChanged: (String? value) {
-                        // This is called when the user selects an item.
-                        setState(() {
-                          selectedValue = value!;
-
-                        });
-                      },
-
-                      items: ['Awareness inputs','Worlds Awareness Day inputs','CME Invitation Designs','Event Invitation Designs','Online Webinar Invitation Designs','Personalized Awareness']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-
-                          child:
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
-                              ),
-                              const Divider(
-                                thickness: 0.2,
-                                color: colors.black54,
-                              )
-                            ],
-                          ),
-                        );
-
-                      }).toList(),
-
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: customAppBar(context: context, text:"Add Request", isTrue: true, ),
+        body: SingleChildScrollView(
+          child: Form(
+            key:  _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    padding: EdgeInsets.only(right: 5, top: 12),
+                    width: MediaQuery.of(context).size.width,
+                    height: 55,
+                    decoration:
+                    BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all( color: colors.black54),
                     ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        dropdownMaxHeight: 300,
+                        hint: const Padding(
+                          padding: EdgeInsets.only(bottom: 12,top: 0),
+                          child: Text("Select Your Request to Pharma Company ",
+                            style: TextStyle(
+                                color: colors.blackTemp,fontWeight: FontWeight.normal,fontSize: 14
+                            ),),
+                        ),
+                        // dropdownColor: colors.primary,
+                        value: selectedValue,
+                        icon:  const Padding(
+                          padding: EdgeInsets.only(bottom: 30,left: 10),
+                          child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                        ),
+                        // elevation: 16,
+                        style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                        underline: Padding(
+                          padding: const EdgeInsets.only(left: 0,right: 0),
+                          child: Container(
+                            // height: 2,
+                            color:  colors.whiteTemp,
+                          ),
+                        ),
+                        onChanged: (String? value) {
+                          // This is called when the user selects an item.
+                          setState(() {
+                            selectedValue = value!;
 
-                  )
+                          });
+                        },
 
+                        items: ['Awareness inputs','Worlds Awareness Day inputs','CME Invitation Designs','Event Invitation Designs','Online Webinar Invitation Designs','Personalized Awareness']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+
+                            child:
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                                ),
+                                const Divider(
+                                  thickness: 0.2,
+                                  color: colors.black54,
+                                )
+                              ],
+                            ),
+                          );
+
+                        }).toList(),
+
+                      ),
+
+                    )
+
+                ),
+                SizedBox(height: 10),
+               getViewBasedOnSelectedValue(),
+              ],
               ),
-              SizedBox(height: 10),
-             getViewBasedOnSelectedValue(),
-            ],
             ),
           ),
         ),
@@ -409,7 +416,7 @@ class _AddRequestState extends State<AddRequest> {
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2<String>(
-                    dropdownMaxHeight: 220,
+                    dropdownMaxHeight: 240,
                     hint: const Padding(
                       padding: EdgeInsets.only(bottom: 15),
                       child: Text("Select Request",

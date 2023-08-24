@@ -273,21 +273,21 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "14.6.6"
+    version: "14.6.7"
   firebase_messaging_platform_interface:
     dependency: transitive
     description:
       name: firebase_messaging_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.5"
+    version: "4.5.6"
   firebase_messaging_web:
     dependency: transitive
     description:
       name: firebase_messaging_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.5.5"
+    version: "3.5.6"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -370,6 +370,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.0"
+  flutter_otp_text_field:
+    dependency: "direct main"
+    description:
+      name: flutter_otp_text_field
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   flutter_pdfview:
     dependency: "direct main"
     description:
@@ -765,20 +772,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.0"
-  pin_code_fields:
-    dependency: "direct main"
-    description:
-      name: pin_code_fields
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.4.0"
-  pinput:
-    dependency: "direct main"
-    description:
-      name: pinput
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.21"
   platform:
     dependency: transitive
     description:
@@ -931,13 +924,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  smart_auth:
-    dependency: transitive
-    description:
-      name: smart_auth
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   social_share:
     dependency: "direct main"
     description:

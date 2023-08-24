@@ -60,6 +60,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
   TextEditingController companyController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController experienceC = TextEditingController();
+  TextEditingController placeC = TextEditingController();
   SpeciplyData? catDrop;
   final FocusNode unitCodeCtrlFocusNode = FocusNode();
 
@@ -388,7 +389,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('otp', "otp");
     if(imageFile ==null ){
-      Fluttertoast.showToast(msg: 'Please add profile photo');
+      Fluttertoast.showToast(msg: 'Please add profile photo',backgroundColor: colors.secondary);
     }
     else {
       String? token;
@@ -454,7 +455,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
           if (finalResult.error == false) {
             var otp = detailsData!.data!.otp.toString();
             var mobile = detailsData!.data!.mobile.toString();
-            Fluttertoast.showToast(msg: detailsData!.message.toString());
+            Fluttertoast.showToast(msg: detailsData!.message.toString(),backgroundColor: colors.secondary);
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
           }
@@ -512,7 +513,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
         "company_division":widget.role == 2? catDrop!.id.toString():"",
         "state_id":'$stateId',
         "city_id": "$cityId",
-        "area_id":widget.role == 1 ? "$placeId":"",
+        "area_id":placeC.text,
         "experience": experienceC.text,
 
       });
@@ -688,7 +689,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                       Container(
                           padding: EdgeInsets.only(right: 5, top: 12),
                           width: MediaQuery.of(context).size.width,
-                          height: 55,
+                          height: 50,
                           decoration:
                           BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -698,7 +699,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                             child: DropdownButton2<String>(
                               dropdownMaxHeight: 150,
                               hint: const Padding(
-                                padding: EdgeInsets.only(bottom: 15),
+                                padding: EdgeInsets.only(bottom: 5),
                                 child: Text("Select Pharma Category",
                                   style: TextStyle(
                                       color: colors.black54,fontWeight: FontWeight.normal
@@ -707,7 +708,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                               // dropdownColor: colors.primary,
                               value: SelectedPharma,
                               icon:  const Padding(
-                                padding: EdgeInsets.only(bottom: 30),
+                                padding: EdgeInsets.only(bottom: 50),
                                 child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
                               ),
                               // elevation: 16,
@@ -748,8 +749,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: Text(value,style: const TextStyle(color: colors.black54,fontWeight: FontWeight.normal),),
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Text(value,style: const TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
                                       ),
                                       const Divider(
                                         thickness: 0.2,
@@ -857,7 +858,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                   widget.role == 2?    Container(
                       padding: EdgeInsets.only(right: 5, top: 12),
                       width: MediaQuery.of(context).size.width,
-                      height: 55,
+                      height: 50,
                       decoration:
                       BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -876,7 +877,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                           // dropdownColor: colors.primary,
                           value: dropdownGender,
                           icon:  const Padding(
-                            padding: EdgeInsets.only(bottom: 30),
+                            padding: EdgeInsets.only(bottom: 60),
                             child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
                           ),
                           // elevation: 16,
@@ -909,8 +910,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(value,style: const TextStyle(color: colors.black54,fontWeight: FontWeight.normal),),
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: Text(value,style: const TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
                                   ),
                                   const Divider(
                                     thickness: 0.2,
@@ -1075,7 +1076,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                      Container(
                          padding: EdgeInsets.only(right: 5, top: 9),
                          width: MediaQuery.of(context).size.width,
-                         height: 55,
+                         height: 50,
                          decoration:
                          BoxDecoration(
                            borderRadius: BorderRadius.circular(10),
@@ -1102,7 +1103,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                              underline: Padding(
                                padding: const EdgeInsets.only(left: 0,right: 0),
                                child: Container(
-                                 // height: 2,
+                                  // height: 45,
                                  color:  colors.whiteTemp,
                                ),
                              ),
@@ -1123,8 +1124,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                    mainAxisAlignment: MainAxisAlignment.center,
                                    children: [
                                      Padding(
-                                       padding: const EdgeInsets.all(6.0),
-                                       child: Text(items.name??'',style: TextStyle(color:colors.black54,fontWeight: FontWeight.normal),),
+                                       padding: const EdgeInsets.only(top: 8),
+                                       child: Text(items.name??'',style: TextStyle(color:colors.black54,fontWeight: FontWeight.bold),),
                                      ),
                                      const Divider(
                                        thickness: 0.2,
@@ -1190,7 +1191,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                              // dropdownColor: colors.primary,
                              value: selectedQualification,
                              icon:  const Padding(
-                               padding: EdgeInsets.only(),
+                               padding: EdgeInsets.only(bottom: 30),
                                child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
                              ),
                              // elevation: 16,
@@ -1230,7 +1231,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                        padding: const EdgeInsets.only(top: 5),
                                        child: Container(
                                            width: 240,
-                                           child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.black54,fontWeight: FontWeight.normal),)),
+                                           child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.black54,fontWeight: FontWeight.bold),)),
                                      ),
                                      const Divider(
                                        thickness: 0.2,
@@ -1575,6 +1576,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                   ),
                   getStateResponseModel== null? Center(child: CircularProgressIndicator()):
                   Container(
+                    height: 50,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: colors.black54)
@@ -1679,6 +1681,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                   ),
                   // getCitiesResponseModel== null? Center(child: CircularProgressIndicator()):
                   Container(
+                    height: 50,
                     width: MediaQuery.of(context).size.width/1.0,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -1757,7 +1760,8 @@ class _DoctorResignationState extends State<DoctorResignation> {
                     ),
                   ),
                   SizedBox(height: 10,),
-                  widget.role == 1 ? Column(
+                  //widget.role == 1 ?
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -1765,106 +1769,117 @@ class _DoctorResignationState extends State<DoctorResignation> {
                           child:Row(
                             children: const [
                               Text(
-                                "Select Place",
+                                "Place",
                                 style: TextStyle(
                                     color: colors.black54,
                                     fontWeight: FontWeight.bold),
                               ),
-                              Text(
-                                "*",
-                                style: TextStyle(
-                                    color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                              ),
+                              // Text(
+                              //   "*",
+                              //   style: TextStyle(
+                              //       color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                              // ),
                             ],
                           )
 
+                      ),
+                      Container(
+                        height: 50,
+                        child: TextFormField(
+                          controller: placeC,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                            contentPadding: EdgeInsets.only(top: 10,left: 10)
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 5,
                       ),
                       // getCitiesResponseModel== null? Center(child: CircularProgressIndicator()):
-                      Container(
-                        width: MediaQuery.of(context).size.width/1.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: colors.black54)
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2<String>(
-                            hint: const Text('Place',
-                              style: TextStyle(
-                                  color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
-                              ),),
-                            // dropdownColor: colors.primary,
-                            value: selectedPlace,
-                            icon:  const Padding(
-                              padding: EdgeInsets.only(left:10.0),
-                              child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
-                            ),
-                            // elevation: 16,
-                            style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                            underline: Padding(
-                              padding: const EdgeInsets.only(left: 0,right: 0),
-                              child: Container(
-                                // height: 2,
-                                color:  colors.whiteTemp,
-                              ),
-                            ),
-                            onChanged: (String? value) {
-                              // This is called when the user selects an item.
-                              setState(() {
-                                selectedPlace = value!;
-                                getPlaceResponseModel!.data!.forEach((element) {
-                                  if(element.name == value){
-                                    selectedSateIndex = getPlaceResponseModel!.data!.indexOf(element);
-                                    placeId = element.id;
-                                    onTapCall3();
-                                    //selectedCity = null;
-                                    //selectedPlace = null;
-
-                                    print('_____Surdfdgdgendra_____${placeId}_________');
-                                    //getStateApi();
-                                  }
-                                });
-                              });
-                            },
-                            items: getPlaceResponseModel?.data?.map((items) {
-                              return DropdownMenuItem(
-                                value: items.name.toString(),
-                                child:  Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Container(
-                                          width: MediaQuery.of(context).size.width/1.42,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(top: 10),
-                                            child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
-                                          )),
-                                    ),
-                                    const Divider(
-                                      thickness: 0.2,
-                                      color: colors.black54,
-                                    ),
-
-                                  ],
-                                ),
-                              );
-                            })
-                                .toList(),
-
-
-                          ),
-
-                        ),
-                      ),
+                      // Container(
+                      //   width: MediaQuery.of(context).size.width/1.0,
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border: Border.all(color: colors.black54)
+                      //   ),
+                      //   child: DropdownButtonHideUnderline(
+                      //     child: DropdownButton2<String>(
+                      //       hint: const Text('Place',
+                      //         style: TextStyle(
+                      //             color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                      //         ),),
+                      //       // dropdownColor: colors.primary,
+                      //       value: selectedPlace,
+                      //       icon:  const Padding(
+                      //         padding: EdgeInsets.only(left:10.0),
+                      //         child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                      //       ),
+                      //       // elevation: 16,
+                      //       style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                      //       underline: Padding(
+                      //         padding: const EdgeInsets.only(left: 0,right: 0),
+                      //         child: Container(
+                      //           // height: 2,
+                      //           color:  colors.whiteTemp,
+                      //         ),
+                      //       ),
+                      //       onChanged: (String? value) {
+                      //         // This is called when the user selects an item.
+                      //         setState(() {
+                      //           selectedPlace = value!;
+                      //           getPlaceResponseModel!.data!.forEach((element) {
+                      //             if(element.name == value){
+                      //               selectedSateIndex = getPlaceResponseModel!.data!.indexOf(element);
+                      //               placeId = element.id;
+                      //               onTapCall3();
+                      //               //selectedCity = null;
+                      //               //selectedPlace = null;
+                      //
+                      //               print('_____Surdfdgdgendra_____${placeId}_________');
+                      //               //getStateApi();
+                      //             }
+                      //           });
+                      //         });
+                      //       },
+                      //       items: getPlaceResponseModel?.data?.map((items) {
+                      //         return DropdownMenuItem(
+                      //           value: items.name.toString(),
+                      //           child:  Column(
+                      //             crossAxisAlignment: CrossAxisAlignment.start,
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               Padding(
+                      //                 padding: const EdgeInsets.only(top: 5),
+                      //                 child: Container(
+                      //                     width: MediaQuery.of(context).size.width/1.42,
+                      //                     child: Padding(
+                      //                       padding: const EdgeInsets.only(top: 10),
+                      //                       child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                      //                     )),
+                      //               ),
+                      //               const Divider(
+                      //                 thickness: 0.2,
+                      //                 color: colors.black54,
+                      //               ),
+                      //
+                      //             ],
+                      //           ),
+                      //         );
+                      //       })
+                      //           .toList(),
+                      //
+                      //
+                      //     ),
+                      //
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 10,
                       ),
                     ],
-                  ):SizedBox.shrink(),
+                  ),
+                      //:SizedBox.shrink(),
                   widget.role == 1
                       ? Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -2140,7 +2155,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
        if(finalResult['error'] == false){
          Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
            ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
-           cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",
+           cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeC.text ?? "",
            profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
        }else{
          Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor:  colors.secondary);
@@ -2165,11 +2180,11 @@ class _DoctorResignationState extends State<DoctorResignation> {
           padding: const EdgeInsets.only(left: 10),
           decoration: BoxDecoration(
               color: colors.white10,
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.black.withOpacity(0.7))),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.black54.withOpacity(0.7))),
           child: results == null
               ? const Padding(
-            padding: EdgeInsets.only(left: 10, top: 15, bottom: 15),
+            padding: EdgeInsets.only(left: 5, top: 15, bottom: 15),
             child: Text(
               'Select Designation',
               style: TextStyle(
@@ -2186,7 +2201,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 0),
-                child: Text(results.name??'',style: TextStyle(color:colors.black54),),
+                child: Text(results.name??'',style: TextStyle(color:colors.black54,fontWeight: FontWeight.bold),),
               ),
 
             ],

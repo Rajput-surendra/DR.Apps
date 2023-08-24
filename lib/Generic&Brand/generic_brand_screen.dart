@@ -198,7 +198,8 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.selectCategory}'));
     request.fields.addAll({
-      'roll': '1'
+      'roll': '1',
+       'cat_type':"4"
     });
 
     request.headers.addAll(headers);

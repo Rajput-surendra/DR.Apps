@@ -95,7 +95,7 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
       Navigator.push(context, MaterialPageRoute(builder: (context)=>AddToCart(pid: widget.PharmaProduct,)));
      final resutl =  await response.stream.bytesToString();
      final finalResult = json.decode(resutl);
-     Fluttertoast.showToast(msg: finalResult['message']);
+     Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
      print("ttttttttttttttttt=>${finalResult}");
     }
     else {
