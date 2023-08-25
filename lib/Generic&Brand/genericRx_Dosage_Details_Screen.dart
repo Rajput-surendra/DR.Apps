@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doctorapp/Generic&Brand/generic_brand_details_screen.dart';
 import 'package:doctorapp/Generic&Brand/slider_plan_screen.dart';
+import 'package:doctorapp/SubscriptionPlan/addPosterScreen.dart';
 import 'package:doctorapp/api/api_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ import 'advertisement_screen.dart';
 import 'generic_brand_screen.dart';
 import 'package:http/http.dart' as http;
 class GenericRxDosageDetailsScreen extends StatefulWidget {
-   GenericRxDosageDetailsScreen({Key? key,this.Id, this.isTrueId,this.brand,this.des}) : super(key: key);
-   String? Id ,brand,des;
+   GenericRxDosageDetailsScreen({Key? key,this.Id, this.isTrueId,this.brand,this.des,this.planId}) : super(key: key);
+   String? Id ,brand,des, planId;
    bool? isTrueId;
   @override
   State<GenericRxDosageDetailsScreen> createState() => _GenericRxDosageDetailsScreenState();
@@ -27,7 +28,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
 
 
   Widget build(BuildContext context) {
-    print('__________${widget.isTrueId}____${widget.Id}_____');
+    print('____zzXx______${widget.isTrueId}____${cardId}_____');
     return Scaffold(
       appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
@@ -116,16 +117,21 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                     SizedBox(height: 10,),
                     Row(
                       children: [
-                        // Container(
-                        //   decoration: BoxDecoration(
-                        //       color: colors.secondary,
-                        //       borderRadius: BorderRadius.circular(10)
-                        //   ),
-                        //
-                        //   height: 50,
-                        //   width: MediaQuery.of(context).size.width/3 ,
-                        //   child: Center(child: Text("Edit Details",style: TextStyle(color: colors.whiteTemp),)),
-                        // ),
+                        role == "1" ? SizedBox.shrink():   InkWell(
+                          onTap: (){
+                            Navigator.pop(context,[true]);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: colors.secondary,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+
+                            height: 50,
+                            width: MediaQuery.of(context).size.width/3 ,
+                            child: Center(child: Text("Edit Details",style: TextStyle(color: colors.whiteTemp),)),
+                          ),
+                        ),
                         SizedBox(width: 15,),
                         role == "2"?
                         //getBrandsRxDosageModel?.data?.first.isDetailsAdded == false ?
@@ -134,7 +140,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                             if(getBrandsRxDosageModel!.data!.first.isAddPlanSubscribed == false){
                               _showAlertDialog(context);
                             }else{
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
                             }
 
                           },
@@ -145,8 +151,8 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                             ),
 
                             height: 50,
-                            width: MediaQuery.of(context).size.width/1.2  ,
-                            child: Center(child: Text("Link this page to sliding ad",style: TextStyle(color: colors.whiteTemp,fontSize: 18))),
+                            width: MediaQuery.of(context).size.width/1.8 ,
+                            child: Center(child: Text("Link this page to sliding ad",style: TextStyle(color: colors.whiteTemp,fontSize: 15))),
                           ),
                         )
                         //     :InkWell(
@@ -481,7 +487,6 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
   }
   @override
   void initState() {
-
     super.initState();
     getRole();
     renericRxDosageDetailsApi();

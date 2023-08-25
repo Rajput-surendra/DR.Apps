@@ -11,18 +11,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import '../New_model/Get_brand_plan_model.dart';
+import 'genericRx_Dosage_Details_Screen.dart';
 import 'genericRx_Dosage_Screen.dart';
+import 'generic_brand_details_screen.dart';
 
 class BrandDetailsPlansScreen extends StatefulWidget {
-  const BrandDetailsPlansScreen({Key? key}) : super(key: key);
+   BrandDetailsPlansScreen({Key? key,this.cardId}) : super(key: key);
+   String? cardId;
 
   @override
   State<BrandDetailsPlansScreen> createState() => _BrandDetailsPlansScreenState();
 }
 
 class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: customAppBar(context: context, text:"Brand Plans", isTrue: true, ),
       body:getBrandPlanModel == null ? Center(child: CircularProgressIndicator()) : getBrandPlanModel!.data!.length ==0  ? Center(child: Text("No Brand Plan !!")): Column(
@@ -205,7 +210,8 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
       setState(() {
 
       });
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen()));
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen()));
+     // Navigator.pop(context,[true]);
     }
     else {
       print(response.reasonPhrase);

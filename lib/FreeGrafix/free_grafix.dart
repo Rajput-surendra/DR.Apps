@@ -29,6 +29,7 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
     getSliderApi();
     getGarphiApi();
   }
+  double aspectRatio = 3/3.3;
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -61,74 +62,158 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
              ],
 
            ),
+
            Padding(
             padding: const EdgeInsets.all(8.0),
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 0.0,
-                  crossAxisSpacing: 0.0,
-                  childAspectRatio: 3/3.4
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                double aspectRatio = 3/3.3;
 
-              ),
-              itemCount:getGraphicModel!.data!.length, // Number of items in the grid
-              itemBuilder: (BuildContext context, int index) {
+                if (constraints.maxWidth > constraints.maxHeight * aspectRatio) {
+                  // Landscape orientation
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 0.0,
+                        crossAxisSpacing: 0.0,
+                        childAspectRatio: aspectRatio
 
-                return InkWell(
-                  onTap: (){
 
-                   Navigator.push(context, MaterialPageRoute(builder: (context)=>FreeGraphicDetailsScreen(childList: getGraphicModel!.data![index].childs,)));
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
                     ),
-                    // decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(10)
-                    // ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 140 ,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network("${getGraphicModel!.data![index].image}",fit: BoxFit.fill)),
+                    itemCount:getGraphicModel!.data!.length, // Number of items in the grid
+                    itemBuilder: (BuildContext context, int index) {
+
+                      return InkWell(
+                        onTap: (){
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>FreeGraphicDetailsScreen(childList: getGraphicModel!.data![index].childs,)));
+                        },
+                        child:
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          // decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(10)
+                          // ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 140 ,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network("${getGraphicModel!.data![index].image}",fit: BoxFit.fill)),
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5,right: 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 85,
+
+                                      child: Text("${getGraphicModel!.data![index].title}",maxLines: 1,style: TextStyle(
+                                        color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 12,overflow: TextOverflow.ellipsis,
+                                      ),),
+                                    ),
+
+                                    Text("${getGraphicModel!.data![index].total}")
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        SizedBox(height: 5,),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5,right: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 85,
+                      );
+                    },
+                  );
+                } else {
+                  // Portrait orientation
+                  return GridView.builder (
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 0.0,
+                        crossAxisSpacing: 0.0,
+                        childAspectRatio: aspectRatio
 
-                                  child: Text("${getGraphicModel!.data![index].title}",maxLines: 1,style: TextStyle(
-                                      color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 12,overflow: TextOverflow.ellipsis,
-                                  ),),
-                                ),
 
-                                Text("${getGraphicModel!.data![index].total}")
-                              ],
-                            ),
-                          )
-                      ],
                     ),
-                  ),
-                );
+                    itemCount:getGraphicModel!.data!.length, // Number of items in the grid
+                    itemBuilder: (BuildContext context, int index) {
+
+                      return InkWell(
+                        onTap: (){
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>FreeGraphicDetailsScreen(childList: getGraphicModel!.data![index].childs,)));
+                        },
+                        child:
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          // decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(10)
+                          // ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 140 ,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network("${getGraphicModel!.data![index].image}",fit: BoxFit.fill)),
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5,right: 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 85,
+
+                                      child: Text("${getGraphicModel!.data![index].title}",maxLines: 1,style: TextStyle(
+                                        color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 12,overflow: TextOverflow.ellipsis,
+                                      ),),
+                                    ),
+
+                                    Text("${getGraphicModel!.data![index].total}")
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
               },
-            ),
+            )
+
+
           )
            // gridView(),
          ],

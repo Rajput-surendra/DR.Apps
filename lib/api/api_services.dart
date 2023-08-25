@@ -13,6 +13,7 @@ class ApiService {
   static const String deleteBooking = baseUrl+'delete_booking';
   static const String sendOTP = baseUrl+'v_send_otp';
   static const String login = baseUrl+'login';
+  static const String sendForgotOtp = baseUrl+'send_forgot_otp';
   static const String getupdateUser = baseUrl+'update_user';
   static const String verifyOtp = baseUrl+'v_verify_otp';
   static const String getSlider = baseUrl + 'get_slider_images';

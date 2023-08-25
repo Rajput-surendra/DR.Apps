@@ -139,23 +139,7 @@ class _HospitalState extends State<Hospital> {
   TextEditingController experienceC1 = TextEditingController();
   TextEditingController clinicNameC = TextEditingController();
   TextEditingController clinicNameC1 = TextEditingController();
-  //
-  // List <List<String>> selectedClinicTime = [];
-  // List<List<String>> clinicDay = [];
-  // List<List<String>> selectedClinicMorningTime = [];
-  // List<List<String>> selectedClinicEveningTime = [];
-  // List<List<String>> selectedClinicAddress = [];
-  // List<List<String>> selectedClinicName = [];
-  // List<List<String>> selectedClinicAppointment = [];
-  //
-  // List<String> selectedClinicMorningTimeTemp = [];
-  // List <String> selectedClinicEveningTimeTemp = [];
-  // List <String> selectedClinicAddressTemp = [];
-  // List <String> selectedClinicNameTemp = [];
-  // List <String> selectedClinicAppointmentTemp = [];
-  // List<String> clinicDayTemp = [];
-  //
-  // List<String> allDataAdd = [];
+
 
   List  clinicListForJson = [];
   List  encodeClinicForJson = [];
@@ -164,112 +148,58 @@ class _HospitalState extends State<Hospital> {
   File? imageFile;
   bool show =false;
   RegistrationModel? detailsData;
+  notRegistrtion() async {
 
-
-  registration() async {
-
-    isLoading ==  true;
-
-    if(false ){
-      Fluttertoast.showToast(msg: 'Please add profile photo');
+    List newList = [];
+    for(int i = 0; i< clinicListForJson.length; i++){
+      print('${clinicListForJson[i]['days']}____________');
+      newList.add(jsonEncode({
+        "days":clinicListForJson[i]['days'],
+        "clinic_name":clinicListForJson[i]['clinic_name'],
+        "morning_shift":clinicListForJson[i]['morning_shift'],
+        "evening_shift":clinicListForJson[i]['evening_shift'],
+        "addresses":clinicListForJson[i]['addresses'],
+        "appoint_number":clinicListForJson[i]['appoint_number'],
+      }));
+    }
+    var headers = {
+      'Cookie': 'ci_session=df570ff9aff445c600c3dbfa4fe01f9e4b8a7004'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/send_otp'));
+    request.fields.addAll({
+      'roll': widget.roll.toString(),
+      'mobile': widget.mobile
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var  result =  await response.stream.bytesToString();
+      var  finalResult =  jsonDecode(result);
+      if(finalResult['error'] == false){
+        int? otp = finalResult['data']['otp'];
+        String?  mobile = finalResult['data']['mobile'];
+        print('____otp______${otp}_____${mobile}____');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (
+          otp: otp,mobile:mobile.toString(),title: widget.title,roll: widget.roll,categoryId:
+        widget.categoryId,cityID: widget.cityID,cPass: widget.cPass,degree: widget.degree,
+          email: widget.email,experience: widget.experience,gender: widget.gender,
+          pass: widget.pass,name: widget.name,profileImages: widget.profileImages,
+          placeID: widget.placeID,stateID: widget.stateID,cityName: widget.cityName,newList1:newList ,)));
+      }
+      Fluttertoast.showToast(msg: "${finalResult['message']}");
     }
     else {
-      String? token;
-      try {
-        token = await FirebaseMessaging.instance.getToken();
-      } on FirebaseException {
-      }
-      List newList = [];
-      for(int i = 0; i< clinicListForJson.length; i++){
-        print('${clinicListForJson[i]['days']}____________');
-        newList.add(jsonEncode({
-          "days":clinicListForJson[i]['days'],
-          "clinic_name":clinicListForJson[i]['clinic_name'],
-          "morning_shift":clinicListForJson[i]['morning_shift'],
-          "evening_shift":clinicListForJson[i]['evening_shift'],
-          "addresses":clinicListForJson[i]['addresses'],
-          "appoint_number":clinicListForJson[i]['appoint_number'],
-        }));
-      }
-      var headers = {
-        'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
-      };
-      var request = http.MultipartRequest(
-          'POST', Uri.parse('${ApiService.userRegister}'));
-      request.fields.addAll({
-        'email': widget.email,
-        'mobile':widget.mobile,
-        'username': widget.name,
-        'gender':widget.gender,
-        'doc_degree':widget.degree,
-        'address': widget.cityName,
-        'c_address':"${newList}",
-        'cat_type':"",
-        'category_id':widget.categoryId,
-        'designation_id':"",
-        'password':widget.pass,
-        'roll': widget.roll,
-        'confirm_password':widget.cPass,
-        'fcm_id': token ?? '',
-        'city': widget.cityName,
-        'title': widget.title,
-        "company_name": "",
-        "company_division":"",
-        "state_id":widget.stateID,
-        "city_id":widget.cityID,
-        "area_id":widget.placeID,
-        "experience":widget.experience,
-        "json": '${newList}'
-
-      });
-       if(widget.profileImages == null){
-         request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
-       }
-      // if (widget.profileImages == null) {
-      //   Fluttertoast.showToast(msg: "Add images");
-      // }else{
-      //   request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
-      // }
-      print('_____ccimages_____${request.files}_________');
-      request.headers.addAll(headers);
-      http.StreamedResponse response = await request.send();
-      if (response.statusCode == 200) {
-        addressC.clear();
-        results?.clear();
-        numberC.clear();
-         clinicNameC.clear();
-        _selectedTime = null;
-        _selectedTime1 = null;
-        _selectedTimeNew = null;
-        _selectedTimeOld = null;
-        final result = await response.stream.bytesToString();
-        var finalResult = json.decode(result);
-          msg = finalResult['message'];
-        if (finalResult['error'] == false) {
-          int? otp = finalResult['data']['otp'];
-          String?  mobile = finalResult['data']['mobile'];
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
-          Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
-        }
-
-        setState(() {
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-        Fluttertoast.showToast(msg:'Email & Mobile Number Already registered',backgroundColor: colors.secondary);
-        print(response.reasonPhrase);
-      }
-      //}
+      print(response.reasonPhrase);
     }
+
   }
+
+
   String? days;
   String? daysHos;
   @override
   Widget build(BuildContext context) {
-    print('____xxxxzx______${widget.profileImages}_________');
+    print('____xxxxzx______${widget.placeID}_________');
     return  Scaffold(
       appBar: customAppBar(context: context, text:"Clinic/Hospital Details", isTrue: true, ),
       body:  Padding(
@@ -442,7 +372,8 @@ class _HospitalState extends State<Hospital> {
                               Fluttertoast.showToast(msg: "Please Add Hospital/Clinic Details",backgroundColor: colors.secondary);
                             }
                             else{
-                              registration();
+
+                              notRegistrtion();
                             }
 
 
@@ -523,7 +454,7 @@ class _HospitalState extends State<Hospital> {
         padding: const EdgeInsets.only(left: 10),
         decoration: BoxDecoration(
             color: colors.white10,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(color: Colors.black.withOpacity(0.7))),
         child: results == null
             ? const Padding(

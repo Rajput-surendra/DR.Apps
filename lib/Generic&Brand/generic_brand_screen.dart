@@ -130,7 +130,7 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
           enlargeCenterPage: false,
           scrollDirection: Axis.horizontal,
           height: 200.0),
-      items: newSliderModel!.data.map((item) {
+      items: newSliderModel?.data.map((item) {
         return
           Builder(
             builder: (BuildContext context) {

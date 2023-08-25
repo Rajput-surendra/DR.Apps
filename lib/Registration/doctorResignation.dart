@@ -384,93 +384,93 @@ class _DoctorResignationState extends State<DoctorResignation> {
       });
     }
   SignUpModel? detailsData;
-  registration1() async {
-    isLoading ==  true;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('otp', "otp");
-    if(imageFile ==null ){
-      Fluttertoast.showToast(msg: 'Please add profile photo',backgroundColor: colors.secondary);
-    }
-    else {
-      String? token;
-      try {
-        token = await FirebaseMessaging.instance.getToken();
-      } on FirebaseException {
-      }
-
-      // if (false) {
-      //   // Fluttertoast.showToast(msg: 'Please select category');
-      // } else {
-      //   print("this is user registration ");
-        var headers = {
-          'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
-        };
-        var request = http.MultipartRequest(
-            'POST', Uri.parse('${ApiService.userRegister}'));
-        request.fields.addAll({
-          'email': emailController.text,
-          'mobile': mobileController.text,
-          'username': nameController.text,
-          'gender': gender.toString(),
-          'doc_degree': docdegreeController.text,
-          'address': "",
-          'c_address': clinikaddressController.text,
-          'cat_type': widget.role == 2 ?SelectedPharma.toString():"",
-          'category_id': widget.role == 2 ?catDrop!.id.toString():widget.id.toString(),
-          'designation_id':widget.role == 2 ? results.id.toString():"",
-          'password': passController.text,
-          'roll': widget.role.toString(),
-          'confirm_password': CpassController.text,
-          'fcm_id': token ?? '',
-          'city': cityController.text,
-          'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
-          "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
-          "company_division":widget.role == 2? catDrop!.id.toString():"",
-          "state_id":widget.role == 1 ?'$stateId':"",
-          "city_id": widget.role == 1 ? "$cityId":"",
-          "area_id":widget.role == 1 ? "$placeId":"",
-          "experience": experienceC.text,
-
-        });
-
-        if (imageFile != null) {
-            request.files.add(await http.MultipartFile.fromPath(
-              'image', imageFile?.path ?? ''));
-        }
-        print('_____surendra_____${request.files}_________');
-        // print(
-        //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
-        request.headers.addAll(headers);
-        http.StreamedResponse response = await request.send();
-        print("${request.fields}");
-         print("${request.url}");
-         print("${request.files.first}");
-        if (response.statusCode == 200) {
-          final reslut = await response.stream.bytesToString();
-          var finalResult = SignUpModel.fromJson(json.decode(reslut));
-          setState(() {
-            detailsData = finalResult;
-          });
-
-          if (finalResult.error == false) {
-            var otp = detailsData!.data!.otp.toString();
-            var mobile = detailsData!.data!.mobile.toString();
-            Fluttertoast.showToast(msg: detailsData!.message.toString(),backgroundColor: colors.secondary);
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
-          }
-          setState(() {
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-          print(response.reasonPhrase);
-        }
-      //}
-    }
-  }
+  // registration1() async {
+  //   isLoading ==  true;
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   preferences.setString('otp', "otp");
+  //   if(imageFile ==null ){
+  //     Fluttertoast.showToast(msg: 'Please add profile photo',backgroundColor: colors.secondary);
+  //   }
+  //   else {
+  //     String? token;
+  //     try {
+  //       token = await FirebaseMessaging.instance.getToken();
+  //     } on FirebaseException {
+  //     }
+  //
+  //     // if (false) {
+  //     //   // Fluttertoast.showToast(msg: 'Please select category');
+  //     // } else {
+  //     //   print("this is user registration ");
+  //       var headers = {
+  //         'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
+  //       };
+  //       var request = http.MultipartRequest(
+  //           'POST', Uri.parse('${ApiService.userRegister}'));
+  //       request.fields.addAll({
+  //         'email': emailController.text,
+  //         'mobile': mobileController.text,
+  //         'username': nameController.text,
+  //         'gender': gender.toString(),
+  //         'doc_degree': docdegreeController.text,
+  //         'address': "",
+  //         'c_address': clinikaddressController.text,
+  //         'cat_type': widget.role == 2 ?SelectedPharma.toString():"",
+  //         'category_id': widget.role == 2 ?catDrop!.id.toString():widget.id.toString(),
+  //         'designation_id':widget.role == 2 ? results.id.toString():"",
+  //         'password': passController.text,
+  //         'roll': widget.role.toString(),
+  //         'confirm_password': CpassController.text,
+  //         'fcm_id': token ?? '',
+  //         'city': cityController.text,
+  //         'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
+  //         "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
+  //         "company_division":widget.role == 2? catDrop!.id.toString():"",
+  //         "state_id":widget.role == 1 ?'$stateId':"",
+  //         "city_id": widget.role == 1 ? "$cityId":"",
+  //         "area_id":widget.role == 1 ? "$placeId":"",
+  //         "experience": experienceC.text,
+  //
+  //       });
+  //
+  //       if (imageFile != null) {
+  //           request.files.add(await http.MultipartFile.fromPath(
+  //             'image', imageFile?.path ?? ''));
+  //       }
+  //       print('_____surendra_____${request.files}_________');
+  //       // print(
+  //       //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
+  //       request.headers.addAll(headers);
+  //       http.StreamedResponse response = await request.send();
+  //       print("${request.fields}");
+  //        print("${request.url}");
+  //        print("${request.files.first}");
+  //       if (response.statusCode == 200) {
+  //         final reslut = await response.stream.bytesToString();
+  //         var finalResult = SignUpModel.fromJson(json.decode(reslut));
+  //         setState(() {
+  //           detailsData = finalResult;
+  //         });
+  //
+  //         if (finalResult.error == false) {
+  //           var otp = detailsData!.data!.otp.toString();
+  //           var mobile = detailsData!.data!.mobile.toString();
+  //           Fluttertoast.showToast(msg: detailsData!.message.toString(),backgroundColor: colors.secondary);
+  //           Navigator.pushReplacement(context,
+  //               MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+  //         }
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //       } else {
+  //         setState(() {
+  //           isLoading = false;
+  //         });
+  //         print(response.reasonPhrase);
+  //       }
+  //     //}
+  //   }
+  // }
   String? msg;
   registration() async {
     isLoading ==  true;
@@ -531,22 +531,15 @@ class _DoctorResignationState extends State<DoctorResignation> {
       if (response.statusCode == 200) {
         final result = await response.stream.bytesToString();
         var finalResult = json.decode(result);
-        // var finalResult = SignUpModel.fromJson(json.decode(reslut));
-
         msg = finalResult['message'];
           Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary );
-        // setState(() {
-        //   detailsData = finalResult;
-        // });
-        // Fluttertoast.showToast(msg: detailsData!.message.toString());
         if (finalResult['error'] == false) {
           int? otp = finalResult['data']['otp'];
           String?  mobile = finalResult['data']['mobile'];
-          // var otp = detailsData!.data!.otp.toString();
-          // var mobile = detailsData!.data!.mobile.toString();
-          // Fluttertoast.showToast(msg: detailsData!.message.toString());
+
           Fluttertoast.showToast(msg: finalResult['message']);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (
+              otp: otp,mobile:mobile.toString(),categoryId:widget.id,companyName: selectedQualification,companyDivision: catDrop!.id,catType: SelectedPharma,)));
           // Fluttertoast.showToast(msg: finalResult['message']);
         }
         setState(() {
@@ -561,7 +554,36 @@ class _DoctorResignationState extends State<DoctorResignation> {
       //}
 
   }
+  notRegistrtion() async {
 
+
+    var headers = {
+      'Cookie': 'ci_session=df570ff9aff445c600c3dbfa4fe01f9e4b8a7004'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/send_otp'));
+    request.fields.addAll({
+      'roll': '1',
+      'mobile': mobileController.text
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var  result =  await response.stream.bytesToString();
+      var  finalResult =  jsonDecode(result);
+      if(finalResult['error'] == false){
+        int? otp = finalResult['data']['otp'];
+        String?  mobile = finalResult['data']['mobile'];
+        print('____otp______${otp}_____${mobile}____');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (
+          otp: otp,mobile:mobile.toString(),categoryId:widget.id,companyName: selectedQualification,companyDivision: catDrop!.id,catType: SelectedPharma,)));
+      }
+      Fluttertoast.showToast(msg: "${finalResult['message']}");
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
 
   registration2() async {
     isLoading ==  true;
@@ -749,7 +771,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 5),
+                                        padding: const EdgeInsets.only(top: 4),
                                         child: Text(value,style: const TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
                                       ),
                                       const Divider(
@@ -910,7 +932,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 5),
+                                    padding: const EdgeInsets.only(top: 0),
                                     child: Text(value,style: const TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
                                   ),
                                   const Divider(
@@ -1086,7 +1108,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                            child: DropdownButton2<SpeciplyData>(
                              
                              hint: const Padding(
-                               padding: EdgeInsets.only(bottom: 15),
+                               padding: EdgeInsets.only(bottom: 10),
                                child: Text("Select Doctor's Speciality",
                                  style: TextStyle(
                                      color: colors.black54,fontWeight: FontWeight.normal
@@ -1124,7 +1146,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                    mainAxisAlignment: MainAxisAlignment.center,
                                    children: [
                                      Padding(
-                                       padding: const EdgeInsets.only(top: 8),
+                                       padding: const EdgeInsets.only(top: 6),
                                        child: Text(items.name??'',style: TextStyle(color:colors.black54,fontWeight: FontWeight.bold),),
                                      ),
                                      const Divider(
@@ -1182,7 +1204,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                            child: DropdownButton2<String>(
 
                              hint: const Padding(
-                               padding: EdgeInsets.only(bottom: 15),
+                               padding: EdgeInsets.only(bottom: 10),
                                child: Text("Select Company Name",
                                  style: TextStyle(
                                      color: colors.black54,fontWeight: FontWeight.normal
@@ -1228,7 +1250,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                    mainAxisAlignment: MainAxisAlignment.center,
                                    children: [
                                      Padding(
-                                       padding: const EdgeInsets.only(top: 5),
+                                       padding: const EdgeInsets.only(top: 4),
                                        child: Container(
                                            width: 240,
                                            child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.black54,fontWeight: FontWeight.bold),)),
@@ -2041,22 +2063,22 @@ class _DoctorResignationState extends State<DoctorResignation> {
                   //     ),
                   //   ),
                   // ),
-                  const SizedBox(height: 10,),
+                  const SizedBox(height: 5,),
                   Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Row(
                         children: const [
                           Text(
-                            "Profile Image",
+                            "Profile Image(Optional)",
                             style: TextStyle(
                                 color: colors.black54,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            "*",
-                            style: TextStyle(
-                                color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                          ),
+                          // Text(
+                          //   "*",
+                          //   style: TextStyle(
+                          //       color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                          // ),
                         ],
                       )
 
@@ -2115,7 +2137,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                                   // cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",
                                   // profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
                             }else {
-                              registration();
+                              notRegistrtion();
                             }
                             // Navigator.push(context,
                             //     MaterialPageRoute(builder: (context) =>HomeScreen()));

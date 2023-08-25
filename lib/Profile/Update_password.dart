@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:doctorapp/AuthenticationView/LoginScreen.dart';
 import 'package:doctorapp/Helper/Appbar.dart';
 import 'package:doctorapp/New_model/update_profile_response.dart';
 import 'package:doctorapp/Screen/HomeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,21 +16,50 @@ import '../Helper/Color.dart';
 import '../api/api_services.dart';
 
 class UpdatePassword extends StatefulWidget {
-  const UpdatePassword({Key? key}) : super(key: key);
+   UpdatePassword({Key? key,this.MOBILE,this.OTP}) : super(key: key);
+  String? OTP,MOBILE;
 
   @override
   State<UpdatePassword> createState() => _UpdatePasswordState();
 }
 
 class _UpdatePasswordState extends State<UpdatePassword> {
-  final oldPasswordController = TextEditingController();
-  final newPasswordController = TextEditingController();
-  final cPasswordController = TextEditingController();
+  final newPasswordC = TextEditingController();
+  final CpasswordC = TextEditingController();
+
+  final pinController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    print('__________${widget.OTP}_________');
+    verifyOtp() async {
+      var headers = {
+        'Cookie': 'ci_session=8aab49b6e6c12572dfec865bf8b192a8a73d19de'
+      };
+      var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/verify_otp'));
+      request.fields.addAll({
+        'mobile': widget.MOBILE.toString(),
+        'otp': pinController.text,
+        'otp_text': widget.OTP.toString(),
+        'password': newPasswordC.text,
+        'cnf_password': CpasswordC.text
+      });
+
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        var result = await response.stream.bytesToString();
+        var finalResult =  jsonDecode(result);
+        Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+      }
+      else {
+      print(response.reasonPhrase);
+      }
+
+    }
     return Scaffold(
       appBar:
           customAppBar(text: "Update password", isTrue: true, context: context),
@@ -41,35 +73,44 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text(
-                    "Old Password",
-                    style: TextStyle(
-                        color: colors.black54, fontWeight: FontWeight.bold),
+                Center(
+                  child: Form(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        OtpTextField(
+                          focusedBorderColor: colors.secondary,
+                          numberOfFields: 4,
+                          borderColor:colors.blackTemp,
+                          fillColor: colors.blackTemp,
+                          showFieldAsBox: true,
+                          borderRadius: BorderRadius.circular(50),
+                          // focusedBorderColor: colors.secondary,
+
+                          borderWidth: 1.0,
+                          fieldWidth: 60,
+
+                          onCodeChanged: (String code) {
+                            print(code);
+
+                          },
+                          onSubmit: (String verificationCode) {
+                            pinController.text = verificationCode;
+                            if(widget.OTP == pinController.text){
+                              Fluttertoast.showToast(msg: "Otp  is match ",backgroundColor: colors.secondary);
+                            }else{
+                              Fluttertoast.showToast(msg: "Otp Incorrect ",backgroundColor: colors.secondary);
+                            }
+
+                          },),
+
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: oldPasswordController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: '',
-                      hintStyle: const TextStyle(
-                          fontSize: 15.0, color: colors.secondary),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      contentPadding: EdgeInsets.only(left: 10, top: 10)),
-                  validator: (v) {
-                    if (v!.isEmpty) {
-                      return "password is required";
-                    }
-                  },
-                ),
+              SizedBox(height: 10,),
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
@@ -82,7 +123,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   height: 10,
                 ),
                 TextFormField(
-                  controller: newPasswordController,
+                  controller: newPasswordC,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       hintText: '',
@@ -109,7 +150,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   height: 10,
                 ),
                 TextFormField(
-                  controller: cPasswordController,
+                  controller: CpasswordC,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       hintText: '',
@@ -119,7 +160,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                           borderRadius: BorderRadius.circular(10)),
                       contentPadding: EdgeInsets.only(left: 10, top: 10)),
                   validator: (v) {
-                    if (cPasswordController.text != newPasswordController.text) {
+                    if (newPasswordC.text != CpasswordC.text) {
                       return "password must be same";
                     }
                   },
@@ -135,7 +176,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                     title: 'Update Password',
                     onPress: () {
                       if (_formKey.currentState!.validate()) {
-                        updateProfile();
+                        verifyOtp();
                       }
                     },
                   ),
@@ -148,41 +189,41 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     );
   }
 
-  updateProfile() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? userId = preferences.getString('userId');
-
-    var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(
-            '${ApiService.getUserProfile}'));
-    request.fields.addAll({
-      'user_id': userId ?? '',
-      'old': oldPasswordController.text,
-      'new': newPasswordController.text,
-    });
-
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      final response2 = await response.stream.bytesToString();
-
-      final result = UpdateprofileResponse.fromJson(jsonDecode(response2));
-
-      if (result.error == false) {
-        print('__________${response2}_____________');
-
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(result.message ?? '')));
-
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(result.message ?? '')));
-      }
-    } else {
-      print(response.reasonPhrase);
-    }
-  }
+  // updateProfile() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   String? userId = preferences.getString('userId');
+  //
+  //   var request = http.MultipartRequest(
+  //       'POST',
+  //       Uri.parse(
+  //           '${ApiService.getUserProfile}'));
+  //   request.fields.addAll({
+  //     'user_id': userId ?? '',
+  //     'old': oldPasswordController.text,
+  //     'new': newPasswordController.text,
+  //   });
+  //
+  //   http.StreamedResponse response = await request.send();
+  //
+  //   if (response.statusCode == 200) {
+  //     final response2 = await response.stream.bytesToString();
+  //
+  //     final result = UpdateprofileResponse.fromJson(jsonDecode(response2));
+  //
+  //     if (result.error == false) {
+  //       print('__________${response2}_____________');
+  //
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(SnackBar(content: Text(result.message ?? '')));
+  //
+  //       Navigator.pushReplacement(
+  //           context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  //     } else {
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(SnackBar(content: Text(result.message ?? '')));
+  //     }
+  //   } else {
+  //     print(response.reasonPhrase);
+  //   }
+  // }
 }

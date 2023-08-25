@@ -29,310 +29,362 @@ class GenericBrandDetailsScreen extends StatefulWidget {
 }
 
 class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =  GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    print('____cardId______${cardId}_________');
+    return RefreshIndicator(
+      key: _refreshIndicatorKey,
+      onRefresh: _refresh,
+      child: Scaffold(
+             bottomSheet:   role == "2" ?  Padding(
+               padding: const EdgeInsets.only(left: 70,bottom: 5),
+               child: InkWell(
+             onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => GerericBrandUplaodScreen(
+                  catName: catName,
+                  catId: widget.catId,
+                ))).then((value) {
 
-      appBar: customAppBar(
-        context: context,
-        text: "Generic & Brand",
-        isTrue: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Center(
-                      child: Text(
-                    "${catName}",
-                    style: TextStyle(color: colors.black54),
-                  )),
-                ),
-              ),
-              getBrandModel == null
-                  ? Center(child: CircularProgressIndicator())
-                  : getBrandModel!.data!.length == 0
-                      ? Center(child: Text("No brand list ??"))
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          reverse: true ,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: getBrandModel!.data == null ||
-                                  getBrandModel!.data == ""
-                              ? 0
-                              : getBrandModel!.data!.length,
-                          itemBuilder: (c, i) {
-                            var branddata = getBrandModel!.data;
-                            if(role == "1") {
-                              return branddata![i].isDetailsAdded ==  true?  Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "${branddata![i].name}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: colors.secondary, fontSize: 25),
-                                    ),
-                                    Text(
-                                      "${branddata[i].genericName}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: colors.black54,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                    bottomLeft:
-                                                    Radius.circular(10)),
-                                                color: colors.darkIcon),
-                                            child: Center(
-                                                child: Text(
-                                                  "${branddata[i].companyName}",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: colors.whiteTemp,
-                                                      fontSize: 12),
-                                                )),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: InkWell(
-                                              onTap: () {
-                                                if(role == "1"){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
-                                                }else {
-                                                  if(!(branddata[i].isDetailPlanSubscribed  ?? false)){
-                                                    _showAlertDialog(context);
-                                                  }else if ((branddata[i].isDetailsAdded  == true )){
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
-                                                  }else{
-                                                    cardId = branddata[i].id;
-                                                    brandName =  branddata[i].name;
-                                                    brandDes =  branddata[i].genericName;
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
-                                                  }
-                                                }
+                  if(value !=null){
 
-                                              },
-                                              child: branddata[i].isDetailsAdded == true ?  InkWell(
-                                                child: Container(
-                                                  height: 40,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.only(
-                                                          bottomRight:
-                                                          Radius.circular(10)),
-                                                      color: colors.secondary),
-                                                  child: Center(
-                                                    child:
-                                                    Text(
-                                                      '${branddata[i].detailText}',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12),
+                    callApi();
 
-                                                    ),
-                                                  ),
-                                                ),
-                                              ) : Container(
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.only(
-                                                        bottomRight:
-                                                        Radius.circular(10)),
-                                                    color: colors.red ),
-                                                child: Center(
-                                                  child:
-                                                  BlinkText(
-                                                      '${branddata[i].detailText}',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12),
-                                                      beginColor: colors.blackTemp,
-                                                      endColor: colors.whiteTemp,
-                                                      times: 1000,
-                                                      duration: Duration(seconds: 1)),
-                                                ),
-                                              )
+                  }
+              });
+               },
+              child: Container(
 
-
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ):SizedBox();
-                            } else {
-                              return Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "${branddata![i].name}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: colors.secondary, fontSize: 25),
-                                    ),
-                                    Text(
-                                      "${branddata[i].genericName}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: colors.black54,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                    bottomLeft:
-                                                    Radius.circular(10)),
-                                                color: colors.darkIcon),
-                                            child: Center(
-                                                child: Text(
-                                                  "${branddata[i].companyName}",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: colors.whiteTemp,
-                                                      fontSize: 12),
-                                                )),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: InkWell(
-                                              onTap: () {
-                                                if(role == "1"){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
-                                                }else {
-                                                  if(!(branddata[i].isDetailPlanSubscribed  ?? false)){
-                                                    _showAlertDialog(context);
-                                                  }else if ((branddata[i].isDetailsAdded  == true )){
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
-                                                  }else{
-                                                    cardId = branddata[i].id;
-                                                    brandName =  branddata[i].name;
-                                                    brandDes =  branddata[i].genericName;
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
-                                                  }
-                                                }
-
-                                              },
-                                              child: branddata[i].isDetailsAdded == true ?  InkWell(
-                                                child: Container(
-                                                  height: 40,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.only(
-                                                          bottomRight:
-                                                          Radius.circular(10)),
-                                                      color: colors.secondary),
-                                                  child: Center(
-                                                    child:
-                                                    Text(
-                                                      '${branddata[i].detailText}',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12),
-
-                                                    ),
-                                                  ),
-                                                ),
-                                              ) : Container(
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.only(
-                                                        bottomRight:
-                                                        Radius.circular(10)),
-                                                    color: colors.red ),
-                                                child: Center(
-                                                  child:
-                                                  BlinkText(
-                                                      '${branddata[i].detailText}',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12),
-                                                      beginColor: colors.blackTemp,
-                                                      endColor: colors.whiteTemp,
-                                                      times: 1000,
-                                                      duration: Duration(seconds: 1)),
-                                                ),
-                                              )
-
-
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-
-                          }),
-              SizedBox(height: 20,),
-              Text(
-                "Thanks you \n Your brand with generic name\n and company name uploaded \nsuccessfully for Doctors area ",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
-              ),
-              SizedBox(height: 20,),
-           role == "2" ?  Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GerericBrandUplaodScreen(
-                              catName: catName,
-                              catId: widget.catId,
-                            )));
-                  },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: colors.secondary, borderRadius: BorderRadius.circular(15)),
+      height: 50,
+      width: MediaQuery.of(context).size.width/1.6,
+      decoration: BoxDecoration(
+          color: colors.primary, borderRadius: BorderRadius.circular(15)),
+      child: Center(
+          child: Text(
+            "Add Your Brand",
+            style: TextStyle(color: colors.whiteTemp),
+          )),
+  ),
+),
+             ): SizedBox.shrink(),
+        appBar: customAppBar(
+          context: context,
+          text: "Generic & Brand",
+          isTrue: true,
+        ),
+        body:  Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                 Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
                     child: Center(
                         child: Text(
-                          "Add Your Brand",
-                          style: TextStyle(color: colors.whiteTemp),
-                        )),
+                      "${catName}",
+                      style: TextStyle(color: colors.black54),
+                    )),
                   ),
                 ),
-              ): SizedBox.shrink()
-            ],
+                getBrandModel == null
+                    ? Center(child: CircularProgressIndicator())
+                    : getBrandModel?.data?.length == 0
+                    ? Center(child: Padding(
+                      padding: const EdgeInsets.all(80),
+                      child: Text("No brand list ??"),
+                    ))
+                    :   ListView.builder(
+                            shrinkWrap: true,
+                            reverse: true ,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: getBrandModel!.data == null ||
+                                    getBrandModel!.data == ""
+                                ? 0
+                                : getBrandModel!.data!.length,
+                            itemBuilder: (c, i) {
+                              var branddata = getBrandModel!.data;
+                              if(role == "1") {
+                                return branddata![i].isDetailsAdded ==  true?  Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "${branddata[i].name}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: colors.secondary, fontSize: 25),
+                                      ),
+                                      Text(
+                                        "${branddata[i].genericName}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: colors.black54,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                      bottomLeft:
+                                                      Radius.circular(10)),
+                                                  color: colors.darkIcon),
+                                              child: Center(
+                                                  child: Text(
+                                                    "${branddata[i].companyName}",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: colors.whiteTemp,
+                                                        fontSize: 12),
+                                                  )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: InkWell(
+                                                onTap: () {
+                                                  if(role == "1"){
+                                                    setState((){
+                                                      cardId = branddata[i].id;
+                                                      brandName =  branddata[i].name;
+                                                      brandDes =  branddata[i].genericName;
+                                                    });
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
+                                                  }else {
+                                                    setState((){
+                                                      cardId = branddata[i].id;
+                                                      brandName =  branddata[i].name;
+                                                      brandDes =  branddata[i].genericName;
+                                                    });
+                                                    if(!(branddata[i].isDetailPlanSubscribed  ?? false)){
+                                                      _showAlertDialog(context, branddata[i].id ?? "");
+                                                    }else if ((branddata[i].isDetailsAdded  == true )){
+                                                      setState((){
+                                                        cardId = branddata[i].id;
+                                                        brandName =  branddata[i].name;
+                                                        brandDes =  branddata[i].genericName;
+                                                      });
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                    }else{
+                                                    setState((){
+                                                      cardId = branddata[i].id;
+                                                      brandName =  branddata[i].name;
+                                                      brandDes =  branddata[i].genericName;
+                                                    });
+
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
+                                                    }
+                                                  }
+
+                                                },
+                                                child: branddata[i].isDetailsAdded == true ?  InkWell(
+                                                  child: Container(
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.only(
+                                                            bottomRight:
+                                                            Radius.circular(10)),
+                                                        color: colors.secondary),
+                                                    child: Center(
+                                                      child:
+                                                      Text(
+                                                        '${branddata[i].detailText}',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12),
+
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ) : Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.only(
+                                                          bottomRight:
+                                                          Radius.circular(10)),
+                                                      color: colors.red ),
+                                                  child: Center(
+                                                    child:
+                                                    BlinkText(
+                                                        '${branddata[i].detailText}',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12),
+                                                        beginColor: colors.blackTemp,
+                                                        endColor: colors.whiteTemp,
+                                                        times: 1000,
+                                                        duration: Duration(seconds: 1)),
+                                                  ),
+                                                )
+
+
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ):SizedBox();
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "${branddata![i].name}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: colors.secondary, fontSize: 25),
+                                      ),
+                                      Text(
+                                        "${branddata[i].genericName}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: colors.black54,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                      bottomLeft:
+                                                      Radius.circular(10)),
+                                                  color: colors.darkIcon),
+                                              child: Center(
+                                                  child: Text(
+                                                    "${branddata[i].companyName}",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: colors.whiteTemp,
+                                                        fontSize: 12),
+                                                  )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: InkWell(
+                                                onTap: () {
+                                                  if(role == "1"){ setState((){
+                                                    cardId = branddata[i].id;
+                                                    brandName =  branddata[i].name;
+                                                    brandDes =  branddata[i].genericName;
+                                                  });
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                  }else {
+                                                    setState((){
+                                                      cardId = branddata[i].id;
+                                                      brandName =  branddata[i].name;
+                                                      brandDes =  branddata[i].genericName;
+                                                    });
+                                                    if(!(branddata[i].isDetailPlanSubscribed  ?? false)){
+                                                      _showAlertDialog(context,branddata[i].id ?? "");
+                                                    }else if ((branddata[i].isDetailsAdded  == true )){
+                                                      setState((){
+                                                        cardId = branddata[i].id;
+                                                        brandName =  branddata[i].name;
+                                                        brandDes =  branddata[i].genericName;
+                                                      });
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                    }else{
+                                                      setState((){
+                                                        cardId = branddata[i].id;
+                                                        brandName =  branddata[i].name;
+                                                        brandDes =  branddata[i].genericName;
+                                                      });
+                                                      cardId = branddata[i].id;
+                                                      brandName =  branddata[i].name;
+                                                      brandDes =  branddata[i].genericName;
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id,isTrueValue: true,)));
+                                                    }
+                                                  }
+
+                                                },
+                                                child: branddata[i].isDetailsAdded == true ?  InkWell(
+                                                  child: Container(
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.only(
+                                                            bottomRight:
+                                                            Radius.circular(10)),
+                                                        color: colors.secondary),
+                                                    child: Center(
+                                                      child:
+                                                      Text(
+                                                        '${branddata[i].detailText}',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12),
+
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ) : Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.only(
+                                                          bottomRight:
+                                                          Radius.circular(10)),
+                                                      color: colors.red ),
+                                                  child: Center(
+                                                    child:
+                                                    BlinkText(
+                                                        '${branddata[i].detailText}',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12),
+                                                        beginColor: colors.blackTemp,
+                                                        endColor: colors.whiteTemp,
+                                                        times: 1000,
+                                                        duration: Duration(seconds: 1)),
+                                                  ),
+                                                )
+
+
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+
+                            }),
+                SizedBox(height: 20,),
+              role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
+                  "Thank you \n Your brand with generic name\n and company name uploaded \nsuccessfully for Doctors area ",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height/3.5,),
+
+              ],
+            ),
           ),
         ),
       ),
@@ -340,7 +392,13 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
   }
 
   GetBrandModel? getBrandModel;
+  Future<Null> _refresh() {
+    return callApi();
+  }
 
+  Future<Null> callApi() async {
+    getBrandApi();
+  }
   getBrandApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString("userId");
@@ -365,9 +423,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
       print(response.reasonPhrase);
     }
   }
-
   String? userId,role;
-
   getRole() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString("userId");
@@ -379,10 +435,11 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
   void initState() {
     super.initState();
     getRole();
-    getBrandApi();
+    // getBrandApi();
+    callApi();
   }
 
-  void _showAlertDialog(BuildContext context) {
+  void _showAlertDialog(BuildContext context,String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -421,7 +478,11 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                   SizedBox(height: 30,),
                   role == "2" ? InkWell(
                     onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandDetailsPlansScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandDetailsPlansScreen())).then((value) {
+                      if(value !=null){
+                        callApi();
+                      }
+                    });
                     },
                     child: Container(
                         height: 50,

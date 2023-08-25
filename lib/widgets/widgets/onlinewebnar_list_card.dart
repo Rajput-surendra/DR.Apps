@@ -131,17 +131,19 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                           ),
                           iconVisible ? Row(
                             children: [
-                              IconButton(onPressed: (){
-                                setState(() {
-                                  iconVisible = false;
-                                });
-                                Future.delayed(Duration(seconds: 1), (){
-                                  // _CaptureScreenShot(index: index);
-                                  _shareQrCode(widget.getWebinarDataList?.link ?? '');
-                                  //_shareQrCode(text: widget.getWebinarDataList?.title ?? '');
-                                });
+                               InkWell(
+                                 onTap: (){
+                                   setState(() {
+                                     iconVisible = false;
+                                   });
+                                   Future.delayed(Duration(seconds: 1), (){
 
-                              }, icon: Icon(Icons.share)),
+                                     _shareQrCode(widget.getWebinarDataList?.link ?? '');
+
+                                   });
+
+                                 },
+                                   child: Icon(Icons.share)),
                               IconButton(onPressed: (){
                                 setState(() {
                                   getNewWishlistApi(widget.getWebinarDataList?.id ?? '', widget.getWebinarDataList?.type ?? "");

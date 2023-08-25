@@ -160,6 +160,7 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
   TextEditingController brandNameC =  TextEditingController();
   TextEditingController genericNameC =  TextEditingController();
   TextEditingController companyNameC =  TextEditingController();
+
   uploadBrandApi() async {
     setState(() {
       islodder =  true;
@@ -183,7 +184,7 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
        var  result = await response.stream.bytesToString();
        var finalResult = jsonDecode(result);
        Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericBrandScreen()));
+       Navigator.pop(context,[true]);
        brandNameC.clear();
        genericNameC.clear();
        companyNameC.clear();

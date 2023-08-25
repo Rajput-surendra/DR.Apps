@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:doctorapp/Generic&Brand/advertisement_screen.dart';
+import 'package:doctorapp/SubscriptionPlan/addPosterScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -54,7 +55,7 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
                           }
                         },
                         child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+                            padding: const EdgeInsets.only(left: 15,top: 15),
                             child: Container(
                               width: MediaQuery.of(context).size.width/1.1,
                               child: Padding(
@@ -92,7 +93,7 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
                                         Text( "${sliderModel!.data![index].description}"),
                                         SizedBox(height: 8),
 
-                                        SizedBox(height: 80),
+                                        SizedBox(height: 60),
                                         sliderModel!.data![index].isPurchased == true ? Padding(
                                           padding: const EdgeInsets.only(left: 20,right: 20),
                                           child: Container(
@@ -176,12 +177,12 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
       var result =   await response.stream.bytesToString();
       final finalResult = json.decode(result);
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
-
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
       print('____Sdfdfdfdff______${finalResult}_________');
       setState(() {
 
       });
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
+     //Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
     }
     else {
       print(response.reasonPhrase);
@@ -189,16 +190,20 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
   }
 
   SliderModel ? sliderModel;
-  String? userId;
+  String? userId, role;
   getsliderApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+
     userId = preferences.getString("userId");
+    role = preferences.getString("roll");
+    print('_____roll_____${role}_________');
     var headers = {
       'Cookie': 'ci_session=8adadafc30f808d5fdbbf9f73cd30f51941ac5bc'
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.addSliderApi}'));
     request.fields.addAll({
-      'user_id': userId.toString()
+      'user_id': userId.toString(),
+      'user_type': role == "2" ? 'pharma' : 'doctor'
     });
     print('______finalResult____${request.fields}_________');
     request.headers.addAll(headers);

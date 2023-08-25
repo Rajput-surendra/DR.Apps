@@ -16,6 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../AuthenticationView/fogotPass.dart';
 import '../Awreness/Awareness_Inputs_screen.dart';
 import '../DoctorRequest/doctor_request.dart';
 import '../Editorial/editorial.dart';
@@ -23,6 +24,7 @@ import '../Event/event_and_webiner.dart';
 import '../FreeGrafix/free_grafix.dart';
 import '../Generic&Brand/advertisement_screen.dart';
 import '../Generic&Brand/generic_brand_screen.dart';
+import '../Generic&Brand/slider_plan_screen.dart';
 import '../New_model/Check_plan_model.dart';
 import '../New_model/GetCountingModel.dart';
 import '../New_model/GetSelectCatModel.dart';
@@ -99,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
     };
     var request = http.MultipartRequest(
         'POST', Uri.parse('${ApiService.selectCategory}'));
-    request.fields.addAll({'roll': '1', 'cat_type': "2", 'user_id': '$userId'});
+    request.fields.addAll({'roll': "1", 'cat_type': "2", 'user_id': '$userId'});
     print("this is a Response==========>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -109,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
 
       String? speciality;
+      print('______result____${finalResult}_________');
 
       finalResult.data?.forEach((element) {
         if(element.isSelected ?? false) {
@@ -253,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
      if(finalResult.status == true){
        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
      }else{
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>SubscriptionPlan()));
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>SliderPlanScreen()));
      }
      print('____Bew Api______${finalResult}_________');
      setState(() {
@@ -271,6 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       onWillPop: () async {
         showDialog(
@@ -308,7 +312,8 @@ class _HomeScreenState extends State<HomeScreen> {
           key: _key,
           drawer: getDrawer(),
           //appBar: customAppBar(context: context, text:"My Dashboard", isTrue: true, ),
-          body: SafeArea(
+          body:countingModel == null || countingModel == "" ? Center(child: CircularProgressIndicator()) : countingModel!.data!.length == 0 ? Center(child: Text('No Data Found!!'))
+              : SafeArea(
             child: Column(
               children: [
                 Container(
@@ -397,8 +402,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   '${selectCatModel?.data?[index].name.toString()}',style: TextStyle(color: colors.whiteTemp,),
                                                   overflow: TextOverflow.ellipsis,
                                                 ) : Text(
-                                      '${localFilter?.name.toString()}',style: TextStyle(color: colors.whiteTemp,),
-                                      overflow: TextOverflow.ellipsis,
+                                           '${localFilter?.name.toString()}',style: TextStyle(color: colors.whiteTemp,),
+                                          overflow: TextOverflow.ellipsis,
 
                                               ),
                                             ),
@@ -598,9 +603,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _NewsUpdatecard() {
     return Container(
-      child: countingModel == null
-          ? Center(child: Text('No Data Found!!'))
-          : GridView.builder(
+      child:  GridView.builder(
               primary: false,
               padding: EdgeInsets.zero,
               shrinkWrap: true,
@@ -889,7 +892,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UpdatePassword()),
+                MaterialPageRoute(builder: (context) => ForgotPass()),
               );
             },
           ),

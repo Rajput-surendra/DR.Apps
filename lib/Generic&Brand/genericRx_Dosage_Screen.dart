@@ -10,15 +10,19 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart'as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
+import '../New_model/Get_brands_Rx_dosage_model.dart';
 import 'genericRx_Dosage_Details_Screen.dart';
 import 'generic_brand_details_screen.dart';
 
 class GenericRxDosageScreen extends StatefulWidget {
- GenericRxDosageScreen({Key? key, this.catName,this.id}) : super(key: key);
+ GenericRxDosageScreen({Key? key, this.catName,this.id,this.isTrueValue}) : super(key: key);
  String? catName,id;
+ bool?isTrueValue;
+
 
   @override
   State<GenericRxDosageScreen> createState() => _GenericRxDosageScreenState();
@@ -31,9 +35,29 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   File? imageFile2;
   File? imageFile3;
   final _formKey = GlobalKey<FormState>();
+  TextEditingController indicationC =  TextEditingController();
+  TextEditingController dosageC =  TextEditingController();
+  TextEditingController rx_infoC =  TextEditingController();
+  TextEditingController person1C =  TextEditingController();
+  TextEditingController person2C =  TextEditingController();
+  TextEditingController person3C =  TextEditingController();
+  TextEditingController mobile1C =  TextEditingController();
+  TextEditingController mobile2C =  TextEditingController();
+  TextEditingController mobile3C =  TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    genericRxDosageDetailsApi();
+
+    print('_____indicationC.tex_____${indicationC.text}_________');
+
+  }
   @override
   Widget build(BuildContext context) {
-    print('______id_Surendra___${cardId}_________');
+    print('____fsdfsf______${cardId}_________');
+    print('______id_Surendra___${getBrandsRxDosageModel?.data?.first.details?.indication}_________');
     return Scaffold(
         appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
@@ -649,6 +673,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   Future getImage(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
+      imageQuality: 90,
       source: source,
     );
     getCropImage(context, i, image);
@@ -656,6 +681,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   Future getImageCmera(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
+      imageQuality: 90,
       source: source,
     );
     getCropImage(context, i, image);
@@ -691,16 +717,8 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
       }
     );
   }
-  TextEditingController indicationC =  TextEditingController();
-  TextEditingController dosageC =  TextEditingController();
-  TextEditingController rx_infoC =  TextEditingController();
-  TextEditingController person1C =  TextEditingController();
-  TextEditingController person2C =  TextEditingController();
-  TextEditingController person3C =  TextEditingController();
-  TextEditingController mobile1C =  TextEditingController();
-  TextEditingController mobile2C =  TextEditingController();
-  TextEditingController mobile3C =  TextEditingController();
-  bool islodder =  false ;
+
+  bool islodder = false ;
   addBrandDetailApi() async {
     setState(() {
       islodder = true;
@@ -717,12 +735,9 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
       'contact_details': brandListForJson.toString()
     });
     print('____cccccc______${request.fields}_________');
-    // request.files.add(await http.MultipartFile.fromPath('logo', ''));
-    // request.files.add(await http.MultipartFile.fromPath('images[]', ''));
-    // request.files.add(await http.MultipartFile.fromPath('images[]', ''));
-    // request.files.add(await http.MultipartFile.fromPath('images[]', ''));
-    if(imageFile == null ){
-      Fluttertoast.showToast(msg: "kfhsdfidfdgdsg");
+
+    if(imageFile == null){
+      Fluttertoast.showToast(msg: "Select Images");
     }else {
       request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
@@ -738,7 +753,12 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
    var result = await response.stream.bytesToString();
    var finalResult = jsonDecode(result);
     Fluttertoast.showToast(msg: "${finalResult['message']}");
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen())).then((value) {
+      if(value !=null){
+      genericRxDosageDetailsApi();
+      brandListForJson.clear() ;
+      }
+    });;
     person1C.clear();
     person2C.clear();
     person3C.clear();
@@ -752,6 +772,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     imageFile1  == null;
     imageFile2  == null;
     imageFile3  == null;
+   brandListForJson.clear();
      setState(() {
      islodder = false;
      });
@@ -762,6 +783,49 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
         islodder = false;
       });
     print(response.reasonPhrase);
+    }
+
+  }
+
+  String ?userId;
+  GetBrandsRxDosageModel ? getBrandsRxDosageModel;
+  genericRxDosageDetailsApi() async {
+    SharedPreferences  preferences = await  SharedPreferences.getInstance();
+    userId = preferences.getString("userId");
+    var headers = {
+      'Cookie': 'ci_session=fd48e2b4f3fe06cb3b11d5a806253ec62f6af057'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
+    request.fields.addAll({
+      'user_id':  userId.toString(),
+      'id':cardId.toString()
+    });
+    print('____request.fields______${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result  = await response.stream.bytesToString();
+      var finalResult =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
+      print('____result______${result}_________');
+      setState(() {
+        indicationC.text = getBrandsRxDosageModel?.data?.first.details?.indication ?? "" ;
+        rx_infoC.text = getBrandsRxDosageModel?.data!.first.details?.rxInfo ?? "" ;
+        dosageC.text = getBrandsRxDosageModel?.data!.first.details?.dosage ?? "" ;
+        getBrandsRxDosageModel =  finalResult;
+        if(getBrandsRxDosageModel?.data?[0].contactDetails?.length != 0 || getBrandsRxDosageModel?.data?[0].contactDetails != null )
+        for(int i=0; i<getBrandsRxDosageModel!.data![0].contactDetails!.length; i++){
+          person1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].name!;
+          person2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].name!;
+          person3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].name!;
+          mobile1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].name!;
+          mobile2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].mobile!;
+          mobile3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].name!;
+        }
+        print('_____finalResult_____${finalResult}_________');
+      });
+    }
+    else {
+      print(response.reasonPhrase);
     }
 
   }

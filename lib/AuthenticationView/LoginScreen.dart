@@ -20,6 +20,7 @@ import '../Screen/HomeScreen.dart';
 
 import '../api/api_services.dart';
 import 'VerifyOtp.dart';
+import 'fogotPass.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key,this.id}) : super(key: key);
@@ -373,7 +374,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  UpdatePassword()));
+                                                  ForgotPass()));
                                     },
                                     child: Row(
                                       mainAxisAlignment:

@@ -23,15 +23,31 @@ import '../api/api_services.dart';
 class NewCerification extends StatefulWidget {
   final otp;
   final mobile;
-  const NewCerification({Key? key,this.otp,this.mobile}) : super(key: key);
+
+  List? newList1 ;
+  String? title, name, email,gender,pass,cPass,cityName,stateID,cityID,placeID,degree,profileImages,roll,categoryId,experience,companyName,companyDivision,designationId,catType;
+      NewCerification({Key? key,this.otp,this.mobile, this.title, this.name, this.email, this.gender, this.cityName, this.cityID, this.cPass, this.pass, this.degree, this
+      .placeID, this.profileImages, this.stateID, this.roll, this.categoryId, this.experience,this.newList1,this.companyName,this.companyDivision,this.designationId,this.catType}) : super(key: key);
 
   @override
   State<NewCerification> createState() => _NewCerificationState();
 }
 
 class _NewCerificationState extends State<NewCerification> {
+
+  bool isLoading =  false;
+  String? msg;
+
   TextEditingController pinController = TextEditingController();
   verifyOtp() async {
+
+  print('_____xsdsafsfs_____${widget.otp}_____${pinController.text}____');
+    if(widget.otp == pinController.text){
+      registration();
+    }else{
+      Fluttertoast.showToast(msg: "Otp Incorrect ",backgroundColor: colors.secondary);
+    }
+    /*print(code);
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     print("successsssssssssssss");
@@ -58,19 +74,42 @@ class _NewCerificationState extends State<NewCerification> {
         preferences.setString('userId',userId);
         preferences.setString('roll',roll);
         Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => LoginScreen()
-            ));
+
+        registration();
+
       }
       else{
         Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);
+      }*/
+
+  }
+  notRegistrtion() async {
+
+    var headers = {
+      'Cookie': 'ci_session=df570ff9aff445c600c3dbfa4fe01f9e4b8a7004'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/send_otp'));
+    request.fields.addAll({
+      'roll': widget.roll.toString(),
+      'mobile': widget.mobile
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var  result =  await response.stream.bytesToString();
+      var  finalResult =  jsonDecode(result);
+      if(finalResult['error'] == false){
+        int? otp = finalResult['data']['otp'];
+        String?  mobile = finalResult['data']['mobile'];
+        print('____otp______${otp}_____${mobile}____');
+
       }
+      Fluttertoast.showToast(msg: "${finalResult['message']}");
     }
     else {
       print(response.reasonPhrase);
     }
+
   }
   loginwitMobile() async {
     String? token ;
@@ -129,9 +168,86 @@ class _NewCerificationState extends State<NewCerification> {
     }
 
   }
+  registration() async {
+    setState(() {
+      isLoading ==  true;
+    });
+    if(false ){
+      Fluttertoast.showToast(msg: 'Please add profile photo');
+    }
+    else {
+      String? token;
+      try {
+        token = await FirebaseMessaging.instance.getToken();
+      } on FirebaseException {
+      }
+      List newList = [];
+      var headers = {
+        'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
+      };
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('${ApiService.userRegister}'));
+      request.fields.addAll({
+        'email': widget.email.toString(),
+        'mobile':widget.mobile,
+        'username': widget.name.toString(),
+        'gender':widget.gender.toString(),
+        'doc_degree':widget.degree.toString(),
+        'address': widget.cityName.toString(),
+        'c_address':"${newList}",
+        'cat_type':widget.catType.toString(),
+        'category_id':widget.categoryId.toString(),
+        'designation_id':widget.designationId.toString(),
+        'password':widget.pass.toString(),
+        'roll': widget.roll.toString(),
+        'confirm_password':widget.cPass.toString(),
+        'fcm_id': token ?? '',
+        'city': widget.cityName.toString(),
+        'title': widget.title.toString(),
+        "company_name": widget.companyName.toString(),
+        "company_division":widget.companyDivision.toString(),
+        "state_id":widget.stateID.toString(),
+        "city_id":widget.cityID.toString(),
+        "area_id":widget.placeID.toString(),
+        "experience":widget.experience.toString(),
+        "json": '${newList}'
+
+      });
+      if(widget.profileImages == null){
+        request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
+      }
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        final result = await response.stream.bytesToString();
+        var finalResult = json.decode(result);
+        msg = finalResult['message'];
+        if (finalResult['error'] == false) {
+          Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => LoginScreen()
+              ));
+          setState(() {
+            isLoading = false;
+          });
+        }
+
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        Fluttertoast.showToast(msg:'Email & Mobile Number Already registered',backgroundColor: colors.secondary);
+        print(response.reasonPhrase);
+      }
+      //}
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('___widget.otp_______${widget.otp}_________');
+    print('___widget gender_______${widget.otp}______${widget.mobile}___');
     return  SafeArea(
       child: WillPopScope(
         onWillPop: () async {
@@ -217,18 +333,11 @@ class _NewCerificationState extends State<NewCerification> {
                             borderWidth: 1.0,
                             fieldWidth: 60,
                             onCodeChanged: (String code) {
-                              print(code);
-
+                              pinController.text = code;
                             },
                             //runs when every textfield is filled
                             onSubmit: (String verificationCode) {
-                              pinController.text = verificationCode;
-                              if(widget.otp == pinController.text){
-                                Fluttertoast.showToast(msg: "Otp is match ",backgroundColor: colors.secondary);
-                              }else{
-                                Fluttertoast.showToast(msg: "Otp Incorrect ",backgroundColor: colors.secondary);
-                              }
-
+                              verifyOtp();
                             },),
 
                         ],
@@ -241,7 +350,7 @@ class _NewCerificationState extends State<NewCerification> {
                   ),),
                   InkWell(
                     onTap: (){
-                      loginwitMobile();
+                      notRegistrtion();
                     },
                     child: Text("Resend",style: TextStyle(
                         color: colors.secondary,fontWeight: FontWeight.bold,fontSize: 17
@@ -256,12 +365,7 @@ class _NewCerificationState extends State<NewCerification> {
                     width: 300,
                     title: 'Submit',
                     onPress: () {
-                      if(pinController.text.isEmpty){
-                        Fluttertoast.showToast(msg: "Please Enter Otp!!!!",backgroundColor: colors.secondary);
-                      }else{
-                        verifyOtp();
-
-                      }
+                      verifyOtp();
                       // Navigator.push(context,
                       //     MaterialPageRoute(builder: (context) => HomeScreen()));
                     },

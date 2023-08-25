@@ -537,7 +537,7 @@ class _AddRequestState extends State<AddRequest> {
                 ),
               )
             ],) : SizedBox.shrink(),
-        SizedBox(height: 3,),
+        SizedBox(height: 5,),
         selectedValue == "Personalized Awareness" ? SizedBox.shrink():  Column(children: [
           Row(children: [Text("Mobile No(optional)" ,textAlign: TextAlign.start)
           ],),
@@ -558,7 +558,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ),
         ],),
-
+        SizedBox(height: 3,),
         selectedValue == "Personalized Awareness"  ||  selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? SizedBox.shrink()  : Column(
           children: [
            Row(children: [
@@ -720,7 +720,7 @@ class _AddRequestState extends State<AddRequest> {
             Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
 
           ],),
-          SizedBox(height: 3,),
+          // SizedBox(height: 3,),
           SizedBox(
             child: TextFormField(
               controller: placeController,
@@ -744,7 +744,7 @@ class _AddRequestState extends State<AddRequest> {
             Row(children: [
               Text("Dr. Contact Email ID" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
             ],),
-            SizedBox(height: 3,),
+           // SizedBox(height: 3,),
             SizedBox(
               // height: 45,
               child: TextFormField(
@@ -775,7 +775,7 @@ class _AddRequestState extends State<AddRequest> {
           Row(children: [
             Text("Dr.Photo Require On Input" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
           ],),
-          SizedBox(height: 3,),
+          //SizedBox(height: 3,),
           Container(
               padding: EdgeInsets.only(right: 5, top: 12),
               width: MediaQuery.of(context).size.width,

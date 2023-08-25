@@ -410,9 +410,8 @@ class _WishlistState extends State<Wishlist> {
   getWishListApi(int i) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
+
     var headers = {
       'Cookie': 'ci_session=579af58e6f03e48e089abbbe963a0b6ff69888d3'
     };
@@ -459,76 +458,80 @@ class _WishlistState extends State<Wishlist> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ClipRRect(
-                              child:  getWishListModel!.data!.requests![index].userImage == null ? Container(
-                                  height: 70,
-                                  width: 70  ,
-                                  child: CircleAvatar()):ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Container(
-                                    color: colors.blackTemp,
+                           Row(
+                             children: [
+                               ClipRRect(
+                                   child:  getWishListModel!.data!.requests![index].userImage == null ? Container(
+                                       height: 70,
+                                       width: 70  ,
+                                       child: CircleAvatar()):ClipRRect(
+                                     borderRadius: BorderRadius.circular(100),
+                                     child: Container(
+                                         color: colors.blackTemp,
 
-                                    height: 70,
-                                    width: 70,
-                                    child: Image.network("${getWishListModel!.data!.requests![index].userImage}")),
-                              )
-                          ),
-                          SizedBox(width: 5,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text("Dr.${getWishListModel!.data!.requests![index].name}",style: TextStyle(
-                                  color: colors.secondary,fontWeight: FontWeight.bold
-                              ),),
-                              Text("Degree-${getWishListModel!.data!.requests![index].docDigree}",style: TextStyle(color: colors.blackTemp),),
+                                         height: 70,
+                                         width: 70,
+                                         child: Image.network("${getWishListModel!.data!.requests![index].userImage}")),
+                                   )
+                               ),
+                               SizedBox(width: 5,),
+                               Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                 mainAxisAlignment: MainAxisAlignment.start,
+                                 children: [
+                                   Text("Dr.${getWishListModel!.data!.requests![index].name}",style: TextStyle(
+                                       color: colors.secondary,fontWeight: FontWeight.bold
+                                   ),),
+                                   Text("Degree-${getWishListModel!.data!.requests![index].docDigree}",style: TextStyle(color: colors.blackTemp),),
 
-                            ],
-                          ),
-                          SizedBox(width: 95,),
+                                 ],
+                               ),
+                             ],
+                           ),
                             Row(
                             children: [
-                              IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => Dialog(
-                                        child: ListView(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 16,
-                                          ),
-                                          shrinkWrap: true,
-                                          children: ['Remove from wishlist']
-                                              .map(
-                                                (e) => InkWell(
-                                              onTap: () async {
-                                                requestWishListRemoveApi(
-                                                    getWishListModel
-                                                        ?.data?.requests![index].id ??
-                                                        "", );
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Container(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                  vertical: 12,
-                                                  horizontal: 16,
-                                                ),
-                                                child: Text(e),
-                                              ),
-                                            ),
-                                          )
-                                              .toList(),
+                              InkWell(
+                                onTap: (){
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Dialog(
+                                      child: ListView(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 16,
                                         ),
+                                        shrinkWrap: true,
+                                        children: ['Remove from wishlist']
+                                            .map(
+                                              (e) => InkWell(
+                                            onTap: () async {
+                                              requestWishListRemoveApi(
+                                                getWishListModel
+                                                    ?.data?.requests![index].id ??
+                                                    "", );
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets
+                                                  .symmetric(
+                                                vertical: 12,
+                                                horizontal: 16,
+                                              ),
+                                              child: Text(e),
+                                            ),
+                                          ),
+                                        )
+                                            .toList(),
                                       ),
-                                    );
-                                  },
-                                  icon: Icon(Icons.more_vert_rounded))
+                                    ),
+                                  );
+                                },
+                                  child: Icon(Icons.more_vert_rounded))
+                               ]
+                              )
                             ],
-                          )
-                        ],
-                      ),
+                          ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

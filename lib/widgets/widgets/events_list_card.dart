@@ -114,17 +114,20 @@ List? strObj;
                       ),
                       iconVisible ? Row(
                         children: [
-                          IconButton(onPressed: (){
-                            setState(() {
-                              iconVisible = false;
-                            });
-                            Future.delayed(Duration(milliseconds: 500), (){
-                              //_CaptureScreenShot(index: index);
-                              _shareQrCode(widget.getEventModel?.link ?? '');
-                              // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
-                            });
 
-                          }, icon: Icon(Icons.share)),
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                iconVisible = false;
+                              });
+                              Future.delayed(Duration(milliseconds: 500), (){
+                                //_CaptureScreenShot(index: index);
+                                _shareQrCode(widget.getEventModel?.link ?? '');
+                                // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
+                              });
+
+                            },
+                              child: Icon(Icons.share)),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getEventModel?.id ?? '', widget.getEventModel?.type ?? "");
@@ -140,7 +143,6 @@ List? strObj;
                               child: Icon(Icons.delete)),
                         ],
                       ):SizedBox.shrink()
-
                     ],
                   ),
 

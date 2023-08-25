@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:doctorapp/Screen/HomeScreen.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
@@ -12,6 +13,7 @@ import 'package:http/http.dart'as http;
 import '../Helper/AppBtn.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
+import '../New_model/GetSelectCatModel.dart';
 import '../New_model/getUserProfileModel.dart';
 import '../api/api_services.dart';
 
@@ -30,6 +32,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     super.initState();
     getRole();
     getUserProfile();
+    getSpecialityApi();
   }
   getRole() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -42,6 +45,21 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   File? newImageFile;
   bool isloader = false;
   List<File> files = [];
+  // _getFromGallery(bool type) async {
+  //   FilePickerResult? result;
+  //   if(type){
+  //     result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
+  //   else{
+  //     result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['mp4']);}
+  //
+  //   if (result != null) {
+  //     setState(() {
+  //       files = result!.paths.map((path) => File(path!)).toList();
+  //     });}
+  //
+  //
+  //
+  // }
   _getFromGallery(bool type) async {
     FilePickerResult? result;
     if(type){
@@ -64,7 +82,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   _getFromGalleryVideo(bool type) async {
     FilePickerResult? result;
     if(type){
-      result = await FilePicker.platform.pickFiles(type: FileType.video);}
+      result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['mp4',]);}
     if (result != null) {
       setState(() {
         filesVideo = result!.paths.map((path) => File(path!)).toList();
@@ -121,7 +139,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       linkController.clear();
       files.clear();
-      Navigator.pop(context);
+     Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
       setState(() {
         isloader = false;
       });
@@ -138,14 +156,54 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   bool isImage = false;
   var dropdownInput ;
   List<Map<String, dynamic>> list = [
+    // {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
+    // {'id': 'event_webinars_slide', 'name' : 'Event & Webinars'},
+    // {'id': 'pharma_product_slide', 'name' : 'Pharma Product'},
+    // {'id': 'free_graphic_slide', 'name' : 'Free Graphic'},
+    // {'id': 'awareness', 'name' : 'Awareness Input'},
+    // {'id': 'doctor_plus_slide', 'name' : 'Doctor plus'},
+
+    {'id': 'main_dashboard', 'name' : 'Main Dashboard'},
     {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
-    {'id': 'event_webinars_slide', 'name' : 'Event & Webinars'},
-    {'id': 'pharma_product_slide', 'name' : 'Pharma Product'},
+    {'id': 'event_webinar_slide', 'name' : 'Event & Webinars'},
+    {'id': 'generic_brand_slide', 'name' : 'Generic Brand'},
     {'id': 'free_graphic_slide', 'name' : 'Free Graphic'},
-    {'id': 'awareness', 'name' : 'Awareness Input'},
-    {'id': 'doctor_plus_slide', 'name' : 'Doctor plus'},
+    {'id': 'awareness_input_slide', 'name' : 'Awareness'},
 
   ];
+
+
+  SpeciplyData? catDrop;
+  List<SpeciplyData> speciplyData =  [];
+  GetSelectCatModel? selectCatModel;
+  getSpecialityApi() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? Roll = preferences.getString('roll');
+    print("getRoll--------------->${Roll}");
+    var headers = {
+      'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.selectCategory}'));
+    request.fields.addAll({
+      'roll':"1",
+    });
+    print("this is a Response==========>${request.fields}");
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      final result =  await response.stream.bytesToString();
+      final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
+      print("this is =============>${finalResult}");
+      setState(() {
+        selectCatModel = finalResult;
+        speciplyData =  finalResult.data ?? [];
+      });
+
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,17 +214,11 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
             height: 50,
             title: isloader == true ? "Please wait......" : 'Advertisment',
             onPress: () {
-              if(filesVideo == null && files ==  null){
-                Fluttertoast.showToast(msg: "AAAAAAAA");
-                if(dropdownInput == null){
-                  Fluttertoast.showToast(msg: "jhvcjsdd");
-                }
-              }else {
-                setState(() {
-                  isloader = false;
-                });
+              print('__filesVideo != null________${filesVideo}_________');
+              if(files.isEmpty){
+                Fluttertoast.showToast(msg: "Please select all field",);
+              }else{
                 getUploadBannerNewApi();
-
               }
 
             },
@@ -322,7 +374,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                   getViewBasedOnSelectedValue(),
                   SizedBox(height: 15,),
                   Row(
-                    children: [Text("Select App Dash Board" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                    children: [Text("Select App Dashboard" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
                     ],),
                    SizedBox(height: 3,),
                    Container(
@@ -337,7 +389,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2<String>(
                           hint: Padding(
-                            padding: const EdgeInsets.only(top: 0),
+                            padding: const EdgeInsets.only(bottom: 5),
                             child: Text("Select App Dash Board",
                               style: TextStyle(
                                   color: colors.blackTemp,fontWeight: FontWeight.normal
@@ -366,7 +418,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 6),
+                                    padding: const EdgeInsets.only(top: 10),
                                     child: Container(
                                         width: 250,
                                         child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.normal),)),
@@ -417,27 +469,98 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                    children: [
                      Row(
                        children: [
-                         Text("Selected Doctor's Speciality" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                         Text("Select Speciality" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
                        ],),
                      SizedBox(height: 3,),
+
                      Container(
-                       height: 50,
-                       width: double.infinity,
-                       decoration: BoxDecoration(
-                           border: Border.all(color: colors.black54),
-                           borderRadius: BorderRadius.circular(10)
-                       ),
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                           Padding(
-                             padding: const EdgeInsets.all(8.0),
-                             child: Text("${getprofile!.user!.userData!.first.categoryId}"),
+                         padding: EdgeInsets.only(right: 5, top: 9),
+                         width: MediaQuery.of(context).size.width,
+                         height: 55,
+                         decoration:
+                         BoxDecoration(
+                           borderRadius: BorderRadius.circular(10),
+                           border: Border.all( color: colors.black54,),
+                         ),
+                         child: DropdownButtonHideUnderline(
+                           child: DropdownButton2<SpeciplyData>(
+
+                             hint: const Padding(
+                               padding: EdgeInsets.only(bottom: 10),
+                               child: Text("Select Speciality",
+                                 style: TextStyle(
+                                     color: colors.blackTemp,fontWeight: FontWeight.normal
+                                 ),),
+                             ),
+                             // dropdownColor: colors.primary,
+                             value: catDrop,
+                             icon:  const Padding(
+                               padding: EdgeInsets.only(bottom: 20,top: 5),
+                               child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                             ),
+                             // elevation: 16,
+                             style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                             underline: Padding(
+                               padding: const EdgeInsets.only(left: 0,right: 0),
+                               child: Container(
+                                 // height: 2,
+                                 color:  colors.whiteTemp,
+                               ),
+                             ),
+                             onChanged: (SpeciplyData? newValue) {
+                               // This is called when the user selects an item.
+                               setState(() {
+                                 catDrop = newValue!;
+                                 // indexSectet = items.indexOf(value);
+                                 // indexSectet++;
+                               });
+                             },
+
+                             items:speciplyData.map((SpeciplyData items) {
+                               return DropdownMenuItem(
+                                 value: items,
+                                 child:   Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   mainAxisAlignment: MainAxisAlignment.center,
+                                   children: [
+                                     Padding(
+                                       padding: const EdgeInsets.only(top: 10),
+                                       child: Text(items.name??'',style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.normal),),
+                                     ),
+                                     const Divider(
+                                       thickness: 0.2,
+                                       color: colors.black54,
+                                     )
+                                   ],
+                                 ),
+
+                               );
+                             })
+                                 .toList(),
+
                            ),
-                         ],
-                       ),
-                     )
+
+                         )
+
+                     ),
+                     // Container(
+                     //   height: 50,
+                     //   width: double.infinity,
+                     //   decoration: BoxDecoration(
+                     //       border: Border.all(color: colors.black54),
+                     //       borderRadius: BorderRadius.circular(10)
+                     //   ),
+                     //   child: Column(
+                     //     crossAxisAlignment: CrossAxisAlignment.start,
+                     //     mainAxisAlignment: MainAxisAlignment.center,
+                     //     children: [
+                     //       Padding(
+                     //         padding: const EdgeInsets.all(8.0),
+                     //         child: Text("${getprofile!.user!.userData!.first.categoryId}"),
+                     //       ),
+                     //     ],
+                     //   ),
+                     // )
                    ],
                  ),
 
