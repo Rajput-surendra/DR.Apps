@@ -109,11 +109,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
         String mobile = jsonresponse["mobile"];
         Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
         print('_____otp_____${otp}_________');
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => VerifyOtp(otp: otp.toString(),mobile:mobile.toString() ,)
-            ));
+        // Navigator.pushReplacement(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => VerifyOtp(otp: otp.toString(),mobile:mobile.toString() ,)
+        //     ));
       }
       else{
         Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);

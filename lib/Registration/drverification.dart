@@ -6,8 +6,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/otp_field_style.dart';
+import 'package:otp_text_field/style.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,7 +23,7 @@ import '../Screen/HomeScreen.dart';
 import '../api/api_services.dart';
 
 class NewCerification extends StatefulWidget {
-  final otp;
+  int? otp;
   final mobile;
 
   List? newList1 ;
@@ -38,15 +40,12 @@ class _NewCerificationState extends State<NewCerification> {
   bool isLoading =  false;
   String? msg;
 
-  TextEditingController pinController = TextEditingController();
+   OtpFieldController  pinController = OtpFieldController();
+   TextEditingController  pinController1 = TextEditingController();
   verifyOtp() async {
+    //registration();
 
-  print('_____xsdsafsfs_____${widget.otp}_____${pinController.text}____');
-    if(widget.otp == pinController.text){
-      registration();
-    }else{
-      Fluttertoast.showToast(msg: "Otp Incorrect ",backgroundColor: colors.secondary);
-    }
+
     /*print(code);
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -102,6 +101,7 @@ class _NewCerificationState extends State<NewCerification> {
         int? otp = finalResult['data']['otp'];
         String?  mobile = finalResult['data']['mobile'];
         print('____otp______${otp}_____${mobile}____');
+        widget.otp = otp;
 
       }
       Fluttertoast.showToast(msg: "${finalResult['message']}");
@@ -111,66 +111,10 @@ class _NewCerificationState extends State<NewCerification> {
     }
 
   }
-  loginwitMobile() async {
-    String? token ;
-    try{
-      token  = await FirebaseMessaging.instance.getToken();
 
-    } on FirebaseException{
-
-    }
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('otp', "otp");
-    preferences.setString('mobile', "mobile");
-    print("this is apiiiiiiii");
-    var headers = {
-      'Cookie': 'ci_session=b13e618fdb461ccb3dc68f327a6628cb4e99c184'
-    };
-    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.sendOTP}'));
-    request.fields.addAll({
-      'mobile': widget.mobile,
-      'fcm_id' : '${token}'
-    });
-
-
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
-
-      var finalresponse = await response.stream.bytesToString();
-      final jsonresponse = json.decode(finalresponse);
-      // Future.delayed(Duration(seconds: 1)).then((_) {
-      //   Navigator.pushReplacement(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => VerifyOtp()
-      //       ));
-      // });
-
-      if (jsonresponse['error'] == false) {
-
-        int? otp = jsonresponse["otp"];
-        String mobile = jsonresponse["mobile"];
-        Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
-        print('____Surendra______${otp}_________');
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => VerifyOtp(otp: otp.toString(),mobile:mobile.toString() ,)
-            ));
-      }
-      else{
-        Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);
-      }
-    }
-    else {
-      print(response.reasonPhrase);
-    }
-
-  }
   registration() async {
     setState(() {
-      isLoading ==  true;
+      isLoading = true;
     });
     if(false ){
       Fluttertoast.showToast(msg: 'Please add profile photo');
@@ -195,9 +139,9 @@ class _NewCerificationState extends State<NewCerification> {
         'doc_degree':widget.degree.toString(),
         'address': widget.cityName.toString(),
         'c_address':"${newList}",
-        'cat_type':widget.catType.toString(),
+        'cat_type':widget.roll == "2" ?widget.catType.toString():"",
         'category_id':widget.categoryId.toString(),
-        'designation_id':widget.designationId.toString(),
+        'designation_id':widget.roll == "2" ?widget.designationId.toString():"",
         'password':widget.pass.toString(),
         'roll': widget.roll.toString(),
         'confirm_password':widget.cPass.toString(),
@@ -205,16 +149,18 @@ class _NewCerificationState extends State<NewCerification> {
         'city': widget.cityName.toString(),
         'title': widget.title.toString(),
         "company_name": widget.companyName.toString(),
-        "company_division":widget.companyDivision.toString(),
+        "company_division":widget.roll == "2"? widget.companyDivision.toString():"",
         "state_id":widget.stateID.toString(),
         "city_id":widget.cityID.toString(),
         "area_id":widget.placeID.toString(),
         "experience":widget.experience.toString(),
-        "json": '${newList}'
+        "json":widget.roll == "1" ? "${widget.newList1}" :""
 
       });
-      if(widget.profileImages == null){
-        request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
+      print('____request.fields______${request.fields}_________');
+
+      if(widget.profileImages != ""){
+      request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
       }
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
@@ -232,6 +178,9 @@ class _NewCerificationState extends State<NewCerification> {
           setState(() {
             isLoading = false;
           });
+        }else{
+          Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
+
         }
 
       } else {
@@ -244,10 +193,21 @@ class _NewCerificationState extends State<NewCerification> {
       //}
     }
   }
+  String? newPin ;
+  String? newPin1 ;
+  final otpController = TextEditingController();
+  final otpFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    otpController.dispose();
+    otpFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print('___widget gender_______${widget.otp}______${widget.mobile}___');
+ print('____dddddd______${widget.profileImages}_________');
     return  SafeArea(
       child: WillPopScope(
         onWillPop: () async {
@@ -318,32 +278,108 @@ class _NewCerificationState extends State<NewCerification> {
                   //   style: TextStyle(color:  colors.blackTemp,fontWeight:FontWeight.bold,fontSize: 16),
                   // ),
 
-                  SizedBox(height: 20,),
-                  Center(
-                    child: Form(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          OtpTextField(
-                            numberOfFields: 4,
-                            borderRadius: BorderRadius.circular(50),
-                            borderColor: colors.secondary,
-                            focusedBorderColor: colors.secondary,
-                            showFieldAsBox: true,
-                            borderWidth: 1.0,
-                            fieldWidth: 60,
-                            onCodeChanged: (String code) {
-                              pinController.text = code;
-                            },
-                            //runs when every textfield is filled
-                            onSubmit: (String verificationCode) {
-                              verifyOtp();
-                            },),
+                  const SizedBox(height: 20,),
 
-                        ],
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: OTPTextField(
+                     outlineBorderRadius: 50 ,
+                      controller:pinController,
+                      otpFieldStyle: OtpFieldStyle(backgroundColor:colors.whiteTemp,borderColor:colors.whiteTemp),
+                      length: 4,
+                      keyboardType: TextInputType.number,
+                      width: MediaQuery.of(context).size.width,
+                      fieldWidth: 50,
+                      style: const TextStyle(fontSize: 17,color: colors.blackTemp),
+                      textFieldAlignment: MainAxisAlignment.spaceAround,
+                      fieldStyle: FieldStyle.box,
+
+
+                      onCompleted: (val) {
+                        print("Completed: " + val);
+                        setState(() {
+                          newPin = val.toString().trim() ;
+                        });
+                      },
+
                     ),
                   ),
+                  // Center(
+                  //   child: Form(
+                  //     child: Column(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         OtpTextField(
+                  //          // numberOfFields: 4,
+                  //           borderRadius: BorderRadius.circular(50),
+                  //           borderColor: colors.secondary,
+                  //           focusedBorderColor: colors.secondary,
+                  //           showFieldAsBox: true,
+                  //           borderWidth: 1.0,
+                  //           fieldWidth: 60,
+                  //            onCodeChanged: (otp) {
+                  //              if (pinController.text.length < 4) {
+                  //                pinController.text += otp;
+                  //                if (pinController.text.length == 4) {
+                  //                  print('Entered OTP: ${pinController.text}');
+                  //
+                  //                  registration();
+                  //                }
+                  //                else{
+                  //                 Fluttertoast.showToast(msg: "Surenfdfdfgdfd");
+                  //                }
+                  //              }
+                  //
+                  //               /* if(widget.otp == pinController.text){
+                  //                 registration();
+                  //                }*/
+                  //           }
+                  //         )
+                  //           // //runs when a code is typed in
+                  //           // onCodeChanged: (String code) {
+                  //           //   print(code);
+                  //           //
+                  //           // },
+                  //           // onSubmit: (String verificationCode) {
+                  //           //   pinController.text = verificationCode;
+                  //           //   if(widget.otp == pinController.text){
+                  //           //    registration();
+                  //           //   }else{
+                  //           //     Fluttertoast.showToast(msg: "Otp Incorrect ",backgroundColor: colors.secondary);
+                  //           //   }
+                  //           //
+                  //           // },),
+                  //
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // Center(
+                  //   child: Form(
+                  //     child: Column(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         OtpTextField(
+                  //           numberOfFields: 4,
+                  //           borderRadius: BorderRadius.circular(50),
+                  //           borderColor: colors.secondary,
+                  //           focusedBorderColor: colors.secondary,
+                  //           showFieldAsBox: true,
+                  //           borderWidth: 1.0,
+                  //           fieldWidth: 60,
+                  //             // TextInputType.number
+                  //           onCodeChanged: (value){
+                  //
+                  //           },
+                  //           //runs when every textfield is filled
+                  //           onSubmit: (String verificationCode) {
+                  //             verifyOtp();
+                  //           },),
+                  //
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(height: 40,),
                   Text("Haven't received the verification code?",style: TextStyle(
                       color: colors.blackTemp,fontSize: 15,fontWeight: FontWeight.bold
@@ -365,9 +401,13 @@ class _NewCerificationState extends State<NewCerification> {
                     width: 300,
                     title: 'Submit',
                     onPress: () {
-                      verifyOtp();
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) => HomeScreen()));
+                       if(newPin.toString() == widget.otp.toString() ) {
+                         registration();
+                       }else{
+                         Fluttertoast.showToast(msg: "Wrong OTP",backgroundColor: colors.secondary);
+                       }
+
+
                     },
                   ),
 

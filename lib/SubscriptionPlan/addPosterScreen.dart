@@ -216,9 +216,11 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
             onPress: () {
               print('__filesVideo != null________${filesVideo}_________');
               if(files.isEmpty){
-                Fluttertoast.showToast(msg: "Please select all field",);
+                Fluttertoast.showToast(msg: "Please select all field",backgroundColor: colors.secondary);
+              }else if(dropdownInput ==  null){
+                Fluttertoast.showToast(msg: "Please select all dashboard",backgroundColor: colors.secondary);
               }else{
-                getUploadBannerNewApi();
+              getUploadBannerNewApi();
               }
 
             },

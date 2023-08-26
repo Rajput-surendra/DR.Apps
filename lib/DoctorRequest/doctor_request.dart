@@ -37,6 +37,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
     super.initState();
     getSliderApi();
     getRequestApi();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _isReady = true;
@@ -103,7 +104,10 @@ class _DoctorRequestState extends State<DoctorRequest> {
          children: [
            getSlider(),
            button(),
-           getRequestModel  ==  null ? Center(child: CircularProgressIndicator(color: colors.primary,)) :  getRequestModel!.data!.length == 0 ? Center(child: Text("No Doctor Resquest !!")): viewCard(),
+
+           getRequestModel  ==  null ?
+           Center(child: CircularProgressIndicator(color: colors.primary,)) :
+           getRequestModel!.data!.length == 0 ? Center(child: Text("No Doctor Request !!")): viewCard(),
            SizedBox(height: 70,)
 
          ],
@@ -173,12 +177,13 @@ class _DoctorRequestState extends State<DoctorRequest> {
         shrinkWrap: true,
         reverse: true,
         itemCount: getRequestModel!.data!.length,
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
+        separatorBuilder: (BuildContext context, int index) =>
+        const SizedBox(height: 10,),
         itemBuilder: (BuildContext context, int index) {
-          print('____getRequestModel!.data!.length______${getRequestModel!.data!.length}_________');
-          return  RequestListCard(index: requestDataList.length,getRequestModel: requestDataList[index] ,i: index,onTop: (){
-            requetDeleteApi(getRequestModel!.data![index].id ??"");
-          },);
+
+          return
+            userIdNew == null ? CircularProgressIndicator():  userIdNew == getRequestModel!.data![index].userId  ?  RequestListCard(index: requestDataList.length,getRequestModel:
+            requestDataList[index] ,i: index,onTop: (){requetDeleteApi(getRequestModel!.data![index].id ??"");},):SizedBox();
           //   RepaintBoundary(
           //   key: keyList,
           //   child: _isReady ? Card(
@@ -661,7 +666,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
           //   ):SizedBox.shrink(),
           // );
         },
-      ),
+      )
     );
 
 
@@ -775,22 +780,22 @@ class _DoctorRequestState extends State<DoctorRequest> {
     }
   }
   List <RequetDataList> requestDataList = [] ;
-
+  String? userIdNew;
   GetRequestModel ? getRequestModel;
   getRequestApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    userId = preferences.getString('userId');
+    userIdNew = preferences.getString('userId');
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
+    print('_____userIdNew_____${userIdNew}_________');
     var headers = {
       'Cookie': 'ci_session=c09a9cb1d96b25ad537166ce10be5c5b1dfd73b0'
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getRequestApi}'));
     request.fields.addAll({
-     'user_id': userId.toString(),
+     'user_id': userIdNew.toString(),
       'speciality_id': localId == null || localId == '' ? specialityId ?? '' : localId.toString()
     });
-    print('____request.fields______${request.fields}_________');
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();

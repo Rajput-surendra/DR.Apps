@@ -59,7 +59,8 @@ class _RequestListCardState extends State<RequestListCard> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10)
         ),
-        child: Padding(
+        child:
+               Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,15 +121,14 @@ class _RequestListCardState extends State<RequestListCard> {
                               wishListApi(widget.getRequestModel?.id ?? '', );
                               widget.getRequestModel?.isSelected = !(widget.getRequestModel?.isSelected ?? false );
                             });
-                            print('____dddddddddddd______${widget.getRequestModel?.isSelected}_____${widget.getRequestModel?.isFavorite}____');
-                          },icon: widget.getRequestModel?.isSelected ?? false ?
+                          },icon: widget.getRequestModel?.isFavorite ?? false ?
                       Icon(Icons.favorite,color: colors.red,): widget.getRequestModel?.isSelected ?? false
                           ?Icon(Icons.favorite,color: colors.red,) :
                       Icon(Icons.favorite_outline,color: colors.blackTemp,)),
                       if(userIdNew == widget.getRequestModel!.userId)
                         InkWell(
                             onTap: widget.onTop,
-                            child: Icon(Icons.delete)),
+                            child: Icon(Icons.delete))
                     ],
                   ):SizedBox.shrink()
 
@@ -545,7 +545,7 @@ class _RequestListCardState extends State<RequestListCard> {
             ],
           ),
         ),
-      ):SizedBox.shrink(),
+      ):SizedBox.shrink()
     );
   }
 

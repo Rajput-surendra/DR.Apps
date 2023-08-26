@@ -84,7 +84,7 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
-              childAspectRatio: 5 /1.6,
+              childAspectRatio: 5 /1.8,
               // crossAxisSpacing: 3,
               // mainAxisSpacing: 5
           ),
@@ -103,7 +103,7 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Center(child: Text("${selectCatModel!.data![index].name}",textAlign: TextAlign.center,style: TextStyle(color: colors.black54),)),
+                  child: Center(child: Text("${selectCatModel!.data![index].name}",textAlign: TextAlign.center,style: TextStyle(color: colors.black54,fontSize: 11),)),
                 ),
               ),
             );

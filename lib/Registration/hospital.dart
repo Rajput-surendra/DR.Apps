@@ -179,12 +179,14 @@ class _HospitalState extends State<Hospital> {
         int? otp = finalResult['data']['otp'];
         String?  mobile = finalResult['data']['mobile'];
         print('____otp______${otp}_____${mobile}____');
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (
           otp: otp,mobile:mobile.toString(),title: widget.title,roll: widget.roll,categoryId:
         widget.categoryId,cityID: widget.cityID,cPass: widget.cPass,degree: widget.degree,
           email: widget.email,experience: widget.experience,gender: widget.gender,
           pass: widget.pass,name: widget.name,profileImages: widget.profileImages,
           placeID: widget.placeID,stateID: widget.stateID,cityName: widget.cityName,newList1:newList ,)));
+        print('______ddddd____${newList}_________');
       }
       Fluttertoast.showToast(msg: "${finalResult['message']}");
     }
@@ -199,7 +201,7 @@ class _HospitalState extends State<Hospital> {
   String? daysHos;
   @override
   Widget build(BuildContext context) {
-    print('____xxxxzx______${widget.placeID}_________');
+    print('____xxxxzx______${widget.profileImages}_________');
     return  Scaffold(
       appBar: customAppBar(context: context, text:"Clinic/Hospital Details", isTrue: true, ),
       body:  Padding(
@@ -372,7 +374,6 @@ class _HospitalState extends State<Hospital> {
                               Fluttertoast.showToast(msg: "Please Add Hospital/Clinic Details",backgroundColor: colors.secondary);
                             }
                             else{
-
                               notRegistrtion();
                             }
 

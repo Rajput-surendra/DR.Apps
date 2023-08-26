@@ -369,6 +369,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                           ),
                                         ],
                                       ),
+
                                     ],
                                   ),
                                 );
@@ -376,7 +377,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
 
                             }),
                 SizedBox(height: 20,),
-              role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
+                getBrandModel?.data == null ? SizedBox() : role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
                   "Thank you \n Your brand with generic name\n and company name uploaded \nsuccessfully for Doctors area ",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20),

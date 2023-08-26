@@ -185,6 +185,7 @@ RequetDataList copyWith({  String? id,
 
 class Json {
   Json({
+      bool? isSelected,
       String? mobileNo, 
       String? drName, 
       String? drAssociation, 
@@ -208,6 +209,7 @@ class Json {
       String? conference, 
       String? drPhoto, 
       String? drPersonalized,}){
+     isSelected = false;
     _mobileNo = mobileNo;
     _drName = drName;
     _drAssociation = drAssociation;
@@ -231,9 +233,11 @@ class Json {
     _conference = conference;
     _drPhoto = drPhoto;
     _drPersonalized = drPersonalized;
+
 }
 
   Json.fromJson(dynamic json) {
+
     _mobileNo = json['mobile_no'];
     _drName = json['dr_name'];
     _drAssociation = json['dr_association'];
@@ -282,6 +286,7 @@ class Json {
   String? _drPhoto;
   String? _drPersonalized;
 Json copyWith({  String? mobileNo,
+
   String? drName,
   String? drAssociation,
   String? degree,

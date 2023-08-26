@@ -472,91 +472,96 @@ class _DoctorResignationState extends State<DoctorResignation> {
   //   }
   // }
   String? msg;
-  registration() async {
-    isLoading ==  true;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('otp', "otp");
-      String? token;
-      try {
-        token = await FirebaseMessaging.instance.getToken();
-      } on FirebaseException {
-
-      }
-
-      // if (false) {
-      //   // Fluttertoast.showToast(msg: 'Please select category');
-      // } else {
-      //   print("this is user registration ");
-      var headers = {
-        'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
-      };
-      var request = http.MultipartRequest(
-          'POST', Uri.parse('${ApiService.userRegister}'));
-      request.fields.addAll({
-        'email': emailController.text,
-        'mobile': mobileController.text,
-        'username': nameController.text,
-        'gender': gender.toString(),
-        'doc_degree': docdegreeController.text,
-        'address': "",
-        'c_address': clinikaddressController.text,
-        'cat_type': widget.role == 2 ?SelectedPharma.toString():"",
-        'category_id': widget.role == 2 ?catDrop!.id.toString():widget.id.toString(),
-        'designation_id':widget.role == 2 ? results.id.toString():"",
-        'password': passController.text,
-        'roll': widget.role.toString(),
-        'confirm_password': CpassController.text,
-        'fcm_id': token ?? '',
-        'send_otp': "true",
-        'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
-        "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
-        "company_division":widget.role == 2? catDrop!.id.toString():"",
-        "state_id":'$stateId',
-        "city_id": "$cityId",
-        "area_id":placeC.text,
-        "experience": experienceC.text,
-
-      });
-      print('___request.fields_______${request.fields}_________');
-    // request.files.add(await http.MultipartFile.fromPath(
-    //     'image', imageFile!.path ?? ''));
-    if(imageFile!= null){
-      request.files.add(await http.MultipartFile.fromPath(
-          'image', imageFile?.path ?? ''));
-    }
-      // print(
-      //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
-      request.headers.addAll(headers);
-      http.StreamedResponse response = await request.send();
-      if (response.statusCode == 200) {
-        final result = await response.stream.bytesToString();
-        var finalResult = json.decode(result);
-        msg = finalResult['message'];
-          Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary );
-        if (finalResult['error'] == false) {
-          int? otp = finalResult['data']['otp'];
-          String?  mobile = finalResult['data']['mobile'];
-
-          Fluttertoast.showToast(msg: finalResult['message']);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (
-              otp: otp,mobile:mobile.toString(),categoryId:widget.id,companyName: selectedQualification,companyDivision: catDrop!.id,catType: SelectedPharma,)));
-          // Fluttertoast.showToast(msg: finalResult['message']);
-        }
-        setState(() {
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-        print(response.reasonPhrase);
-      }
-      //}
-
-  }
+  // registration() async {
+  //   isLoading ==  true;
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   preferences.setString('otp', "otp");
+  //     String? token;
+  //     try {
+  //       token = await FirebaseMessaging.instance.getToken();
+  //     } on FirebaseException {
+  //
+  //     }
+  //
+  //     // if (false) {
+  //     //   // Fluttertoast.showToast(msg: 'Please select category');
+  //     // } else {
+  //     //   print("this is user registration ");
+  //     var headers = {
+  //       'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
+  //     };
+  //     var request = http.MultipartRequest(
+  //         'POST', Uri.parse('${ApiService.userRegister}'));
+  //     request.fields.addAll({
+  //       'email': emailController.text,
+  //       'mobile': mobileController.text,
+  //       'username': nameController.text,
+  //       'gender': gender.toString(),
+  //       'doc_degree': docdegreeController.text,
+  //       'address': "",
+  //       'c_address': clinikaddressController.text,
+  //       'cat_type': widget.role == 2 ?SelectedPharma.toString():"",
+  //       'category_id': widget.role == 2 ?catDrop!.id.toString():widget.id.toString(),
+  //       'designation_id':widget.role == 2 ? results.id.toString():"",
+  //       'password': passController.text,
+  //       'roll': widget.role.toString(),
+  //       'confirm_password': CpassController.text,
+  //       'fcm_id': token ?? '',
+  //       'send_otp': "true",
+  //       'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
+  //       "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
+  //       "company_division":widget.role == 2? catDrop!.id.toString():"",
+  //       "state_id":'$stateId',
+  //       "city_id": "$cityId",
+  //       "area_id":placeC.text,
+  //       "experience": experienceC.text,
+  //
+  //     });
+  //     print('___request.fields_______${request.fields}_________');
+  //   // request.files.add(await http.MultipartFile.fromPath(
+  //   //     'image', imageFile!.path ?? ''));
+  //   if(imageFile!= null){
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //         'image', imageFile?.path ?? ''));
+  //   }
+  //     // print(
+  //     //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
+  //     request.headers.addAll(headers);
+  //     http.StreamedResponse response = await request.send();
+  //     if (response.statusCode == 200) {
+  //       final result = await response.stream.bytesToString();
+  //       var finalResult = json.decode(result);
+  //       msg = finalResult['message'];
+  //         Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary );
+  //       if (finalResult['error'] == false) {
+  //         int? otp = finalResult['data']['otp'];
+  //         String?  mobile = finalResult['data']['mobile'];
+  //
+  //         Fluttertoast.showToast(msg: finalResult['message']);
+  //         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (
+  //             otp: otp,mobile:mobile.toString(),categoryId:widget.id,
+  //           companyName: selectedQualification,
+  //           companyDivision: catDrop!.id,catType: SelectedPharma,stateID:
+  //         stateId,placeID: placeC.text,profileImages: imageFile!.path,name: nameController.text,
+  //           pass: passController.text,gender: gender,email: emailController.text,
+  //           cPass: CpassController.text,cityID: cityId,roll: widget.role.toString(),designationId: results.id,title: dropdownGender,
+  //
+  //           )));
+  //         // Fluttertoast.showToast(msg: finalResult['message']);
+  //       }
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         isLoading = false;
+  //       });
+  //       print(response.reasonPhrase);
+  //     }
+  //     //}
+  //
+  // }
   notRegistrtion() async {
-
-
     var headers = {
       'Cookie': 'ci_session=df570ff9aff445c600c3dbfa4fe01f9e4b8a7004'
     };
@@ -575,7 +580,14 @@ class _DoctorResignationState extends State<DoctorResignation> {
         String?  mobile = finalResult['data']['mobile'];
         print('____otp______${otp}_____${mobile}____');
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (
-          otp: otp,mobile:mobile.toString(),categoryId:widget.id,companyName: selectedQualification,companyDivision: catDrop!.id,catType: SelectedPharma,)));
+          otp: otp,mobile:mobile.toString(),categoryId:catDrop!.id,
+          companyName: selectedQualification,
+          companyDivision: catDrop!.id,catType: SelectedPharma,stateID:
+        stateId,placeID: placeC.text,profileImages: imageFile?.path,name: nameController.text,
+          pass: passController.text,gender: gender,email: emailController.text,
+          cPass: CpassController.text,cityID: cityId,roll: widget.role.toString(),designationId: results.id,title: dropdownGender,
+
+        )));
       }
       Fluttertoast.showToast(msg: "${finalResult['message']}");
     }
@@ -585,95 +597,95 @@ class _DoctorResignationState extends State<DoctorResignation> {
 
   }
 
-  registration2() async {
-    isLoading ==  true;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('otp', "otp");
-    String? token;
-    try {
-      token = await FirebaseMessaging.instance.getToken();
-    } on FirebaseException {
-
-    }
-
-    // if (false) {
-    //   // Fluttertoast.showToast(msg: 'Please select category');
-    // } else {
-    //   print("this is user registration ");
-    var headers = {
-      'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
-    };
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('${ApiService.userRegister}'));
-    request.fields.addAll({
-      'email': emailController.text,
-      'mobile': mobileController.text,
-      'username': nameController.text,
-      'gender': gender.toString(),
-      'doc_degree': docdegreeController.text,
-      'address': "",
-      'c_address': clinikaddressController.text,
-      'cat_type': widget.role == 2 ?SelectedPharma.toString():"",
-      'category_id': widget.role == 2 ?catDrop!.id.toString():widget.id.toString(),
-      'designation_id':widget.role == 2 ? results.id.toString():"",
-      'password': passController.text,
-      'roll': widget.role.toString(),
-      'confirm_password': CpassController.text,
-      'fcm_id': token ?? '',
-      'send_otp': "false",
-      'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
-      "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
-      "company_division":widget.role == 2? catDrop!.id.toString():"",
-      "state_id":'$stateId',
-      "city_id": "$cityId",
-      "area_id":widget.role == 1 ? "$placeId":"",
-      "experience": experienceC.text,
-
-    });
-    print('___request.fields_______${request.fields}_________');
-    // request.files.add(await http.MultipartFile.fromPath(
-    //     'image', imageFile!.path ?? ''));
-    if(imageFile!= null){
-      request.files.add(await http.MultipartFile.fromPath(
-          'image', imageFile?.path ?? ''));
-    }
-    // print(
-    //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
-      final result = await response.stream.bytesToString();
-      var finalResult = json.decode(result);
-      // var finalResult = SignUpModel.fromJson(json.decode(reslut));
-
-      msg = finalResult['message'];
-      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary );
-      // setState(() {
-      //   detailsData = finalResult;
-      // });
-      // Fluttertoast.showToast(msg: detailsData!.message.toString());
-      if (finalResult['error'] == false) {
-        int? otp = finalResult['data']['otp'];
-        String?  mobile = finalResult['data']['mobile'];
-        // var otp = detailsData!.data!.otp.toString();
-        // var mobile = detailsData!.data!.mobile.toString();
-        // Fluttertoast.showToast(msg: detailsData!.message.toString());
-        Fluttertoast.showToast(msg: finalResult['message']);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
-        // Fluttertoast.showToast(msg: finalResult['message']);
-      }
-      setState(() {
-        isLoading = false;
-      });
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      print(response.reasonPhrase);
-    }
-    //}
-
-  }
+  // registration2() async {
+  //   isLoading ==  true;
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   preferences.setString('otp', "otp");
+  //   String? token;
+  //   try {
+  //     token = await FirebaseMessaging.instance.getToken();
+  //   } on FirebaseException {
+  //
+  //   }
+  //
+  //   // if (false) {
+  //   //   // Fluttertoast.showToast(msg: 'Please select category');
+  //   // } else {
+  //   //   print("this is user registration ");
+  //   var headers = {
+  //     'Cookie': 'ci_session=7484a255faa8a60919687a35cf9c56e5c55326d2'
+  //   };
+  //   var request = http.MultipartRequest(
+  //       'POST', Uri.parse('${ApiService.userRegister}'));
+  //   request.fields.addAll({
+  //     'email': emailController.text,
+  //     'mobile': mobileController.text,
+  //     'username': nameController.text,
+  //     'gender': gender.toString(),
+  //     'doc_degree': docdegreeController.text,
+  //     'address': "",
+  //     'c_address': clinikaddressController.text,
+  //     'cat_type': widget.role == 2 ?SelectedPharma.toString():"",
+  //     'category_id': widget.role == 2 ?catDrop!.id.toString():widget.id.toString(),
+  //     'designation_id':widget.role == 2 ? results.id.toString():"",
+  //     'password': passController.text,
+  //     'roll': widget.role.toString(),
+  //     'confirm_password': CpassController.text,
+  //     'fcm_id': token ?? '',
+  //     'send_otp': "false",
+  //     'title': widget.role == 2 ? dropdownGender.toString():dropdownDoctor.toString(),
+  //     "company_name": show ? companyController.text.toString() : selectedQualification.toString(),
+  //     "company_division":widget.role == 2? catDrop!.id.toString():"",
+  //     "state_id":'$stateId',
+  //     "city_id": "$cityId",
+  //     "area_id":widget.role == 1 ? "$placeId":"",
+  //     "experience": experienceC.text,
+  //
+  //   });
+  //   print('___request.fields_______${request.fields}_________');
+  //   // request.files.add(await http.MultipartFile.fromPath(
+  //   //     'image', imageFile!.path ?? ''));
+  //   if(imageFile!= null){
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //         'image', imageFile?.path ?? ''));
+  //   }
+  //   // print(
+  //   //     "this is request ===>>>>surendra ${request.fields}   ${request.files.toString()}");
+  //   request.headers.addAll(headers);
+  //   http.StreamedResponse response = await request.send();
+  //   if (response.statusCode == 200) {
+  //     final result = await response.stream.bytesToString();
+  //     var finalResult = json.decode(result);
+  //     // var finalResult = SignUpModel.fromJson(json.decode(reslut));
+  //
+  //     msg = finalResult['message'];
+  //     Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary );
+  //     // setState(() {
+  //     //   detailsData = finalResult;
+  //     // });
+  //     // Fluttertoast.showToast(msg: detailsData!.message.toString());
+  //     if (finalResult['error'] == false) {
+  //       int? otp = finalResult['data']['otp'];
+  //       String?  mobile = finalResult['data']['mobile'];
+  //       // var otp = detailsData!.data!.otp.toString();
+  //       // var mobile = detailsData!.data!.mobile.toString();
+  //       // Fluttertoast.showToast(msg: detailsData!.message.toString());
+  //       Fluttertoast.showToast(msg: finalResult['message']);
+  //       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (otp: otp,mobile:mobile.toString())));
+  //       // Fluttertoast.showToast(msg: finalResult['message']);
+  //     }
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     print(response.reasonPhrase);
+  //   }
+  //   //}
+  //
+  // }
   void _showMultiSelect(int category) async {
     results = await showDialog(
       context: context,
@@ -2131,13 +2143,10 @@ class _DoctorResignationState extends State<DoctorResignation> {
                             print("hhhhhhhhhhhhhhhhhhhhhh${widget.role}");
 
                             if(widget.role == 1){
-                              checkEmailMobileApi();
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
-                                  //   ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
-                                  // cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeId ?? "",
-                                  // profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
+                              checkEmailMobileApi1();
                             }else {
-                              notRegistrtion();
+                              checkEmailMobileApi();
+                              // notRegistrtion();
                             }
                             // Navigator.push(context,
                             //     MaterialPageRoute(builder: (context) =>HomeScreen()));
@@ -2175,10 +2184,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
       var  result =  await response.stream.bytesToString();
        var finalResult = jsonDecode(result);
        if(finalResult['error'] == false){
-         Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
-           ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
-           cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeC.text ?? "",
-           profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
+        notRegistrtion();
        }else{
          Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor:  colors.secondary);
        }
@@ -2186,6 +2192,37 @@ class _DoctorResignationState extends State<DoctorResignation> {
     }
     else {
     print(response.reasonPhrase);
+    }
+
+  }
+  checkEmailMobileApi1() async {
+    var headers = {
+      'Cookie': 'ci_session=b30b2c63f84840fcbad140cdb85d5d945da2fcf5'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.checkMobileEmail}'));
+    request.fields.addAll({
+      'mobile': mobileController.text,
+      'email': emailController.text
+    });
+    print('______request.fields____${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var  result =  await response.stream.bytesToString();
+      var finalResult = jsonDecode(result);
+      if(finalResult['error'] == false){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
+          ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
+          cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeC.text,
+          profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));
+        print('______placeC.text____${imageFile?.path}_________');
+      }else{
+        Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor:  colors.secondary);
+      }
+
+    }
+    else {
+      print(response.reasonPhrase);
     }
 
   }
