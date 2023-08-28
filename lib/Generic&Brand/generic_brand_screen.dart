@@ -94,7 +94,7 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
               onTap: (){
                 catName =  selectCatModel?.data?[index].name;
                 catId =  selectCatModel?.data?[index].id;
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen(catId: selectCatModel!.data![index].id,catName: selectCatModel?.data?[index].name,)));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen(catId: selectCatModel!.data![index].id,catName: selectCatModel?.data?[index].name,)));
               },
               child: Card(
                 elevation: 5,

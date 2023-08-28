@@ -177,7 +177,7 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
       var result =   await response.stream.bytesToString();
       final finalResult = json.decode(result);
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
       print('____Sdfdfdfdff______${finalResult}_________');
       setState(() {
 

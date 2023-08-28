@@ -72,48 +72,39 @@ class _ForgotPassState extends State<ForgotPass> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: customAppBar(text: "Forgot Password", isTrue: true, context: context),
       body: Form(
         key: _formKey,
         child: Column(
            children: [
-             SizedBox(height: 250,),
+             SizedBox(height: 50,),
              Padding(
                padding: const EdgeInsets.all(8.0),
-               child: Container(
-                 height: 60,
-                 decoration: BoxDecoration(
-                   borderRadius: BorderRadius.circular(15),
-                   color: colors.whiteTemp,
-                   //Theme.of(context).colorScheme.gray,
-                 ),
-                 child: Card(
-                   shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                   elevation: 4,
-                   child: Center(
-                     child: TextFormField(
-                       controller: mobileController,
-                       keyboardType: TextInputType.number,
-                       maxLength: 10,
-                       validator: (v) {
-                         if (v!.length != 10) {
-                           return "mobile number is required";
-                         }
-                       },
-                       decoration: InputDecoration(
-                         border: InputBorder.none,
-                         counterText: "",
-                         contentPadding:
-                         EdgeInsets.only(left: 15, top: 15),
-                         hintText: "Mobile Number",hintStyle: TextStyle(color: colors.secondary),
-                         prefixIcon: Icon(
-                           Icons.call,
-                           color:colors.secondary,
-                           size: 20,
-                         ),
-
+               child: Card(
+                 shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                 elevation: 1,
+                 child: Center(
+                   child: TextFormField(
+                     controller: mobileController,
+                     keyboardType: TextInputType.number,
+                     maxLength: 10,
+                     validator: (v) {
+                       if (v!.length != 10) {
+                         return "mobile number is required";
+                       }
+                     },
+                     decoration: InputDecoration(
+                       border: InputBorder.none,
+                       counterText: "",
+                       contentPadding:
+                       EdgeInsets.only(left: 15, top: 15),
+                       hintText: "Mobile Number",hintStyle: TextStyle(color: colors.secondary),
+                       prefixIcon: Icon(
+                         Icons.call,
+                         color:colors.secondary,
+                         size: 20,
                        ),
+
                      ),
                    ),
                  ),

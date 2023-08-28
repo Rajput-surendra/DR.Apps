@@ -67,11 +67,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
   ),
 ),
              ): SizedBox.shrink(),
-        appBar: customAppBar(
-          context: context,
-          text: "Generic & Brand",
-          isTrue: true,
-        ),
+        appBar:customAppBar(context: context, text: "Generic & Brand", isTrue: true,),
         body:  Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
@@ -136,15 +132,15 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                         children: [
                                           Expanded(
                                             child: Container(
-                                              height: 40,
+                                              height: 38,
                                               decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.only(
                                                       bottomLeft:
                                                       Radius.circular(10)),
-                                                  color: colors.darkIcon),
+                                                  color: colors.darkIcon.withOpacity(0.6)),
                                               child: Center(
                                                   child: Text(
-                                                    "${branddata[i].companyName}",
+                                                    "By ${branddata[i].companyName}",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         color: colors.whiteTemp,
@@ -161,7 +157,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                       brandName =  branddata[i].name;
                                                       brandDes =  branddata[i].genericName;
                                                     });
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
+                                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
                                                   }else {
                                                     setState((){
                                                       cardId = branddata[i].id;
@@ -176,7 +172,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                         brandName =  branddata[i].name;
                                                         brandDes =  branddata[i].genericName;
                                                       });
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
                                                     }else{
                                                     setState((){
                                                       cardId = branddata[i].id;
@@ -184,14 +180,14 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                       brandDes =  branddata[i].genericName;
                                                     });
 
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
+                                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
                                                     }
                                                   }
 
                                                 },
                                                 child: branddata[i].isDetailsAdded == true ?  InkWell(
                                                   child: Container(
-                                                    height: 40,
+                                                    height: 38,
                                                     decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.only(
                                                             bottomRight:
@@ -210,7 +206,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     ),
                                                   ),
                                                 ) : Container(
-                                                  height: 40,
+                                                  height: 38,
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.only(
                                                           bottomRight:
@@ -268,15 +264,15 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                         children: [
                                           Expanded(
                                             child: Container(
-                                              height: 40,
+                                              height: 38,
                                               decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.only(
                                                       bottomLeft:
                                                       Radius.circular(10)),
-                                                  color: colors.darkIcon),
+                                                  color: colors.darkIcon.withOpacity(0.6)),
                                               child: Center(
                                                   child: Text(
-                                                    "${branddata[i].companyName}",
+                                                    "By ${branddata[i].companyName}",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         color: colors.whiteTemp,
@@ -292,7 +288,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     brandName =  branddata[i].name;
                                                     brandDes =  branddata[i].genericName;
                                                   });
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
                                                   }else {
                                                     setState((){
                                                       cardId = branddata[i].id;
@@ -307,24 +303,26 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                         brandName =  branddata[i].name;
                                                         brandDes =  branddata[i].genericName;
                                                       });
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
                                                     }else{
                                                       setState((){
                                                         cardId = branddata[i].id;
                                                         brandName =  branddata[i].name;
                                                         brandDes =  branddata[i].genericName;
                                                       });
-                                                      cardId = branddata[i].id;
-                                                      brandName =  branddata[i].name;
-                                                      brandDes =  branddata[i].genericName;
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id,isTrueValue: true,)));
+                                                     setState(() {
+                                                       cardId = branddata[i].id;
+                                                       brandName =  branddata[i].name;
+                                                       brandDes =  branddata[i].genericName;
+                                                     });
+                                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id,isTrueValue: true,)));
                                                     }
                                                   }
 
                                                 },
                                                 child: branddata[i].isDetailsAdded == true ?  InkWell(
                                                   child: Container(
-                                                    height: 40,
+                                                    height: 38,
                                                     decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.only(
                                                             bottomRight:
@@ -343,7 +341,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     ),
                                                   ),
                                                 ) : Container(
-                                                  height: 40,
+                                                  height: 38,
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.only(
                                                           bottomRight:
@@ -377,7 +375,8 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
 
                             }),
                 SizedBox(height: 20,),
-                getBrandModel?.data == null ? SizedBox() : role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
+                getBrandModel?.data == null ? SizedBox() :
+                role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
                   "Thank you \n Your brand with generic name\n and company name uploaded \nsuccessfully for Doctors area ",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20),
@@ -409,7 +408,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
     var request =
         http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll(
-        {'user_id': role == "2" ? userId.toString() : '', 'category_id': widget.catId.toString()});
+        {'user_id': role == "2" ? userId.toString() : '', 'category_id': catId.toString()});
     print('__________${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -435,8 +434,9 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    print('__________ffffffffffffffffffffff_________');
     getRole();
-    // getBrandApi();
+    getBrandApi();
     callApi();
   }
 
@@ -454,10 +454,10 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
               child: Column(
                 children: [
                   RichText(
-                    text: TextSpan(
+                    text: const TextSpan(
                       text: 'Detail layout of ',
                       style: TextStyle(fontSize: 13,color: colors.blackTemp),
-                      children: const <TextSpan>[
+                      children: <TextSpan>[
                         TextSpan(
                             text: 'BRAND DETAILS AREA',
                             style: TextStyle(
@@ -467,7 +467,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
                   Image.asset("assets/images/generic.png"),
                   // Container(
                   //   height: 50,
@@ -476,10 +476,11 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                   //  ),
                   //   child: Center(child: Text("Logo upload area\n image size : 200 pixel * 100 pixed",style: TextStyle(fontSize: 12),)),
                   // ),
-                  SizedBox(height: 30,),
+
+                  const SizedBox(height: 30,),
                   role == "2" ? InkWell(
                     onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandDetailsPlansScreen())).then((value) {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandDetailsPlansScreen())).then((value) {
                       if(value !=null){
                         callApi();
                       }

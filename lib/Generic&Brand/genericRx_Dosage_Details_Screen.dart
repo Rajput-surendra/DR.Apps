@@ -30,7 +30,17 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
   Widget build(BuildContext context) {
     print('____zzXx______${widget.isTrueId}____${cardId}_____');
     return Scaffold(
-      appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor:  colors.secondary,
+        leading: InkWell(
+          onTap: (){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
+          },
+            child: Icon(Icons.arrow_back_ios_rounded)),
+        title:Text( "Generic & Brand"),
+      ),
+      // customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: SingleChildScrollView(
@@ -101,9 +111,9 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       ],
                     ),
                     SizedBox(height: 10,),
-                    Text("${widget.isTrueId ?? false ? widget.brand:brandName}",style: TextStyle(color: colors.secondary,fontSize: 30),),
+                    Text("${brandName}",style: TextStyle(color: colors.secondary,fontSize: 30),),
                     SizedBox(height: 5,),
-                    Text("${widget.isTrueId ?? false ? widget.des:brandDes}"),
+                    Text("${brandDes}"),
                     SizedBox(height: 20,),
                     sliderCard(),
                     SizedBox(height: 5,),
@@ -115,9 +125,9 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                     SizedBox(height: 5,),
                     personAllWidget(),
                     SizedBox(height: 10,),
-                    Row(
+                    widget.isTrueId == true ? SizedBox.shrink() : Row(
                       children: [
-                        role == "1" ? SizedBox.shrink():   InkWell(
+                         role == "1" ? SizedBox.shrink():   InkWell(
                           onTap: (){
                             Navigator.pop(context,[true]);
                           },
@@ -375,84 +385,111 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
 
   personAllWidget(){
     return Container(
-      height: 130,
+      height: 150,
       child: ListView.
          builder(
         scrollDirection: Axis.horizontal,
         itemCount: getBrandsRxDosageModel?.data?.first.contactDetails?.length,
           itemBuilder: (c,i){
-        return  Row(
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Container(
-                    height: 50,
-                    width: 100,
-                    color:  colors.primary,
-                    child: Center(child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Text('${getBrandsRxDosageModel?.data?.first.contactDetails?[i].name}',style: TextStyle(color: colors.whiteTemp),),
-                    )),
+        return Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width/3.5,
+                        height: 50,
+                      color:colors.primary,
+                        child: Center(child: Text("${getBrandsRxDosageModel!.data!.first.contactDetails?[i].name}"))),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Container(
-                    height: 50,
-                    width: 100,
-                    color:  colors.black54.withOpacity(0.1),
-                    child: Center(child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?[i].mobile}"),
-                    )),
-                  ),
-                ),
-              ],
-            ),
-            // SizedBox(width: 5,),
-            // Expanded(
-            //   child: Column(
-            //     children: [
-            //       Container(
-            //         height: 50,
-            //         color:  colors.primary,
-            //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.name}",style: TextStyle(color: colors.whiteTemp))),
-            //       ),
-            //       SizedBox(height: 5,),
-            //       Container(
-            //         height: 50,
-            //         color:  colors.black54.withOpacity(0.1),
-            //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.mobile}")),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(width: 5,),
-            // Expanded(
-            //   child: Column(
-            //     children: [
-            //
-            //       Container(
-            //         height: 50,
-            //         color:  colors.primary,
-            //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.name}",style: TextStyle(color: colors.whiteTemp))),
-            //       ),
-            //
-            //       SizedBox(height: 5,),
-            //       Container(
-            //         height: 50,
-            //         color:  colors.black54.withOpacity(0.1),
-            //         child: Center(child: Text('${getBrandsRxDosageModel?.data?.first.contactDetails?.first.mobile}')),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          ],
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width/3.5,
+                        height: 50,
+                        color:colors.blackTemp.withOpacity(0.1),
+                        child: Center(child: Text("${getBrandsRxDosageModel!.data!.first.contactDetails?[i].mobile}"))),
+                  )
+                ],
+              )
+            ],
+          ),
         );
+            
+        //   Container(
+        //   width: 100,
+        //   child:
+        //   // Row(
+        //   //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   //   children: [
+        //   //     Column(
+        //   //       children: [
+        //   //         Padding(
+        //   //           padding: const EdgeInsets.all(0.0),
+        //   //           child: Container(
+        //   //             color:  colors.primary,
+        //   //             child: Center(child: Padding(
+        //   //               padding: const EdgeInsets.symmetric(horizontal: 5),
+        //   //               child: Text('${getBrandsRxDosageModel?.data?.first.contactDetails?[i].name}',style: TextStyle(color: colors.whiteTemp),),
+        //   //             )),
+        //   //           ),
+        //   //         ),
+        //   //         Padding(
+        //   //           padding: const EdgeInsets.all(5.0),
+        //   //           child: Container(
+        //   //             color:  colors.black54.withOpacity(0.1),
+        //   //             child: Center(child: Padding(
+        //   //               padding: const EdgeInsets.symmetric(horizontal: 6),
+        //   //               child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?[i].mobile}"),
+        //   //             )),
+        //   //           ),
+        //   //         ),
+        //   //       ],
+        //   //     ),
+        //   //     // SizedBox(width: 5,),
+        //   //     // Expanded(
+        //   //     //   child: Column(
+        //   //     //     children: [
+        //   //     //       Container(
+        //   //     //         height: 50,
+        //   //     //         color:  colors.primary,
+        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.name}",style: TextStyle(color: colors.whiteTemp))),
+        //   //     //       ),
+        //   //     //       SizedBox(height: 5,),
+        //   //     //       Container(
+        //   //     //         height: 50,
+        //   //     //         color:  colors.black54.withOpacity(0.1),
+        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.mobile}")),
+        //   //     //       ),
+        //   //     //     ],
+        //   //     //   ),
+        //   //     // ),
+        //   //     // SizedBox(width: 5,),
+        //   //     // Expanded(
+        //   //     //   child: Column(
+        //   //     //     children: [
+        //   //     //
+        //   //     //       Container(
+        //   //     //         height: 50,
+        //   //     //         color:  colors.primary,
+        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.name}",style: TextStyle(color: colors.whiteTemp))),
+        //   //     //       ),
+        //   //     //
+        //   //     //       SizedBox(height: 5,),
+        //   //     //       Container(
+        //   //     //         height: 50,
+        //   //     //         color:  colors.black54.withOpacity(0.1),
+        //   //     //         child: Center(child: Text('${getBrandsRxDosageModel?.data?.first.contactDetails?.first.mobile}')),
+        //   //     //       ),
+        //   //     //     ],
+        //   //     //   ),
+        //   //     // ),
+        //   //   ],
+        //   // ),
+        // );
       }),
     );
   }

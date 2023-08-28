@@ -62,7 +62,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     }
     return Scaffold(
       appBar:
-          customAppBar(text: "Update password", isTrue: true, context: context),
+          customAppBar(text: "Forgot password", isTrue: true, context: context),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 15),
         child: SingleChildScrollView(

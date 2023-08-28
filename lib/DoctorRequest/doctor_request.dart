@@ -182,8 +182,10 @@ class _DoctorRequestState extends State<DoctorRequest> {
         itemBuilder: (BuildContext context, int index) {
 
           return
-            userIdNew == null ? CircularProgressIndicator():  userIdNew == getRequestModel!.data![index].userId  ?  RequestListCard(index: requestDataList.length,getRequestModel:
-            requestDataList[index] ,i: index,onTop: (){requetDeleteApi(getRequestModel!.data![index].id ??"");},):SizedBox();
+            // userIdNew == null ? CircularProgressIndicator():  userIdNew == getRequestModel!.data![index].userId  ?
+            RequestListCard(index: requestDataList.length,getRequestModel:
+            requestDataList[index] ,i: index,onTop: (){requetDeleteApi(getRequestModel!.data![index].id ??"");},);
+          // :SizedBox();
           //   RepaintBoundary(
           //   key: keyList,
           //   child: _isReady ? Card(
@@ -785,17 +787,20 @@ class _DoctorRequestState extends State<DoctorRequest> {
   getRequestApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userIdNew = preferences.getString('userId');
+    role =  preferences.getString('roll');
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('_____userIdNew_____${userIdNew}_________');
+    print('_____userIdNew_____${userIdNew}______${role}___');
     var headers = {
       'Cookie': 'ci_session=c09a9cb1d96b25ad537166ce10be5c5b1dfd73b0'
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getRequestApi}'));
     request.fields.addAll({
      'user_id': userIdNew.toString(),
+      'type': role == "2" ?"pharma": "doctor",
       'speciality_id': localId == null || localId == '' ? specialityId ?? '' : localId.toString()
     });
+    print('_____request.fields_____${request.fields}_________');
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();

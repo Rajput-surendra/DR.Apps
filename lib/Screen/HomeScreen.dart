@@ -30,6 +30,7 @@ import '../New_model/GetCountingModel.dart';
 import '../New_model/GetSelectCatModel.dart';
 import '../New_model/GetSliderModel.dart';
 import '../New_model/getUserProfileModel.dart';
+import '../Profile/UpdateNew.dart';
 import '../Profile/Update_password.dart';
 import '../Profile/clinic_hospital_update.dart';
 import '../Profile/profile_screen.dart';
@@ -37,6 +38,7 @@ import '../SubscriptionPlan/addPosterScreen.dart';
 import '../SubscriptionPlan/subscription_plan.dart';
 import '../widgets/widgets/commen_slider.dart';
 import '../Product/Pharma_product_screen.dart';
+import 'NotificationLIst.dart';
 import 'WishlistScreen.dart';
 
 import '../Static/terms_condition.dart';
@@ -175,15 +177,15 @@ class _HomeScreenState extends State<HomeScreen> {
     print('___role____role__${role}__________');
     SharedPreferences preferences = await SharedPreferences.getInstance();
      role = preferences.getString('roll');
+    userId = preferences.getString('userId');
     String? specialityId = preferences.getString('specialityId');
-
-
     String? localId = preferences.getString('LocalId');
     var headers = {
       'Cookie': 'ci_session=3ea10fa720ffb83b4465c35fc49dc217178fc84a'
     };
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getCounting}'));
     request.fields.addAll({
+      'user_id': role == "1" ? userId.toString():"",
       'type': role == "1" ? "doctor" : "pharma",
       'speciality_id': localId==null || localId== '' ? specialityId ?? '' : localId
     });
@@ -663,7 +665,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         children: [
                           Text(
-                            "${getprofile?.user?.userData?.first.title}",
+                            getprofile?.user?.userData==null? "not found" : "${getprofile?.user?.userData?.first.title}",
                             style: TextStyle(
                                 color: colors.whiteTemp,
                                 fontSize: 15,
@@ -880,6 +882,23 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           ListTile(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10,),
+              child: Icon(Icons.notifications_active,color: colors.darkIcon,),
+            ),
+
+
+            title: Text(
+              'Notification',
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NotificationList()),
+              );
+            },
+          ),
+          ListTile(
             leading: Image.asset(
               "assets/images/CHANGE PASSWORD.png",
               // color: colors.black54,
@@ -892,7 +911,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ForgotPass()),
+                MaterialPageRoute(builder: (context) => UpdateNew()),
               );
             },
           ),

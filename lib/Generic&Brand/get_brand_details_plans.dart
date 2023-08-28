@@ -210,7 +210,7 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
       setState(() {
 
       });
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen()));
+     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen()));
      // Navigator.pop(context,[true]);
     }
     else {

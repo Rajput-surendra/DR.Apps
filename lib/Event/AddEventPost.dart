@@ -361,7 +361,7 @@ class _AddEventPostState extends State<AddEventPost> {
                 ),
                 SizedBox(height: 10,),
 
-                Text("Contect for Sponsorship",style: TextStyle(
+                Text("Contact for Sponsorship",style: TextStyle(
                   color: colors.blackTemp,fontSize: 20
                 ),),
                 SizedBox(height: 10,),

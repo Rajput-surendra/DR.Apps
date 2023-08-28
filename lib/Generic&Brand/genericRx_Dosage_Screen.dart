@@ -673,7 +673,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   Future getImage(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
-      imageQuality: 90,
+      imageQuality: 40,
       source: source,
     );
     getCropImage(context, i, image);
@@ -681,7 +681,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   Future getImageCmera(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
-      imageQuality: 90,
+      imageQuality: 40,
       source: source,
     );
     getCropImage(context, i, image);
@@ -753,7 +753,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
    var result = await response.stream.bytesToString();
    var finalResult = jsonDecode(result);
     Fluttertoast.showToast(msg: "${finalResult['message']}");
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen())).then((value) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen())).then((value) {
       if(value !=null){
       genericRxDosageDetailsApi();
       brandListForJson.clear() ;
@@ -805,23 +805,21 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result  = await response.stream.bytesToString();
-      var finalResult =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
-      print('____result______${result}_________');
+       getBrandsRxDosageModel =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
       setState(() {
         indicationC.text = getBrandsRxDosageModel?.data?.first.details?.indication ?? "" ;
         rx_infoC.text = getBrandsRxDosageModel?.data!.first.details?.rxInfo ?? "" ;
         dosageC.text = getBrandsRxDosageModel?.data!.first.details?.dosage ?? "" ;
-        getBrandsRxDosageModel =  finalResult;
-        if(getBrandsRxDosageModel?.data?[0].contactDetails?.length != 0 || getBrandsRxDosageModel?.data?[0].contactDetails != null )
+        if(getBrandsRxDosageModel?.data?[0].contactDetails?.isNotEmpty ?? false || getBrandsRxDosageModel?.data?[0].contactDetails != null )
         for(int i=0; i<getBrandsRxDosageModel!.data![0].contactDetails!.length; i++){
           person1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].name!;
           person2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].name!;
           person3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].name!;
-          mobile1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].name!;
+          mobile1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].mobile!;
           mobile2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].mobile!;
-          mobile3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].name!;
+          mobile3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].mobile!;
         }
-        print('_____finalResult_____${finalResult}_________');
+        print('_____finalResult_____${indicationC.text}_________');
       });
     }
     else {
