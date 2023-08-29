@@ -299,7 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Card(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -484,7 +484,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Align(
                                         alignment: Alignment.topLeft,
                                         child: Container(
-                                          width: 150,
                                           child: Padding(
                                             padding:
                                                 const EdgeInsets.only(left: 0.0),
@@ -557,6 +556,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
+                          SizedBox(height: 5,),
+
                           roll == "1"
                               ? SizedBox.shrink()
                               : Padding(
@@ -573,7 +574,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         width: 50,
                                       ),
                                       Container(
-                                        width: 160,
+
                                         child: Padding(
                                           padding:
                                               const EdgeInsets.only(left: 0.0),
@@ -780,7 +781,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 )
                               : SizedBox.shrink()
                           ,
-                         roll == "1" ?Padding(
+                        Padding(
                             padding:
                             const EdgeInsets.all(8.0),
                             child: Row(
@@ -806,7 +807,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 )
                               ],
                             ),
-                          ):SizedBox.shrink()
+                          )
                         ],
                       ),
                     ),

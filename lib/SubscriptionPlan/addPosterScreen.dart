@@ -139,7 +139,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       linkController.clear();
       files.clear();
-     Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
       setState(() {
         isloader = false;
       });

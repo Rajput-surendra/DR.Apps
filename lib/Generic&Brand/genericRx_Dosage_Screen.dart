@@ -93,7 +93,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                       ),
                       Text("image size : 200 pixel * 100 pixel",style: TextStyle(fontSize: 13)),
                       SizedBox(height: 5,),
-                      InkWell(
+                   InkWell(
                         onTap: () {
                           showExitPopup();
                         },
@@ -111,9 +111,9 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                                 ),))
                                 : Column(
                               children: [
-                                ClipRRect(
+                               ClipRRect(
                                   borderRadius: BorderRadius.circular(0),
-                                  child: Image.file(
+                                  child:   Image.file(
                                     imageFile!,
                                     height: 148,
                                     width: double.infinity,

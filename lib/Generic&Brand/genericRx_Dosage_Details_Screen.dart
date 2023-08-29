@@ -12,7 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import '../New_model/Get_brands_Rx_dosage_model.dart';
+import 'Gereric_Brand_Uplaod_Screen.dart';
 import 'advertisement_screen.dart';
+import 'genericRx_Dosage_Screen.dart';
 import 'generic_brand_screen.dart';
 import 'package:http/http.dart' as http;
 class GenericRxDosageDetailsScreen extends StatefulWidget {
@@ -46,22 +48,27 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
         child: SingleChildScrollView(
           child:getBrandsRxDosageModel ==  null ? Center(child: CircularProgressIndicator()): getBrandsRxDosageModel!.data!.length == 0 ? Center(child: Text("No Data Found !!!!")): Column(
             children: [
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Center(child: Text("${catName}",style: TextStyle(
-                      color: colors.black54
-                  ),)),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Column(
                   children: [
+                    Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Center(child: Text("${catName}",style: TextStyle(
+                            color: colors.black54
+                        ),)),
+                      ),
+                    ),
+                    Container(
+
+                        child: ClipRRect(
+                            child: Image.network("${getBrandsRxDosageModel!.data!.first.logo}",height: 100,width: 500,))),
+                    SizedBox(height: 10,),
                     Row(
                       children: [
                         Expanded(
@@ -110,26 +117,23 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                         ),
                       ],
                     ),
-                    SizedBox(height: 10,),
-                    Text("${brandName}",style: TextStyle(color: colors.secondary,fontSize: 30),),
-                    SizedBox(height: 5,),
-                    Text("${brandDes}"),
-                    SizedBox(height: 20,),
+                   SizedBox(height: 20,),
                     sliderCard(),
                     SizedBox(height: 5,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:  _buildDots(),),
                     SizedBox(height: 10,),
-                    Text("FOR BRAND INGUIRY AND ORDER "),
+                    Text("FOR BRAND INQUIRY AND ORDER "),
                     SizedBox(height: 5,),
                     personAllWidget(),
                     SizedBox(height: 10,),
                     widget.isTrueId == true ? SizedBox.shrink() : Row(
                       children: [
-                         role == "1" ? SizedBox.shrink():   InkWell(
+                        role == "1" ? SizedBox.shrink():   InkWell(
                           onTap: (){
-                            Navigator.pop(context,[true]);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(isTrueValue: true,)));
+                            // Navigator.pop(context,[true]);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -157,7 +161,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                           child: Container(
                             decoration: BoxDecoration(
                                 color: colors.secondary,
-                              borderRadius: BorderRadius.circular(10)
+                                borderRadius: BorderRadius.circular(10)
                             ),
 
                             height: 50,
@@ -193,6 +197,8 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                   ],
                 ),
               ),
+
+
 
 
 

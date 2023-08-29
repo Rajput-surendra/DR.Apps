@@ -1,6 +1,6 @@
 /// error : false
 /// message : "Record Found Successfully"
-/// data : [{"id":"8","user_id":"685","category_id":"11","name":"new brand","generic_name":"nice product and good quality\nin this","company_name":"alphawizz","logo":"","created_at":"2023-08-19 13:45:23","updated_at":"2023-08-19 13:45:23","is_details_added":false,"detail_text":"Click to add detail of brand","is_detail_plan_subscribed":false,"is_add_plan_subscribed":false},{"id":"9","user_id":"685","category_id":"11","name":"surendra","generic_name":"gtgtfcybyvhvhbttfb vgvgg","company_name":"ctgvgg","logo":"","created_at":"2023-08-19 13:46:48","updated_at":"2023-08-19 13:46:48","is_details_added":false,"detail_text":"Click to add detail of brand","is_detail_plan_subscribed":false,"is_add_plan_subscribed":false}]
+/// data : [{"id":"29","user_id":"705","category_id":"103","name":"test","generic_name":"sygs","company_name":"heys","logo":"","created_at":"2023-08-25 13:43:33","updated_at":"2023-08-25 13:43:33","is_details_added":false,"detail_text":"Click to add detail of brand","is_detail_plan_subscribed":false,"is_add_plan_subscribed":false,"user_plan_purchased":false},{"id":"33","user_id":"706","category_id":"103","name":"dbvbfbf","generic_name":"fncbbfbdb","company_name":"hdvdvsvsv","logo":"","created_at":"2023-08-25 15:28:08","updated_at":"2023-08-25 15:28:08","is_details_added":false,"detail_text":"Click to add detail of brand","is_detail_plan_subscribed":false,"is_add_plan_subscribed":false,"user_plan_purchased":false},{"id":"35","user_id":"706","category_id":"103","name":"hfhfhrj","generic_name":"dhhdhfhhfj","company_name":"dghfhfcbfbfbfbf","details":[],"images":[],"logo":"","contact_details":[],"created_at":"2023-08-25 15:46:15","updated_at":"2023-08-25 15:46:15","is_details_added":false,"detail_text":"Click to add detail of brand","is_detail_plan_subscribed":false,"is_add_plan_subscribed":false,"user_plan_purchased":false},{"id":"46","user_id":"712","category_id":"103","name":"fgufyf","generic_name":"gxxxgxcg","company_name":"b cgcgcgc","details":{"indication":"gbybybyhgy","dosage":"vfgvgvtv","rx_info":"ggttgtvgt"},"images":["https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_16929748665286.jpg","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_16929748729096.jpg","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_16929748772996.jpg"],"logo":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_16929748466376.jpg","contact_details":[{"name":"chfhhcfgyf","mobile":"chfhhcfgyf"},{"name":"chcchchfxgcc","mobile":"6838586868"},{"name":"chvcch FC xgxgcg","mobile":"chvcch FC xgxgcg"}],"created_at":"2023-08-25 20:28:20","updated_at":"2023-08-25 19:00:35","is_details_added":true,"detail_text":"Click to view detail of brand","is_detail_plan_subscribed":false,"is_add_plan_subscribed":false,"user_plan_purchased":true}]
 
 class GetBrandModel {
   GetBrandModel({
@@ -48,19 +48,20 @@ GetBrandModel copyWith({  bool? error,
 
 }
 
-/// id : "8"
-/// user_id : "685"
-/// category_id : "11"
-/// name : "new brand"
-/// generic_name : "nice product and good quality\nin this"
-/// company_name : "alphawizz"
+/// id : "29"
+/// user_id : "705"
+/// category_id : "103"
+/// name : "test"
+/// generic_name : "sygs"
+/// company_name : "heys"
 /// logo : ""
-/// created_at : "2023-08-19 13:45:23"
-/// updated_at : "2023-08-19 13:45:23"
+/// created_at : "2023-08-25 13:43:33"
+/// updated_at : "2023-08-25 13:43:33"
 /// is_details_added : false
 /// detail_text : "Click to add detail of brand"
 /// is_detail_plan_subscribed : false
 /// is_add_plan_subscribed : false
+/// user_plan_purchased : false
 
 class Data {
   Data({
@@ -76,7 +77,8 @@ class Data {
       bool? isDetailsAdded, 
       String? detailText, 
       bool? isDetailPlanSubscribed, 
-      bool? isAddPlanSubscribed,}){
+      bool? isAddPlanSubscribed, 
+      bool? userPlanPurchased,}){
     _id = id;
     _userId = userId;
     _categoryId = categoryId;
@@ -90,6 +92,7 @@ class Data {
     _detailText = detailText;
     _isDetailPlanSubscribed = isDetailPlanSubscribed;
     _isAddPlanSubscribed = isAddPlanSubscribed;
+    _userPlanPurchased = userPlanPurchased;
 }
 
   Data.fromJson(dynamic json) {
@@ -106,6 +109,7 @@ class Data {
     _detailText = json['detail_text'];
     _isDetailPlanSubscribed = json['is_detail_plan_subscribed'];
     _isAddPlanSubscribed = json['is_add_plan_subscribed'];
+    _userPlanPurchased = json['user_plan_purchased'];
   }
   String? _id;
   String? _userId;
@@ -120,6 +124,7 @@ class Data {
   String? _detailText;
   bool? _isDetailPlanSubscribed;
   bool? _isAddPlanSubscribed;
+  bool? _userPlanPurchased;
 Data copyWith({  String? id,
   String? userId,
   String? categoryId,
@@ -133,6 +138,7 @@ Data copyWith({  String? id,
   String? detailText,
   bool? isDetailPlanSubscribed,
   bool? isAddPlanSubscribed,
+  bool? userPlanPurchased,
 }) => Data(  id: id ?? _id,
   userId: userId ?? _userId,
   categoryId: categoryId ?? _categoryId,
@@ -146,6 +152,7 @@ Data copyWith({  String? id,
   detailText: detailText ?? _detailText,
   isDetailPlanSubscribed: isDetailPlanSubscribed ?? _isDetailPlanSubscribed,
   isAddPlanSubscribed: isAddPlanSubscribed ?? _isAddPlanSubscribed,
+  userPlanPurchased: userPlanPurchased ?? _userPlanPurchased,
 );
   String? get id => _id;
   String? get userId => _userId;
@@ -160,6 +167,7 @@ Data copyWith({  String? id,
   String? get detailText => _detailText;
   bool? get isDetailPlanSubscribed => _isDetailPlanSubscribed;
   bool? get isAddPlanSubscribed => _isAddPlanSubscribed;
+  bool? get userPlanPurchased => _userPlanPurchased;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -176,6 +184,7 @@ Data copyWith({  String? id,
     map['detail_text'] = _detailText;
     map['is_detail_plan_subscribed'] = _isDetailPlanSubscribed;
     map['is_add_plan_subscribed'] = _isAddPlanSubscribed;
+    map['user_plan_purchased'] = _userPlanPurchased;
     return map;
   }
 

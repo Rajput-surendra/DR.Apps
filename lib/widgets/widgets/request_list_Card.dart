@@ -95,6 +95,7 @@ class _RequestListCardState extends State<RequestListCard> {
                               color: colors.secondary,fontWeight: FontWeight.bold
                           ),),
                           Text("Degree-${widget.getRequestModel?.docDigree}",style: TextStyle(color: colors.blackTemp),),
+                          Text("${widget.getRequestModel?.docDigree}",style: TextStyle(color: colors.blackTemp),),
 
                         ],
                       ),
@@ -133,14 +134,7 @@ class _RequestListCardState extends State<RequestListCard> {
                             child: Icon(Icons.delete))
                     ],
                   ):SizedBox.shrink()
-
                   // SizedBox(width: MediaQuery.of(context).size.width/7.5,),
-
-
-
-
-
-
                 ],
               ),
               Padding(
@@ -152,15 +146,15 @@ class _RequestListCardState extends State<RequestListCard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        widget.getRequestModel?.type == "Personalized Awareness" ?  Text("Standy for Personalized :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),):Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                        widget.getRequestModel?.type ==  "Personalized Awareness" ? Text("${widget.getRequestModel?.json!.drPersonalized}",): widget.getRequestModel?.type  == "Awareness inputs" ?Text("${widget.getRequestModel?.json!.request}",):Text("${widget.getRequestModel?.json!.awarenessRequest}",)
+                        widget.getRequestModel?.type == "Personalized Standy Poster Video" ?  Text("Standy for Personalized :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),):Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                        widget.getRequestModel?.type ==  "Personalized Standy Poster Video" ? Text("${widget.getRequestModel?.json!.drPersonalized}",): widget.getRequestModel?.type  == "Awareness inputs" ?Text("${widget.getRequestModel?.json!.request}",):Text("${widget.getRequestModel?.json!.awarenessRequest}",)
                       ],
                     ),
                     Divider(
                       color: colors.black54,
                     ),
 
-                    widget.getRequestModel?.type == "Personalized Awareness" ?SizedBox.shrink():  Column(
+                    widget.getRequestModel?.type == "Personalized Standy Poster Video" ?SizedBox.shrink():  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Mobile No :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
@@ -171,7 +165,7 @@ class _RequestListCardState extends State<RequestListCard> {
                       ],
                     ),
 
-                    widget.getRequestModel?.type  == "Personalized Awareness" ?
+                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ?
                     SizedBox.shrink():widget.getRequestModel?.type  == "Awareness inputs" ||
                         widget.getRequestModel?.type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +229,7 @@ class _RequestListCardState extends State<RequestListCard> {
                         ),
                       ],
                     ) ,
-                    widget.getRequestModel?.type  == "Personalized Awareness" ? Column(
+                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
@@ -252,7 +246,7 @@ class _RequestListCardState extends State<RequestListCard> {
                     ):SizedBox.shrink(),
 
 
-                    widget.getRequestModel?.type  == "Personalized Awareness" ? Column(
+                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
@@ -452,7 +446,7 @@ class _RequestListCardState extends State<RequestListCard> {
                         ),
                       ],
                     ),
-                    widget.getRequestModel?.type  == "Personalized Awareness" ?  Column(
+                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ?  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
@@ -469,7 +463,7 @@ class _RequestListCardState extends State<RequestListCard> {
                         ),
                       ],
                     ):SizedBox.shrink(),
-                    widget.getRequestModel?.type  == "Personalized Awareness" ?  Column(
+                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ?  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(

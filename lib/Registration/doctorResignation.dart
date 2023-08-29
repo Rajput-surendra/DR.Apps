@@ -6,6 +6,7 @@ import 'package:doctorapp/New_model/SignUp_Model.dart';
 import 'package:doctorapp/New_model/get_pharma_category.dart';
 import 'package:doctorapp/New_model/registration_model2.dart';
 import 'package:doctorapp/Registration/hospital.dart';
+import 'package:doctorapp/Registration/static.dart';
 import 'package:doctorapp/api/api_services.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -197,7 +198,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
   List<CompanyDataList> companyList= [];
   GetCompanyNewModel? getCompanyNewModel;
   getCompanyName() async {
-
     var headers = {
       'Cookie': 'ci_session=e5dbfebfc51701fd8aba3e57be6c399b3a13750d'
     };
@@ -2211,7 +2211,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
       var  result =  await response.stream.bytesToString();
       var finalResult = jsonDecode(result);
       if(finalResult['error'] == false){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Hospital(title: dropdownDoctor ?? "",name:nameController.text
+        Navigator.push(context, MaterialPageRoute(builder: (context) => StaticTextScreen(title: dropdownDoctor ?? "",name:nameController.text
           ,mobile: mobileController.text,email: emailController.text,cityID:cityId ?? "",cityName: cityController.text,
           cPass: CpassController.text,degree: docdegreeController.text,gender: gender,pass: passController.text,placeID: placeC.text,
           profileImages: imageFile?.path ?? '',roll: widget.role.toString(),stateID:stateId ?? "",categoryId:widget.id.toString(),experience: experienceC.text,)));

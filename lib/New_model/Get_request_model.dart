@@ -1,6 +1,6 @@
 /// error : false
 /// message : "Record found"
-/// data : [{"id":"71","user_id":"639","type":"Personalized Awareness","json":{"mobile_no":"","dr_name":"demo","dr_association":"","degree":"","place":"indoor ","request":null,"awareness_request":null,"topic":"yyyy","clinic_hospital":"india ","email":"indor@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"mbbs","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":"Yes","dr_personalized":"Standy"},"created_at":"2023-08-08 17:53:05","updated_at":"2023-08-08 17:53:05","name":"rr rr","doc_digree":"mmm","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1691142548716.jpg","is_favorite":true}]
+/// data : [{"id":"71","user_id":"639","type":"Personalized Standy Poster Video","json":{"mobile_no":"","dr_name":"demo","dr_association":"","degree":"","place":"indoor ","request":null,"awareness_request":null,"topic":"yyyy","clinic_hospital":"india ","email":"indor@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"mbbs","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":"Yes","dr_personalized":"Standy"},"created_at":"2023-08-08 17:53:05","updated_at":"2023-08-08 17:53:05","name":"rr rr","doc_digree":"mmm","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1691142548716.jpg","is_favorite":true}]
 
 class GetRequestModel {
   GetRequestModel({
@@ -50,7 +50,7 @@ GetRequestModel copyWith({  bool? error,
 
 /// id : "71"
 /// user_id : "639"
-/// type : "Personalized Awareness"
+/// type : "Personalized Standy Poster Video"
 /// json : {"mobile_no":"","dr_name":"demo","dr_association":"","degree":"","place":"indoor ","request":null,"awareness_request":null,"topic":"yyyy","clinic_hospital":"india ","email":"indor@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"mbbs","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":"Yes","dr_personalized":"Standy"}
 /// created_at : "2023-08-08 17:53:05"
 /// updated_at : "2023-08-08 17:53:05"

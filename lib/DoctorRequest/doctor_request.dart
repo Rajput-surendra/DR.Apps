@@ -270,15 +270,15 @@ class _DoctorRequestState extends State<DoctorRequest> {
           //                   Column(
           //                     crossAxisAlignment: CrossAxisAlignment.start,
           //                     children: [
-          //                       getRequestModel!.data![index].type == "Personalized Awareness" ?  Text("Standy for Personalized :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),):Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-          //                       getRequestModel!.data![index].type ==  "Personalized Awareness" ? Text("${getRequestModel!.data![index].json!.drPersonalized}",): getRequestModel!.data![index].type  == "Awareness inputs" ?Text("${getRequestModel!.data![index].json!.request}",):Text("${getRequestModel!.data![index].json!.awarenessRequest}",)
+          //                       getRequestModel!.data![index].type == "Personalized Standy Poster Video" ?  Text("Standy for Personalized :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),):Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+          //                       getRequestModel!.data![index].type ==  "Personalized Standy Poster Video" ? Text("${getRequestModel!.data![index].json!.drPersonalized}",): getRequestModel!.data![index].type  == "Awareness inputs" ?Text("${getRequestModel!.data![index].json!.request}",):Text("${getRequestModel!.data![index].json!.awarenessRequest}",)
           //                     ],
           //                   ),
           //                   Divider(
           //                     color: colors.black54,
           //                   ),
           //
-          //                   getRequestModel!.data![index].type == "Personalized Awareness" ?SizedBox.shrink():  Column(
+          //                   getRequestModel!.data![index].type == "Personalized Standy Poster Video" ?SizedBox.shrink():  Column(
           //                     crossAxisAlignment: CrossAxisAlignment.start,
           //                     children: [
           //                       Text("Mobile No :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
@@ -289,7 +289,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
           //                     ],
           //                   ),
           //
-          //                   getRequestModel!.data![index].type  == "Personalized Awareness" ?
+          //                   getRequestModel!.data![index].type  == "Personalized Standy Poster Video" ?
           //                   SizedBox.shrink():getRequestModel!.data![index].type  == "Awareness inputs" ||
           //                       getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
           //                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -353,7 +353,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
           //                       ),
           //                     ],
           //                   ) ,
-          //                   getRequestModel!.data![index].type  == "Personalized Awareness" ? Column(
+          //                   getRequestModel!.data![index].type  == "Personalized Standy Poster Video" ? Column(
           //                     crossAxisAlignment: CrossAxisAlignment.start,
           //                     children: [
           //                       Column(
@@ -370,7 +370,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
           //                   ):SizedBox.shrink(),
           //
           //
-          //                   getRequestModel!.data![index].type  == "Personalized Awareness" ? Column(
+          //                   getRequestModel!.data![index].type  == "Personalized Standy Poster Video" ? Column(
           //                     crossAxisAlignment: CrossAxisAlignment.start,
           //                     children: [
           //                       Column(
@@ -570,7 +570,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
           //                       ),
           //                     ],
           //                   ),
-          //                   getRequestModel!.data![index].type  == "Personalized Awareness" ?  Column(
+          //                   getRequestModel!.data![index].type  == "Personalized Standy Poster Video" ?  Column(
           //                     crossAxisAlignment: CrossAxisAlignment.start,
           //                     children: [
           //                       Column(
@@ -587,7 +587,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
           //                       ),
           //                     ],
           //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type  == "Personalized Awareness" ?  Column(
+          //                   getRequestModel!.data![index].type  == "Personalized Standy Poster Video" ?  Column(
           //                     crossAxisAlignment: CrossAxisAlignment.start,
           //                     children: [
           //                       Column(

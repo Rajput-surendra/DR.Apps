@@ -368,75 +368,97 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             });
                           },
-                          child: Column(
-                            children: [
-                              const Text('Select Speciality',style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),),
-                              selectCatModel?.data == null
-                                  ? CircularProgressIndicator()
-                                  : Container(
-                                     height: 29,
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: selectCatModel?.data?.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      if (selectCatModel?.data?[index].isSelected ==
-                                          true) {
-                                        return InkWell(
-                                          onTap: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterSpeciality())).then((value){
-                                              if(value!=null){
-                                                localFilter = value ;
-                                                setFilterDataId(localFilter?.id.toString() ?? '');
-                                                getCounting();
-                                                setState(() {});
-                                              }
-                                            });
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 0),
-                                            child: Container(
-                                              // width: 250,
-                                              child: Center(
-                                                child: localFilter == null ? Text(
-                                                  '${selectCatModel?.data?[index].name.toString()}',style: TextStyle(color: colors.whiteTemp,),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ) : Text(
-                                           '${localFilter?.name.toString()}',style: TextStyle(color: colors.whiteTemp,),
-                                          overflow: TextOverflow.ellipsis,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Column(
+                              children: [
+                                const Text('Select Speciality',style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),),
+                                selectCatModel?.data == null
+                                    ? CircularProgressIndicator()
+                                    : Container(
+                                       height: 29,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: selectCatModel?.data?.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        if (selectCatModel?.data?[index].isSelected ==
+                                            true) {
+                                          return InkWell(
+                                            onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterSpeciality())).then((value){
+                                                if(value!=null){
+                                                  localFilter = value ;
+                                                  setFilterDataId(localFilter?.id.toString() ?? '');
+                                                  getCounting();
+                                                  setState(() {});
+                                                }
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 0),
+                                              child: Container(
+                                                // width: 250,
+                                                child: Center(
+                                                  child: localFilter == null ? Text(
+                                                    '${selectCatModel?.data?[index].name.toString()}',style: TextStyle(color: colors.whiteTemp,),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ) : Text(
+                                             '${localFilter?.name.toString()}',style: TextStyle(color: colors.whiteTemp,),
+                                            overflow: TextOverflow.ellipsis,
 
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ));
-                                      } else {
-                                        return const SizedBox.shrink();
-                                      }
-                                    }),
-                              ),
-                            ],
+                                          ));
+                                        } else {
+                                          return const SizedBox.shrink();
+                                        }
+                                      }),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          // Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Wishlist(),
-                              ));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Icon(
-                            Icons.favorite,
-                            color: colors.whiteTemp,
-                          ),
-                        ),
-                      ),
+                      Row(
+                         children: [
+                           InkWell(
+                             onTap: () {
+                               // Navigator.pop(context);
+                               Navigator.push(
+                                   context,
+                                   MaterialPageRoute(
+                                     builder: (context) => NotificationList(),
+                                   ));
+                             },
+                             child: Padding(
+                               padding: const EdgeInsets.only(right: 10),
+                               child: Image.asset("assets/images/noti.png",height: 22,width: 22,),
+                             ),
+                           ),
+                           InkWell(
+                             onTap: () {
+                               // Navigator.pop(context);
+                               Navigator.push(
+                                   context,
+                                   MaterialPageRoute(
+                                     builder: (context) => Wishlist(),
+                                   ));
+                             },
+                             child: Padding(
+                               padding: const EdgeInsets.only(right: 10),
+                               child: Icon(
+                                 Icons.favorite,
+                                 color: colors.whiteTemp,
+                               ),
+                             ),
+                           ),
+                         ],
+                  )
+
                     ],
                   ),
                 ),
@@ -513,19 +535,19 @@ class _HomeScreenState extends State<HomeScreen> {
              context, MaterialPageRoute(builder: (C) =>DoctorRequest()));
         } else if (i == 1) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (C) => EventAndWebiner()));
+              context, MaterialPageRoute(builder: (C) => GenericBrandScreen()));
         } else if (i == 2) {
           Navigator.push(context,
               // MaterialPageRoute(builder: (C) => PharmaProductScreen()));
-              MaterialPageRoute(builder: (C) => GenericBrandScreen()));
+              MaterialPageRoute(builder: (C) => AwarenessScreen()));
         } else if (i == 3) {
           Navigator.push(
              // context, MaterialPageRoute(builder: (C) => Editorial()));
-               context, MaterialPageRoute(builder: (C) => FreeGraphicScreen()));
+               context, MaterialPageRoute(builder: (C) => EventAndWebiner()));
 
         } else if (i == 4) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (C) => AwarenessScreen()));
+              context, MaterialPageRoute(builder: (C) => FreeGraphicScreen()));
               // context, MaterialPageRoute(builder: (C) => AdvertisementScreen()));
 
         } else {
@@ -715,10 +737,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 2,
                       ),
-                      getprofile?.user?.userData?.first.placeName == null ? Text("Vijay Nagar",style: TextStyle(
+                           getprofile?.user?.userData?.first.cityName == null ? Text("No City Name",style: TextStyle(
                           color: Colors.white,
                           fontSize: 13,
-                          fontWeight: FontWeight.normal),) :Text("${getprofile?.user?.userData?.first.placeName}",style: TextStyle(
+                          fontWeight: FontWeight.normal),) :Text("${getprofile?.user?.userData?.first.cityName}",style: TextStyle(
                           color: Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.normal),
@@ -883,8 +905,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Padding(
-              padding: const EdgeInsets.only(left: 10,),
-              child: Icon(Icons.notifications_active,color: colors.darkIcon,),
+              padding: const EdgeInsets.only(left: 5,),
+              child: Image.asset("assets/images/notification.png",
+                color: colors.darkIcon.withOpacity(0.6),
+                height: 27,
+                width: 30,
+              )
             ),
 
 
@@ -894,7 +920,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => NotificationList()),
+                MaterialPageRoute(builder: (context) => NotificationList(),),
               );
             },
           ),

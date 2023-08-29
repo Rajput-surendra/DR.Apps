@@ -37,6 +37,7 @@ class _EditeProfileState extends State<EditeProfile> {
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
+  TextEditingController placeC = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController phonelController = TextEditingController();
@@ -286,7 +287,7 @@ String? catName ;
     cityController.text = widget.getUserProfileModel.user?.userData?.first.city ?? '' ;
     genderController.text = widget.getUserProfileModel.user?.userData?.first.gender?? '' ;
     deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
-    // deegreeController.text = widget.getUserProfileModel.user?.userData?.first.docDigree ?? '' ;
+    placeC.text = widget.getUserProfileModel.user?.userData?.first.placeName ?? '' ;
     image = widget.getUserProfileModel.user?.profilePic ?? '';
     catName = widget.getUserProfileModel.user?.userData?.first.categoryId ;
 
@@ -651,11 +652,8 @@ String? catName ;
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Text("State Name", style: TextStyle(
-                                    color: colors.black54, fontWeight: FontWeight.bold),),
-                              ),
+                              Text("State Name", style: TextStyle(
+                                  color: colors.black54, fontWeight: FontWeight.bold),),
                               getStateResponseModel== null ? Center(child: CircularProgressIndicator()):
                               Container(
                                 decoration: BoxDecoration(
@@ -997,7 +995,157 @@ String? catName ;
                         ],
                       ),
 
-
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text("Place Name ", style: TextStyle(
+                                  color: colors.black54, fontWeight: FontWeight.bold),),
+                            ),
+                            SizedBox(height: 5,),
+                            TextFormField(
+                              controller: placeC,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                  hintText: 'Place',
+                                  hintStyle: TextStyle(
+                                      fontSize: 15.0, color: colors.blackTemp),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  contentPadding: EdgeInsets.only(left: 10, top: 10)
+                              ),
+                              // validator: (v) {
+                              //   if (v!.isEmpty) {
+                              //     return "Date of Birth is required";
+                              //   }
+                              //
+                              // },
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10,),
+                     // roll == "2" ? Column(
+                     //   crossAxisAlignment: CrossAxisAlignment.start,
+                     //     children: [
+                     //       Padding(
+                     //         padding: const EdgeInsets.all(5.0),
+                     //         child: Text("Select Category", style: TextStyle(
+                     //             color: colors.black54, fontWeight: FontWeight.bold),),
+                     //       ),
+                     //       Column(
+                     //         crossAxisAlignment: CrossAxisAlignment.start,
+                     //         children: [
+                     //           Container(
+                     //               padding: EdgeInsets.only(right: 5, top: 12),
+                     //               width: MediaQuery.of(context).size.width,
+                     //               height: 55,
+                     //               decoration:
+                     //               BoxDecoration(
+                     //                 borderRadius: BorderRadius.circular(10),
+                     //                 border: Border.all( color: colors.black54),
+                     //               ),
+                     //               child: DropdownButtonHideUnderline(
+                     //                 child: DropdownButton2<String>(
+                     //                   dropdownMaxHeight: 150,
+                     //                   hint:  Padding(
+                     //                     padding: EdgeInsets.only(bottom: 15),
+                     //                     child: Text("${selectedTeam}",
+                     //                       style: TextStyle(
+                     //                           color: colors.blackTemp,fontWeight: FontWeight.normal
+                     //                       ),),
+                     //                   ),
+                     //                   // dropdownColor: colors.primary,
+                     //                   value: teamSelected,
+                     //                   icon:  const Padding(
+                     //                     padding: EdgeInsets.only(bottom: 30),
+                     //                     child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                     //                   ),
+                     //                   // elevation: 16,
+                     //                   style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                     //                   underline: Padding(
+                     //                     padding: const EdgeInsets.only(left: 0,right: 0),
+                     //                     child: Container(
+                     //                       // height: 2,
+                     //                       color:  colors.whiteTemp,
+                     //                     ),
+                     //                   ),
+                     //                   onChanged: (String? value) {
+                     //                     // This is called when the user selects an item.
+                     //                     setState(() {
+                     //                       teamSelected = value!;
+                     //                       selectedIndex = items.indexOf(value);
+                     //                       if (selectedIndex == 0) {
+                     //                         category = 2;
+                     //                       } else {
+                     //                         category = 3;
+                     //                       }
+                     //                       // indexSectet = items.indexOf(value);
+                     //                       // indexSectet++;
+                     //                     }
+                     //                     );
+                     //                   },
+                     //
+                     //                   items: items
+                     //                       .map<DropdownMenuItem<String>>((String value) {
+                     //                     return DropdownMenuItem<String>(
+                     //                       value: value,
+                     //                       child:
+                     //                       Column(
+                     //                         mainAxisSize: MainAxisSize.min,
+                     //                         crossAxisAlignment: CrossAxisAlignment.start,
+                     //                         mainAxisAlignment: MainAxisAlignment.center,
+                     //                         children: [
+                     //                           Padding(
+                     //                             padding: const EdgeInsets.all(4.0),
+                     //                             child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                     //                           ),
+                     //                           const Divider(
+                     //                             thickness: 0.2,
+                     //                             color: colors.black54,
+                     //                           )
+                     //                         ],
+                     //                       ),
+                     //                     );
+                     //
+                     //                   }).toList(),
+                     //
+                     //                 ),
+                     //
+                     //               )
+                     //
+                     //           ),
+                     //
+                     //           const SizedBox(height: 10,),
+                     //           Padding(
+                     //               padding: EdgeInsets.all(5.0),
+                     //               child: Row(
+                     //                 children: const [
+                     //                   Text(
+                     //                     "Designation",
+                     //                     style: TextStyle(
+                     //                         color: colors.black54,
+                     //                         fontWeight: FontWeight.bold),
+                     //                   ),
+                     //                   Text(
+                     //                     "*",
+                     //                     style: TextStyle(
+                     //                         color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
+                     //                   ),
+                     //                 ],
+                     //               )
+                     //
+                     //           ),
+                     //           select(),
+                     //         ],
+                     //       ) ,
+                     //     ],
+                     //   ):SizedBox()
+                      ],
+                    ),
 
                     Padding(
                       padding: const EdgeInsets.all(5.0),

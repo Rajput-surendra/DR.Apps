@@ -157,7 +157,10 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                       brandName =  branddata[i].name;
                                                       brandDes =  branddata[i].genericName;
                                                     });
-                                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
+                                                   if(branddata[i].userPlanPurchased == true ){
+                                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
+                                                   }
+
                                                   }else {
                                                     setState((){
                                                       cardId = branddata[i].id;
@@ -172,15 +175,14 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                         brandName =  branddata[i].name;
                                                         brandDes =  branddata[i].genericName;
                                                       });
-                                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
                                                     }else{
                                                     setState((){
                                                       cardId = branddata[i].id;
                                                       brandName =  branddata[i].name;
                                                       brandDes =  branddata[i].genericName;
                                                     });
-
-                                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
+                                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
                                                     }
                                                   }
 
@@ -195,11 +197,11 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                         color: colors.secondary),
                                                     child: Center(
                                                       child:
-                                                      Text(
+                                                       Text(
                                                         '${branddata[i].detailText}',
                                                         textAlign: TextAlign.center,
                                                         style: TextStyle(
-                                                            color: Colors.white,
+                                                            color:branddata[i].userPlanPurchased == true ? Colors.white:colors.whiteTemp.withOpacity(0.4),
                                                             fontSize: 12),
 
                                                       ),
@@ -288,7 +290,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     brandName =  branddata[i].name;
                                                     brandDes =  branddata[i].genericName;
                                                   });
-                                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
                                                   }else {
                                                     setState((){
                                                       cardId = branddata[i].id;
@@ -303,7 +305,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                         brandName =  branddata[i].name;
                                                         brandDes =  branddata[i].genericName;
                                                       });
-                                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
                                                     }else{
                                                       setState((){
                                                         cardId = branddata[i].id;
@@ -409,7 +411,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
         http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll(
         {'user_id': role == "2" ? userId.toString() : '', 'category_id': catId.toString()});
-    print('__________${request.fields}_________');
+    print('_____ddddd_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
