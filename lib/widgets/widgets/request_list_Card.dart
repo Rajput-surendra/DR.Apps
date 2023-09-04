@@ -95,7 +95,7 @@ class _RequestListCardState extends State<RequestListCard> {
                               color: colors.secondary,fontWeight: FontWeight.bold
                           ),),
                           Text("Degree-${widget.getRequestModel?.docDigree}",style: TextStyle(color: colors.blackTemp),),
-                          Text("${widget.getRequestModel?.docDigree}",style: TextStyle(color: colors.blackTemp),),
+                         Text("${widget.getRequestModel?.cityName}",style: TextStyle(color: colors.blackTemp),),
 
                         ],
                       ),
@@ -114,7 +114,7 @@ class _RequestListCardState extends State<RequestListCard> {
                           iconVisible = false;
                         });
                         Future.delayed(Duration(milliseconds: 500), (){
-                          _shareQrCode(text : widget.getRequestModel!.json?.message ?? '',context: widget.getRequestModel!.userImage! ?? "" );
+                          _shareQrCode(text : '',context: widget.getRequestModel!.userImage! ?? "" );
                         });
                       },
                           child: Icon(Icons.share)),
@@ -146,15 +146,15 @@ class _RequestListCardState extends State<RequestListCard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        widget.getRequestModel?.type == "Personalized Standy Poster Video" ?  Text("Standy for Personalized :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),):Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-                        widget.getRequestModel?.type ==  "Personalized Standy Poster Video" ? Text("${widget.getRequestModel?.json!.drPersonalized}",): widget.getRequestModel?.type  == "Awareness inputs" ?Text("${widget.getRequestModel?.json!.request}",):Text("${widget.getRequestModel?.json!.awarenessRequest}",)
+                        widget.getRequestModel?.type == "Personalized Standy, Poster & Video" ?  Text("Request For Personalized :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),):Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                        widget.getRequestModel?.type ==  "Personalized Standy, Poster & Video" ? Text("${widget.getRequestModel?.json!.drPersonalized}",): widget.getRequestModel?.type  == "Awareness inputs" ?Text("${widget.getRequestModel?.json!.request}",):Text("${widget.getRequestModel?.json!.awarenessRequest}",)
                       ],
                     ),
                     Divider(
                       color: colors.black54,
                     ),
 
-                    widget.getRequestModel?.type == "Personalized Standy Poster Video" ?SizedBox.shrink():  Column(
+                    widget.getRequestModel?.type == "Personalized Standy, Poster & Video" ?SizedBox.shrink():  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Mobile No :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
@@ -165,7 +165,7 @@ class _RequestListCardState extends State<RequestListCard> {
                       ],
                     ),
 
-                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ?
+                    widget.getRequestModel?.type  == "Personalized Standy, Poster & Video" ?
                     SizedBox.shrink():widget.getRequestModel?.type  == "Awareness inputs" ||
                         widget.getRequestModel?.type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,7 +229,7 @@ class _RequestListCardState extends State<RequestListCard> {
                         ),
                       ],
                     ) ,
-                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ? Column(
+                    widget.getRequestModel?.type  == "Personalized Standy, Poster & Video" ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
@@ -246,14 +246,14 @@ class _RequestListCardState extends State<RequestListCard> {
                     ):SizedBox.shrink(),
 
 
-                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ? Column(
+                    widget.getRequestModel?.type  == "Personalized Standy, Poster & Video" ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Degree :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-                            Text("${widget.getRequestModel?.json!.degreeSpeakerName}",),
+                            Text("${widget.getRequestModel?.docDigree}",),
                           ],
                         ),
                         Divider(
@@ -446,7 +446,7 @@ class _RequestListCardState extends State<RequestListCard> {
                         ),
                       ],
                     ),
-                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ?  Column(
+                    widget.getRequestModel?.type  == "Personalized Standy, Poster & Video" ?  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
@@ -463,7 +463,7 @@ class _RequestListCardState extends State<RequestListCard> {
                         ),
                       ],
                     ):SizedBox.shrink(),
-                    widget.getRequestModel?.type  == "Personalized Standy Poster Video" ?  Column(
+                    widget.getRequestModel?.type  == "Personalized Standy, Poster & Video" ?  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(

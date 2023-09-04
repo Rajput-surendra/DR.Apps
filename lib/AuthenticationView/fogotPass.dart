@@ -69,76 +69,82 @@ class _ForgotPassState extends State<ForgotPass> {
     }
 
   }
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(text: "Forgot Password", isTrue: true, context: context),
-      body: Form(
-        key: _formKey,
-        child: Column(
-           children: [
-             SizedBox(height: 50,),
-             Padding(
-               padding: const EdgeInsets.all(8.0),
-               child: Card(
-                 shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                 elevation: 1,
-                 child: Center(
-                   child: TextFormField(
-                     controller: mobileController,
-                     keyboardType: TextInputType.number,
-                     maxLength: 10,
-                     validator: (v) {
-                       if (v!.length != 10) {
-                         return "mobile number is required";
-                       }
-                     },
-                     decoration: InputDecoration(
-                       border: InputBorder.none,
-                       counterText: "",
-                       contentPadding:
-                       EdgeInsets.only(left: 15, top: 15),
-                       hintText: "Mobile Number",hintStyle: TextStyle(color: colors.secondary),
-                       prefixIcon: Icon(
-                         Icons.call,
-                         color:colors.secondary,
-                         size: 20,
-                       ),
+    return WillPopScope(
+        onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: customAppBar(text: "Forgot Password", isTrue: true, context: context),
+        body: Form(
+          key: _formKey,
+          child: Column(
+             children: [
+               SizedBox(height: 50,),
+               Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Card(
+                   shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                   elevation: 1,
+                   child: Center(
+                     child: TextFormField(
+                       controller: mobileController,
+                       keyboardType: TextInputType.number,
+                       maxLength: 10,
+                       validator: (v) {
+                         if (v!.length != 10) {
+                           return "mobile number is required";
+                         }
+                       },
+                       decoration: InputDecoration(
+                         border: InputBorder.none,
+                         counterText: "",
+                         contentPadding:
+                         EdgeInsets.only(left: 15, top: 15),
+                         hintText: "Mobile Number",hintStyle: TextStyle(color: colors.secondary),
+                         prefixIcon: Icon(
+                           Icons.call,
+                           color:colors.secondary,
+                           size: 20,
+                         ),
 
+                       ),
                      ),
                    ),
                  ),
                ),
-             ),
-             SizedBox(height: 10,),
-             InkWell(
-                 onTap: (){
-                   setState((){
-                     isLoading = true;
-                   });
-                   if(mobileController.text.isNotEmpty && mobileController.text.length == 10){
-                     loginwitMobile();
-                   }else{
+               SizedBox(height: 10,),
+               InkWell(
+                   onTap: (){
                      setState((){
-                       isLoading = false;
+                       isLoading = true;
                      });
-                     Fluttertoast.showToast(msg: "Please enter valid mobile number!",backgroundColor: colors.secondary);
-                   }
-                 },
-                 child:  Padding(
-                   padding: const EdgeInsets.only(left: 0,top: 10,bottom: 10),
-                   child: Container(
-                     height: 50,
-                     width: MediaQuery.of(context).size.width/1.2,
-                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
-                     child:
-                     // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
-                     Center(child: Text("Send OTP", style: TextStyle(fontSize: 18, color: colors.whiteTemp))),
-                   ),
-                 )
-             ),
+                     if(mobileController.text.isNotEmpty && mobileController.text.length == 10){
+                       loginwitMobile();
+                     }else{
+                       setState((){
+                         isLoading = false;
+                       });
+                       Fluttertoast.showToast(msg: "Please enter valid mobile number!",backgroundColor: colors.secondary);
+                     }
+                   },
+                   child:  Padding(
+                     padding: const EdgeInsets.only(left: 0,top: 10,bottom: 10),
+                     child: Container(
+                       height: 50,
+                       width: MediaQuery.of(context).size.width/1.2,
+                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
+                       child:
+                       // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
+                       Center(child: Text("Send OTP", style: TextStyle(fontSize: 18, color: colors.whiteTemp))),
+                     ),
+                   )
+               ),
 
-           ],
+             ],
+          ),
         ),
       ),
     );

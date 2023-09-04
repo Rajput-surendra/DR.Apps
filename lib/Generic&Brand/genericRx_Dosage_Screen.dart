@@ -674,6 +674,8 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   Future getImage(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
       imageQuality: 40,
+      maxHeight: 1360,
+      maxWidth: 880,
       source: source,
     );
     getCropImage(context, i, image);
@@ -682,6 +684,8 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   Future getImageCmera(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
       imageQuality: 40,
+      maxHeight: 1360,
+      maxWidth: 880,
       source: source,
     );
     getCropImage(context, i, image);

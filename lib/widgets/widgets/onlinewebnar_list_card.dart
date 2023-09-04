@@ -113,7 +113,7 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                                 ),
                               ), //CircleAvatar
                               Padding(
-                                padding: const EdgeInsets.only(left: 5,bottom: 15),
+                                padding: const EdgeInsets.only(left: 5,bottom: 10),
                                 child: Column(
                                   //mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,9 +121,9 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                                     Text("Title: ${widget.getWebinarDataList?.title}",style: TextStyle(fontSize: 14,color: colors.secondary),),
                                     SizedBox(height: 3,),
                                     Text("Topic: ${widget.getWebinarDataList?.topic}",style: TextStyle(fontSize: 10),),
-                                    // Container(
-                                    //   // width: 250,
-                                    //     child: Text("${widget.getEdoDataList?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                    SizedBox(height: 3,),
+                                    Text("${widget.getWebinarDataList?.userAddress}",style: TextStyle(fontSize: 10),),
+
                                   ],
                                 ),
                               ),

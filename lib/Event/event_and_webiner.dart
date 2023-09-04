@@ -41,8 +41,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   bool _isReady = false;
   bool isSelected =  false;
   GetEventModel? eventModel;
-
-
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
@@ -280,36 +278,44 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   }
   List <EventDataList> eventDataList = [] ;
   int _currentIndex = 1 ;
+  Future<bool> _onWillPop() async {
+    return true;
+  }
   @override
   Widget build(BuildContext context) {
     print('_____roll_____${Roll}_________');
     return RefreshIndicator(
       onRefresh: _refresh,
       key: _refreshIndicatorKey,
-      child: Scaffold(
-
-       floatingActionButton: Roll == "1" ? FloatingActionButton(
-            onPressed: () {
-              if(_currentIndex == 1){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> AddEventPost()));
-              }else{
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> AddPostWebiner()));
-              }
-
+      child: WillPopScope(
+            onWillPop: () async {
+              return true; // Allow the back button to work as intended.
             },
-            backgroundColor: colors.secondary,
-            child: Icon(Icons.add),
-          ):SizedBox.shrink(),
-          appBar: customAppBar(context: context, text:"Event & Online Webinar", isTrue: true, ),
-        body:
-        ListView(
-          children: [
-            eventabbar(),
-          _currentIndex == 1 ? eventView():onlineWebinarView(),
+
+          child: Scaffold(
+         floatingActionButton: Roll == "1" ? FloatingActionButton(
+              onPressed: () {
+                if(_currentIndex == 1){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AddEventPost()));
+                }else{
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AddPostWebiner()));
+                }
+
+              },
+              backgroundColor: colors.secondary,
+              child: Icon(Icons.add),
+            ):SizedBox.shrink(),
+            appBar: customAppBar(context: context, text:"Event & Online Webinar", isTrue: true, ),
+          body:
+          ListView(
+            children: [
+              eventabbar(),
+            _currentIndex == 1 ? eventView():onlineWebinarView(),
 
 
-          ],
-        )
+            ],
+          )
+        ),
       ),
     );
   }

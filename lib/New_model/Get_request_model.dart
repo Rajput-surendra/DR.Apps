@@ -1,6 +1,6 @@
 /// error : false
 /// message : "Record found"
-/// data : [{"id":"71","user_id":"639","type":"Personalized Standy Poster Video","json":{"mobile_no":"","dr_name":"demo","dr_association":"","degree":"","place":"indoor ","request":null,"awareness_request":null,"topic":"yyyy","clinic_hospital":"india ","email":"indor@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"mbbs","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":"Yes","dr_personalized":"Standy"},"created_at":"2023-08-08 17:53:05","updated_at":"2023-08-08 17:53:05","name":"rr rr","doc_digree":"mmm","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1691142548716.jpg","is_favorite":true}]
+/// data : [{"id":"71","user_id":"639","type":"Personalized Standy, Poster & Video","json":{"mobile_no":"","dr_name":"demo","dr_association":"","degree":"","place":"indoor ","request":null,"awareness_request":null,"topic":"yyyy","clinic_hospital":"india ","email":"indor@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"mbbs","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":"Yes","dr_personalized":"Standy"},"created_at":"2023-08-08 17:53:05","updated_at":"2023-08-08 17:53:05","name":"rr rr","doc_digree":"mmm","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/image_cropper_1691142548716.jpg","is_favorite":true}]
 
 class GetRequestModel {
   GetRequestModel({
@@ -50,7 +50,7 @@ GetRequestModel copyWith({  bool? error,
 
 /// id : "71"
 /// user_id : "639"
-/// type : "Personalized Standy Poster Video"
+/// type : "Personalized Standy, Poster & Video"
 /// json : {"mobile_no":"","dr_name":"demo","dr_association":"","degree":"","place":"indoor ","request":null,"awareness_request":null,"topic":"yyyy","clinic_hospital":"india ","email":"indor@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"mbbs","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":"Yes","dr_personalized":"Standy"}
 /// created_at : "2023-08-08 17:53:05"
 /// updated_at : "2023-08-08 17:53:05"
@@ -69,6 +69,7 @@ class RequetDataList {
       String? updatedAt, 
       String? name, 
       String? docDigree, 
+      String? cityName,
       String? userImage,
       bool? isSelected,
       bool? isFavorite,}){
@@ -80,6 +81,7 @@ class RequetDataList {
     _updatedAt = updatedAt;
     _name = name;
     _docDigree = docDigree;
+    _cityName = cityName;
     _userImage = userImage;
     _isFavorite = isFavorite;
 }
@@ -93,6 +95,7 @@ class RequetDataList {
     _updatedAt = json['updated_at'];
     _name = json['name'];
     _docDigree = json['doc_digree'];
+    _cityName = json['city_name'];
     _userImage = json['user_image'];
     _isFavorite = json['is_favorite'];
   }
@@ -104,6 +107,7 @@ class RequetDataList {
   String? _updatedAt;
   String? _name;
   String? _docDigree;
+  String? _cityName;
   String? _userImage;
   bool? _isFavorite;
   bool? isSelected;
@@ -115,6 +119,7 @@ RequetDataList copyWith({  String? id,
   String? updatedAt,
   String? name,
   String? docDigree,
+  String? cityName,
   String? userImage,
   bool? isFavorite,
   bool? isSelected,
@@ -126,6 +131,7 @@ RequetDataList copyWith({  String? id,
   updatedAt: updatedAt ?? _updatedAt,
   name: name ?? _name,
   docDigree: docDigree ?? _docDigree,
+  cityName: cityName ?? _cityName,
   userImage: userImage ?? _userImage,
   isFavorite: isFavorite ?? _isFavorite,
 );
@@ -137,6 +143,7 @@ RequetDataList copyWith({  String? id,
   String? get updatedAt => _updatedAt;
   String? get name => _name;
   String? get docDigree => _docDigree;
+  String? get cityName => _cityName;
   String? get userImage => _userImage;
   bool? get isFavorite => _isFavorite;
 
@@ -152,6 +159,7 @@ RequetDataList copyWith({  String? id,
     map['updated_at'] = _updatedAt;
     map['name'] = _name;
     map['doc_digree'] = _docDigree;
+    map['city_name'] = _cityName;
     map['user_image'] = _userImage;
     map['is_favorite'] = _isFavorite;
     return map;

@@ -1350,6 +1350,8 @@ String? catName ;
       'company': CompanyController.text,
       'degree': deegreeController.text,
       'experience': ExpController.text,
+      'area_id': placeC.text,
+
 
 
     });

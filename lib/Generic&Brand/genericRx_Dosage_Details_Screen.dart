@@ -27,8 +27,6 @@ class GenericRxDosageDetailsScreen extends StatefulWidget {
 
 class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScreen> {
   @override
-
-
   Widget build(BuildContext context) {
     print('____zzXx______${widget.isTrueId}____${cardId}_____');
     return Scaffold(
@@ -77,7 +75,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                               indicationCard();
                             },
                             child: Container(
-                              height: 50,
+                              height: 40,
                               color: colors.primary,
                               child: Center(child: Text("Indication",style: TextStyle(
                                   color: colors.whiteTemp
@@ -92,7 +90,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                               dosageCard();
                             },
                             child: Container(
-                              height: 50,
+                              height: 40,
                               color: colors.primary,
                               child: Center(child: Text("Dosage",style: TextStyle(
                                   color: colors.whiteTemp
@@ -107,7 +105,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                               rxInfoCard();
                             },
                             child: Container(
-                              height: 50,
+                              height: 40,
                               color: colors.primary,
                               child: Center(child: Text("Rx info",style: TextStyle(
                                   color: colors.whiteTemp
@@ -124,7 +122,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:  _buildDots(),),
                     SizedBox(height: 10,),
-                    Text("FOR BRAND INQUIRY AND ORDER "),
+                    Text("CONTACT FOR BRAND INQUIRY AND ORDER",textAlign: TextAlign.center,),
                     SizedBox(height: 5,),
                     personAllWidget(),
                     SizedBox(height: 10,),

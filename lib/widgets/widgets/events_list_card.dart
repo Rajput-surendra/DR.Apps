@@ -63,168 +63,177 @@ class _EventsListCardState extends State<EventsListCard> {
   print('_____role_____${role}_________');
   }
 
-
+bool webViewIsLoading  = true;
 List? strObj;
   @override
   Widget build(BuildContext context) {
     strObj = widget.getEventModel!.image.split(".");
-    print('_____saaaaaaaaaaaaaaaa_____${strObj![2]}_________');
-    return RepaintBoundary(
-      key: keyList,
-      child:_isReady ?  Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child:  Padding(
-              padding: const EdgeInsets.only(left: 10,right: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 5,bottom: 8),
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage("${widget.getEventModel?.userImage}"),
-                              backgroundColor: colors.primary,
-                              radius: 25,
-                            ),
-                          ), //CircleAvatar
-                          Padding(
-                            padding: const EdgeInsets.only(left: 3),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("${widget.getEventModel?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),),
-                                role == "2" ? SizedBox.shrink(): Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
-                                Container(
-                                  // width: 250,
-                                    child: Text("${widget.getEventModel?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      iconVisible ? Row(
-                        children: [
-
-                          InkWell(
-                            onTap: (){
-                              setState(() {
-                                iconVisible = false;
-                              });
-                              Future.delayed(Duration(milliseconds: 500), (){
-                                //_CaptureScreenShot(index: index);
-                                _shareQrCode(widget.getEventModel?.link ?? '');
-                                // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
-                              });
-
-                            },
-                              child: Icon(Icons.share)),
-                          IconButton(onPressed: (){
-                            setState(() {
-                              getNewWishlistApi(widget.getEventModel?.id ?? '', widget.getEventModel?.type ?? "");
-                              widget.getEventModel?.isSelected = !(widget.getEventModel?.isSelected ?? false );
-                            });
-                          },icon: widget.getEventModel?.isFav ?? false ?
-                          Icon(Icons.favorite,color: colors.red,): widget.getEventModel?.isSelected ?? false
-                              ?Icon(Icons.favorite,color: colors.red,) :
-                          Icon(Icons.favorite_outline,color: colors.red,)),
-                          if(userId == widget.getEventModel!.pharmaId)
-                          InkWell(
-                            onTap: widget.onTop,
-                              child: Icon(Icons.delete)),
-                        ],
-                      ):SizedBox.shrink()
-                    ],
-                  ),
-
-                  strObj![2] == "pdf" ? Column(
-                    children: [
-
-                      InkWell(
-                        onTap: (){
-                          downloadFile('${widget.getEventModel!.image}', widget.getEventModel?.title ?? '');
-                        } ,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                              width: 50,
-                              height: 55 ,
-                              child: Column(
-                                children: [
-                                  Icon(Icons.download,size: 35,color: colors.secondary,),
-                                  Text("pdf")
-                                ],
-                              )
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Align(
-                        alignment: Alignment.center,
-                        child: InkWell(
-                            onTap: (){
-                              viewFile(widget.getEventModel!.image , "File");
-                            },
-                            child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
-                      ),
-                    ],
-                  )
-               :
-                  Container(
-                    width: double.infinity,
-                    child:  DecoratedBox(
-                      decoration:  BoxDecoration(
-                      ),
-                      child: widget.getEventModel?.image == null || widget.getEventModel?.image == ""?Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEventModel?.image}",fit: BoxFit.fill)
-                    ),
-
-                  ),
-                  SizedBox(height: 10,),
-                  Text("${widget.getEventModel?.address}",),
-                  SizedBox(height: 5,),
+    //print('_____strObj_____${strObj?[2]}_________');
+    return WillPopScope(
+      onWillPop: () async{
+        if (webViewIsLoading) { // Check if the WebView is still loading
+          return false; // Block the back navigation
+        } else {
+          return true; // Allow back navigation if the WebView is not loading
+        }
+      },
+      child: RepaintBoundary(
+        key: keyList,
+        child:_isReady ?  Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child:  Padding(
+                padding: const EdgeInsets.only(left: 10,right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment:CrossAxisAlignment.start,
                       children: [
-                        Text("${widget.getEventModel?.startDate}"),
-                        Container(
-                         height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: colors.secondary
-                          ),
-                          child: TextButton(onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: widget.getEventModel)));
-                            // Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: widget eventDataList[index])));
-
-                          }, child: Text("Click For Details",style: TextStyle(
-                            color: colors.whiteTemp
-                          ),)),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5,bottom: 8),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage("${widget.getEventModel?.userImage}"),
+                                backgroundColor: colors.primary,
+                                radius: 25,
+                              ),
+                            ), //CircleAvatar
+                            Padding(
+                              padding: const EdgeInsets.only(left: 3),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${widget.getEventModel?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),),
+                                  role == "2" ? SizedBox.shrink(): Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
+                                  Container(
+                                    // width: 250,
+                                      child: Text("${widget.getEventModel?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
+                        iconVisible ? Row(
+                          children: [
 
+                            InkWell(
+                              onTap: (){
+                                setState(() {
+                                  iconVisible = false;
+                                });
+                                Future.delayed(Duration(milliseconds: 500), (){
+                                  //_CaptureScreenShot(index: index);
+                                  _shareQrCode(widget.getEventModel?.link ?? '');
+                                  // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
+                                });
+
+                              },
+                                child: Icon(Icons.share)),
+                            IconButton(onPressed: (){
+                              setState(() {
+                                getNewWishlistApi(widget.getEventModel?.id ?? '', widget.getEventModel?.type ?? "");
+                                widget.getEventModel?.isSelected = !(widget.getEventModel?.isSelected ?? false );
+                              });
+                            },icon: widget.getEventModel?.isFav ?? false ?
+                            Icon(Icons.favorite,color: colors.red,): widget.getEventModel?.isSelected ?? false
+                                ?Icon(Icons.favorite,color: colors.red,) :
+                            Icon(Icons.favorite_outline,color: colors.red,)),
+                            if(userId == widget.getEventModel!.pharmaId)
+                            InkWell(
+                              onTap: widget.onTop,
+                                child: Icon(Icons.delete)),
+                          ],
+                        ):SizedBox.shrink()
                       ],
                     ),
-                    SizedBox(height: 8,),
+
+                    strObj?[2] == "pdf" ? Column(
+                      children: [
+
+                        InkWell(
+                          onTap: (){
+                            downloadFile('${widget.getEventModel!.image}', widget.getEventModel?.title ?? '');
+                          } ,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                                width: 50,
+                                height: 55 ,
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.download,size: 35,color: colors.secondary,),
+                                    Text("pdf")
+                                  ],
+                                )
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        Align(
+                          alignment: Alignment.center,
+                          child: InkWell(
+                              onTap: (){
+                                viewFile(widget.getEventModel!.image , "File");
+                              },
+                              child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
+                        ),
+                      ],
+                    )
+                 :
+                    Container(
+                      width: double.infinity,
+                      child:  DecoratedBox(
+                        decoration:  BoxDecoration(
+                        ),
+                        child: widget.getEventModel?.image == null || widget.getEventModel?.image == ""?Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getEventModel?.image}",fit: BoxFit.fill)
+                      ),
+
+                    ),
+                    SizedBox(height: 10,),
+                    Text("${widget.getEventModel?.address}",),
+                    SizedBox(height: 5,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment:CrossAxisAlignment.start,
+                        children: [
+                          Text("${widget.getEventModel?.startDate}"),
+                          Container(
+                           height: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: colors.secondary
+                            ),
+                            child: TextButton(onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: widget.getEventModel)));
+                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: widget eventDataList[index])));
+
+                            }, child: Text("Click For Details",style: TextStyle(
+                              color: colors.whiteTemp
+                            ),)),
+                          ),
+
+                        ],
+                      ),
+                      SizedBox(height: 8,),
 
 
 
-                    const SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
 
-                ],
-              ),
-            )
+                  ],
+                ),
+              )
 
-        ),
-      ) : SizedBox(),
+          ),
+        ) : SizedBox(),
+      ),
     );
   }
 

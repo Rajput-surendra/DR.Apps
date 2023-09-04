@@ -26,17 +26,33 @@ class AddRequest extends StatefulWidget {
   State<AddRequest> createState() => _AddRequestState();
 }
 String? selectedValue ;
+String? _dropdownError;
 
 class _AddRequestState extends State<AddRequest> {
   final _formKey = GlobalKey<FormState>();
-  String? awarenessValue ;
+
+  String? awarenessValue;
   final List<String> awarenesslist = ['Greeting','Poster', 'Video'];
-  String? doctorValue ;
+  String? doctorValue;
   final List<String> doctorlist = ['Yes', 'No'];
-  String? requestValue ;
+  String? requestValue;
   final List<String> items = ['Poster', 'Leaflet', 'Booklet','Video'];
-  String? standyValue ;
+  String?  standyValue;
   final List<String> standyValueList = ['Standy ','Poster ','Video ',];
+
+  _validateForm() {
+    bool _isValid = _formKey.currentState!.validate();
+
+    if (standyValue == null) {
+      setState(() => _dropdownError = "Please select an option!");
+      _isValid = false;
+    }
+
+    if (_isValid) {
+      //form is valid
+    }
+  }
+
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController drController = TextEditingController();
@@ -106,6 +122,8 @@ class _AddRequestState extends State<AddRequest> {
       setState(() {
         getprofile = jsonResponse;
         emailController.text = getprofile!.user!.email ??  '' ;
+        drController.text = getprofile!.user!.username ??  '' ;
+        degreeController.text = getprofile!.user!.userData!.first.docDigree ??  '' ;
       });
     } else {
       print(response.reasonPhrase);
@@ -119,7 +137,6 @@ class _AddRequestState extends State<AddRequest> {
     return false; 
   }
   @override
-
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -175,7 +192,7 @@ class _AddRequestState extends State<AddRequest> {
                           });
                         },
 
-                        items: ['Awareness inputs','Worlds Awareness Day inputs','CME Invitation Designs','Event Invitation Designs','Online Webinar Invitation Designs','Personalized Standy Poster Video']
+                        items: ['Awareness inputs','Worlds Awareness Day inputs','CME Invitation Designs','Event Invitation Designs','Online Webinar Invitation Designs','Personalized Standy, Poster & Video']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -227,7 +244,7 @@ class _AddRequestState extends State<AddRequest> {
         return awareness();
       case 'Online Webinar Invitation Designs':
         return awareness();
-      case 'Personalized Standy Poster Video' :
+      case 'Personalized Standy, Poster & Video' :
         return awareness();
       default:
         return Container();
@@ -398,7 +415,8 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],):SizedBox.shrink(),
         SizedBox(height: 5,),
-        selectedValue == "Personalized Standy Poster Video" ? Column(
+
+        selectedValue == "Personalized Standy, Poster & Video" ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
@@ -416,6 +434,7 @@ class _AddRequestState extends State<AddRequest> {
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2<String>(
+
                     dropdownMaxHeight: 240,
                     hint: const Padding(
                       padding: EdgeInsets.only(bottom: 15),
@@ -440,9 +459,7 @@ class _AddRequestState extends State<AddRequest> {
                       ),
                     ),
                     onChanged: (String? value) {
-                      // This is called when the user selects an item.
                       setState(() {
-                        standyValue = value!;
 
                       });
                     },
@@ -450,7 +467,9 @@ class _AddRequestState extends State<AddRequest> {
                     items: standyValueList
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
+
                         value: value,
+
                         child:
                         Column(
                           mainAxisSize: MainAxisSize.min,
@@ -470,6 +489,7 @@ class _AddRequestState extends State<AddRequest> {
                       );
 
                     }).toList(),
+
 
                   ),
 
@@ -538,7 +558,7 @@ class _AddRequestState extends State<AddRequest> {
               )
             ],) : SizedBox.shrink(),
         SizedBox(height: 5,),
-        selectedValue == "Personalized Standy Poster Video" ? SizedBox.shrink():  Column(children: [
+        selectedValue == "Personalized Standy, Poster & Video" ? SizedBox.shrink():  Column(children: [
           Row(children: [Text("Mobile No(optional)" ,textAlign: TextAlign.start)
           ],),
           SizedBox(height: 2,),
@@ -559,7 +579,7 @@ class _AddRequestState extends State<AddRequest> {
           ),
         ],),
         SizedBox(height: 3,),
-        selectedValue == "Personalized Standy Poster Video"  ||  selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? SizedBox.shrink()  : Column(
+        selectedValue == "Personalized Standy, Poster & Video"  ||  selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs"  ? SizedBox.shrink()  : Column(
           children: [
            Row(children: [
              Text("Doctor Association Name" ,textAlign: TextAlign.start)
@@ -580,7 +600,7 @@ class _AddRequestState extends State<AddRequest> {
            ),
          ],),
 
-        selectedValue == "Personalized Standy Poster Video"  ? Column(
+        selectedValue == "Personalized Standy, Poster & Video"  ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
@@ -592,7 +612,7 @@ class _AddRequestState extends State<AddRequest> {
               child: TextFormField(
                 controller: topicController,
                 validator: (value) {
-                  if ((selectedValue == "Awareness inputs") && value!.isEmpty) {
+                  if ((selectedValue == "Personalized Standy, Poster & Video") && value!.isEmpty) {
                     return 'Please Enter a Topic';
                   }
                   return null;
@@ -638,7 +658,7 @@ class _AddRequestState extends State<AddRequest> {
           ],
         ) :SizedBox.shrink(),
 
-        selectedValue == "Personalized Standy Poster Video" ?  Column(
+        selectedValue == "Personalized Standy, Poster & Video" ?  Column(
           children: [
             Row(children: [
               Text("Doctor Name" ,textAlign: TextAlign.start), Text("*" ,textAlign: TextAlign.start,style: TextStyle(color: colors.red),)
@@ -647,15 +667,15 @@ class _AddRequestState extends State<AddRequest> {
             SizedBox(
               // height: 45,
               child: TextFormField(
+                readOnly: true,
                 controller: drController,
-
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     )
                 ),
                 validator: (value) {
-                  if ((selectedValue == "Personalized Standy Poster Video") && value!.isEmpty) {
+                  if ((selectedValue == "Personalized Standy, Poster & Video") && value!.isEmpty) {
                     return 'Please Enter a Topic';
                   }
                   return null;
@@ -665,7 +685,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],):SizedBox.shrink(),
 
-        selectedValue == "Personalized Standy Poster Video" ? Column(
+        selectedValue == "Personalized Standy, Poster & Video" ? Column(
           children: [
             Row(children: [
               Text("Degree" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -674,9 +694,10 @@ class _AddRequestState extends State<AddRequest> {
             SizedBox(
               // height: 45,
               child: TextFormField(
-                controller: degreespeakerController,
+                readOnly: true,
+                controller: degreeController,
                 validator: (value) {
-                  if ((selectedValue == "Personalized Standy Poster Video") && value!.isEmpty) {
+                  if ((selectedValue == "Personalized Standy, Poster & Video") && value!.isEmpty) {
                     return 'Please Enter a Degree';
                   }
                   return null;
@@ -691,7 +712,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ):SizedBox.shrink(),
-        selectedValue == "Personalized Standy Poster Video" ? Column(children: [
+        selectedValue == "Personalized Standy, Poster & Video" ? Column(children: [
           Row(children: [
             Text("For Clinic or Hospital Name" ,textAlign: TextAlign.start)
           ],),
@@ -715,7 +736,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ),
         ],):SizedBox.shrink(),
-        selectedValue == "Personalized Standy Poster Video" ? Column(children: [
+        selectedValue == "Personalized Standy, Poster & Video" ? Column(children: [
           Row(children: [
             Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
 
@@ -725,7 +746,7 @@ class _AddRequestState extends State<AddRequest> {
             child: TextFormField(
               controller: placeController,
               validator: (value) {
-                if ((selectedValue == "Personalized Standy Poster Video") && value!.isEmpty) {
+                if ((selectedValue == "Personalized Standy, Poster & Video") && value!.isEmpty) {
                   return 'Please Enter a Place';
                 }
                 return null;
@@ -739,7 +760,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ),
         ],):SizedBox.shrink(),
-        selectedValue == "Personalized Standy Poster Video" ? Column(
+        selectedValue == "Personalized Standy, Poster & Video" ? Column(
           children: [
             Row(children: [
               Text("Dr. Contact Email ID" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -757,7 +778,7 @@ class _AddRequestState extends State<AddRequest> {
                     )
                 ),
                 validator: (value) {
-                  if ((selectedValue == "Personalized Standy Poster Video") && value == null || value!.isEmpty) {
+                  if ((selectedValue == "Personalized Standy, Poster & Video") && value == null || value!.isEmpty) {
                     return 'Please Enter an Email ID';
                   }
                   return null; // Return null if the input is valid
@@ -770,7 +791,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ):SizedBox.shrink(),
-        selectedValue == "Personalized Standy Poster Video" ? Column(
+        selectedValue == "Personalized Standy, Poster & Video" ? Column(
           crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             Text("Dr.Photo Require On Input" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -848,7 +869,7 @@ class _AddRequestState extends State<AddRequest> {
 
           ),
         ],):SizedBox.shrink(),
-        selectedValue == "Personalized Standy Poster Video" ?  Column(
+        selectedValue == "Personalized Standy, Poster & Video" ?  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
@@ -993,7 +1014,7 @@ class _AddRequestState extends State<AddRequest> {
             ),
           ],
         ) :SizedBox.shrink(),
-        selectedValue == "Personalized Standy Poster Video" ? SizedBox.shrink():  selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+        selectedValue == "Personalized Standy, Poster & Video" ? SizedBox.shrink():  selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
           Row(children: [
             Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
 
@@ -1044,7 +1065,7 @@ class _AddRequestState extends State<AddRequest> {
           ],
         ) :SizedBox.shrink(),
         SizedBox(height: 3,),
-        selectedValue == "Personalized Standy Poster Video" ? SizedBox.shrink():  selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
+        selectedValue == "Personalized Standy, Poster & Video" ? SizedBox.shrink():  selectedValue == "Online Webinar Invitation Designs" ? Column(children: [
             Row(
               children: [
                 Text("Date" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -1210,7 +1231,7 @@ class _AddRequestState extends State<AddRequest> {
           ],
         ) :SizedBox.shrink(),
         SizedBox(height: 3,),
-        selectedValue == "Personalized Standy Poster Video" ? SizedBox.shrink() :  selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" || selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink():Column(
+        selectedValue == "Personalized Standy, Poster & Video" ? SizedBox.shrink() :  selectedValue == "Awareness inputs"  || selectedValue == "Worlds Awareness Day inputs" || selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink():Column(
           children: [
           Row(
             children: [
@@ -1267,7 +1288,7 @@ class _AddRequestState extends State<AddRequest> {
           ),
         ],),
         SizedBox(height: 3,),
-        selectedValue == "Personalized Standy Poster Video" ? SizedBox.shrink():   selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink(): Column(children: [
+        selectedValue == "Personalized Standy, Poster & Video" ? SizedBox.shrink():   selectedValue == "Online Webinar Invitation Designs" ? SizedBox.shrink(): Column(children: [
         Row(children: [
           Text("Place" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
 
@@ -1356,7 +1377,7 @@ class _AddRequestState extends State<AddRequest> {
           ),
         ],):SizedBox.shrink(),
         SizedBox(height: 5,),
-        selectedValue == "Personalized Standy Poster Video" ? SizedBox.shrink():Column(
+        selectedValue == "Personalized Standy, Poster & Video" ? SizedBox.shrink():Column(
            children: [
              Row(children: [
                Text("Dr. Contact Email ID" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -1559,7 +1580,7 @@ class _AddRequestState extends State<AddRequest> {
               "topic":topicController.text,
               "clinic_hospital":clinicHospitalController.text,
               "email":emailController.text,
-            "message": selectedValue == "Personalized Standy Poster Video" ?messagPersonalizedController.text:selectedValue == "Awareness inputs" ?messageAwereController.text:selectedValue == "Worlds Awareness Day inputs" ? messageWorldAwereController.text :
+            "message": selectedValue == "Personalized Standy, Poster & Video" ?messagPersonalizedController.text:selectedValue == "Awareness inputs" ?messageAwereController.text:selectedValue == "Worlds Awareness Day inputs" ? messageWorldAwereController.text :
             selectedValue == "Worlds Awareness Day inputs" ? messageWorldAwereController.text :
             selectedValue  == "CME Invitation Designs"? messageWorldEmeController.text :selectedValue == "Event Invitation Designs" ? messageEventController.text
             : messageWebinarController.text,

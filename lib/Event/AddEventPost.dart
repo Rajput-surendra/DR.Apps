@@ -189,7 +189,7 @@ class _AddEventPostState extends State<AddEventPost> {
     });
     print("getEventPostApi555555555555555--------------->${request.fields}");
     if(files != null){
-      request.files.add(await http.MultipartFile.fromPath('image', files[0].path ?? ''));
+        request.files.add(await http.MultipartFile.fromPath('image', files[0].path ?? ''));
     }
     print("files--------------->${request.files}");
     request.headers.addAll(headers);

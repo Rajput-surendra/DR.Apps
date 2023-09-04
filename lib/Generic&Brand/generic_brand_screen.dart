@@ -31,8 +31,10 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
     getSliderApi();
     getGenericApi();
   }
+  String ?role;
   @override
   Widget build(BuildContext context) {
+    print('____role____aaaa__${role}_________');
     return  Scaffold(
       appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body:selectCatModel?.data == null ? Center(child: CircularProgressIndicator()): selectCatModel?.data?.length == 0 ? Center(child: Text("No Category List Found !!!")) : SingleChildScrollView(
@@ -67,7 +69,7 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
   staticText(){
     return Column(
       children: [
-        Text("Add your brand as per below",style: TextStyle(
+        role == "1"? SizedBox.shrink():  Text("Add your brand as per below",style: TextStyle(
           color: colors.blackTemp
         ),),
         Text("GENERIC MEDICINE CATEGORY",style: TextStyle(
@@ -191,8 +193,8 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
   GetSelectCatModel? selectCatModel;
   getGenericApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? roll = preferences.getString('roll');
-    print("getRoll--------------->${roll}");
+     role = preferences.getString('roll');
+    print("getRoll--------------->${role}");
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
     };

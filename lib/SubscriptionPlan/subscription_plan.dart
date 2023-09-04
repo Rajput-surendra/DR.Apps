@@ -138,7 +138,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
       body: Column(
         children: [
          getPlan == null  || getPlan == ""?Center(child: CircularProgressIndicator()): Container(
-           height: MediaQuery.of(context).size.height/1.2,
+           height: MediaQuery.of(context).size.height/1.3,
             width: double.infinity,
             child: ListView.builder(
                 shrinkWrap: true,
