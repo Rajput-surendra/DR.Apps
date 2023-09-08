@@ -166,10 +166,7 @@ class _AddEventPostState extends State<AddEventPost> {
     });
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId,,,,,,,,,,,,,,,,--------------->${Roll}");
-
     var headers = {
       'Cookie': 'ci_session=f5c119f5040eaef28e6a4c420b14b794a449a6c4'
     };
@@ -187,7 +184,7 @@ class _AddEventPostState extends State<AddEventPost> {
       'address':addressController.text
 
     });
-    print("getEventPostApi555555555555555--------------->${request.fields}");
+    print("getEventPostApi--------------->${request.fields}");
     if(files != null){
         request.files.add(await http.MultipartFile.fromPath('image', files[0].path ?? ''));
     }
@@ -196,18 +193,18 @@ class _AddEventPostState extends State<AddEventPost> {
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
-      final finalResult = json.decode(result);
+      final finalResult = jsonDecode(result);
       Fluttertoast.showToast(msg: 'Your input will be displayed in a few times after verification',backgroundColor: colors.secondary);
-      // print("thi os ojon==========>${finalResult}");
-      // Fluttertoast.showToast(msg: "${finalResult['message']}");
-      titleController.clear();
-      endDateController.clear();
-      startDateController.clear();
-      linkController.clear();
-      addressController.clear();
-      nameController.clear();
-      designController.clear();
-      mobileController.clear();
+       print("thi os ojon==========>${finalResult}=============${result}");
+     // Fluttertoast.showToast(msg: "${finalResult['message']}");
+     //  titleController.clear();
+     //  endDateController.clear();
+     //  startDateController.clear();
+     //  linkController.clear();
+     //  addressController.clear();
+     //  nameController.clear();
+     //  designController.clear();
+     //  mobileController.clear();
       Navigator.pop(context);
       files.clear();
       setState(() {
@@ -361,11 +358,8 @@ class _AddEventPostState extends State<AddEventPost> {
                 ),
                 SizedBox(height: 10,),
 
-                Text("Contact for Sponsorship",style: TextStyle(
-                  color: colors.blackTemp,fontSize: 20
-                ),),
-                SizedBox(height: 10,),
-
+                  Text("Registration Link"),
+                SizedBox(height: 5,),
                 Container(
                   // height: 45,
                   child: TextFormField(
@@ -386,6 +380,11 @@ class _AddEventPostState extends State<AddEventPost> {
                   ),
                 ),
                 SizedBox(height: 10,),
+                Text("Contact for Sponsorship",style: TextStyle(
+                    color: colors.blackTemp,fontSize: 20
+                ),),
+
+                SizedBox(height: 5,),
                 Row(
                   children: [
                     Text("Name ",style: TextStyle(

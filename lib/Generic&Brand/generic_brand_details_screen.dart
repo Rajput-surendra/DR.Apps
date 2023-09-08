@@ -45,29 +45,25 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                   catName: catName,
                   catId: widget.catId,
                 ))).then((value) {
-
                   if(value !=null){
-
                     callApi();
-
                   }
               });
                },
               child: Container(
-
-      height: 50,
-      width: MediaQuery.of(context).size.width/1.6,
-      decoration: BoxDecoration(
-          color: colors.primary, borderRadius: BorderRadius.circular(15)),
-      child: Center(
-          child: Text(
+                height: 50,
+                  width: MediaQuery.of(context).size.width/1.6,
+                   decoration: BoxDecoration(
+                color: colors.primary, borderRadius: BorderRadius.circular(15)),
+               child: Center(
+              child: Text(
             "Add Your Brand",
             style: TextStyle(color: colors.whiteTemp),
           )),
-  ),
-),
+         ),
+       ),
              ): SizedBox.shrink(),
-        appBar:customAppBar(context: context, text: "Generic & Brand", isTrue: true,),
+         appBar:customAppBar (context: context, text: "Generic & Brand", isTrue: true,),
         body:  Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
@@ -103,8 +99,10 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                 : getBrandModel!.data!.length,
                             itemBuilder: (c, i) {
                               var branddata = getBrandModel!.data;
+                              print('_____fffffffffffff_____${role}_________');
+                              print('_____fffffffffffff_____${branddata![i].isDetailsAdded}_________');
                               if(role == "1") {
-                                return branddata![i].isDetailsAdded ==  true?  Padding(
+                                return branddata![i].isDetailsAdded == true?  Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +167,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     });
                                                     if(!(branddata[i].isDetailPlanSubscribed  ?? false)){
                                                       _showAlertDialog(context, branddata[i].id ?? "");
-                                                    }else if ((branddata[i].isDetailsAdded  == true )){
+                                                    }else if ((branddata[i].isDetailsAdded  == false )){
                                                       setState((){
                                                         cardId = branddata[i].id;
                                                         brandName =  branddata[i].name;
@@ -207,7 +205,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                       ),
                                                     ),
                                                   ),
-                                                ) : Container(
+                                                ) :  Container(
                                                   height: 38,
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.only(
@@ -236,7 +234,140 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                       ),
                                     ],
                                   ),
-                                ):SizedBox();
+                                ): Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "${branddata[i].name}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: colors.secondary, fontSize: 25),
+                                      ),
+                                      Text(
+                                        "${branddata[i].genericName}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: colors.black54,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              height: 38,
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                      bottomLeft:
+                                                      Radius.circular(10)),
+                                                  color: colors.darkIcon.withOpacity(0.6)),
+                                              child: Center(
+                                                  child: Text(
+                                                    "By ${branddata[i].companyName}",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: colors.whiteTemp,
+                                                        fontSize: 12),
+                                                  )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: InkWell(
+                                                onTap: () {
+                                                  if(role == "1"){
+                                                    /*setState((){
+                                                      cardId = branddata[i].id;
+                                                      brandName =  branddata[i].name;
+                                                      brandDes =  branddata[i].genericName;
+                                                    });
+                                                    if(branddata[i].userPlanPurchased == true ){
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
+                                                    }*/
+
+                                                  }else {
+                                                    setState((){
+                                                      cardId = branddata[i].id;
+                                                      brandName =  branddata[i].name;
+                                                      brandDes =  branddata[i].genericName;
+                                                    });
+                                                    if(!(branddata[i].isDetailPlanSubscribed  ?? false)){
+                                                      _showAlertDialog(context, branddata[i].id ?? "");
+                                                    }else if ((branddata[i].isDetailsAdded  == false )){
+                                                      setState((){
+                                                        cardId = branddata[i].id;
+                                                        brandName =  branddata[i].name;
+                                                        brandDes =  branddata[i].genericName;
+                                                      });
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                                    }else{
+                                                      setState((){
+                                                        cardId = branddata[i].id;
+                                                        brandName =  branddata[i].name;
+                                                        brandDes =  branddata[i].genericName;
+                                                      });
+                                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
+                                                    }
+                                                  }
+
+                                                },
+                                                child: /*branddata[i].isDetailsAdded == true ? */ InkWell(
+                                                  child: Container(
+                                                    height: 38,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.only(
+                                                            bottomRight:
+                                                            Radius.circular(10)),
+                                                        color: colors.secondary),
+                                                    child: Center(
+                                                      child:
+                                                      Text(
+                                                        '${branddata[i].detailText}',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color:/*branddata[i].userPlanPurchased == true ? Colors.white:*/colors.whiteTemp.withOpacity(0.4),
+                                                            fontSize: 12),
+
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                             /*       :  Container(
+                                                  height: 38,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.only(
+                                                          bottomRight:
+                                                          Radius.circular(10)),
+                                                      color: colors.red ),
+                                                  child: Center(
+                                                    child:
+                                                    BlinkText(
+                                                        '${branddata[i].detailText}',
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 12),
+                                                        beginColor: colors.blackTemp,
+                                                        endColor: colors.whiteTemp,
+                                                        times: 1000,
+                                                        duration: Duration(seconds: 1)),
+                                                  ),
+                                                )*/
+
+
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
                               } else {
                                 return Padding(
                                   padding: const EdgeInsets.all(5.0),
@@ -411,7 +542,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
         http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll(
         {'user_id': role == "2" ? userId.toString() : '', 'category_id': catId.toString()});
-    print('_____ddddd_____${request.fields}_________');
+    print('_____ddddd_____${request.fields}____${ApiService.getBrandApi}_____');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -419,7 +550,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
       var finalResult = GetBrandModel.fromJson(jsonDecode(result));
       setState(() {
         getBrandModel = finalResult;
-        print('__________${result}_________');
+        print('______dddd____${result}_________');
       });
     } else {
       print(response.reasonPhrase);

@@ -162,36 +162,27 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
 
                         ],
                       ),
-                      strObj![2] == "pdf" ? Column(
+                     strObj![2] == "pdf" ? Column(
                         children: [
-
                           InkWell(
                             onTap: (){
-                              downloadFile('${widget.getWebinarDataList!.image}', widget.getWebinarDataList?.title ?? '');
+                              viewFile(widget.getWebinarDataList!.image ??  "", "File");
                             } ,
                             child: Align(
                               alignment: Alignment.center,
                               child: Container(
-                                  width: 55,
-                                  height: 55 ,
+                                  width: 80,
+                                  height: 80 ,
                                   child: Column(
                                     children: [
-                                      Icon(Icons.download,size: 35,color: colors.secondary,),
-                                      Text("pdf")
+                                      Image.asset("assets/images/pdf.png")
                                     ],
                                   )
                               ),
                             ),
                           ),
-                          SizedBox(height: 10,),
-                          Align(
-                            alignment: Alignment.center,
-                            child: InkWell(
-                                onTap: (){
-                                  viewFile(widget.getWebinarDataList!.image ??  "", "File");
-                                },
-                                child: Text("VIEW PDF",style: TextStyle(color: colors.secondary),)),
-                          ),
+                          SizedBox(height: 5,),
+                          Text("View Pdf",style: TextStyle(color: colors.secondary),)
                         ],
                       )
                           :
@@ -200,7 +191,7 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                         child:  DecoratedBox(
                             decoration:  BoxDecoration(
                             ),
-                            child: widget.getWebinarDataList?.image == null || widget.getWebinarDataList?.image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getWebinarDataList?.image}",fit: BoxFit.cover)
+                            child: Image.network("${widget.getWebinarDataList?.image}",fit: BoxFit.cover)
                         ),
 
                       ),
@@ -232,16 +223,16 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
                                       style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
                                       child: Text('Link',style: TextStyle(color: Colors.white,fontSize: 10),)),
                                 ),
-                                SizedBox(width: 10,),
-                                Container(
+                                SizedBox(width: 5,),
+                                 strObj![2] == "pdf" ? Container(
                                   height: 30,
                                   child: ElevatedButton(onPressed: (){
 
                                     downloadFile('${widget.getWebinarDataList?.image}', widget.getWebinarDataList?.userName ?? '');
                                   },
                                       style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                                      child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                                ),
+                                      child: Text('Download PDF',style: TextStyle(color: Colors.white,fontSize: 8),)),
+                                ):SizedBox.shrink()
 
                               ],
                             ),

@@ -16,7 +16,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-
   String? uid;
   String? type;
   bool? isSeen;
@@ -26,7 +25,6 @@ class _SplashScreenState extends State<SplashScreen> {
     inIt();
     // Timer(Duration(seconds: 3), () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> IntroSlider()));});
     super.initState();
-
   }
   inIt() {
     Future.delayed(const Duration(seconds:2),() async{

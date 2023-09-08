@@ -40,17 +40,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-
       MaterialApp(
-
       title: 'DR.Apps',
       theme: ThemeData(),
-
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => SplashScreen(),
-        //Splash(),
+         '/': (context) => SplashScreen(),
+        // Splash(),
         // '/home': (context) => Dashboard(),
       },
           );

@@ -19,12 +19,52 @@ class FreeGraphicDetailsScreen extends StatefulWidget {
 }
 
 class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
+
+  Future<void> _onExitPressed() async {
+    final isConfirmed = await _isExitDesired();
+
+    if (isConfirmed && mounted) {
+      _exitSetup();
+    }
+  }
+
+  Future<bool> _isExitDesired() async {
+    return await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Are you sure?'),
+            content: const Text(
+                'If you exit device setup, your progress will be lost.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: const Text('Leave'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const Text('Stay'),
+              ),
+            ],
+          );
+        }) ??
+        false;
+  }
+
+  void _exitSetup() {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     print('____childList______${widget.childList}_________');
     return Scaffold(
       appBar: customAppBar(context: context, text:"Free Graphic Details", isTrue: true, ),
-    body: widget.childList == null
+      body: widget.childList == null
         ? Center(child: CircularProgressIndicator()) : widget.childList!.length == 0 ? Center(child: Text("No Record Found !!! ")): SingleChildScrollView(
       child: Column(
         children: [
@@ -49,7 +89,6 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
                  ),
                   child: Column(
                     children: [
-
                       // AspectRatio(
                       //   aspectRatio: 1,
                       //   child: PhotoViewGallery.builder(
@@ -67,7 +106,6 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
                       //     itemCount: 1,
                       //   ),
                       // )
-
                       InkWell(
                         onTap: (){
                           showDialogBox(index);
@@ -83,8 +121,6 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network("${widget.childList![index].image}",fit: BoxFit.fill)
-
-
 
                               ),
                             ),
@@ -106,7 +142,6 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
                                       downloadFile('${widget.childList![index].image}', widget.childList![index].title ?? '');
                                     },
                                       child: Icon(Icons.download))
-
                                 ],
                               ),
                             )
@@ -149,33 +184,40 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
     return showDialog(
       context: context,
       builder: (context) {
-       
-        return InteractiveViewer(
-          child: StatefulBuilder(
-            builder: (context, setState) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 2,
-                      child: TextButton(onPressed: (){
-                        Navigator.pop(context);
-                      }, child: Icon(Icons.clear,color: colors.red,)),
-                    ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
+        return Scaffold(
+          body:
+         Stack(
+            children: [
+              InteractiveViewer(
+                child: StatefulBuilder(
+                  builder: (context, setState) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                            child: Center(child: Image.network("${widget.childList![index].image}",fit: BoxFit.fill, height: MediaQuery.of(context).size.height/2.4,width: MediaQuery.of(context).size.height/1.5,))),
-                      ),
-                  ],
+                          child: Center(child: Image.network("${widget.childList![index].image}",fit: BoxFit.fill, height: MediaQuery.of(context).size.height/2.4,width: MediaQuery.of(context).size.height/1.5,))),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+                Positioned(
+                  top: 0,
+                  left:0,
+                  right: 0,
+                  bottom:305,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      icon: Container(
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
+                          color: colors.secondary
+                        ),
+                          child: Icon(Icons.clear,color: colors.red,)),),
+                  )),
+            ],
           ),
         );
       },

@@ -159,11 +159,12 @@ AppBar customAppBar(
       ),
     ),
     leading: InkWell(
+
         onTap: (){
           Navigator.pop(context);
         },
         child: isTrue? Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(right: 10),
           child: Icon(Icons.arrow_back_ios_new_outlined,color: colors.whiteTemp,),
         ):SizedBox()
     ),

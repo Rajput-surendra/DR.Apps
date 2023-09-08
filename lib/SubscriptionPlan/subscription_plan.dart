@@ -145,7 +145,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                 scrollDirection: Axis.horizontal,
                 itemCount: getPlan!.data!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  print("ccccccccccccccc ${getPlan!.data![index].isPurchased}");
                   return InkWell(
                     onTap: (){
                       // price = int.parse(getPlan!.data![index].amount ?? '') ;

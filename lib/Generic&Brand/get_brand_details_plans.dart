@@ -84,7 +84,6 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
                                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25,color: colors.whiteTemp),
                                     ),
                                     SizedBox(height: 150,),
-
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("₹ ${getBrandPlanModel!.data![index].amount}",style: TextStyle(color: colors.secondary,fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.underline,

@@ -159,7 +159,7 @@ class _NewCerificationState extends State<NewCerification> {
       });
       print('____request.fields______${request.fields}_________');
 
-      if(widget.profileImages != ""){
+        if(widget.profileImages != "" && widget.profileImages != null){
       request.files.add(await http.MultipartFile.fromPath('image', widget.profileImages ?? ''));
       }
       request.headers.addAll(headers);

@@ -35,7 +35,8 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
         backgroundColor:  colors.secondary,
         leading: InkWell(
           onTap: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
+            Navigator.pop(context);
+         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
           },
             child: Icon(Icons.arrow_back_ios_rounded)),
         title:Text( "Generic & Brand"),
@@ -62,11 +63,15 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                         ),)),
                       ),
                     ),
+                    SizedBox(height: 10,),
                     Container(
 
                         child: ClipRRect(
-                            child: Image.network("${getBrandsRxDosageModel!.data!.first.logo}",height: 100,width: 500,))),
+                            child: AspectRatio(
+                              aspectRatio: 2/1,
+                                child: Image.network("${getBrandsRxDosageModel!.data!.first.logo}",fit: BoxFit.cover,)))),
                     SizedBox(height: 10,),
+
                     Row(
                       children: [
                         Expanded(
@@ -115,6 +120,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                         ),
                       ],
                     ),
+
                    SizedBox(height: 20,),
                     sliderCard(),
                     SizedBox(height: 5,),
@@ -245,18 +251,23 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
           autoPlayAnimationDuration: Duration(milliseconds: 500),
           enlargeCenterPage: false,
           scrollDirection: Axis.horizontal,
-          height: MediaQuery.of(context).size.height / 3,
+          height: 250,
         ),
         items:
 
         getBrandsRxDosageModel?.data?.first.images?.map((images) {
           return Padding(
               padding: const EdgeInsets.only(left: 0,right: 0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height /1.9,
-                decoration: BoxDecoration(borderRadius:BorderRadius.circular(0),image: DecorationImage(image: NetworkImage("${images}"),fit: BoxFit.fill)),
+              child: AspectRatio(
+                aspectRatio:16/4,
+                child: Image.network("${images}",fit: BoxFit.cover,)
 
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   // height: MediaQuery.of(context).size.height /1.9,
+                //   decoration: BoxDecoration(borderRadius:BorderRadius.circular(0),image: DecorationImage(image: NetworkImage("${images}"),fit: BoxFit.cover)),
+                //
+                // ),
               )
           );
         }).toList());

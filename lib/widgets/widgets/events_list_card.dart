@@ -68,7 +68,7 @@ List? strObj;
   @override
   Widget build(BuildContext context) {
     strObj = widget.getEventModel!.image.split(".");
-    //print('_____strObj_____${strObj?[2]}_________');
+    print('_____strObj_____${strObj![2]}_________');
     return WillPopScope(
       onWillPop: () async{
         if (webViewIsLoading) { // Check if the WebView is still loading
@@ -111,7 +111,7 @@ List? strObj;
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("${widget.getEventModel?.userName}",style: TextStyle(fontSize: 14,color: colors.secondary),),
-                                  role == "2" ? SizedBox.shrink(): Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
+                                   Text("Degree: ${widget.getEventModel?.userDigree}",style: TextStyle(fontSize: 10),),
                                   Container(
                                     // width: 250,
                                       child: Text("${widget.getEventModel?.userAddress}",style: TextStyle(fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),

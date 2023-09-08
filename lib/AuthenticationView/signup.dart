@@ -137,7 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       height: 60,
                                       decoration:
                                       BoxDecoration(
-                                        color: colors.blackTemp.withOpacity(0.1),
+                                        color: colors.blackTemp.withOpacity(0.2),
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all( color: colors.primary),
                                       ),

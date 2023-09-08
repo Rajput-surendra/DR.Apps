@@ -28,7 +28,7 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
     return Scaffold(
 
       appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
-      body: Padding(
+      body:Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key:_formKey ,
@@ -175,9 +175,8 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
       'brand_name': brandNameC.text,
       'generic_name': genericNameC.text,
       'company_name': companyNameC.text
-
     });
-     print('____request.fields______${request.fields}_________');
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -206,7 +205,6 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
   getRole()async{
     SharedPreferences preferences  = await  SharedPreferences.getInstance();
     userId = preferences.getString("userId");
-    print('_____userId_____${userId}_________');
   }
   @override
   void initState() {

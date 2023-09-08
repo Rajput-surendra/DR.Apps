@@ -171,7 +171,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
 
   addDoctorWebinarApi() async {
     setState(() {
-      isloader == true;
+      isloader = true;
 
     });
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -198,11 +198,14 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
      // "description":decController.text,
 
     });
-    print("getEventUserId--------------->${request.fields}");
-    if(files != null){
+    print("getWebinarUserId--------------->${files.length}");
+
+
+    if(files.isNotEmpty){
       request.files.add(await http.MultipartFile.fromPath('image', files[0].path ?? ''));
+
     }
-    print("filesqqqqqq--------------->${request.files}");
+    print("getWebinarUserId--------------->${request.files}");
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -210,7 +213,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(jsonEncode(result));
 
-      print("thi os ojon==========>${finalResult}");
+      print("thi os ojon==========>${finalResult}--------${result}-------");
       Fluttertoast.showToast(msg: 'Your input will be displayed in a few times after verification',backgroundColor: colors.secondary);
       Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
      doctoreController.clear();
@@ -509,7 +512,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                               Column(
                                 children: [
                                   Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 30,),
-                                  Text("jpeg file",style: TextStyle(color: colors.red),)
+                                  Text("jpeg file (Optional)",style: TextStyle(color: colors.red),)
                                 ],
                               )
 
@@ -544,7 +547,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                               Column(
                                 children: const [
                                   Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 30,),
-                                  Text("pdf File",style: TextStyle(color: colors.red),)
+                                  Text("pdf File (Optional)",style: TextStyle(color: colors.red),)
                                 ],
                               )
 
@@ -557,7 +560,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
                   Btn(
                     height: 50,
                     width: double.infinity,
-                    title: isloader == true ? "Please wait......" : 'Add Post Webinar',
+                    title: isloader ? "Please wait......" : 'Add Post Webinar',
                     onPress: () {
                       if (_formKey.currentState!.validate()) {
                         addDoctorWebinarApi();

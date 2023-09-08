@@ -710,7 +710,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
             isTrue: true,
             context: context),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -733,7 +733,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
                             child: DropdownButton2<String>(
                               dropdownMaxHeight: 150,
                               hint: const Padding(
-                                padding: EdgeInsets.only(bottom: 5),
+                                padding: EdgeInsets.only(bottom: 12),
                                 child: Text("Select Pharma Category",
                                   style: TextStyle(
                                       color: colors.black54,fontWeight: FontWeight.normal

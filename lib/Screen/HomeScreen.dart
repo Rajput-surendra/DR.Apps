@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
           enlargeCenterPage: false,
           scrollDirection: Axis.horizontal,
           height: 180.0),
-      items: _sliderModel?.data?.map((item) {
+         items: _sliderModel?.data?.map((item) {
         return CommonSlider(file: item.image ?? '', link: item.link ?? '');
       }).toList(),
     );
@@ -233,43 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   String? role ;
   String? userId;
-  CheckPlanModel? checkPlanModel;
-  checkSubscriptionApi() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    userId = preferences.getString('userId');
-    role = preferences.getString('roll');
-    print('__________${role}_________');
-    var headers = {
-      'Cookie': 'ci_session=64caa747045713fca2e42eb930c7387e303fd583'
-    };
-    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getCheckSubscriptionApi}'));
-    request.fields.addAll({
-      'user_id': "$userId",
-      'type':role =="1" ?"doctor":'pharma'
-    });
-    print('___sadsfdsfsdfsdafgsdgdg_______${request.fields}_________');
-    request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-     var  result = await response.stream.bytesToString();
-     var finalResult = CheckPlanModel.fromJson(jsonDecode(result));
-     if(finalResult.status == true){
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
-     }else{
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>SliderPlanScreen()));
-     }
-     print('____Bew Api______${finalResult}_________');
-     setState(() {
-      checkPlanModel =  finalResult ;
-     });
-    }
-    else {
-    print(response.reasonPhrase);
-    }
-
-  }
   setFilterDataId( String id) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('LocalId', id );
@@ -499,7 +463,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int _currentPost = 0;
-
   List<Widget> _buildDots() {
     List<Widget> dots = [];
     if (_sliderModel == null) {
@@ -551,8 +514,10 @@ class _HomeScreenState extends State<HomeScreen> {
               // context, MaterialPageRoute(builder: (C) => AdvertisementScreen()));
 
         } else {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (C) => AddPosterScreen()));
 
-          checkSubscriptionApi();
+          // checkSubscriptionApi();
           // if(role == "1")
           //   {
           //

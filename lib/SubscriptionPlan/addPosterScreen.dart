@@ -10,11 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
+import '../Generic&Brand/slider_plan_screen.dart';
 import '../Helper/AppBtn.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
+import '../New_model/Check_plan_model.dart';
 import '../New_model/GetSelectCatModel.dart';
 import '../New_model/getUserProfileModel.dart';
+import '../New_model/get_cities_model.dart';
+import '../New_model/get_state_model.dart';
 import '../api/api_services.dart';
 
 class AddPosterScreen extends StatefulWidget {
@@ -33,7 +37,17 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     getRole();
     getUserProfile();
     getSpecialityApi();
+    getStateApi();
   }
+
+
+  String? selectedState;
+  String? selectedCity;
+  int? selectedSateIndex;
+  List <GetStateData> getStateData = [];
+  String? stateId;
+  String?cityId;
+  List <GetCitiesDataNew>getCitiesData = [];
   getRole() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
@@ -112,14 +126,17 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       'link': linkController.text,
       // if(role == "1" )
       //  'type': role == "1" ? "" : dropdownInput
-        'type': dropdownInput
+      'type': role == "1" ? "": dropdownInput,
+       'speciality':catDrop?.id.toString() ?? "",
+       'state_id': role == "2" ? "":stateId.toString(),
+       'city_id':role == "2" ? "":cityId.toString(),
     });
     print("getEventUserId--------------->${request.fields}");
     if(files == null) {
       print('________2__________');
       if (filesVideo != null) {
         request.files.add(await http.MultipartFile.fromPath(
-            'image',  filesVideo[0].path ?? '' ));
+            'image', filesVideo[0].path ?? '' ));
       }
     }else{
       if (files != null) {
@@ -163,7 +180,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     // {'id': 'awareness', 'name' : 'Awareness Input'},
     // {'id': 'doctor_plus_slide', 'name' : 'Doctor plus'},
 
-    {'id': 'main_dashboard', 'name' : 'Main Dashboard'},
+    // {'id': 'main_dashboard', 'name' : 'Main Dashboard'},
     {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
     {'id': 'event_webinar_slide', 'name' : 'Event & Webinars'},
     {'id': 'generic_brand_slide', 'name' : 'Generic Brand'},
@@ -204,6 +221,75 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       print(response.reasonPhrase);
     }
   }
+
+  CheckPlanModel? checkPlanModel;
+  checkSubscriptionApi() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userId = preferences.getString('userId');
+    role = preferences.getString('roll');
+    print('__________${role}_________');
+    var headers = {
+      'Cookie': 'ci_session=64caa747045713fca2e42eb930c7387e303fd583'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getCheckSubscriptionApi}'));
+    request.fields.addAll({
+      'user_id': "$userId",
+      'type':role =="1" ?"doctor":'pharma'
+    });
+    print('___sadsfdsfsdfsdafgsdgdg_______${request.fields}_________');
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var  result = await response.stream.bytesToString();
+      var finalResult = CheckPlanModel.fromJson(jsonDecode(result));
+      if(finalResult.status == true){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
+      }else{
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SliderPlanScreen()));
+      }
+      print('____Bew Api______${finalResult}_________');
+      setState(() {
+        checkPlanModel =  finalResult ;
+      });
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
+
+ Future<bool> checkSubscriptionStatus() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userId = preferences.getString('userId');
+    role = preferences.getString('roll');
+    print('__________${role}_________');
+    var headers = {
+      'Cookie': 'ci_session=64caa747045713fca2e42eb930c7387e303fd583'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getCheckSubscriptionApi}'));
+    request.fields.addAll({
+      'user_id': "$userId",
+      'type':role =="1" ?"doctor":'pharma'
+    });
+    print('___sadsfdsfsdfsdafgsdgdg_______${request.fields}_________');
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var  result = await response.stream.bytesToString();
+      var finalResult = CheckPlanModel.fromJson(jsonDecode(result));
+      if(finalResult.status == true){
+        return true; // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
+      }else{
+        return false; // Navigator.push(context, MaterialPageRoute(builder: (context)=>SliderPlanScreen()));
+      }
+    }else{
+      return false;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -212,15 +298,23 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Btn(
             height: 50,
-            title: isloader == true ? "Please wait......" : 'Advertisment',
-            onPress: () {
+            title: isloader ? "Please wait......" : 'Advertisement',
+            onPress: () async{
               print('__filesVideo != null________${filesVideo}_________');
               if(files.isEmpty){
                 Fluttertoast.showToast(msg: "Please select all field",backgroundColor: colors.secondary);
-              }else if(dropdownInput ==  null){
-                Fluttertoast.showToast(msg: "Please select all dashboard",backgroundColor: colors.secondary);
-              }else{
-              getUploadBannerNewApi();
+              }
+              // if(selectedState ==  null ){
+              //   Fluttertoast.showToast(msg: "Please select state",backgroundColor: colors.secondary);
+              // }
+              else {
+                if(await checkSubscriptionStatus()){
+                  getUploadBannerNewApi();
+                } else {
+                  checkSubscriptionApi();
+                }
+
+
               }
 
             },
@@ -230,14 +324,14 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: colors.secondary,
-        title: Image.asset("assets/images/dr_plus_logo.png",height: 50,),
+        title:role == "1"?Image.asset("assets/images/dr_plus_logo.png",height: 50,): Image.asset("assets/splash/DR.app.png",height: 50,),
         leading: InkWell(
           onTap: (){
             Navigator.pop(context);
           },
             child: Icon(Icons.arrow_back_ios_sharp)),
       ),
-      body:getprofile == null ? Center(child: CircularProgressIndicator()) :Padding(
+      body:getStateResponseModel == null || getStateResponseModel == ""? Center(child: CircularProgressIndicator()) :Padding(
         padding: EdgeInsets.only(left: 20,right: 20,top: 10),
         child: SingleChildScrollView(
           child: WillPopScope(
@@ -314,7 +408,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                           dropdownMaxHeight: 300,
                           hint: const Padding(
                             padding: EdgeInsets.only(bottom: 12,top: 0),
-                            child: Text("Select AD For Format",
+                            child: Text("Select AD Format",
                               style: TextStyle(
                                   color: colors.blackTemp,fontWeight: FontWeight.normal,fontSize: 14
                               ),),
@@ -372,71 +466,76 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                       )
 
                   ),
-                  SizedBox(height: 15,),
+                  // SizedBox(height: 15,),
                   getViewBasedOnSelectedValue(),
-                  SizedBox(height: 15,),
-                  Row(
-                    children: [Text("Select App Dashboard" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
-                    ],),
-                   SizedBox(height: 3,),
-                   Container(
-                      padding: EdgeInsets.only(right: 5, top: 5),
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      decoration:
-                      BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all( color: colors.black54),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2<String>(
-                          hint: Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Text("Select App Dash Board",
-                              style: TextStyle(
-                                  color: colors.blackTemp,fontWeight: FontWeight.normal
-                              ),),
+                  SizedBox(height: 5,),
+                  role == "1" ?SizedBox.shrink(): Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text("Select App Dashboard" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                        ],),
+                      SizedBox(height: 3,),
+                      Container(
+                          padding: EdgeInsets.only(right: 5, top: 5),
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          decoration:
+                          BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all( color: colors.black54),
                           ),
-                          // dropdownColor: colors.primary,
-                          value: dropdownInput,
-                          icon:  Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
-                          // elevation: 16,
-                          style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                          underline: Container(
-                            // height: 2,
-                            color:  colors.whiteTemp,
-                          ),
-                          onChanged: (String? value) {
-                            // This is called when the user selects an item.
-                            setState(() {
-                              dropdownInput = value!;
-                            });
-                          },
-                          items: list.map((items) {
-                            return DropdownMenuItem(
-                              value: items['id'].toString(),
-                              child:  Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Container(
-                                        width: 250,
-                                        child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.normal),)),
-                                  ),
-                                  Divider(
-                                    thickness: 0.2,
-                                    color: colors.black54,
-                                  )
-                                ],
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2<String>(
+                              hint: Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: Text("Select",
+                                  style: TextStyle(
+                                      color: colors.blackTemp,fontWeight: FontWeight.normal
+                                  ),),
                               ),
+                              // dropdownColor: colors.primary,
+                              value: dropdownInput,
+                              icon:  Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
+                              // elevation: 16,
+                              style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                              underline: Container(
+                                // height: 2,
+                                color:  colors.whiteTemp,
+                              ),
+                              onChanged: (String? value) {
+                                // This is called when the user selects an item.
+                                setState(() {
+                                  dropdownInput = value!;
+                                });
+                              },
+                              items: list.map((items) {
+                                return DropdownMenuItem(
+                                  value: items['id'].toString(),
+                                  child:  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Container(
+                                            width: 250,
+                                            child: Text(items['name'].toString(),overflow:TextOverflow.ellipsis,style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.normal),)),
+                                      ),
+                                      Divider(
+                                        thickness: 0.2,
+                                        color: colors.black54,
+                                      )
+                                    ],
+                                  ),
 
-                            );
-                          }).toList(),
+                                );
+                              }).toList(),
 
-                        ),
-                      )
+                            ),
+                          )
+                      ),
+                    ],
                   ),
                   // _value == 1  ?   video(): image(),
                   SizedBox(height: 15,),
@@ -491,7 +590,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                                padding: EdgeInsets.only(bottom: 10),
                                child: Text("Select Speciality",
                                  style: TextStyle(
-                                     color: colors.blackTemp,fontWeight: FontWeight.normal
+                                     color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
                                  ),),
                              ),
                              // dropdownColor: colors.primary,
@@ -527,7 +626,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                                    children: [
                                      Padding(
                                        padding: const EdgeInsets.only(top: 10),
-                                       child: Text(items.name??'',style: TextStyle(color:colors.blackTemp,fontWeight: FontWeight.normal),),
+                                       child: Text(items.name??'',style: TextStyle(color:colors.black54,),),
                                      ),
                                      const Divider(
                                        thickness: 0.2,
@@ -545,24 +644,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                          )
 
                      ),
-                     // Container(
-                     //   height: 50,
-                     //   width: double.infinity,
-                     //   decoration: BoxDecoration(
-                     //       border: Border.all(color: colors.black54),
-                     //       borderRadius: BorderRadius.circular(10)
-                     //   ),
-                     //   child: Column(
-                     //     crossAxisAlignment: CrossAxisAlignment.start,
-                     //     mainAxisAlignment: MainAxisAlignment.center,
-                     //     children: [
-                     //       Padding(
-                     //         padding: const EdgeInsets.all(8.0),
-                     //         child: Text("${getprofile!.user!.userData!.first.categoryId}"),
-                     //       ),
-                     //     ],
-                     //   ),
-                     // )
+
                    ],
                  ),
 
@@ -574,27 +656,80 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                         children: [
                           Row(
                             children: [
-                              Text("Selected State" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                              Text("Select State" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
                             ],),
                           SizedBox(height: 3,),
                           Container(
                             height: 50,
-                            width: double.infinity,
                             decoration: BoxDecoration(
-                                border: Border.all(color: colors.black54),
-                                borderRadius: BorderRadius.circular(10)
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: colors.black54)
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text("${getprofile!.user!.userData!.first.stateName}"),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton2<String>(
+                                hint: const Text('State',
+                                  style: TextStyle(
+                                      color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                                  ),),
+                                // dropdownColor: colors.primary,
+                                value: selectedState,
+                                icon:  Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
+                                // elevation: 16,
+                                style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                                underline: Padding(
+                                  padding: const EdgeInsets.only(left: 0,right: 0),
+                                  child: Container(
+                                    // height: 2,
+                                    color:  colors.whiteTemp,
+                                  ),
                                 ),
-                              ],
+                                onChanged: (String? value) {
+                                  // This is called when the user selects an item.
+                                  setState(() {
+                                    selectedState = value!;
+                                    print('__________${getStateResponseModel!.data!.first.name}_________');
+                                    getStateResponseModel!.data!.forEach((element) {
+                                      if(element.name == value){
+                                        selectedSateIndex = getStateResponseModel!.data!.indexOf(element);
+                                        stateId = element.id;
+                                        selectedCity = null;
+                                        getCityApi(stateId!);
+                                      }
+                                    });
+                                  });
+                                },
+                                items: getStateResponseModel!.data!.map((items) {
+                                  return DropdownMenuItem(
+                                    value: items.name.toString(),
+                                    child:  Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 5),
+                                          child: Container(
+                                              width: MediaQuery.of(context).size.width/1.42,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 10),
+                                                child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                                              )),
+                                        ),
+                                        const Divider(
+                                          thickness: 0.2,
+                                          color: colors.black54,
+                                        ),
+
+                                      ],
+                                    ),
+                                  );
+                                })
+                                    .toList(),
+
+
+                              ),
+
                             ),
-                          )
+                          ),
                         ],
                       )
 
@@ -604,31 +739,87 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                     children: [
                       Row(
                         children: [
-                          Text("Selected City" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
+                          Text("Select City" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
                         ],),
                       SizedBox(height: 3,),
                       Container(
                         height: 50,
-                        width: double.infinity,
+                        width: MediaQuery.of(context).size.width/1.0,
                         decoration: BoxDecoration(
-                            border: Border.all(color: colors.black54),
-                            borderRadius: BorderRadius.circular(10)
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: colors.black54)
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text("${getprofile!.user!.userData!.first.cityName}"),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton2<String>(
+                            hint: const Text('City',
+                              style: TextStyle(
+                                  color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
+                              ),),
+                            // dropdownColor: colors.primary,
+                            value: selectedCity,
+                            icon:  const Padding(
+                              padding: EdgeInsets.only(left:10.0),
+                              child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
                             ),
-                          ],
+                            // elevation: 16,
+                            style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                            underline: Padding(
+                              padding: const EdgeInsets.only(left: 0,right: 0),
+                              child: Container(
+                                // height: 2,
+                                color:  colors.whiteTemp,
+                              ),
+                            ),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                selectedCity = value!;
+                                getCitiesResponseModel!.data!.forEach((element) {
+                                  if(element.name == value){
+                                    selectedSateIndex = getCitiesResponseModel!.data!.indexOf(element);
+                                    cityId = element.id;
+                                    setState(() {
+
+                                    });
+                                  }
+                                });
+                              });
+                            },
+                            items: getCitiesResponseModel?.data?.map((items) {
+                              return DropdownMenuItem(
+                                value: items.name.toString(),
+                                child:  Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Container(
+                                          // width: MediaQuery.of(context).size.width/1.42,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 10),
+                                            child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
+                                          )),
+                                    ),
+                                    const Divider(
+                                      thickness: 0.2,
+                                      color: colors.black54,
+                                    ),
+
+                                  ],
+                                ),
+                              );
+                            })
+                                .toList(),
+
+
+                          ),
+
                         ),
                       ),
                     ],
                   ):SizedBox.shrink(),
 
-                  SizedBox(height: 100,),
 
                 ],
               ),
@@ -657,7 +848,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       },
       child: Container(
         // height: MediaQuery.of(context).size.height/6,
-        height: newImageFile == null ?60:120,
+        height: newImageFile == null ?70:120,
         child: DottedBorder(
           borderType: BorderType.RRect,
           radius: Radius.circular(5),
@@ -675,7 +866,8 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                 Column(
                   children: [
                     Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
-                    Text("Video file Upload",style: TextStyle(color: colors.red),)
+                    Text("Video file Upload",style: TextStyle(color: colors.red,fontSize: 13),),
+                    Text("16:4 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
                   ],
                 )
 
@@ -692,7 +884,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
         // showExitPopup();
         _getFromGallery(true);
       }, child: Container(
-      height: imageFile == null ?60:130,
+      height: imageFile == null ?70:130,
       child: DottedBorder(
         borderType: BorderType.RRect,
         radius: Radius.circular(5),
@@ -710,7 +902,8 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
               Column(
                 children: [
                   Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
-                  Text("Banner file Upload",style: TextStyle(color: colors.red),)
+                  Text("Banner file Upload",style: TextStyle(color: colors.red,fontSize: 13),),
+                  Text("1360*880 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
                 ],
               )
 
@@ -744,6 +937,53 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
         getprofile = jsonResponse;
       });
     } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+
+  GetStateResponseModel?getStateResponseModel;
+  getStateApi() async {
+    var headers = {
+      'Cookie': 'ci_session=5231a97bed6f10b951ef18f96630501acb732acf'
+    };
+    var request = http.Request('POST', Uri.parse('${ApiService.getStateApi}'));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result =await response.stream.bytesToString();
+      var finalResult = GetStateResponseModel.fromJson(jsonDecode(result));
+      print("+}++++++++++++++++++++++${finalResult}");
+      setState(() {
+        getStateResponseModel=  finalResult;
+      });
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+  }
+  GetCitiesResponseModel?getCitiesResponseModel;
+  getCityApi(String id) async {
+    var headers = {
+      'Cookie': 'ci_session=5f506e1040db4500177d9f8af1642e1974e5bcdb'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getCityApi}'));
+    request.fields.addAll({
+      'state_id': id.toString()
+    });
+
+    print('______ccccccccccccccc____${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result =await response.stream.bytesToString();
+      var finalResult = GetCitiesResponseModel.fromJson(jsonDecode(result));
+      setState(() {
+        getCitiesResponseModel = finalResult;
+      });
+
+    }
+    else {
       print(response.reasonPhrase);
     }
   }

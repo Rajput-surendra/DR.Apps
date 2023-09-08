@@ -56,10 +56,19 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    print('____fsdfsf______${cardId}_________');
-    print('______id_Surendra___${getBrandsRxDosageModel?.data?.first.details?.indication}_________');
+
     return Scaffold(
-        appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: colors.secondary,
+        leading: InkWell(
+          onTap: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
+          },
+            child: Icon(Icons.arrow_back_ios)),
+        title: Text("Generic & Brand",style: TextStyle(color: colors.whiteTemp),),
+      ),
+        // appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -97,9 +106,9 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                         onTap: () {
                           showExitPopup();
                         },
-                        child: Container(
-                          height: imageFile == null ? 50:150,
+                        child: Card(
                           child: Container(
+                            height: imageFile ==  null ? 50:150 ,
                             decoration: BoxDecoration(
                               color: colors.primary,
                               border: Border.all(color: colors.black54)
@@ -473,10 +482,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                           }else{
                             Fluttertoast.showToast(msg: "Please fill all field",backgroundColor: colors.secondary);
                           }
-
-
                         },
-
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 20),
                           height: 50,
@@ -558,9 +564,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
               ElevatedButton(
                 onPressed: () {
                   getImageCmera(ImageSource.gallery,context,1);
-
                 },
-
                 //return true when click on "Yes"
                 child: Text('Gallery'),
               ),
@@ -592,9 +596,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
               ElevatedButton(
                 onPressed: () {
                   getImageCmera(ImageSource.gallery,context,2);
-
                 },
-
                 //return true when click on "Yes"
                 child: Text('Gallery'),
               ),
@@ -673,9 +675,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   Future getImage(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
-      imageQuality: 40,
-      maxHeight: 1360,
-      maxWidth: 880,
+      imageQuality: 50,
       source: source,
     );
     getCropImage(context, i, image);
@@ -683,30 +683,62 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   Future getImageCmera(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
-      imageQuality: 40,
-      maxHeight: 1360,
-      maxWidth: 880,
+      imageQuality: 50,
       source: source,
     );
     getCropImage(context, i, image);
     Navigator.pop(context);
   }
+
+
+  // Future<void> _cropImage(BuildContext context, int i, var image) async {
+  //     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
+  //       sourcePath: image.path,
+  //      compressFormat: ImageCompressFormat.png,
+  //       compressQuality: 40,
+  //
+  //     );
+  //     if (croppedFile != null) {
+  //       setState(() {
+  //         if (i == 1) {
+  //           print('_____1_____${i}______${croppedFile.path}___');
+  //           imageFile = File(croppedFile.path);
+  //         } else if (i == 2) {
+  //           print('_____2_____${i}____${croppedFile.path}_____');
+  //           imageFile1 = File(croppedFile.path);
+  //         } else if (i == 3) {
+  //           print('_____3_____${i}_____${croppedFile.path}____');
+  //           imageFile2 = File(croppedFile.path);
+  //         } else if (i == 4) {
+  //           print('_____4_____${i}____${croppedFile.path}___${imageFile3}__');
+  //           imageFile3 = File(croppedFile.path);
+  //         }
+  //       }
+  //       );
+  //     }
+  //
+  // }
+
   void getCropImage(BuildContext context, int i, var image) async {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
+      maxWidth: 100,
+      maxHeight: 100,
       sourcePath: image.path,
       aspectRatioPresets: [
+
         CropAspectRatioPreset.square,
         CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.original,
         CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset .ratio5x3,
         CropAspectRatioPreset.ratio16x9
       ],
     );
     setState(() {
 
       if (i == 1) {
-        print('_____1_____${i}_________');
-        imageFile = File(croppedFile!.path);
+        print('_____1_____${i}___${croppedFile!.path}______');
+        imageFile = File(croppedFile.path);
        }else if(i == 2){
         print('_____2_____${i}_________');
         imageFile1 = File(croppedFile!.path);
