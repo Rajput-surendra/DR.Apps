@@ -53,11 +53,11 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
 
   // var items1 =  [ 'Patient awareness poster','Patient awareness leaflets','Patient awareness booklets','Patient awareness video', 'Patient awareness m-poster'];
   List<Map<String, dynamic>> list = [
-    {'id': 'poster', 'name': 'Patient awareness poster'},
-    {'id': 'leaflets', 'name': 'Patient awareness leaflets'},
-    {'id': 'booklets', 'name': 'Patient awareness booklets'},
-    {'id': 'm-poster', 'name': 'Patient awareness m-poster'},
-    {'id': 'video', 'name': 'Patient awareness video'},
+    {'id': 'poster', 'name': 'Patient awareness poster(jpg)'},
+    {'id': 'leaflets', 'name': 'Patient awareness leaflets(pdf)'},
+    {'id': 'booklets', 'name': 'Patient awareness booklets(pdf)'},
+    {'id': 'm-poster', 'name': 'Patient motivational poster(jpg)'},
+    {'id': 'video', 'name': 'Patient awareness video(mp4)'},
   ];
 
   //String? categoryValue;
@@ -87,25 +87,24 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
         type: FileType.custom,
         allowedExtensions: ['mp4'],
       );
-    } else {
+    } else if(dropdownInput == 'leaflets'  || dropdownInput == 'booklets' ) {
+      result = await FilePicker.platform
+          .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
+    }else{
       result = await FilePicker.platform
           .pickFiles(type: FileType.custom, allowedExtensions: ['jpg']);
     }
     if (result != null) {
       if (type) {
         File videoFile = File(result.files.single.path!);
-        // print('__________${videoFile.path}_____videoFile.path________');
         thumbnailFile = File(result.files.single.path!);
         thumbnailList.add(result.files.single.path!);
       }
       setState(() {
         pickedFile = File(result?.files.single.path ?? '');
         files = result!.paths.map((path) => File(path!)).toList();
-        print('__________${dropdownInput}_________');
-        // videoList.add(files.first);
         imgList.add(files.first.path);
         if(thumbnailFile == null) {
-          print('_________________');
           pickedFiles = files.first.path;
         }
       });
@@ -113,8 +112,6 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
       // User canceled the picker
     }
   }
-
-
 
   addDoctorWebinarApi() async {
     isButtonLoading = true;
@@ -252,7 +249,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2<String>(
                           hint: const Padding(
-                            padding: EdgeInsets.only(top: 0),
+                            padding: EdgeInsets.only(bottom: 5),
                             child: Text(
                               "Awareness Input Upload",
                               style: TextStyle(
@@ -294,7 +291,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 6),
+                                    padding: const EdgeInsets.only(top: 10),
                                     child: SizedBox(
                                         width: 250,
                                         child: Text(
@@ -335,7 +332,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton2<String>(
                                   hint: const Padding(
-                                    padding: EdgeInsets.only(top: 0),
+                                    padding: EdgeInsets.only(bottom: 5),
                                     child: Text(
                                       "Awareness Language Upload",
                                       style: TextStyle(
@@ -346,7 +343,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                                   // dropdownColor: colors.primary,
                                   value: dropdownvalue,
                                   icon: const Padding(
-                                    padding: EdgeInsets.only(),
+                                    padding: EdgeInsets.only(bottom: 5),
                                     child: Icon(
                                       Icons.keyboard_arrow_down_rounded,
                                       color: colors.secondary,
@@ -378,7 +375,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                                         children: [
                                           Padding(
                                             padding:
-                                                const EdgeInsets.only(top: 6),
+                                                const EdgeInsets.only(top: 10),
                                             child: SizedBox(
                                                 width: 250,
                                                 child: Text(
@@ -745,7 +742,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                                     size: 30,
                                   ),
                                   Text(
-                                    'Awareness Input file format',
+                                    'Awareness Input file format(video,pdf,jpg)',
                                     style: TextStyle(
                                         color: colors.red, fontSize: 12),
                                   ),

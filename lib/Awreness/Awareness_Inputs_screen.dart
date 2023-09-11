@@ -186,8 +186,8 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
           enlargeCenterPage: false,
           scrollDirection: Axis.horizontal,
           height: 200.0),
-      items: _sliderModel?.data?.map((item) {
-        return CommonSlider(file: item.image ?? '', link: item.link ?? '');
+      items: _sliderModel!.data!.map((item) {
+        return CommonSlider(file: item.image.toString() ?? '', link: item.link ?? '');
       }).toList(),
     );
 
@@ -202,7 +202,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getSlider}$type'));
+    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
     request.headers.addAll(headers);
     print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();

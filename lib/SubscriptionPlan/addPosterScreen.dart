@@ -180,12 +180,12 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     // {'id': 'awareness', 'name' : 'Awareness Input'},
     // {'id': 'doctor_plus_slide', 'name' : 'Doctor plus'},
 
-    // {'id': 'main_dashboard', 'name' : 'Main Dashboard'},
+    {'id': 'main_dashboard', 'name' : 'Main Dashboard'},
     {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
     {'id': 'event_webinar_slide', 'name' : 'Event & Webinars'},
     {'id': 'generic_brand_slide', 'name' : 'Generic Brand'},
     {'id': 'free_graphic_slide', 'name' : 'Free Graphic'},
-    {'id': 'awareness_input_slide', 'name' : 'Awareness'},
+    {'id': 'awareness', 'name' : 'Awareness'},
 
   ];
 
@@ -301,20 +301,21 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
             title: isloader ? "Please wait......" : 'Advertisement',
             onPress: () async{
               print('__filesVideo != null________${filesVideo}_________');
-              if(files.isEmpty){
-                Fluttertoast.showToast(msg: "Please select all field",backgroundColor: colors.secondary);
-              }
+              // if(files != null){
+              //   Fluttertoast.showToast(msg: "Please select all field",backgroundColor: colors.secondary);
+              // }
               // if(selectedState ==  null ){
               //   Fluttertoast.showToast(msg: "Please select state",backgroundColor: colors.secondary);
               // }
-              else {
-                if(await checkSubscriptionStatus()){
-                  getUploadBannerNewApi();
-                } else {
-                  checkSubscriptionApi();
-                }
-
-
+              // else {
+              //
+              //
+              //
+              // }
+              if(await checkSubscriptionStatus()){
+                getUploadBannerNewApi();
+              } else {
+              checkSubscriptionApi();
               }
 
             },
@@ -846,34 +847,37 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
         // showExitPopup();
         _getFromGalleryVideo(true);
       },
-      child: Container(
-        // height: MediaQuery.of(context).size.height/6,
-        height: newImageFile == null ?70:120,
-        child: DottedBorder(
-          borderType: BorderType.RRect,
-          radius: Radius.circular(5),
-          dashPattern: [5, 5],
-          color: Colors.grey,
-          strokeWidth: 2,
-          child: filesVideo.length > 0  ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text("${filesVideo[0]}")),
-          ) :
-          Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Center(
-                child:
-                Column(
-                  children: [
-                    Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
-                    Text("Video file Upload",style: TextStyle(color: colors.red,fontSize: 13),),
-                    Text("16:4 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
-                  ],
-                )
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Container(
+          // height: MediaQuery.of(context).size.height/6,
+          height: newImageFile == null ?70:120,
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            radius: Radius.circular(5),
+            dashPattern: [5, 5],
+            color: Colors.grey,
+            strokeWidth: 2,
+            child: filesVideo.length > 0  ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(child: Text("${filesVideo[0]}")),
+            ) :
+            Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Center(
+                  child:
+                  Column(
+                    children: [
+                      Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
+                      Text("Video file Upload",style: TextStyle(color: colors.red,fontSize: 13),),
+                      Text("16:4 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
+                    ],
+                  )
 
+              ),
             ),
-          ),
 
+          ),
         ),
       ),
     );
@@ -883,35 +887,38 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       onTap: (){
         // showExitPopup();
         _getFromGallery(true);
-      }, child: Container(
-      height: imageFile == null ?70:130,
-      child: DottedBorder(
-        borderType: BorderType.RRect,
-        radius: Radius.circular(5),
-        dashPattern: [5, 5],
-        color: Colors.grey,
-        strokeWidth: 2,
-        child: files.length > 0  ? Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(child: Text("${files[0]}")),
-        ) :
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Center(
-              child:
-              Column(
-                children: [
-                  Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
-                  Text("Banner file Upload",style: TextStyle(color: colors.red,fontSize: 13),),
-                  Text("1360*880 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
-                ],
-              )
+      }, child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Container(
+        height: imageFile == null ?70:130,
+        child: DottedBorder(
+          borderType: BorderType.RRect,
+          radius: Radius.circular(5),
+          dashPattern: [5, 5],
+          color: Colors.grey,
+          strokeWidth: 2,
+          child: files.length > 0  ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(child: Text("${files[0]}")),
+          ) :
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Center(
+                child:
+                Column(
+                  children: [
+                    Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
+                    Text("Banner file Upload",style: TextStyle(color: colors.red,fontSize: 13),),
+                    Text("1360*880 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
+                  ],
+                )
 
+            ),
           ),
-        ),
 
-      ),
-    ),);
+        ),
+    ),
+      ),);
   }
 
   GetUserProfileModel? getprofile;

@@ -136,8 +136,8 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       children: [
                         role == "1" ? SizedBox.shrink():   InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(isTrueValue: true,)));
-                            // Navigator.pop(context,[true]);
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(isTrueValue: true,)));
+                           //    Navigator.pop(context,[true]);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -260,7 +260,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
               padding: const EdgeInsets.only(left: 0,right: 0),
               child: AspectRatio(
                 aspectRatio:16/4,
-                child: Image.network("${images}",fit: BoxFit.cover,)
+                child: Image.network("${images}",fit: BoxFit.fill,)
 
                 // Container(
                 //   width: MediaQuery.of(context).size.width,

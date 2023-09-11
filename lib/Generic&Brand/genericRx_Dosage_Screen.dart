@@ -56,7 +56,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   @override
   Widget build(BuildContext context) {
-
+  print('____surendra______${getBrandsRxDosageModel!.data!.first.logo}_________');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -102,11 +102,14 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                       ),
                       Text("image size : 200 pixel * 100 pixel",style: TextStyle(fontSize: 13)),
                       SizedBox(height: 5,),
-                   InkWell(
+                       InkWell(
                         onTap: () {
                           showExitPopup();
                         },
-                        child: Card(
+                        child:imageFile == null ? Container(
+                          height: 150,
+                            width: double.infinity,
+                            child: Image.network("${getBrandsRxDosageModel!.data![0].logo}",fit: BoxFit.fill,)) : Card(
                           child: Container(
                             height: imageFile ==  null ? 50:150 ,
                             decoration: BoxDecoration(
@@ -120,7 +123,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                                 ),))
                                 : Column(
                               children: [
-                               ClipRRect(
+                                ClipRRect(
                                   borderRadius: BorderRadius.circular(0),
                                   child:   Image.file(
                                     imageFile!,
@@ -221,7 +224,10 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
 
                                 showExitPopup1();
                               },
-                              child: Container(
+                              child: imageFile == null ? Container(
+                                  height: 100,
+                                  width: double.infinity,
+                                  child: Image.network("${getBrandsRxDosageModel!.data![0].images0}",fit: BoxFit.fill,)) :Container(
                                 color: colors.primary,
                                 height: imageFile1 == null ? 50:100,
                                 child: Container(
@@ -374,12 +380,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                                         border: InputBorder.none,
                                         hintText: "Person Name 2",hintStyle: TextStyle(color: colors.white70,fontSize: 14,)
                                     ),
-                                    // validator: (value) {
-                                    //   if (value == null || value.isEmpty) {
-                                    //     return 'Please Enter Per';
-                                    //   }
-                                    //   return null;
-                                    // },
+
                                   ),
                                 ),
                                 SizedBox(height: 5,),
@@ -554,6 +555,74 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
             children: [
               ElevatedButton(
                 onPressed: () {
+                  getImageLogo(ImageSource.camera, context,);
+                },
+                child: Text('Camera'),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  getImageCmeraLogo(ImageSource.gallery,context,);
+                },
+                //return true when click on "Yes"
+                child: Text('Gallery'),
+              ),
+            ],
+          )),
+    ) ??
+        false; //if showDialouge had returned null, then return false
+  }
+  Future getImageLogo(ImageSource source, BuildContext context, ) async {
+    var image = await ImagePicker().pickImage(
+      imageQuality: 100,
+      source: source,
+    );
+    getCropImageLogo(context,image);
+    Navigator.pop(context);
+  }
+  Future getImageCmeraLogo(ImageSource source, BuildContext context, ) async {
+    var image = await ImagePicker().pickImage(
+      imageQuality: 100,
+      source: source,
+    );
+    getCropImageLogo(context, image);
+    Navigator.pop(context);
+  }
+  Future getCropImageLogo(BuildContext context,  var image) async {
+    CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
+      sourcePath: image.path,
+      aspectRatio: CropAspectRatio(ratioX: 16, ratioY: 9),
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: colors.secondary,
+            toolbarWidgetColor: Colors.white,
+            lockAspectRatio: false
+        ),
+
+      ],
+    );
+    setState(() {
+        imageFile = File(croppedFile!.path);
+    }
+    );
+  }
+
+  Future<bool> showExitPopup1() async {
+    return await showDialog(
+      //show confirm dialogue
+      //the return value will be from "Yes" or "No" options
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text('Select Image'),
+          content: Row(
+            // crossAxisAlignment: CrossAxisAlignment.s,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
                   getImage(ImageSource.camera, context,1);
                 },
                 child: Text('Camera'),
@@ -573,15 +642,12 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     ) ??
         false; //if showDialouge had returned null, then return false
   }
-  Future<bool> showExitPopup1() async {
+  Future<bool> showExitPopup2() async {
     return await showDialog(
-      //show confirm dialogue
-      //the return value will be from "Yes" or "No" options
       context: context,
       builder: (context) => AlertDialog(
           title: Text('Select Image'),
           content: Row(
-            // crossAxisAlignment: CrossAxisAlignment.s,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
@@ -597,18 +663,15 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                 onPressed: () {
                   getImageCmera(ImageSource.gallery,context,2);
                 },
-                //return true when click on "Yes"
                 child: Text('Gallery'),
               ),
             ],
           )),
     ) ??
-        false; //if showDialouge had returned null, then return false
+        false;
   }
-  Future<bool> showExitPopup2() async {
+  Future<bool> showExitPopup3() async {
     return await showDialog(
-      //show confirm dialogue
-      //the return value will be from "Yes" or "No" options
       context: context,
       builder: (context) => AlertDialog(
           title: Text('Select Image'),
@@ -639,43 +702,9 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     ) ??
         false; //if showDialouge had returned null, then return false
   }
-  Future<bool> showExitPopup3() async {
-    return await showDialog(
-      //show confirm dialogue
-      //the return value will be from "Yes" or "No" options
-      context: context,
-      builder: (context) => AlertDialog(
-          title: Text('Select Image'),
-          content: Row(
-            // crossAxisAlignment: CrossAxisAlignment.s,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  getImage(ImageSource.camera, context,4);
-                },
-                child: Text('Camera'),
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  getImageCmera(ImageSource.gallery,context,4);
-
-                },
-
-                //return true when click on "Yes"
-                child: Text('Gallery'),
-              ),
-            ],
-          )),
-    ) ??
-        false; //if showDialouge had returned null, then return false
-  }
   Future getImage(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
-      imageQuality: 50,
+      imageQuality: 100,
       source: source,
     );
     getCropImage(context, i, image);
@@ -683,70 +712,37 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   }
   Future getImageCmera(ImageSource source, BuildContext context, int i) async {
     var image = await ImagePicker().pickImage(
-      imageQuality: 50,
+      imageQuality: 100,
       source: source,
     );
     getCropImage(context, i, image);
     Navigator.pop(context);
   }
-
-
-  // Future<void> _cropImage(BuildContext context, int i, var image) async {
-  //     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
-  //       sourcePath: image.path,
-  //      compressFormat: ImageCompressFormat.png,
-  //       compressQuality: 40,
-  //
-  //     );
-  //     if (croppedFile != null) {
-  //       setState(() {
-  //         if (i == 1) {
-  //           print('_____1_____${i}______${croppedFile.path}___');
-  //           imageFile = File(croppedFile.path);
-  //         } else if (i == 2) {
-  //           print('_____2_____${i}____${croppedFile.path}_____');
-  //           imageFile1 = File(croppedFile.path);
-  //         } else if (i == 3) {
-  //           print('_____3_____${i}_____${croppedFile.path}____');
-  //           imageFile2 = File(croppedFile.path);
-  //         } else if (i == 4) {
-  //           print('_____4_____${i}____${croppedFile.path}___${imageFile3}__');
-  //           imageFile3 = File(croppedFile.path);
-  //         }
-  //       }
-  //       );
-  //     }
-  //
-  // }
-
-  void getCropImage(BuildContext context, int i, var image) async {
+  Future getCropImage(BuildContext context, int i, var image) async   {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
-      maxWidth: 100,
-      maxHeight: 100,
       sourcePath: image.path,
-      aspectRatioPresets: [
+      aspectRatio: CropAspectRatio(ratioX: 4, ratioY: 3),
+      compressFormat: ImageCompressFormat.png,
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: colors.secondary,
+            toolbarWidgetColor: Colors.white,
+            lockAspectRatio: false
+        ),
 
-        CropAspectRatioPreset.square,
-        CropAspectRatioPreset.ratio3x2,
-        CropAspectRatioPreset.ratio4x3,
-        CropAspectRatioPreset.original,
-        CropAspectRatioPreset .ratio5x3,
-        CropAspectRatioPreset.ratio16x9
       ],
     );
     setState(() {
 
       if (i == 1) {
         print('_____1_____${i}___${croppedFile!.path}______');
-        imageFile = File(croppedFile.path);
+        imageFile1 = File(croppedFile.path);
        }else if(i == 2){
         print('_____2_____${i}_________');
-        imageFile1 = File(croppedFile!.path);
+        imageFile2 = File(croppedFile!.path);
         }else if(i == 3){
         print('_____3_____${i}_________');
-          imageFile2 = File(croppedFile!.path);
-        }else if(i == 4){
-        print('_____4_____${i}_________');
           imageFile3 = File(croppedFile!.path);
         }
 
@@ -804,10 +800,10 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     indicationC.clear();
     dosageC.clear();
     rx_infoC.clear();
-    imageFile == null;
-    imageFile1  == null;
-    imageFile2  == null;
-    imageFile3  == null;
+    // imageFile == null;
+    // imageFile1  == null;
+    // imageFile2  == null;
+    // imageFile3  == null;
    brandListForJson.clear();
      setState(() {
      islodder = false;

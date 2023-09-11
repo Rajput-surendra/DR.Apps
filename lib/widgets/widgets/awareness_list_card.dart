@@ -1,8 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:doctorapp/New_model/GetAwarenessModel.dart';
 import 'package:doctorapp/api/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
@@ -17,6 +19,7 @@ import 'package:http/http.dart' as http;
 import 'dart:ui' as ui;
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../Helper/Appbar.dart';
 import '../../Helper/Color.dart';
 
 class AwarenessListCard extends StatefulWidget {
@@ -63,9 +66,58 @@ class _AwarenessState extends State<AwarenessListCard> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
   }
+  List? strObjBooklets,strObjLeaflets;
 
+  viewFile(String url, String filename) async {
+    FileDownloader.downloadFile(
+        url:  "${url}",
+        name: "${filename}",
+        onDownloadCompleted: (path) {
+          print(path);
+          String tempPath = path.toString().replaceAll("Download", "DR.Apps");
+          final File file = File(tempPath);
+          print("path here ${file}");
+          displayPDF(url);
+          Fluttertoast.showToast(msg: "File View successfully!",backgroundColor: colors.secondary);
+
+        });
+  }
+  Future<void>  displayPDF(String url) async {
+    Dio dio = Dio();
+    try {
+      Directory directory = await getApplicationDocumentsDirectory();
+      String appDocPath = directory.path;
+      String fileName = 'document.pdf';
+      String filePath = '$appDocPath/$fileName';
+
+      await dio.download(url, filePath);
+
+      // Open PDF using FlutterPdfView plugin
+      if (await File(filePath).exists()) {
+        print('This is file path is here------${filePath}');
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scaffold(
+              appBar: customAppBar(context: context, text: "View Pdf", isTrue: true, ),
+              body:  PDFView(
+                filePath: filePath,
+              ),
+            ),
+          ),
+        );
+      } else {
+        print('Failed to download the PDF file.');
+      }
+    } catch (e) {
+      print('Error occurred while downloading the PDF: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    strObjBooklets = widget.getAwareNess?.data.booklets?[widget.index].image!.split(".");
+    strObjLeaflets = widget.getAwareNess?.data.leaflets?[widget.index].image!.split(".");
+    print('______ZZZZZZZZZZZZZZ__${strObjLeaflets![2]}__${strObjBooklets![2]}_________');
     if(widget.currentIndex == 1){
       newsType= 'doctor-news';
     }else if(widget.currentIndex == 2){
@@ -123,6 +175,7 @@ class _AwarenessState extends State<AwarenessListCard> {
                   //   ),
                   //
                   // ),
+
                   Container(
                     width: double.infinity,
                     child: ClipRRect(
@@ -227,6 +280,31 @@ class _AwarenessState extends State<AwarenessListCard> {
                       )
                     ],
                   ),
+
+
+                  strObjBooklets![2] == "pdf" ? Column(
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          viewFile(widget.getAwareNess?.data.booklets?[widget.index].image! ??  "", "File");
+                        } ,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                              width: 80,
+                              height: 80 ,
+                              child: Column(
+                                children: [
+                                  Image.asset("assets/images/pdf.png")
+                                ],
+                              )
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Text("View Pdf",style: TextStyle(color: colors.secondary),)
+                    ],
+                  ):
                   Container(
                     width: double.infinity,
                     child: ClipRRect(
@@ -264,14 +342,24 @@ class _AwarenessState extends State<AwarenessListCard> {
                             });
                             // _shareQrCode();
                           }, icon: Icon(Icons.share)),
-                          Container(
+
+                          strObjBooklets![2] == "pdf" ? Container(
                             height: 30,
                             child: ElevatedButton(onPressed: (){
+
                               downloadFile('${widget.getAwareNess!.data.booklets![widget.index].image}', widget.getAwareNess!.data.booklets![widget.index].userName ?? '');
                             },
                                 style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                                child: Text('Leaflets PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                          ),
+                                child: Text('Download PDF Leaflets',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          ):SizedBox.shrink(),
+                          // Container(
+                          //   height: 30,
+                          //   child: ElevatedButton(onPressed: (){
+                          //     downloadFile('${widget.getAwareNess!.data.booklets![widget.index].image}', widget.getAwareNess!.data.booklets![widget.index].userName ?? '');
+                          //   },
+                          //       style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
+                          //       child: Text('Leaflets PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          // ),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getAwareNess?.data.booklets?[widget.index].id ??'',widget.getAwareNess?.data.booklets?[widget.index].type ?? "");
@@ -334,8 +422,29 @@ class _AwarenessState extends State<AwarenessListCard> {
                       )
                     ],
                   ),
-                  widget.getAwareNess?.data.leaflets?[widget.index].image?.length == 0  ?
-                  Text("data"):Container(
+                  strObjLeaflets ![2] == "pdf" ? Column(
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          viewFile(widget.getAwareNess?.data.booklets?[widget.index].image! ??  "", "File");
+                        } ,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                              width: 80,
+                              height: 80 ,
+                              child: Column(
+                                children: [
+                                  Image.asset("assets/images/pdf.png")
+                                ],
+                              )
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Text("View Pdf",style: TextStyle(color: colors.secondary),)
+                    ],
+                  ):Container(
                     width: double.infinity,
                     child: ClipRRect(
                         borderRadius:  BorderRadius.circular(5),
@@ -364,14 +473,15 @@ class _AwarenessState extends State<AwarenessListCard> {
                             });
                           }, icon: Icon(Icons.share)),
 
-                          Container(
+                          strObjLeaflets![2] == "pdf" ? Container(
                             height: 30,
                             child: ElevatedButton(onPressed: (){
+
                               downloadFile('${widget.getAwareNess!.data.leaflets![widget.index].image}', widget.getAwareNess!.data.leaflets![widget.index].userName ?? '');
                             },
                                 style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
-                                child: Text('Leaflets PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                          ),
+                                child: Text('Download PDF Leaflets',style: TextStyle(color: Colors.white,fontSize: 10),)),
+                          ):SizedBox.shrink(),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getAwareNess?.data.leaflets?[widget.index].id ??'',widget.getAwareNess?.data.leaflets?[widget.index].type ?? "");
@@ -414,14 +524,6 @@ class _AwarenessState extends State<AwarenessListCard> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 5,bottom: 8),
-                      //   child: CircleAvatar(
-                      //     backgroundImage: NetworkImage("${ApiService.imageUrl}${newTypeModel?.data?[i].profileImage}"),
-                      //     backgroundColor: colors.primary,
-                      //     radius: 25,
-                      //   ),
-                      // ), //CircleAvatar
                       Padding(
                         padding: const EdgeInsets.only(top: 10,left: 3),
                         child: Column(
@@ -498,68 +600,33 @@ class _AwarenessState extends State<AwarenessListCard> {
     ) : SizedBox()  ;
 
   }
-  // downloadFile(String url, String filename) async {
-  //   FileDownloader.downloadFile(
-  //       url: "${url}",
-  //       name: "${filename}",
-  //       onDownloadCompleted: (path) {
-  //         print(path);
-  //         String tempPath = path.toString().replaceAll("Download", "DR Apps");
-  //         final File file = File(tempPath);
-  //         print("path here ${file}");
-  //         var snackBar = SnackBar(
-  //           backgroundColor: colors.primary,
-  //           content: Row(
-  //             children: [
-  //               const Text('doctorapp Saved in your storage'),
-  //               TextButton(onPressed: (){}, child: Text("View"))
-  //
-  //             ],
-  //           ),
-  //         );
-  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //         //This will be the path of the downloaded file
-  //       });
-  // }
+
 
   downloadFile(String url, String filename, ) async {
     FileDownloader.downloadFile(
         url:  "${url}",
-        //'https://completewomencares.com/public/upload/1686124273.pdf',
         name: "${filename}",
         onDownloadCompleted: (path) {
           print(path);
           String tempPath = path.toString().replaceAll("Download", "DR.Apps");
           final File file = File(tempPath);
           print("path here ${file}");
-          //  setSnackbar("File Downloaded successfully!", context);
+
           var snackBar = SnackBar(
             backgroundColor: colors.secondary,
             content: Text('File Download Successfully'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          //This will be the path of the downloaded file
         });
   }
   _shareQrCode({String? text}) async {
     iconVisible = true ;
     var status =  await Permission.photos.request();
-    //Permission.manageExternalStorage.request();
-
-    //PermissionStatus storagePermission = await Permission.storage.request();
     if ( status.isGranted/*storagePermission == PermissionStatus.denied*/) {
       final directory = (await getApplicationDocumentsDirectory()).path;
-
       RenderRepaintBoundary bound = keyList.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      /*if(bound.debugNeedsPaint){
-        Timer(const Duration(seconds: 2),()=>_shareQrCode());
-        return null;
-      }*/
       ui.Image image = await bound.toImage(pixelRatio: 10);
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-
-      print('${byteData?.buffer.lengthInBytes}___________');
-      // this will save image screenshot in gallery
       if(byteData != null ){
         Uint8List pngBytes = byteData.buffer.asUint8List();
         String fileName = DateTime
@@ -569,27 +636,8 @@ class _AwarenessState extends State<AwarenessListCard> {
         final imagePath = await File('$directory/$fileName.png').create();
         await imagePath.writeAsBytes(pngBytes);
         Share.shareFiles([imagePath.path],text: text);
-        // final resultsave = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes),quality: 90,name: 'screenshot-${DateTime.now()}.png');
-        //print(resultsave);
       }
-      /*_screenshotController.capture().then((Uint8List? image) async {
-        if (image != null) {
-          try {
-            String fileName = DateTime
-                .now()
-                .microsecondsSinceEpoch
-                .toString();
 
-            final imagePath = await File('$directory/$fileName.png').create();
-            if (imagePath != null) {
-              await imagePath.writeAsBytes(image);
-              Share.shareFiles([imagePath.path],text: text);
-            }
-          } catch (error) {}
-        }
-      }).catchError((onError) {
-        print('Error --->> $onError');
-      });*/
     } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('This Permission is recommended')));

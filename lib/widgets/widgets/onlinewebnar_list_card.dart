@@ -254,7 +254,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
   viewFile(String url, String filename) async {
     FileDownloader.downloadFile(
         url:  "${url}",
-        //'https://completewomencares.com/public/upload/1686124273.pdf',
         name: "${filename}",
         onDownloadCompleted: (path) {
           print(path);
@@ -262,14 +261,9 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
           final File file = File(tempPath);
           print("path here ${file}");
           displayPDF(url);
-          //  setSnackbar("File Downloaded successfully!", context);
-          Fluttertoast.showToast(msg: "File View successfully!");
-          // var snackBar = SnackBar(
-          //   backgroundColor: colors.primary,
-          //   // content: Text('File Download Successfully '),
-          // );
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          //This will be the path of the downloaded file
+
+          Fluttertoast.showToast(msg: "File View successfully!",backgroundColor: colors.secondary);
+
         });
   }
   Future<void>  displayPDF(String url) async {
@@ -326,20 +320,16 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
   _shareQrCode(String text) async {
     iconVisible = true ;
     var status =  await Permission.photos.request();
-   // PermissionStatus storagePermission = await Permission.storage.request();
+
     if (/*storagePermission == PermissionStatus.granted*/status.isGranted) {
       final directory = (await getApplicationDocumentsDirectory()).path;
 
       RenderRepaintBoundary bound = keyList.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      /*if(bound.debugNeedsPaint){
-        Timer(Duration(seconds: 1),()=>_shareQrCode(text));
-        return null;
-      }*/
       ui.Image image = await bound.toImage();
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
       print('${byteData?.buffer.lengthInBytes}___________');
-      // this will save image screenshot in gallery
+
       if(byteData != null ){
         Uint8List pngBytes = byteData.buffer.asUint8List();
         String fileName = DateTime
@@ -349,27 +339,8 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
         final imagePath = await File('$directory/$fileName.png').create();
         await imagePath.writeAsBytes(pngBytes);
         Share.shareFiles([imagePath.path],text: text);
-        // final resultsave = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes),quality: 90,name: 'screenshot-${DateTime.now()}.png');
-        //print(resultsave);
-      }
-      /*_screenshotController.capture().then((Uint8List? image) async {
-        if (image != null) {
-          try {
-            String fileName = DateTime
-                .now()
-                .microsecondsSinceEpoch
-                .toString();
 
-            final imagePath = await File('$directory/$fileName.png').create();
-            if (imagePath != null) {
-              await imagePath.writeAsBytes(image);
-              Share.shareFiles([imagePath.path],text: text);
-            }
-          } catch (error) {}
-        }
-      }).catchError((onError) {
-        print('Error --->> $onError');
-      });*/
+      }
     } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('This Permission is recommended')));
@@ -382,9 +353,9 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
   getNewWishlistApi(String id ,event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
+
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
+
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -402,9 +373,7 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
-
-      Fluttertoast.showToast(msg: finalResult['message']);
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
     }
     else {
       print(response.reasonPhrase);

@@ -1,6 +1,6 @@
 /// error : false
 /// message : "Record Found Successfully"
-/// data : [{"id":"12","user_id":"685","category_id":"1","name":"hbbybynh","generic_name":"byybybbybhbh","company_name":"gbgbgbbbhbg","details":{"indication":"tere bin tere bin tere bin tere bin tere bin tere bina kya hai song lyrics in hindi dubbed full movie","dosage":"qwerty in the world of the world of the world of the world","rx_info":"yrrhdhcnfh in the world of the world of the"},"images":["https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1692605689279.jpg","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1692605695636.jpg","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1692605702110.jpg"],"logo":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1692605662112.jpg","contact_details":[{"name":"test ","mobile":"7777777777"},{"name":"users ","mobile":"8888888888"},{"name":" demo","mobile":"9999999999"}],"created_at":"2023-08-21 13:42:41","updated_at":"2023-08-19 17:22:46","is_details_added":true,"detail_text":"Click to view detail of brand","is_detail_plan_subscribed":false,"is_add_plan_subscribed":false}]
+/// data : [{"id":"128","user_id":"746","category_id":"101","name":"ff","generic_name":"ccc x","company_name":"cfd","details":{"indication":"bxbxh","dosage":"hzbzzb","rx_info":"vzbxbs"},"images":["https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440712838.png","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440716762.png","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440722848.png"],"logo":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440707951.jpg","contact_details":[{"name":"zxzv","mobile":"7997979788"},{"name":"bdbd","mobile":"8989789889"},{"name":"bzbzb","mobile":"9589898989"}],"created_at":"2023-09-11 19:26:58","updated_at":"2023-09-11 19:17:58","images0":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440712838.png","images1":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440716762.png","images2":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440722848.png","is_details_added":true,"detail_text":"Click to view detail of brand","is_detail_plan_subscribed":true,"is_add_plan_subscribed":true,"user_plan_purchased":true}]
 
 class GetBrandsRxDosageModel {
   GetBrandsRxDosageModel({
@@ -48,22 +48,26 @@ GetBrandsRxDosageModel copyWith({  bool? error,
 
 }
 
-/// id : "12"
-/// user_id : "685"
-/// category_id : "1"
-/// name : "hbbybynh"
-/// generic_name : "byybybbybhbh"
-/// company_name : "gbgbgbbbhbg"
-/// details : {"indication":"tere bin tere bin tere bin tere bin tere bin tere bina kya hai song lyrics in hindi dubbed full movie","dosage":"qwerty in the world of the world of the world of the world","rx_info":"yrrhdhcnfh in the world of the world of the"}
-/// images : ["https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1692605689279.jpg","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1692605695636.jpg","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1692605702110.jpg"]
-/// logo : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1692605662112.jpg"
-/// contact_details : [{"name":"test ","mobile":"7777777777"},{"name":"users ","mobile":"8888888888"},{"name":" demo","mobile":"9999999999"}]
-/// created_at : "2023-08-21 13:42:41"
-/// updated_at : "2023-08-19 17:22:46"
+/// id : "128"
+/// user_id : "746"
+/// category_id : "101"
+/// name : "ff"
+/// generic_name : "ccc x"
+/// company_name : "cfd"
+/// details : {"indication":"bxbxh","dosage":"hzbzzb","rx_info":"vzbxbs"}
+/// images : ["https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440712838.png","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440716762.png","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440722848.png"]
+/// logo : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440707951.jpg"
+/// contact_details : [{"name":"zxzv","mobile":"7997979788"},{"name":"bdbd","mobile":"8989789889"},{"name":"bzbzb","mobile":"9589898989"}]
+/// created_at : "2023-09-11 19:26:58"
+/// updated_at : "2023-09-11 19:17:58"
+/// images0 : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440712838.png"
+/// images1 : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440716762.png"
+/// images2 : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440722848.png"
 /// is_details_added : true
 /// detail_text : "Click to view detail of brand"
-/// is_detail_plan_subscribed : false
-/// is_add_plan_subscribed : false
+/// is_detail_plan_subscribed : true
+/// is_add_plan_subscribed : true
+/// user_plan_purchased : true
 
 class Data {
   Data({
@@ -79,10 +83,14 @@ class Data {
       List<ContactDetails>? contactDetails, 
       String? createdAt, 
       String? updatedAt, 
+      String? images0, 
+      String? images1, 
+      String? images2, 
       bool? isDetailsAdded, 
       String? detailText, 
       bool? isDetailPlanSubscribed, 
-      bool? isAddPlanSubscribed,}){
+      bool? isAddPlanSubscribed, 
+      bool? userPlanPurchased,}){
     _id = id;
     _userId = userId;
     _categoryId = categoryId;
@@ -95,10 +103,14 @@ class Data {
     _contactDetails = contactDetails;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
+    _images0 = images0;
+    _images1 = images1;
+    _images2 = images2;
     _isDetailsAdded = isDetailsAdded;
     _detailText = detailText;
     _isDetailPlanSubscribed = isDetailPlanSubscribed;
     _isAddPlanSubscribed = isAddPlanSubscribed;
+    _userPlanPurchased = userPlanPurchased;
 }
 
   Data.fromJson(dynamic json) {
@@ -119,10 +131,14 @@ class Data {
     }
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
+    _images0 = json['images0'];
+    _images1 = json['images1'];
+    _images2 = json['images2'];
     _isDetailsAdded = json['is_details_added'];
     _detailText = json['detail_text'];
     _isDetailPlanSubscribed = json['is_detail_plan_subscribed'];
     _isAddPlanSubscribed = json['is_add_plan_subscribed'];
+    _userPlanPurchased = json['user_plan_purchased'];
   }
   String? _id;
   String? _userId;
@@ -136,10 +152,14 @@ class Data {
   List<ContactDetails>? _contactDetails;
   String? _createdAt;
   String? _updatedAt;
+  String? _images0;
+  String? _images1;
+  String? _images2;
   bool? _isDetailsAdded;
   String? _detailText;
   bool? _isDetailPlanSubscribed;
   bool? _isAddPlanSubscribed;
+  bool? _userPlanPurchased;
 Data copyWith({  String? id,
   String? userId,
   String? categoryId,
@@ -152,10 +172,14 @@ Data copyWith({  String? id,
   List<ContactDetails>? contactDetails,
   String? createdAt,
   String? updatedAt,
+  String? images0,
+  String? images1,
+  String? images2,
   bool? isDetailsAdded,
   String? detailText,
   bool? isDetailPlanSubscribed,
   bool? isAddPlanSubscribed,
+  bool? userPlanPurchased,
 }) => Data(  id: id ?? _id,
   userId: userId ?? _userId,
   categoryId: categoryId ?? _categoryId,
@@ -168,10 +192,14 @@ Data copyWith({  String? id,
   contactDetails: contactDetails ?? _contactDetails,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
+  images0: images0 ?? _images0,
+  images1: images1 ?? _images1,
+  images2: images2 ?? _images2,
   isDetailsAdded: isDetailsAdded ?? _isDetailsAdded,
   detailText: detailText ?? _detailText,
   isDetailPlanSubscribed: isDetailPlanSubscribed ?? _isDetailPlanSubscribed,
   isAddPlanSubscribed: isAddPlanSubscribed ?? _isAddPlanSubscribed,
+  userPlanPurchased: userPlanPurchased ?? _userPlanPurchased,
 );
   String? get id => _id;
   String? get userId => _userId;
@@ -185,10 +213,14 @@ Data copyWith({  String? id,
   List<ContactDetails>? get contactDetails => _contactDetails;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
+  String? get images0 => _images0;
+  String? get images1 => _images1;
+  String? get images2 => _images2;
   bool? get isDetailsAdded => _isDetailsAdded;
   String? get detailText => _detailText;
   bool? get isDetailPlanSubscribed => _isDetailPlanSubscribed;
   bool? get isAddPlanSubscribed => _isAddPlanSubscribed;
+  bool? get userPlanPurchased => _userPlanPurchased;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -208,17 +240,21 @@ Data copyWith({  String? id,
     }
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
+    map['images0'] = _images0;
+    map['images1'] = _images1;
+    map['images2'] = _images2;
     map['is_details_added'] = _isDetailsAdded;
     map['detail_text'] = _detailText;
     map['is_detail_plan_subscribed'] = _isDetailPlanSubscribed;
     map['is_add_plan_subscribed'] = _isAddPlanSubscribed;
+    map['user_plan_purchased'] = _userPlanPurchased;
     return map;
   }
 
 }
 
-/// name : "test "
-/// mobile : "7777777777"
+/// name : "zxzv"
+/// mobile : "7997979788"
 
 class ContactDetails {
   ContactDetails({
@@ -251,9 +287,9 @@ ContactDetails copyWith({  String? name,
 
 }
 
-/// indication : "tere bin tere bin tere bin tere bin tere bin tere bina kya hai song lyrics in hindi dubbed full movie"
-/// dosage : "qwerty in the world of the world of the world of the world"
-/// rx_info : "yrrhdhcnfh in the world of the world of the"
+/// indication : "bxbxh"
+/// dosage : "hzbzzb"
+/// rx_info : "vzbxbs"
 
 class Details {
   Details({
