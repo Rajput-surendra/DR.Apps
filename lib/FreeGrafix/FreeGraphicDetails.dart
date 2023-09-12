@@ -204,7 +204,7 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
                   top: 0,
                   left:0,
                   right: 0,
-                  bottom:305,
+                  bottom:280,
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: IconButton(

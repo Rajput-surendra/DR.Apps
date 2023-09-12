@@ -224,7 +224,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
 
                                 showExitPopup1();
                               },
-                              child: imageFile == null ? Container(
+                              child: imageFile1 == null ? Container(
                                   height: 100,
                                   width: double.infinity,
                                   child: Image.network("${getBrandsRxDosageModel!.data![0].images0}",fit: BoxFit.fill,)) :Container(
@@ -258,7 +258,10 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                               onTap: () {
                                 showExitPopup2();
                               },
-                              child: Container(
+                              child:imageFile2 == null ? Container(
+                                  height: 100,
+                                  width: double.infinity,
+                                  child: Image.network("${getBrandsRxDosageModel!.data![0].images1}",fit: BoxFit.fill,)) : Container(
                                 color: colors.primary,
                                 height: imageFile2 == null ? 50:100,
                                 child: imageFile2 == null || imageFile2 == ""
@@ -286,7 +289,10 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                               onTap: () {
                                 showExitPopup3();
                               },
-                              child: Container(
+                              child:imageFile3 == null ? Container(
+                                  height: 100,
+                                  width: double.infinity,
+                                  child: Image.network("${getBrandsRxDosageModel!.data![0].images2}",fit: BoxFit.fill,)) : Container(
 
                                 color: colors.primary,
                                 height: imageFile3 == null ? 50:100,

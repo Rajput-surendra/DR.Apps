@@ -43,7 +43,9 @@ class _StaticTextScreenState extends State<StaticTextScreen> {
                       SizedBox(height: 10,),
                       Text("Dear Doctor,",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 19),),
                       Text("You are requested to fill this form for our DR Plus apps which are available on play store as well as apple store. It is  designed for people or patients who are searching specialty doctors by area wise, city wise,state wise in India.Our DR Plus apps and websites show details about Doctors, Clinic name, Day, Time, Appointment Detail and also feature for appointment directly though DR Plus Apps and websites.You can also advertise on our Apps which are in the form of jpg (image) or video. You are requested, Please download our DR Plus apps from play store or apple store and also check our website.",style: TextStyle(fontSize: 18,),textAlign: TextAlign.justify,),
-                       Text("www.drplusonline.in Thank you",style: TextStyle(fontSize: 18,),textAlign: TextAlign.justify,),
+                       Text("www.drplusonline.in ",style: TextStyle(fontSize: 18,decoration: TextDecoration.underline),textAlign: TextAlign.justify,),
+                      SizedBox(height: 5,),
+                      Text("Thank you",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),textAlign: TextAlign.justify),
                       SizedBox(height: 10,)
 
                     ],

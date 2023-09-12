@@ -66,7 +66,7 @@ class _AwarenessState extends State<AwarenessListCard> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
   }
-  List? strObjBooklets,strObjLeaflets;
+
 
   viewFile(String url, String filename) async {
     FileDownloader.downloadFile(
@@ -113,11 +113,13 @@ class _AwarenessState extends State<AwarenessListCard> {
       print('Error occurred while downloading the PDF: $e');
     }
   }
+  List? strObjBooklets;
+  List? strObjLeaflets;
   @override
   Widget build(BuildContext context) {
-    strObjBooklets = widget.getAwareNess?.data.booklets?[widget.index].image!.split(".");
-    strObjLeaflets = widget.getAwareNess?.data.leaflets?[widget.index].image!.split(".");
-    print('______ZZZZZZZZZZZZZZ__${strObjLeaflets![2]}__${strObjBooklets![2]}_________');
+    strObjLeaflets = widget.getAwareNess?.data.leaflets?[widget.index].image?.split(".");
+    strObjBooklets = widget.getAwareNess?.data.booklets?[widget.index].image?.split(".");
+    print('______ZZZZZZZZZZZZZZ__${strObjLeaflets![2]}-----------${strObjBooklets![2]}');
     if(widget.currentIndex == 1){
       newsType= 'doctor-news';
     }else if(widget.currentIndex == 2){
@@ -189,7 +191,6 @@ class _AwarenessState extends State<AwarenessListCard> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          //Text('${widget.getAwareNess?.data.poster?[widget.index].awareInput}',style: TextStyle(fontSize: 16,color: colors.blackTemp,fontWeight: FontWeight.normal),),
                           Text('${widget.getAwareNess?.data.poster?[widget.index].awareLanguage}',style: TextStyle(fontSize: 16,color: colors.blackTemp,fontWeight: FontWeight.normal),),
 
                         ],
@@ -203,7 +204,6 @@ class _AwarenessState extends State<AwarenessListCard> {
                             });
                             Future.delayed(Duration(seconds: 1), (){
                               _shareQrCode(text: widget.getAwareNess?.data.poster?[widget.index].userName);
-                              // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
                             });
                           }, icon: Icon(Icons.share)),
                           Container(
@@ -422,11 +422,11 @@ class _AwarenessState extends State<AwarenessListCard> {
                       )
                     ],
                   ),
-                  strObjLeaflets ![2] == "pdf" ? Column(
+                  strObjLeaflets ?[2] == "pdf" ? Column(
                     children: [
                       InkWell(
                         onTap: (){
-                          viewFile(widget.getAwareNess?.data.booklets?[widget.index].image! ??  "", "File");
+                          viewFile(widget.getAwareNess?.data.leaflets?[widget.index].image ??  "", "File");
                         } ,
                         child: Align(
                           alignment: Alignment.center,
@@ -473,7 +473,7 @@ class _AwarenessState extends State<AwarenessListCard> {
                             });
                           }, icon: Icon(Icons.share)),
 
-                          strObjLeaflets![2] == "pdf" ? Container(
+                          strObjLeaflets?[2] == "pdf" ? Container(
                             height: 30,
                             child: ElevatedButton(onPressed: (){
 

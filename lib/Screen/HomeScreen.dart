@@ -18,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AuthenticationView/fogotPass.dart';
 import '../Awreness/Awareness_Inputs_screen.dart';
+import '../BrandSpecialization/brand_specialization.dart';
 import '../DoctorRequest/doctor_request.dart';
 import '../Editorial/editorial.dart';
 import '../Event/event_and_webiner.dart';
@@ -502,15 +503,18 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (i == 2) {
           Navigator.push(context,
               // MaterialPageRoute(builder: (C) => PharmaProductScreen()));
-              MaterialPageRoute(builder: (C) => AwarenessScreen()));
+              // MaterialPageRoute(builder: (C) => AwarenessScreen()));
+              MaterialPageRoute(builder: (C) => BrandSpecialization()));
         } else if (i == 3) {
           Navigator.push(
              // context, MaterialPageRoute(builder: (C) => Editorial()));
-               context, MaterialPageRoute(builder: (C) => EventAndWebiner()));
+             //   context, MaterialPageRoute(builder: (C) => EventAndWebiner()));
+               context, MaterialPageRoute(builder: (C) => AwarenessScreen()));
 
         } else if (i == 4) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (C) => FreeGraphicScreen()));
+              // context, MaterialPageRoute(builder: (C) => FreeGraphicScreen()));
+              context, MaterialPageRoute(builder: (C) => EventAndWebiner()));
               // context, MaterialPageRoute(builder: (C) => AdvertisementScreen()));
 
         } else {

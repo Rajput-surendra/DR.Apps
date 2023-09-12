@@ -17,11 +17,13 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import '../Event/event_and_webiner.dart';
+import '../FreeGrafix/FreeGraphicDetails.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import 'package:http/http.dart'as http;
 
 import '../New_model/GetAwarenessModel.dart';
+import '../New_model/Get_graphic_model.dart';
 import '../Screen/video_testing.dart';
 import '../api/api_services.dart';
 import '../Awreness/AddAwrenessPost.dart';
@@ -43,6 +45,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getGarphiApi();
     getSliderApi();
     getAwarenessList();
     String date = dateTime.substring(11,16);
@@ -93,14 +96,12 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
       'user_id': '$userId',
       'speciality_id': localId==null || localId== ''  ?  specialityId ?? '' : localId
     });
-    print("this is is request===cvbcbvcbvc====dsdsdfs==>${request.fields}------------${ApiService.getAwareness}");
     request.headers.addAll(headers);
-    http.StreamedResponse response =  await request.send();
+    http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result  = await response.stream.bytesToString();
       final finalResult = GetAModel.fromJson(jsonDecode(result));
-      print("this is a awarenessModel=============>${finalResult}");
-      print("this is a awarenessModel=============>${result}");
+
       setState(() {
         getAwareNess = finalResult;
         isScreenLoading = false;
@@ -405,21 +406,6 @@ searchProduct(String value) {
                 )
             ),
             title: Text("Awareness Inputs"),
-            // actions: [
-            //   InkWell(
-            //     onTap: (){
-            //       // Navigator.pop(context);
-            //     },
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(8),
-            //       child: InkWell(
-            //           onTap: (){
-            //             //Navigator.push(context, MaterialPageRoute(builder: (context)=>Search()));
-            //           },
-            //           child: Icon(Icons.search,color: colors.whiteTemp,)),
-            //     ),
-            //   ),
-            // ],
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -473,7 +459,7 @@ searchProduct(String value) {
                   // height: MediaQuery.of(context).size.height/1.0,
                     child: isScreenLoading ? const Center(child: CircularProgressIndicator())
                         :
-                    selectedSegmentVal == 0 ?  getAwareNess?.data.poster?.isEmpty ?? false ? Center(child: Text('Poster not available'),)
+                    selectedSegmentVal == 0 ? getAwareNess?.data.poster?.isEmpty ?? false ? Center(child: Text('Poster not available'),)
 
                     : ListView.builder(
                       // scrollDirection: Axis.vertical,
@@ -486,13 +472,13 @@ searchProduct(String value) {
                             getdeleteApi(getAwareNess?.data.poster?[index].id ?? "" ,getAwareNess?.data.poster?[index].type ?? "");
                           },); //getPosterList(getAwareNess?.data.mPoster, index);
                         })
-                        :  selectedSegmentVal == 1 ?  getAwareNess?.data.booklets?.isEmpty ?? false  ? Center(child: Text('Booklets not available'),)
+                        :  selectedSegmentVal == 1 ? getAwareNess?.data.booklets?.isEmpty ?? false  ? Center(child: Text('Booklets not available'),)
                         : ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         reverse: true,
-                        itemCount: getAwareNess!.data.booklets?.length ?? 5,
+                        itemCount: getAwareNess?.data.booklets?.length ?? 5,
                         itemBuilder: (BuildContext context, int index) {
                           return AwarenessListCard(currentIndex: 1,index: index,getAwareNess: getAwareNess,vController: _vController,onTop: ()
                             {
@@ -505,7 +491,7 @@ searchProduct(String value) {
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         reverse: true,
-                        itemCount: getAwareNess!.data.leaflets?.length,
+                        itemCount: getAwareNess?.data.leaflets?.length,
                         itemBuilder: (BuildContext context, int index) {
                           return AwarenessListCard(currentIndex: 2,index: index,getAwareNess: getAwareNess,vController: _vController,onTop: (){
                             getdeleteApi(getAwareNess?.data.leaflets?[index].id ?? "" ,getAwareNess?.data.leaflets?[index].type ?? "");
@@ -524,8 +510,7 @@ searchProduct(String value) {
                             getdeleteApi(getAwareNess?.data.mPoster?[index].id ?? "" ,getAwareNess?.data.mPoster?[index].type ?? "");
                           },); // getMotimationList(getAwareNess?.data.poster, index);
                         })
-                        :
-                         selectedSegmentVal == 4 ? getAwareNess?.data.video?.isEmpty ?? true ? Center(child: Text('video not available'),):
+                        : selectedSegmentVal == 4 ? getAwareNess?.data.video?.isEmpty ?? true ? Center(child: Text('video not available'),):
                     ListView.builder(
                       // scrollDirection: Axis.vertical,
                         physics: NeverScrollableScrollPhysics(),
@@ -534,21 +519,18 @@ searchProduct(String value) {
                         itemCount: getAwareNess?.data.video?.length ?? 5,
                         itemBuilder: (BuildContext context, int index) {
                           return getVideoList(getAwareNess?.data.video,index);
-                        }):SizedBox()),
-
-                      SizedBox(height: 50,),
-
-                      //
-                      //   : selectedSegmentVal == 5
-                      //   ?ListView.builder(
-                      // // scrollDirection: Axis.vertical,
-                      //   physics: NeverScrollableScrollPhysics(),
-                      //   shrinkWrap: true,
-                      //   reverse: true,
-                      //   itemCount: GetAwrenessModel?.data?.awareness?.length,
-                      //   itemBuilder: (BuildContext context, int index) {
-                      //     return productCustomCards();
-                //      });
+                        })
+                        :
+                        ListView.builder(
+                      // scrollDirection: Axis.vertical,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        reverse: true,
+                        itemCount: getGraphicModel!.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return freeGraphic(getGraphicModel!.data, index);
+                     })
+                )
 
               ],
             )
@@ -697,6 +679,33 @@ searchProduct(String value) {
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: selectedSegmentVal == 4
+                        ? Colors.white
+                        : Colors.black),
+              ),
+            ),
+          ),
+          SizedBox(width: 5,),
+          Container(
+            height: 60,
+            width: 160,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: selectedSegmentVal == 5
+                        ? [colors.primary, colors.primary]
+                        : [colors.lightBlue, colors.lightBlue])),
+            child: MaterialButton(
+              shape: const StadiumBorder(),
+              onPressed: () => setSegmentValue(5),
+              child: Text(
+                'Free Graphics',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: selectedSegmentVal == 5
                         ? Colors.white
                         : Colors.black),
               ),
@@ -1253,5 +1262,188 @@ searchProduct(String value) {
         // ),
       ),
     );
+  }
+
+  freeGraphic(model, int index){
+    return  Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            double aspectRatio = 3/3.3;
+
+            if (constraints.maxWidth > constraints.maxHeight * aspectRatio) {
+              // Landscape orientation
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 0.0,
+                    crossAxisSpacing: 0.0,
+                    childAspectRatio: aspectRatio
+
+
+                ),
+                itemCount:getGraphicModel!.data!.length, // Number of items in the grid
+                itemBuilder: (BuildContext context, int index) {
+
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>FreeGraphicDetailsScreen(childList: getGraphicModel!.data![index].childs,)));
+                    },
+                    child:
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(10)
+                      // ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 140 ,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network("${getGraphicModel!.data![index].image}",fit: BoxFit.fill)),
+                            ),
+                          ),
+                          SizedBox(height: 5,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5,right: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 85,
+
+                                  child: Text("${getGraphicModel!.data![index].title}",maxLines: 1,style: TextStyle(
+                                    color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 12,overflow: TextOverflow.ellipsis,
+                                  ),),
+                                ),
+
+                                Text("${getGraphicModel!.data![index].total}")
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              // Portrait orientation
+              return GridView.builder (
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 0.0,
+                    crossAxisSpacing: 0.0,
+                    childAspectRatio: aspectRatio
+
+
+                ),
+                itemCount:getGraphicModel!.data!.length, // Number of items in the grid
+                itemBuilder: (BuildContext context, int index) {
+
+                  return InkWell(
+                    onTap: (){
+
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>FreeGraphicDetailsScreen(childList: getGraphicModel!.data![index].childs,)));
+                    },
+                    child:
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(10)
+                      // ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 140 ,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network("${getGraphicModel!.data![index].image}",fit: BoxFit.fill)),
+                            ),
+                          ),
+                          SizedBox(height: 5,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5,right: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 85,
+
+                                  child: Text("${getGraphicModel!.data![index].title}",maxLines: 1,style: TextStyle(
+                                    color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 12,overflow: TextOverflow.ellipsis,
+                                  ),),
+                                ),
+
+                                Text("${getGraphicModel!.data![index].total}")
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        )
+
+
+    );
+  }
+
+  GetGraphicModel? getGraphicModel;
+  getGarphiApi() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString('userId');
+    print("getEventUserId--------------->${userId}");
+    var headers = {
+      'Cookie': 'ci_session=e4dfc99e63f5c529a622db46e6cf829e5af991d9'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getGraphicApi}'));
+    request.fields.addAll({
+      'user_id': userId.toString()
+    });
+    print('____surendra______${request.fields}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result =   await response.stream.bytesToString();
+      var finalResult = GetGraphicModel.fromJson(json.decode(result));
+      print('_______ssssssss___${finalResult}_________');
+      setState(() {
+        getGraphicModel =  finalResult;
+      });
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
   }
 }
