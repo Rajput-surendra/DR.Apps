@@ -37,7 +37,7 @@ class _AddRequestState extends State<AddRequest> {
   final List<String> doctorlist = ['Yes', 'No'];
   String? requestValue;
   final List<String> items = ['Poster', 'Leaflet', 'Booklet','Video'];
-  String?  standyValue;
+  String? standyValue;
   final List<String> standyValueList = ['Standy ','Poster ','Video ',];
 
   _validateForm() {
@@ -460,16 +460,14 @@ class _AddRequestState extends State<AddRequest> {
                     ),
                     onChanged: (String? value) {
                       setState(() {
-
+                        standyValue = value!;
                       });
                     },
 
                     items: standyValueList
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
-
                         value: value,
-
                         child:
                         Column(
                           mainAxisSize: MainAxisSize.min,

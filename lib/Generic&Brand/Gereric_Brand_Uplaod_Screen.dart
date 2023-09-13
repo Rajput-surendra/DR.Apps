@@ -27,7 +27,7 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
+      appBar: customAppBar(context: context, text:"Generics & Brands", isTrue: true, ),
       body:Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(

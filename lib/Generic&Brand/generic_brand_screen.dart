@@ -36,7 +36,7 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
   Widget build(BuildContext context) {
     print('____role____aaaa__${role}_________');
     return  Scaffold(
-      appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
+      appBar: customAppBar(context: context, text:"Generics & Brands", isTrue: true, ),
       body:selectCatModel?.data == null ? Center(child: CircularProgressIndicator()): selectCatModel?.data?.length == 0 ? Center(child: Text("No Category List Found !!!")) : SingleChildScrollView(
         child: Column(
           children: [

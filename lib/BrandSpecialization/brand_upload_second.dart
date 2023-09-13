@@ -40,7 +40,7 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, text:"Brand Specialization", isTrue: true, ),
+      appBar: customAppBar(context: context, text:"Speciality Brand", isTrue: true, ),
       body:Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
@@ -133,9 +133,11 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
                         },
                       ),
                       SizedBox(height: 10,),
+                      Text("Select brand speciality to promote your brand. Select minimum 1 and maximum 5 brand specialties.",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                      SizedBox(height: 10,),
                       Row(
                         children: [
-                          Text("Select Specialization"),
+                          Text("Select Brand Speciality"),
                           Text("*",style: TextStyle(color: colors.red),)
                         ],
                       ),
@@ -232,7 +234,7 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
         });
       },
       child:
-      Container(
+     Container(
         height: 60,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.only(left: 10),
@@ -242,10 +244,10 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
           scrollDirection: Axis.horizontal,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: results.map((e) {
+            children:results==null ?[]:  results.map((e) {
               return Padding(
                 padding:
-                const EdgeInsets.only(top: 15,),
+                const EdgeInsets.only(top: 15,right: 2,left: 2),
                 child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     height: 30,

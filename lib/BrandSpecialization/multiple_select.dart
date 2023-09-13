@@ -14,12 +14,12 @@ class _MultiSelect1State extends State<MultiSelect1> {
 
   void _itemChange(SpeciplyData itemValue, bool isSelected) {
     setState(() {
-      if (isSelected && _selectedUserItems.length <3) {
+      if (isSelected && _selectedUserItems.length <5) {
         setState(() {
           _selectedUserItems.add(itemValue.name ?? '');
         });
       }else if (isSelected ==  true){
-        Fluttertoast.showToast(msg: "Only select three specialization",backgroundColor: colors.secondary);
+        Fluttertoast.showToast(msg: "Select brand speciality to promote your brand. Select minimum 1 and maximum 5 brand specialties.",backgroundColor: colors.secondary,);
       } else {
         setState(() {
           _selectedUserItems.remove(itemValue.name ?? '');
@@ -49,7 +49,7 @@ class _MultiSelect1State extends State<MultiSelect1> {
         {
           return
             AlertDialog(
-              title: const Text('Select Specialization'),
+              title: const Text('Select Brand Speciality'),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: widget.speciplyList!.map((SpeciplyData data) =>

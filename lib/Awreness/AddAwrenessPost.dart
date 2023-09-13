@@ -623,7 +623,11 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                             );
                           }),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
+                  ),
+                  Text("Add patients awareness inputs language wise, It will display on the Doctor's side speciality wise for download and to use for clinic and social media of Doctors. This will promote your brand also.",textAlign: TextAlign.justify,style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+                  const SizedBox(
+                    height: 30,
                   ),
                   dataList.length == 0 ?SizedBox.shrink():
                   Btn(

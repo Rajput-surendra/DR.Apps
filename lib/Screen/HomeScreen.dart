@@ -35,6 +35,7 @@ import '../Profile/UpdateNew.dart';
 import '../Profile/Update_password.dart';
 import '../Profile/clinic_hospital_update.dart';
 import '../Profile/profile_screen.dart';
+import '../SubscriptionPlan/AdvertisementListScreen.dart';
 import '../SubscriptionPlan/addPosterScreen.dart';
 import '../SubscriptionPlan/subscription_plan.dart';
 import '../widgets/widgets/commen_slider.dart';
@@ -912,6 +913,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ListTile(
             leading: Image.asset(
+              "assets/images/advertisement.png",
+               color: colors.black54,
+              height: 35,
+              width: 35,
+            ),
+            title: Text(
+              'Advertisements List',
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AdvertisementListScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Image.asset(
               "assets/images/Term & Conditions.png",
               height: 40,
               width: 40,
@@ -1032,7 +1050,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-    deleteAccountDailog() async {
+
+
+  deleteAccountDailog() async {
     await dialogAnimate(context,
         StatefulBuilder(builder: (BuildContext context, StateSetter setStater) {
           return StatefulBuilder(

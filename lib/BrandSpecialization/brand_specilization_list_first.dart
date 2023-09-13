@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Generic&Brand/Gereric_Brand_Uplaod_Screen.dart';
@@ -15,6 +16,8 @@ import '../New_model/Get_brand_model.dart';
 import 'package:http/http.dart'as http;
 
 import '../api/api_services.dart';
+import 'brand_specialization_details.dart';
+import 'brand_specilization_upload.dart';
 import 'brand_upload_second.dart';
 String? cardId,brandName,brandDes;
 class BrandSpecilizationList extends StatefulWidget {
@@ -33,7 +36,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
     onRefresh: _refresh,
     child: Scaffold(
       bottomSheet:   role == "2" ?  Padding(
-        padding: const EdgeInsets.only(left: 70,bottom: 5),
+        padding: const EdgeInsets.only(left: 5,bottom: 5,right: 5),
         child: InkWell(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => BrandUploadScreen(
@@ -47,18 +50,17 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
           },
           child: Container(
             height: 50,
-            width: MediaQuery.of(context).size.width/1.6,
             decoration: BoxDecoration(
                 color: colors.primary, borderRadius: BorderRadius.circular(15)),
             child: Center(
                 child: Text(
-                  "Add Your Brand",
-                  style: TextStyle(color: colors.whiteTemp),
+                  "Add your brand to promote in Doctor's side in apps",
+                  style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),
                 )),
           ),
         ),
       ): SizedBox.shrink(),
-      appBar:customAppBar (context: context, text: "Brand Specialization", isTrue: true,),
+      appBar:customAppBar (context: context, text: "Speciality Brand", isTrue: true,),
       body:  Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -150,7 +152,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                             brandDes =  branddata[i].genericName;
                                           });
                                           if(branddata[i].userPlanPurchased == true ){
-                                        //    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
                                           }
 
                                         }else {
@@ -167,14 +169,14 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                           }else{
                                             setState((){
                                               cardId = branddata[i].id;
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                        //    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
+                                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
                                           }
                                         }
 
@@ -299,14 +301,14 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                         //   Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                           }else{
                                             setState((){
                                               cardId = branddata[i].id;
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                          //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id)));
+                                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
                                           }
                                         }
 
@@ -363,139 +365,160 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                         ),
                       );
                     } else {
-                      return Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "${branddata![i].name}",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: colors.secondary, fontSize: 25),
-                            ),
-                            Text(
-                              "${branddata[i].genericName}",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: colors.black54,
+                      return Card(
+                        color: colors.whiteTemp,
+                        elevation: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 38,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft:
-                                            Radius.circular(10)),
-                                        color: colors.darkIcon.withOpacity(0.6)),
-                                    child: Center(
-                                        child: Text(
-                                          "By ${branddata[i].companyName}",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: colors.whiteTemp,
-                                              fontSize: 12),
-                                        )),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${branddata![i].name}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: colors.secondary, fontSize: 25),
+                                      ),
+                                      Text(
+                                        "${branddata[i].genericName}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: colors.black54,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                      onTap: () {
-                                        if(role == "1"){ setState((){
-                                          cardId = branddata[i].id;
-                                          brandName =  branddata[i].name;
-                                          brandDes =  branddata[i].genericName;
-                                        });
-                                       // Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
-                                        }else {
-                                          setState((){
+                                  // InkWell(
+                                  //   onTap: (){
+                                  //     brandDeleteApi(branddata[i].id);
+                                  //   },
+                                  //     child: Icon(Icons.delete))
+                                ],
+                              ),
+                             
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 38,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft:
+                                              Radius.circular(10)),
+                                          color: colors.darkIcon.withOpacity(0.6)),
+                                      child: Center(
+                                          child: Text(
+                                            "By ${branddata[i].companyName}",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: colors.whiteTemp,
+                                                fontSize: 12),
+                                          )),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                        onTap: () {
+                                          if(role == "1"){ setState((){
                                             cardId = branddata[i].id;
                                             brandName =  branddata[i].name;
                                             brandDes =  branddata[i].genericName;
                                           });
-                                          if(!(branddata[i].isDetailPlanSubscribed  ?? false)){
-                                            _showAlertDialog(context,branddata[i].id ?? "");
-                                          }else if ((branddata[i].isDetailsAdded  == true )){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                          }else {
                                             setState((){
                                               cardId = branddata[i].id;
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                          //  Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,)));
-                                          }else{
-                                            setState((){
-                                              cardId = branddata[i].id;
-                                              brandName =  branddata[i].name;
-                                              brandDes =  branddata[i].genericName;
-                                            });
-                                            setState(() {
-                                              cardId = branddata[i].id;
-                                              brandName =  branddata[i].name;
-                                              brandDes =  branddata[i].genericName;
-                                            });
-                                           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(id:branddata[i].id,isTrueValue: true,)));
+                                            if(!(branddata[i].isDetailPlanSubscribed  ?? false)){
+                                              _showAlertDialog(context,branddata[i].id ?? "");
+                                            }else if ((branddata[i].isDetailsAdded  == true )){
+                                              setState((){
+                                                cardId = branddata[i].id;
+                                                brandName =  branddata[i].name;
+                                                brandDes =  branddata[i].genericName;
+                                              });
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                            }else{
+                                              setState((){
+                                                cardId = branddata[i].id;
+                                                brandName =  branddata[i].name;
+                                                brandDes =  branddata[i].genericName;
+                                              });
+                                              setState(() {
+                                                cardId = branddata[i].id;
+                                                brandName =  branddata[i].name;
+                                                brandDes =  branddata[i].genericName;
+                                              });
+                                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id,isTrueValue: true,)));
+                                            }
                                           }
-                                        }
 
-                                      },
-                                      child: branddata[i].isDetailsAdded == true ?  InkWell(
-                                        child: Container(
+                                        },
+                                        child: branddata[i].isDetailsAdded == true ?  InkWell(
+                                          child: Container(
+                                            height: 38,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    bottomRight:
+                                                    Radius.circular(10)),
+                                                color: colors.secondary),
+                                            child: Center(
+                                              child:
+                                              Text(
+                                                '${branddata[i].detailText}',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12),
+
+                                              ),
+                                            ),
+                                          ),
+                                        ) : Container(
                                           height: 38,
                                           decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(
                                                   bottomRight:
                                                   Radius.circular(10)),
-                                              color: colors.secondary),
+                                              color: colors.red ),
                                           child: Center(
                                             child:
-                                            Text(
-                                              '${branddata[i].detailText}',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12),
-
-                                            ),
+                                            BlinkText(
+                                                '${branddata[i].detailText}',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12),
+                                                beginColor: colors.blackTemp,
+                                                endColor: colors.whiteTemp,
+                                                times: 1000,
+                                                duration: Duration(seconds: 1)),
                                           ),
-                                        ),
-                                      ) : Container(
-                                        height: 38,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                bottomRight:
-                                                Radius.circular(10)),
-                                            color: colors.red ),
-                                        child: Center(
-                                          child:
-                                          BlinkText(
-                                              '${branddata[i].detailText}',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12),
-                                              beginColor: colors.blackTemp,
-                                              endColor: colors.whiteTemp,
-                                              times: 1000,
-                                              duration: Duration(seconds: 1)),
-                                        ),
-                                      )
+                                        )
 
 
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
+                                ],
+                              ),
 
-                          ],
+                            ],
+                          ),
+                          
                         ),
                       );
                     }
@@ -504,9 +527,12 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
               SizedBox(height: 20,),
               getBrandModel?.data == null ? SizedBox() :
               role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
-                "Thank you \n Your brand with generic name\n and company name uploaded \nsuccessfully for Doctors area ",
+                "Thank you,\nYour brand with generic name and\n"
+                    "company name uploaded successfully\n"
+                    "for Doctor's side in this app for promotion\n"
+                    " It is displayed in Generics & Brands and Speciality Brands in dashboard of apps",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 18),
               ),
               SizedBox(height: MediaQuery.of(context).size.height/3.5,),
 
@@ -556,7 +582,29 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
     role = preferences.getString("roll");
     print('_____userId_____${role}_________');
   }
+ brandDeleteApi(String? brandId) async {
+   var headers = {
+     'Cookie': 'ci_session=adb41a117ba8fbbc33351cded960bfbb379d3e71'
+   };
+   var request = http.MultipartRequest('POST', Uri.parse('${ApiService.deleteBrandListApi}'));
+   request.fields.addAll({
+     'brand_id': brandId.toString()
+   });
 
+   request.headers.addAll(headers);
+
+   http.StreamedResponse response = await request.send();
+   if (response.statusCode == 200) {
+     var result =  await response.stream.bytesToString();
+     var finalResult =  jsonDecode(result);
+     Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
+     getBrandApi();
+   }
+   else {
+   print(response.reasonPhrase);
+   }
+
+ }
   @override
   void initState() {
     super.initState();

@@ -9,40 +9,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Generic&Brand/generic_brand_screen.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import '../New_model/Get_brands_Rx_dosage_model.dart';
-import '../Screen/HomeScreen.dart';
-import 'Gereric_Brand_Uplaod_Screen.dart';
-import 'advertisement_screen.dart';
-import 'genericRx_Dosage_Screen.dart';
-import 'generic_brand_screen.dart';
 import 'package:http/http.dart' as http;
-class GenericRxDosageDetailsScreen extends StatefulWidget {
-   GenericRxDosageDetailsScreen({Key? key,this.Id, this.isTrueId,this.brand,this.des,this.planId,this.nameChange}) : super(key: key);
-   String? Id ,brand,des, planId;
-   bool? isTrueId;
-   bool? nameChange;
+
+import 'brand_specilization_upload.dart';
+class BrandSpecializationDetails extends StatefulWidget {
+  BrandSpecializationDetails({Key? key,this.Id, this.isTrueId,this.brand,this.des,this.planId}) : super(key: key);
+  String? Id ,brand,des, planId;
+  bool? isTrueId;
   @override
-  State<GenericRxDosageDetailsScreen> createState() => _GenericRxDosageDetailsScreenState();
+  State<BrandSpecializationDetails> createState() => _BrandSpecializationDetailsState();
 }
 
-class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScreen> {
+class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails> {
   @override
   Widget build(BuildContext context) {
-    print('____surendra______${widget.nameChange}____');
+    print('____zzXx______${widget.isTrueId}____${cardId}_____');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor:  colors.secondary,
         leading: InkWell(
-          onTap: (){
-          //  Navigator.pop(context);
-          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-          },
+            onTap: (){
+              Navigator.pop(context);
+              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
+            },
             child: Icon(Icons.arrow_back_ios_rounded)),
-        title:widget.nameChange == true ?Text( "Speciality Brand"): Text( "Generics & Brands"),
+        title:Text( "Speciality Brand"),
       ),
       // customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
@@ -71,7 +67,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
 
                         child: ClipRRect(
                             child: AspectRatio(
-                              aspectRatio: 2/1,
+                                aspectRatio: 2/1,
                                 child: Image.network("${getBrandsRxDosageModel!.data!.first.logo}",fit: BoxFit.cover,)))),
                     SizedBox(height: 10,),
 
@@ -124,7 +120,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       ],
                     ),
 
-                   SizedBox(height: 20,),
+                    SizedBox(height: 20,),
                     sliderCard(),
                     SizedBox(height: 5,),
                     Row(
@@ -139,8 +135,8 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       children: [
                         role == "1" ? SizedBox.shrink():   InkWell(
                           onTap: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(isTrueValue: true,)));
-                           //    Navigator.pop(context,[true]);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(isTrueValue: true,)));
+                            //    Navigator.pop(context,[true]);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -262,8 +258,8 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
           return Padding(
               padding: const EdgeInsets.only(left: 0,right: 0),
               child: AspectRatio(
-                aspectRatio:16/4,
-                child: Image.network("${images}",fit: BoxFit.fill,)
+                  aspectRatio:16/4,
+                  child: Image.network("${images}",fit: BoxFit.fill,)
 
                 // Container(
                 //   width: MediaQuery.of(context).size.width,
@@ -405,110 +401,39 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
     return Container(
       height: 150,
       child: ListView.
-         builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: getBrandsRxDosageModel?.data?.first.contactDetails?.length,
+      builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: getBrandsRxDosageModel?.data?.first.contactDetails?.length,
           itemBuilder: (c,i){
-        return Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+            return Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                        width: MediaQuery.of(context).size.width/3.5,
-                        height: 50,
-                      color:colors.primary,
-                        child: Center(child: Text("${getBrandsRxDosageModel!.data!.first.contactDetails?[i].name}"))),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width/3.5,
-                        height: 50,
-                        color:colors.blackTemp.withOpacity(0.1),
-                        child: Center(child: Text("${getBrandsRxDosageModel!.data!.first.contactDetails?[i].mobile}"))),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                            width: MediaQuery.of(context).size.width/3.5,
+                            height: 50,
+                            color:colors.primary,
+                            child: Center(child: Text("${getBrandsRxDosageModel!.data!.first.contactDetails?[i].name}"))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                            width: MediaQuery.of(context).size.width/3.5,
+                            height: 50,
+                            color:colors.blackTemp.withOpacity(0.1),
+                            child: Center(child: Text("${getBrandsRxDosageModel!.data!.first.contactDetails?[i].mobile}"))),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
-          ),
-        );
-            
-        //   Container(
-        //   width: 100,
-        //   child:
-        //   // Row(
-        //   //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   //   children: [
-        //   //     Column(
-        //   //       children: [
-        //   //         Padding(
-        //   //           padding: const EdgeInsets.all(0.0),
-        //   //           child: Container(
-        //   //             color:  colors.primary,
-        //   //             child: Center(child: Padding(
-        //   //               padding: const EdgeInsets.symmetric(horizontal: 5),
-        //   //               child: Text('${getBrandsRxDosageModel?.data?.first.contactDetails?[i].name}',style: TextStyle(color: colors.whiteTemp),),
-        //   //             )),
-        //   //           ),
-        //   //         ),
-        //   //         Padding(
-        //   //           padding: const EdgeInsets.all(5.0),
-        //   //           child: Container(
-        //   //             color:  colors.black54.withOpacity(0.1),
-        //   //             child: Center(child: Padding(
-        //   //               padding: const EdgeInsets.symmetric(horizontal: 6),
-        //   //               child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?[i].mobile}"),
-        //   //             )),
-        //   //           ),
-        //   //         ),
-        //   //       ],
-        //   //     ),
-        //   //     // SizedBox(width: 5,),
-        //   //     // Expanded(
-        //   //     //   child: Column(
-        //   //     //     children: [
-        //   //     //       Container(
-        //   //     //         height: 50,
-        //   //     //         color:  colors.primary,
-        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.name}",style: TextStyle(color: colors.whiteTemp))),
-        //   //     //       ),
-        //   //     //       SizedBox(height: 5,),
-        //   //     //       Container(
-        //   //     //         height: 50,
-        //   //     //         color:  colors.black54.withOpacity(0.1),
-        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.mobile}")),
-        //   //     //       ),
-        //   //     //     ],
-        //   //     //   ),
-        //   //     // ),
-        //   //     // SizedBox(width: 5,),
-        //   //     // Expanded(
-        //   //     //   child: Column(
-        //   //     //     children: [
-        //   //     //
-        //   //     //       Container(
-        //   //     //         height: 50,
-        //   //     //         color:  colors.primary,
-        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.name}",style: TextStyle(color: colors.whiteTemp))),
-        //   //     //       ),
-        //   //     //
-        //   //     //       SizedBox(height: 5,),
-        //   //     //       Container(
-        //   //     //         height: 50,
-        //   //     //         color:  colors.black54.withOpacity(0.1),
-        //   //     //         child: Center(child: Text('${getBrandsRxDosageModel?.data?.first.contactDetails?.first.mobile}')),
-        //   //     //       ),
-        //   //     //     ],
-        //   //     //   ),
-        //   //     // ),
-        //   //   ],
-        //   // ),
-        // );
-      }),
+              ),
+            );
+
+          }),
     );
   }
   String ?userId;
@@ -522,21 +447,21 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll({
       'user_id':  role == "1" ? ""  : userId.toString(),
-     'id':widget.isTrueId ?? false ? widget.Id.toString():cardId.toString()
+      'id':widget.isTrueId ?? false ? widget.Id.toString():cardId.toString()
     });
     print('____request.fields______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-     var result  = await response.stream.bytesToString();
-     var finalResult =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
-     setState(() {
-       getBrandsRxDosageModel =  finalResult;
-       print('_____finalResult_____${finalResult}_________');
-     });
+      var result  = await response.stream.bytesToString();
+      var finalResult =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
+      setState(() {
+        getBrandsRxDosageModel =  finalResult;
+        print('_____finalResult_____${finalResult}_________');
+      });
     }
     else {
-    print(response.reasonPhrase);
+      print(response.reasonPhrase);
     }
 
   }

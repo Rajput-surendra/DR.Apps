@@ -8,6 +8,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
 import '../Generic&Brand/slider_plan_screen.dart';
@@ -22,7 +24,9 @@ import '../New_model/get_state_model.dart';
 import '../api/api_services.dart';
 
 class AddPosterScreen extends StatefulWidget {
-  const AddPosterScreen({Key? key}) : super(key: key);
+   AddPosterScreen({Key? key,this.id,this.isTrue}) : super(key: key);
+  String ? id;
+  bool? isTrue;
 
   @override
   State<AddPosterScreen> createState() => _AddPosterScreenState();
@@ -74,23 +78,54 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   //
   //
   // }
-  _getFromGallery(bool type) async {
-    FilePickerResult? result;
-    if(type){
-      result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
-    if (result != null) {
-      setState(() {
-        files = result!.paths.map((path) => File(path!)).toList();
-      });}
-    else {
-      result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['pdf']);
-      if (result != null) {
-        setState(() {
-        });
-      }
-    }
 
+  Future _getFromGallery(ImageSource source, BuildContext context, ) async {
+    var image = await ImagePicker().pickImage(
+      imageQuality: 100,
+      source: source,
+    );
+    getCropImageLogo(context, image);
+    //Navigator.pop(context);
+  }
+  // _getFromGallery(bool type) async {
+  //   FilePickerResult? result;
+  //   if(type){
+  //     result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
+  //   if (result != null) {
+  //     setState(() {
+  //       files = result!.paths.map((path) => File(path!)).toList();
+  //     });}
+  //   else {
+  //     result = await FilePicker.platform.pickFiles(
+  //         type: FileType.custom, allowedExtensions: ['pdf']);
+  //     if (result != null) {
+  //       setState(() {
+  //
+  //       });
+  //     }
+  //   }
+  //
+  // }
+
+  Future getCropImageLogo(BuildContext context,  var image) async {
+    CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
+      sourcePath: image.path,
+      aspectRatio: CropAspectRatio(ratioX: 16, ratioY: 9),
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: colors.secondary,
+            toolbarWidgetColor: Colors.white,
+            lockAspectRatio: false,
+
+        ),
+
+      ],
+    );
+    setState(() {
+      imageFile = File(croppedFile!.path);
+    }
+    );
   }
   List<File> filesVideo = [];
   _getFromGalleryVideo(bool type) async {
@@ -113,61 +148,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   }
   TextEditingController linkController = TextEditingController();
   String? role;
-  getUploadBannerNewApi() async {
-    setState(() {
-      isloader = true;
-    });
-    var headers = {
-      'Cookie': 'ci_session=f5c119f5040eaef28e6a4c420b14b794a449a6c4'
-    };
-    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getUploadBannerApi}'));
-    request.fields.addAll({
-      'user_id': '$userId',
-      'link': linkController.text,
-      // if(role == "1" )
-      //  'type': role == "1" ? "" : dropdownInput
-      'type': role == "1" ? "": dropdownInput,
-       'speciality':catDrop?.id.toString() ?? "",
-       'state_id': role == "2" ? "":stateId.toString(),
-       'city_id':role == "2" ? "":cityId.toString(),
-    });
-    print("getEventUserId--------------->${request.fields}");
-    if(files == null) {
-      print('________2__________');
-      if (filesVideo != null) {
-        request.files.add(await http.MultipartFile.fromPath(
-            'image', filesVideo[0].path ?? '' ));
-      }
-    }else{
-      if (files != null) {
-        print('__________3_________');
-        request.files.add(await http.MultipartFile.fromPath(
-            'image',  files[0].path ?? '' ));
-      }
-    }
 
-    print("files--------------->${request.files}");
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
-      final result =  await response.stream.bytesToString();
-      final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
-      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
-      linkController.clear();
-      files.clear();
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-      setState(() {
-        isloader = false;
-      });
-    }
-    else {
-      setState(() {
-        isloader = false;
-      });
-      print(response.reasonPhrase);
-    }
-  }
   int _value = 1;
   bool isVideo = false;
   bool isImage = false;
@@ -292,6 +273,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    print('_____surendra_____${widget.id}___${widget.isTrue}______');
     return Scaffold(
       bottomSheet: Container(
         child:  Padding(
@@ -313,6 +295,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
               //
               // }
               if(await checkSubscriptionStatus()){
+                widget.isTrue  ?? false ? updateAdvertisement():
                 getUploadBannerNewApi();
               } else {
               checkSubscriptionApi();
@@ -870,7 +853,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                     children: [
                       Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
                       Text("Video file Upload",style: TextStyle(color: colors.red,fontSize: 13),),
-                      Text("16:4 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
+                      Text("16:9 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
                     ],
                   )
 
@@ -886,20 +869,22 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     return InkWell(
       onTap: (){
         // showExitPopup();
-        _getFromGallery(true);
+        // _getFromGallery(true);
+        _getFromGallery(ImageSource.gallery,context,);
+
       }, child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
-        height: imageFile == null ?70:130,
+        height: imageFile == null ?70:70,
         child: DottedBorder(
           borderType: BorderType.RRect,
           radius: Radius.circular(5),
           dashPattern: [5, 5],
           color: Colors.grey,
           strokeWidth: 2,
-          child: files.length > 0  ? Padding(
+          child: imageFile!= null  ? Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text("${files[0]}")),
+            child: Center(child: Text("${imageFile!.path}")),
           ) :
           Padding(
             padding: const EdgeInsets.all(6.0),
@@ -948,7 +933,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     }
   }
 
-
   GetStateResponseModel?getStateResponseModel;
   getStateApi() async {
     var headers = {
@@ -969,6 +953,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       print(response.reasonPhrase);
     }
   }
+
   GetCitiesResponseModel?getCitiesResponseModel;
   getCityApi(String id) async {
     var headers = {
@@ -993,5 +978,111 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     else {
       print(response.reasonPhrase);
     }
+  }
+
+  getUploadBannerNewApi() async {
+    setState(() {
+      isloader = true;
+    });
+    var headers = {
+      'Cookie': 'ci_session=f5c119f5040eaef28e6a4c420b14b794a449a6c4'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getUploadBannerApi}'));
+    request.fields.addAll({
+      'user_id': '$userId',
+      'link': linkController.text,
+      // if(role == "1" )
+      //  'type': role == "1" ? "" : dropdownInput
+      'type': role == "1" ? "": dropdownInput,
+      'speciality':catDrop?.id.toString() ?? "",
+      'state_id': role == "2" ? "":stateId.toString(),
+      'city_id':role == "2" ? "":cityId.toString(),
+    });
+    print("getEventUserId--------------->${request.fields}");
+    if(files == null) {
+      print('________2__________');
+      if (filesVideo != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+            'image', filesVideo[0].path ?? '' ));
+      }
+    }else{
+      if (files != null) {
+        print('__________3_________');
+        request.files.add(await http.MultipartFile.fromPath(
+            'image',  imageFile!.path ?? '' ));
+      }
+    }
+
+    print("files--------------->${request.files}");
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      final result =  await response.stream.bytesToString();
+      final finalResult = json.decode(result);
+      print("thi os ojon==========>${finalResult}");
+      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      setState(() {
+        isloader = false;
+      });
+    }
+    else {
+      setState(() {
+        isloader = false;
+      });
+      print(response.reasonPhrase);
+    }
+  }
+
+  updateAdvertisement() async {
+    setState(() {
+      isloader = true;
+    });
+    var headers = {
+      'Cookie': 'ci_session=12b1006c65e9647f48c184c7ba29a593dc14c2d3'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.updateAdvertisementApi}'));
+    request.fields.addAll({
+      'id': widget.id.toString(),
+      'specialization': '',
+      'link': linkController.text,
+      'type': role == "1" ? "": dropdownInput,
+      'speciality':catDrop?.id.toString() ?? "",
+      'state_id': role == "2" ? "":stateId.toString(),
+      'city_id':role == "2" ? "":cityId.toString(),
+    });
+    print('_____city_id_____${request.fields}_________');
+    if(files == null) {
+      print('________2__________');
+      if (filesVideo != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+            'image', filesVideo[0].path ?? '' ));
+      }
+    }else{
+      if (files != null) {
+        print('__________3_________');
+        request.files.add(await http.MultipartFile.fromPath(
+            'image',  files[0].path ?? '' ));
+      }
+    }
+    print('____sdsdsds______${request.files}_________');
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      var result =  await response.stream.bytesToString();
+      var finalResult =  jsonDecode(result);
+      Fluttertoast.showToast(msg: "${finalResult['message']}",backgroundColor: colors.secondary);
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      setState(() {
+        isloader = false;
+      });
+    }
+    else {
+      setState(() {
+        isloader =  false;
+      });
+    print(response.reasonPhrase);
+    }
+
   }
 }

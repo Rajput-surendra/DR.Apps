@@ -34,7 +34,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, text:"Brand Specialization", isTrue: true, ),
+      appBar: customAppBar(context: context, text:"Speciality Brand", isTrue: true, ),
       body:selectCatModel?.data == null ? Center(child: CircularProgressIndicator()): selectCatModel?.data?.length == 0 ? Center(child: Text("No Category List Found !!!")) : SingleChildScrollView(
         child: Column(
           children: [

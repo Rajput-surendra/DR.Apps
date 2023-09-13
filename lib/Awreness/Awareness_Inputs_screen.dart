@@ -385,13 +385,24 @@ searchProduct(String value) {
       child: RefreshIndicator(
         onRefresh: _refresh,
         child: Scaffold(
-          floatingActionButton: Roll == "2" ? FloatingActionButton(
-            onPressed: () {
+          floatingActionButton: Roll == "2" ? InkWell(
+            onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=> AddAwanessPost()));
-          // Navigator.push(context, MaterialPageRoute(builder: (context)=> VideoThumbnailScreen()));
             },
-            backgroundColor: colors.secondary,
-            child: Icon(Icons.add),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 0),
+              child: Container(
+                decoration:  BoxDecoration(
+                  color: colors.secondary,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                height: 50,
+                width: MediaQuery.of(context).size.width/1.1,
+                  child: Center(child: Text("Add Awareness Inputs",style: TextStyle(color: colors.whiteTemp,fontSize: 18),)),
+
+
+              ),
+            ),
           ):SizedBox.shrink(),
           appBar: AppBar(
             backgroundColor: colors.secondary,
@@ -530,7 +541,9 @@ searchProduct(String value) {
                         itemBuilder: (BuildContext context, int index) {
                           return freeGraphic(getGraphicModel!.data, index);
                      })
-                )
+                ),
+
+                SizedBox(height: 70,)
 
               ],
             )

@@ -70,4 +70,8 @@ class ApiService {
     static const String getBrandDetailsPlansApi = baseUrl+'get_brand_details_plans';
     static const String addBrandDetailApi = baseUrl+'add_brand_detail';
     static const String addSliderApi = baseUrl+'get_pharma_ads_plans';
+    static const String advertisementListApi = baseUrl+'advertisement_list';
+    static const String deleteAdvertisementListApi = baseUrl+'advertisement_delete';
+    static const String updateAdvertisementApi = baseUrl+'update_advertisement';
+    static const String deleteBrandListApi = baseUrl+'delete_brand';
 }

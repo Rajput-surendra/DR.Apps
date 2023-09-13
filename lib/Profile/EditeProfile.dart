@@ -176,13 +176,13 @@ class _EditeProfileState extends State<EditeProfile> {
 
 onTapCall2() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  stateselected = preferences.getString('selectedState');
-  cityselected = preferences.getString('selectedCity');
+ // stateselected = preferences.getString('selectedState');
+  //cityselected = preferences.getString('selectedCity');
   placeselected = preferences.getString('selectedPlace');
-  selectedTitle = preferences.getString('selectedTitle');
-  selectedPharma = preferences.getString('selectedPharma');
+ // selectedTitle = preferences.getString('selectedTitle');
+  //selectedPharma = preferences.getString('selectedPharma');
   selectedTeam = preferences.getString('selectedTeam');
-  print('_____selectedTitle_____${selectedTitle}_________');
+  print('_____selectedTitle_____${selectedTeam}______${selectedPharma}___');
 
 
 }
@@ -290,6 +290,11 @@ String? catName ;
     placeC.text = widget.getUserProfileModel.user?.userData?.first.placeName ?? '' ;
     image = widget.getUserProfileModel.user?.profilePic ?? '';
     catName = widget.getUserProfileModel.user?.userData?.first.categoryId ;
+    //selectedTeam = widget.getUserProfileModel.user?.userData?.first.categoryId ;
+    selectedTitle = widget.getUserProfileModel.user?.userData?.first.title ;
+    selectedPharma = widget.getUserProfileModel.user?.userData?.first.title ;
+    stateselected = widget.getUserProfileModel.user?.userData?.first.stateName ;
+    cityselected = widget.getUserProfileModel.user?.userData?.first.cityName ;
 
 
 
@@ -305,7 +310,7 @@ String? catName ;
   }
   @override
   Widget build(BuildContext context) {
-    print('_____jhhhhkhhhkhhjkh_____${widget.isTrue}_________');
+    print('_____jhhhhkhhhkhhjkh_____${cityselected}_________');
     return Scaffold(
       bottomSheet:  Padding(
         padding: const EdgeInsets.all(8.0),
@@ -507,7 +512,7 @@ String? catName ;
                                   padding: EdgeInsets.only(top: 0,bottom: 10),
                                   child:Text("${selectedTitle}",
                                     style: TextStyle(
-                                        color: colors.black54,fontWeight: FontWeight.normal
+                                        color: colors.blackTemp,fontWeight: FontWeight.normal
                                     ),),
                                 ),
                                 // dropdownColor: colors.primary,
@@ -1351,11 +1356,14 @@ String? catName ;
       'degree': deegreeController.text,
       'experience': ExpController.text,
       'area_id': placeC.text,
+      'title':titleController.text,
+      'city': cityselected,
+      'state':stateselected
 
 
 
     });
-    print("this os p spos pms oskm ms=========>${request.files}");
+    print("this os p spos pms oskm ms=========>${request.fields}");
    // request.files.add(await http.MultipartFile.fromPath('registration_card', registrationImage?.path ?? ''  ));
    if(imageFile != null){
      request.files.add(await http.MultipartFile.fromPath('image', imageFile?.path ?? ''));
