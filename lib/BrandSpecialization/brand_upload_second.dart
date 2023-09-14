@@ -200,9 +200,10 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
       'category_id': widget.catId.toString(),
       'brand_name': brandNameC.text,
       'generic_name': genericNameC.text,
-      'company_name': companyNameC.text
+      'company_name': companyNameC.text,
+      'speciality': results.join(',')
     });
-
+  print('______surendra____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -290,6 +291,7 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.selectCategory}'));
     request.fields.addAll({
       'roll':"1",
+      'cat_type':"5"
     });
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();

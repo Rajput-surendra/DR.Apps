@@ -200,7 +200,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.selectCategory}'));
     request.fields.addAll({
       'roll': '1',
-      'cat_type':"4"
+      'cat_type':"5"
     });
 
     request.headers.addAll(headers);

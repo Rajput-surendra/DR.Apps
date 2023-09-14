@@ -118,8 +118,8 @@ class _AwarenessState extends State<AwarenessListCard> {
   @override
   Widget build(BuildContext context) {
     strObjLeaflets = widget.getAwareNess?.data.leaflets?[widget.index].image?.split(".");
-    strObjBooklets = widget.getAwareNess?.data.booklets?[widget.index].image?.split(".");
-    print('______ZZZZZZZZZZZZZZ__${strObjLeaflets![2]}-----------${strObjBooklets![2]}');
+   //strObjBooklets = widget.getAwareNess?.data.booklets?[widget.index].image?.split(".");
+     print('______ZZZZZZZZZZZZZZ__${strObjLeaflets![2]}-----------}');
     if(widget.currentIndex == 1){
       newsType= 'doctor-news';
     }else if(widget.currentIndex == 2){
@@ -422,29 +422,30 @@ class _AwarenessState extends State<AwarenessListCard> {
                       )
                     ],
                   ),
-                  strObjLeaflets ?[2] == "pdf" ? Column(
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          viewFile(widget.getAwareNess?.data.leaflets?[widget.index].image ??  "", "File");
-                        } ,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                              width: 80,
-                              height: 80 ,
-                              child: Column(
-                                children: [
-                                  Image.asset("assets/images/pdf.png")
-                                ],
-                              )
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 5,),
-                      Text("View Pdf",style: TextStyle(color: colors.secondary),)
-                    ],
-                  ):Container(
+                  // strObjLeaflets ?[2] == "pdf" ? Column(
+                  //   children: [
+                  //     InkWell(
+                  //       onTap: (){
+                  //         viewFile(widget.getAwareNess?.data.leaflets?[widget.index].image ??  "", "File");
+                  //       } ,
+                  //       child: Align(
+                  //         alignment: Alignment.center,
+                  //         child: Container(
+                  //             width: 80,
+                  //             height: 80 ,
+                  //             child: Column(
+                  //               children: [
+                  //                 Image.asset("assets/images/pdf.png")
+                  //               ],
+                  //             )
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     SizedBox(height: 5,),
+                  //     Text("View Pdf",style: TextStyle(color: colors.secondary),)
+                  //   ],
+                  // ):
+                  Container(
                     width: double.infinity,
                     child: ClipRRect(
                         borderRadius:  BorderRadius.circular(5),
@@ -473,7 +474,8 @@ class _AwarenessState extends State<AwarenessListCard> {
                             });
                           }, icon: Icon(Icons.share)),
 
-                          strObjLeaflets?[2] == "pdf" ? Container(
+                          // strObjLeaflets?[2] == "pdf" ?
+                          Container(
                             height: 30,
                             child: ElevatedButton(onPressed: (){
 
@@ -481,7 +483,8 @@ class _AwarenessState extends State<AwarenessListCard> {
                             },
                                 style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
                                 child: Text('Download PDF Leaflets',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                          ):SizedBox.shrink(),
+                          ),
+                              //:SizedBox.shrink(),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getAwareNess?.data.leaflets?[widget.index].id ??'',widget.getAwareNess?.data.leaflets?[widget.index].type ?? "");
