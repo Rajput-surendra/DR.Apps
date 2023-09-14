@@ -30,6 +30,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
     getSliderApi();
     getGenericApi();
   }
+  TextEditingController searchController = TextEditingController();
   String ?role;
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,10 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
               ],
             ),
             SizedBox(height: 15,),
+
             staticText(),
+            SizedBox(height: 10,),
+            searchCard(),
             categoryListCard()
 
           ],
@@ -77,6 +81,37 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
       ],
     );
   }
+
+  searchCard(){
+    return  Padding(
+      padding: const EdgeInsets.only(left: 10,right: 10),
+      child: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: colors.blackTemp.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(10)),
+        child: Center(
+          child: TextFormField(
+            controller: searchController,
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.blue,
+                ),
+                hintText: 'Search Speciality'),
+            onChanged: (value) {
+              setState(() {
+                searchProduct(value);
+              });
+            },
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+      ),
+    );
+  }
   categoryListCard(){
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -89,7 +124,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
             // crossAxisSpacing: 3,
             // mainAxisSpacing: 5
           ),
-          itemCount: selectCatModel!.data!.length,
+          itemCount: specList.length,
           itemBuilder: (BuildContext ctx, index) {
             return InkWell(
               onTap: (){
@@ -104,7 +139,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Center(child: Text("${selectCatModel!.data![index].name}",textAlign: TextAlign.center,style: TextStyle(color: colors.blackTemp,fontSize: 11),)),
+                  child: Center(child: Text("${specList[index].name}",textAlign: TextAlign.center,style: TextStyle(color: colors.blackTemp,fontSize: 11),)),
                 ),
               ),
             );
@@ -190,6 +225,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
   }
   /////////// Company Api Code///////////
   GetSelectCatModel? selectCatModel;
+  List<SpeciplyData> specList= [];
   getGenericApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     role = preferences.getString('roll');
@@ -210,7 +246,8 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
       final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
       setState(() {
         selectCatModel = finalResult;
-        print('_____finalResult_____${finalResult}_________');
+        specList = finalResult.data ?? [];
+        print('_____finalResult_____${specList}_________');
       });
 
     }
@@ -219,5 +256,49 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
       print(response.reasonPhrase);
     }
   }
-
+  searchProduct(String value) {
+    if (value.isEmpty) {
+      getGenericApi();
+      setState(() {
+      });
+    } else if(value.length == 3) {
+     // getGenericApi();
+      final suggestions = specList.where((element) {
+        final productTitle = element.name!.toLowerCase();
+        final input = searchController.text.toLowerCase();
+        return productTitle.contains(input);
+      }).toList();
+      specList = suggestions;
+      setState(() {
+      });
+    }
+  }
 }
+// searchProduct(String value) {
+//   if (value.isEmpty) {
+//     busSearchApi(value);
+//     setState(() {});
+//   } else if(value.length==4){
+//     busSearchApi(value);
+//     final suggestions = busCity.where((element) {
+//       final productTitle = element.title!.toLowerCase();
+//       final input = value.toLowerCase();
+//       return productTitle.contains(input);
+//     }).toList();
+//     busCity = suggestions;
+//     setState(() {
+//
+//     });
+//   }
+//   else{
+//     final suggestions = busCity.where((element) {
+//       final productTitle = element.title!.toLowerCase();
+//       final input = value.toLowerCase();
+//       return productTitle.contains(input);
+//     }).toList();
+//     busCity = suggestions;
+//     setState(() {
+//
+//     });
+//   }
+// }
