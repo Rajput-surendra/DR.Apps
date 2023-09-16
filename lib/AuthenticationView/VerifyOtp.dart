@@ -15,8 +15,6 @@ import '../Helper/Appbar.dart';
 import 'package:http/http.dart'as http;
 
 class VerifyOtp extends StatefulWidget {
-
-
   final otp;
   final mobile;
 
@@ -262,7 +260,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       if(pinController.text== widget.otp){
                         verifyOtp();
                       }else{
-
                         Fluttertoast.showToast(msg: "Please enter valid otp!",backgroundColor: colors.secondary);
                       }
                       // Navigator.push(context,

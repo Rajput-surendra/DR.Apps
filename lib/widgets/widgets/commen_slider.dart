@@ -76,10 +76,10 @@ class _CommonSliderState extends State<CommonSlider> {
               child: Stack(
           fit: StackFit.expand,
           children: [
-              AspectRatio(
+            videoPlayerController!=null?AspectRatio(
                 aspectRatio: videoPlayerController!.value.aspectRatio,
                 child: VideoPlayer(videoPlayerController!),
-              ),
+              ):SizedBox(),
               Positioned(
                   left: 0,
                   right: 0,

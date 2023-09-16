@@ -23,10 +23,10 @@ import '../../Helper/Appbar.dart';
 import '../../Helper/Color.dart';
 
 class AwarenessListCard extends StatefulWidget {
-  const AwarenessListCard({Key? key, required this.index, required this.currentIndex,
-    this.getAwareNess, this.isPlayed, required this.vController,required this.onTop}) : super(key: key);
+     AwarenessListCard({Key? key, required this.index, required this.currentIndex,
+    this.getAwareNess, this.isPlayed, required this.vController,required this.onTop,this.type = "book"}) : super(key: key);
   final VoidCallback onTop;
-
+  String type;
   final GetAModel? getAwareNess;
   final int currentIndex;
   final int index;
@@ -117,9 +117,17 @@ class _AwarenessState extends State<AwarenessListCard> {
   List? strObjLeaflets;
   @override
   Widget build(BuildContext context) {
-    strObjLeaflets = widget.getAwareNess?.data.leaflets?[widget.index].image?.split(".");
-   //strObjBooklets = widget.getAwareNess?.data.booklets?[widget.index].image?.split(".");
-     print('______ZZZZZZZZZZZZZZ__${strObjLeaflets![2]}-----------}');
+    if(widget.type=="book"){
+      strObjBooklets = widget.getAwareNess?.data.booklets?[widget.index].image?.split(".");
+    }else if(widget.type=="lead"){
+      strObjLeaflets = widget.getAwareNess?.data.leaflets?[widget.index].image?.split(".");
+  } else{
+
+    }
+
+
+
+    // print('______ZZZZZZZZZZZZZZ__${strObjLeaflets![2]}-----------}');
     if(widget.currentIndex == 1){
       newsType= 'doctor-news';
     }else if(widget.currentIndex == 2){
@@ -282,7 +290,7 @@ class _AwarenessState extends State<AwarenessListCard> {
                   ),
 
 
-                  strObjBooklets![2] == "pdf" ? Column(
+                  strObjBooklets!=null&&strObjBooklets![2] == "pdf" ? Column(
                     children: [
                       InkWell(
                         onTap: (){
@@ -343,7 +351,7 @@ class _AwarenessState extends State<AwarenessListCard> {
                             // _shareQrCode();
                           }, icon: Icon(Icons.share)),
 
-                          strObjBooklets![2] == "pdf" ? Container(
+                          strObjBooklets!=null&&strObjBooklets![2] == "pdf" ? Container(
                             height: 30,
                             child: ElevatedButton(onPressed: (){
 
@@ -422,29 +430,29 @@ class _AwarenessState extends State<AwarenessListCard> {
                       )
                     ],
                   ),
-                  // strObjLeaflets ?[2] == "pdf" ? Column(
-                  //   children: [
-                  //     InkWell(
-                  //       onTap: (){
-                  //         viewFile(widget.getAwareNess?.data.leaflets?[widget.index].image ??  "", "File");
-                  //       } ,
-                  //       child: Align(
-                  //         alignment: Alignment.center,
-                  //         child: Container(
-                  //             width: 80,
-                  //             height: 80 ,
-                  //             child: Column(
-                  //               children: [
-                  //                 Image.asset("assets/images/pdf.png")
-                  //               ],
-                  //             )
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     SizedBox(height: 5,),
-                  //     Text("View Pdf",style: TextStyle(color: colors.secondary),)
-                  //   ],
-                  // ):
+                  strObjLeaflets!=null&&strObjLeaflets![2] == "pdf" ? Column(
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          viewFile(widget.getAwareNess?.data.leaflets?[widget.index].image ??  "", "File");
+                        } ,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                              width: 80,
+                              height: 80 ,
+                              child: Column(
+                                children: [
+                                  Image.asset("assets/images/pdf.png")
+                                ],
+                              )
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Text("View Pdf",style: TextStyle(color: colors.secondary),)
+                    ],
+                  ):
                   Container(
                     width: double.infinity,
                     child: ClipRRect(
@@ -474,7 +482,7 @@ class _AwarenessState extends State<AwarenessListCard> {
                             });
                           }, icon: Icon(Icons.share)),
 
-                          // strObjLeaflets?[2] == "pdf" ?
+                          strObjLeaflets!=null&&strObjLeaflets?[2] == "pdf" ?
                           Container(
                             height: 30,
                             child: ElevatedButton(onPressed: (){
@@ -483,8 +491,8 @@ class _AwarenessState extends State<AwarenessListCard> {
                             },
                                 style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
                                 child: Text('Download PDF Leaflets',style: TextStyle(color: Colors.white,fontSize: 10),)),
-                          ),
-                              //:SizedBox.shrink(),
+                          )
+                              :SizedBox.shrink(),
                           IconButton(onPressed: (){
                             setState(() {
                               getNewWishlistApi(widget.getAwareNess?.data.leaflets?[widget.index].id ??'',widget.getAwareNess?.data.leaflets?[widget.index].type ?? "");

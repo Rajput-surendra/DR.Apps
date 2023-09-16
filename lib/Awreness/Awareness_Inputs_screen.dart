@@ -490,10 +490,10 @@ searchProduct(String value) {
                         shrinkWrap: true,
                         reverse: true,
                         itemCount: getAwareNess?.data.booklets?.length ?? 5,
-                        itemBuilder: (BuildContext context, int index) {
-                          return AwarenessListCard(currentIndex: 1,index: index,getAwareNess: getAwareNess,vController: _vController,onTop: ()
+                        itemBuilder: (BuildContext context, int index1) {
+                          return AwarenessListCard(currentIndex: 1,index: index1,getAwareNess: getAwareNess,type: "book",vController: _vController,onTop: ()
                             {
-                              getdeleteApi(getAwareNess?.data.booklets?[index].id ?? "" ,getAwareNess?.data.booklets?[index].type ?? "");
+                              getdeleteApi(getAwareNess?.data.booklets?[index1].id ?? "" ,getAwareNess?.data.booklets?[index1].type ?? "");
                             },); // bookletsList(getAwareNess?.data.booklets, index);
                         }) :
                          selectedSegmentVal == 2 ? getAwareNess?.data.leaflets?.isEmpty ?? true ? Center(child: Text('Leaflets not available'),)
@@ -504,7 +504,7 @@ searchProduct(String value) {
                         reverse: true,
                         itemCount: getAwareNess?.data.leaflets?.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return AwarenessListCard(currentIndex: 2,index: index,getAwareNess: getAwareNess,vController: _vController,onTop: (){
+                          return AwarenessListCard(currentIndex: 2,index: index,getAwareNess: getAwareNess,type:"lead",vController: _vController,onTop: (){
                             getdeleteApi(getAwareNess?.data.leaflets?[index].id ?? "" ,getAwareNess?.data.leaflets?[index].type ?? "");
                           },); // getLeafletList(getAwareNess?.data.leaflets, index);
                         })
