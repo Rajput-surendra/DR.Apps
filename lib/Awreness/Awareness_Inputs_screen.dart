@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:doctorapp/New_model/GetSliderModel.dart';
 import 'package:doctorapp/New_model/Get_search_model.dart';
@@ -68,7 +67,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
   bool isSliderLoading = false ;
   bool isScreenLoading = false ;
 
-
   Future<Null> _refresh() {
     return callApi();
   }
@@ -76,7 +74,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
   Future<Null> callApi() async {
     getAwarenessList();
   }
-
   int _currentIndex = 0;
   GetAModel? getAwareNess;
   getAwarenessList() async {
@@ -132,7 +129,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
         isPlayed.add(false);
         print("video controller length ${getAwareNess?.data.video?[i].image}");
       }
-
     }
     else {
       print(response.reasonPhrase);
@@ -140,7 +136,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
         isScreenLoading = false;
       });
     }
-
   }
 
   getdeleteApi(String idAll,String typeAll) async {
@@ -195,6 +190,9 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
   }
   GetSliderModel? _sliderModel ;
   getSliderApi() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? specialityId = preferences.getString('specialityId');
+    String? localId = preferences.getString('LocalId');
     isSliderLoading = true;
     setState(() {
 
@@ -203,7 +201,7 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
+    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
     request.headers.addAll(headers);
     print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
@@ -324,9 +322,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     });
     // getOrderList(status: status);
   }
-
-
-
 searchProduct(String value) {
   if (value.isEmpty) {
     getAwarenessList();
@@ -372,10 +367,8 @@ searchProduct(String value) {
       }).toList();
       getAwareNess?.data.poster= suggestions!;
       setState(() {
-
       });
     }
-
   }
 }
 
@@ -399,8 +392,6 @@ searchProduct(String value) {
                 height: 50,
                 width: MediaQuery.of(context).size.width/1.1,
                   child: Center(child: Text("Add Awareness Inputs",style: TextStyle(color: colors.whiteTemp,fontSize: 18),)),
-
-
               ),
             ),
           ):SizedBox.shrink(),
@@ -439,9 +430,7 @@ searchProduct(String value) {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children:  _buildDots(),),
                     ),
-
                   ],
-
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

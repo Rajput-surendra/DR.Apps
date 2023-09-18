@@ -57,7 +57,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+       /*AppBar(
         centerTitle: true,
         backgroundColor: colors.secondary,
         leading: InkWell(
@@ -66,8 +66,8 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
           },
             child: Icon(Icons.arrow_back_ios)),
         title: Text("Generics & Brands",style: TextStyle(color: colors.whiteTemp),),
-      ),
-        // appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
+      ),*/
+       appBar: customAppBar(context: context, text:"Generics & Brands", isTrue: true, ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -99,7 +99,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                           Text("*",style: TextStyle(color: colors.red),)
                         ],
                       ),
-                      Text("image size : 200 pixel * 100 pixel",style: TextStyle(fontSize: 13)),
+                      Text("image size : 800 pixel * 400 pixel",style: TextStyle(fontSize: 13)),
                       SizedBox(height: 5,),
                        InkWell(
                         onTap: () {
@@ -800,7 +800,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
    var result = await response.stream.bytesToString();
    var finalResult = jsonDecode(result);
     Fluttertoast.showToast(msg: "${finalResult['message']}");
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen())).then((value) {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen())).then((value) {
       if(value !=null){
       genericRxDosageDetailsApi();
       brandListForJson.clear() ;

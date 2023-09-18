@@ -95,7 +95,6 @@ class _CommonSliderState extends State<CommonSlider> {
                           videoPlayerController!.play();
                         }
                         setState(() {
-
                         });
                       },
                       child: Icon(isPlaying ?? true ?Icons.pause  : Icons.play_arrow , color: Colors.white)))

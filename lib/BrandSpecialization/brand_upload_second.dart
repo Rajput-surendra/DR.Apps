@@ -201,7 +201,8 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
       'brand_name': brandNameC.text,
       'generic_name': genericNameC.text,
       'company_name': companyNameC.text,
-      'speciality': results.join(',')
+      'speciality': results.join(','),
+      'type':"1",
     });
   print('______surendra____${request.fields}_________');
     request.headers.addAll(headers);

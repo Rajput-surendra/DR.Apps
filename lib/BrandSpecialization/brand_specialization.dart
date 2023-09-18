@@ -1,16 +1,15 @@
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:doctorapp/Screen/HomeScreen.dart';
+import 'package:doctorapp/widgets/widgets/commen_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Generic&Brand/generic_brand_details_screen.dart';
 import '../Generic&Brand/generic_brand_screen.dart';
-import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import '../New_model/GetSelectCatModel.dart';
-import '../New_model/New_slider_model.dart';
-import '../Product/CustomCommanSlider.dart';
+import '../New_model/GetSliderModel.dart';
 import 'package:http/http.dart'as http;
 import '../api/api_services.dart';
 import 'brand_specilization_list_first.dart';
@@ -35,32 +34,25 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, text:"Speciality Brand", isTrue: true, ),
+      appBar: AppBar(
+          title: Text("Speciality Brand"),
+          backgroundColor: colors.secondary,
+          centerTitle: true,
+          leading: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+              },
+              child: Icon(Icons.arrow_back_ios))),
+     // appBar: customAppBar(context: context, text:"Speciality Brand", isTrue: true, ),
       body:selectCatModel?.data == null ? Center(child: CircularProgressIndicator()): selectCatModel?.data?.length == 0 ? Center(child: Text("No Category List Found !!!")) : SingleChildScrollView(
         child: Column(
           children: [
-            Stack(
-              children: [
-                sliderGeneric(),
-                Positioned(
-                  top: 130,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child:Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:  _buildDots(),),
-
-                ),
-
-
-              ],
-            ),
+            getSlider(),
             SizedBox(height: 15,),
 
             staticText(),
             SizedBox(height: 10,),
-            searchCard(),
+          //  searchCard(),
             categoryListCard()
 
           ],
@@ -98,7 +90,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
                 border: InputBorder.none,
                 prefixIcon: Icon(
                   Icons.search,
-                  color: Colors.blue,
+                  color: colors.primary,
                 ),
                 hintText: 'Search Speciality'),
             onChanged: (value) {
@@ -106,7 +98,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
                 searchProduct(value);
               });
             },
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: Colors.black),
           ),
         ),
       ),
@@ -147,82 +139,103 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
     );
   }
   /////////// Slider Code///////////
-  sliderGeneric(){
-    return CarouselSlider(
-      options: CarouselOptions(
-          viewportFraction: 1.0,
-          onPageChanged: (index, result) {
-            setState(() {
-              _currentPost = index;
-            });
-          },
-          initialPage: 0,
-          enableInfiniteScroll: true,
-          reverse: false,
-          autoPlay: false,
-          autoPlayInterval: Duration(seconds: 3),
-          autoPlayAnimationDuration:
-          Duration(milliseconds: 150),
-          enlargeCenterPage: false,
-          scrollDirection: Axis.horizontal,
-          height: 200.0),
-      items: newSliderModel?.data.map((item) {
-        return
-          Builder(
-            builder: (BuildContext context) {
-              return
-                CustomCommanSlider(
-                    file: item.image ?? '',
-                    typeID: item.typeId ?? '');
 
-            },
-          );
-      }).toList(),
+
+  getSlider(){
+    return  Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        SizedBox(
+          height: 200,
+          width: double.maxFinite,
+          child: _sliderModel == null? const Center(child: CircularProgressIndicator(
+            color: colors.primary,
+          )):_CarouselSlider(),
+        ),
+        Positioned(
+          bottom: 20,
+          // left: 80,
+          child:
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:  _buildDots(),),
+        ),
+
+      ],
+
     );
   }
-  /////////// Dots Code/////////////
   int _currentPost =  0;
   List<Widget> _buildDots() {
     List<Widget> dots = [];
-    for (int i = 0; i < (newSliderModel?.data.length ?? 10); i++) {
+    for (int i = 0; i < (_sliderModel?.data?.length ?? 10); i++) {
       dots.add(
         Container(
           margin: EdgeInsets.all(1.5),
           width: 6,
           height: 6,
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: _currentPost == i
-                ? colors.primary
-                : Colors.grey.withOpacity(0.5),
+              shape: BoxShape.circle,
+              color: _currentPost == i
+                  ? colors.primary
+                  : colors.secondary.withOpacity(0.4)
+            // Colors.grey.withOpacity(0.5),
           ),
         ),
       );
     }
     return dots;
   }
-  /////////// Slider Api Code///////////
-  NewSliderModel ? newSliderModel;
+  _CarouselSlider(){
+    return CarouselSlider(
+      options: CarouselOptions(
+          onPageChanged: (index, result) {
+            setState(() {
+              _currentPost = index;
+            });
+          },
+          viewportFraction: 1.0,
+          initialPage: 0,
+          enableInfiniteScroll: true,
+          reverse: false,
+          autoPlay: true,
+          autoPlayInterval: Duration(seconds: 5),
+          autoPlayAnimationDuration:
+          Duration(milliseconds: 500),
+          enlargeCenterPage: false,
+          scrollDirection: Axis.horizontal,
+          height: 200.0),
+      items: _sliderModel?.data?.map((item) {
+        return CommonSlider(file: item.image ?? '', link: item.link ?? '');
+      }).toList(),
+    );
+
+  }
+  GetSliderModel? _sliderModel ;
   getSliderApi() async {
-    String type = '/pharma_product_slide';
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? specialityId = preferences.getString('specialityId');
+    String? localId = preferences.getString('LocalId');
+    print('______localId____${specialityId}____${localId}_____');
+    String type = '/free_graphic_slide';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request =
-    http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
-    // print('__________${}_________');
+    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
+    print('____url______${request.url}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      final finalResult = NewSliderModel.fromJson(json.decode(result));
+      final finalResult = GetSliderModel.fromJson(json.decode(result));
       setState(() {
-        newSliderModel = finalResult;
+        _sliderModel = finalResult;
       });
     } else {
       print(response.reasonPhrase);
     }
   }
+
   /////////// Company Api Code///////////
   GetSelectCatModel? selectCatModel;
   List<SpeciplyData> specList= [];
@@ -238,7 +251,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
       'roll': '1',
       'cat_type':"5"
     });
-
+  print('___ssssssss_______${request.url}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {

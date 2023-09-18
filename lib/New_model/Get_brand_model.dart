@@ -6,7 +6,7 @@ class GetBrandModel {
   GetBrandModel({
       bool? error, 
       String? message, 
-      List<Data>? data,}){
+      List<BrandData>? data,}){
     _error = error;
     _message = message;
     _data = data;
@@ -18,23 +18,23 @@ class GetBrandModel {
     if (json['data'] != null) {
       _data = [];
       json['data'].forEach((v) {
-        _data?.add(Data.fromJson(v));
+        _data?.add(BrandData.fromJson(v));
       });
     }
   }
   bool? _error;
   String? _message;
-  List<Data>? _data;
+  List<BrandData>? _data;
 GetBrandModel copyWith({  bool? error,
   String? message,
-  List<Data>? data,
+  List<BrandData>? data,
 }) => GetBrandModel(  error: error ?? _error,
   message: message ?? _message,
   data: data ?? _data,
 );
   bool? get error => _error;
   String? get message => _message;
-  List<Data>? get data => _data;
+  List<BrandData>? get data => _data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -63,8 +63,8 @@ GetBrandModel copyWith({  bool? error,
 /// is_add_plan_subscribed : false
 /// user_plan_purchased : false
 
-class Data {
-  Data({
+class BrandData {
+  BrandData({
       String? id, 
       String? userId, 
       String? categoryId, 
@@ -95,7 +95,7 @@ class Data {
     _userPlanPurchased = userPlanPurchased;
 }
 
-  Data.fromJson(dynamic json) {
+  BrandData.fromJson(dynamic json) {
     _id = json['id'];
     _userId = json['user_id'];
     _categoryId = json['category_id'];
@@ -125,7 +125,7 @@ class Data {
   bool? _isDetailPlanSubscribed;
   bool? _isAddPlanSubscribed;
   bool? _userPlanPurchased;
-Data copyWith({  String? id,
+BrandData copyWith({  String? id,
   String? userId,
   String? categoryId,
   String? name,
@@ -139,7 +139,7 @@ Data copyWith({  String? id,
   bool? isDetailPlanSubscribed,
   bool? isAddPlanSubscribed,
   bool? userPlanPurchased,
-}) => Data(  id: id ?? _id,
+}) => BrandData(  id: id ?? _id,
   userId: userId ?? _userId,
   categoryId: categoryId ?? _categoryId,
   name: name ?? _name,

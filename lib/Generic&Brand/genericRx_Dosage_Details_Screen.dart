@@ -39,7 +39,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
           onTap: (){
           //  Navigator.pop(context);
           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
           },
             child: Icon(Icons.arrow_back_ios_rounded)),
         title:widget.nameChange == true ?Text( "Speciality Brand"): Text( "Generics & Brands"),

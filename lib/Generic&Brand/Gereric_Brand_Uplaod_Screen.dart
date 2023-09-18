@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../BrandSpecialization/multiple_select.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import 'package:http/http.dart'as http;
 
+import '../New_model/GetSelectCatModel.dart';
 import 'generic_brand_details_screen.dart';
 
 class GerericBrandUplaodScreen extends StatefulWidget {
@@ -23,6 +25,12 @@ class GerericBrandUplaodScreen extends StatefulWidget {
 
 class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    getRole();
+    getSpecialityApi();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,6 +127,18 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
                           return null;
                         },
                       ),
+
+                      SizedBox(height: 10,),
+                      Text("Select brand speciality to promote your brand. Select minimum 1 and maximum 5 brand specialties.",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Text("Select Brand Speciality"),
+                          Text("*",style: TextStyle(color: colors.red),)
+                        ],
+                      ),
+                      SizedBox(height: 5,),
+                      select(),
                       SizedBox(height: 100,),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -174,9 +194,11 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
       'category_id': widget.catId.toString(),
       'brand_name': brandNameC.text,
       'generic_name': genericNameC.text,
-      'company_name': companyNameC.text
+      'company_name': companyNameC.text,
+      'type':"0",
+      "speciality" :results.join(",")
     });
-
+  print('_______request.fields___${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -200,15 +222,93 @@ class _GerericBrandUplaodScreenState extends State<GerericBrandUplaodScreen> {
     }
 
   }
+  List<String> results = [];
+  Widget select() {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _showMultiSelect();
+        });
+      },
+      child:
+      Container(
+        height: 60,
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.only(left: 10),
+        decoration: BoxDecoration(
+            border: Border.all(color: colors.blackTemp.withOpacity(0.4))),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:results==null ?[]:  results.map((e) {
+              return Padding(
+                padding:
+                const EdgeInsets.only(top: 15,right: 2,left: 2),
+                child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 30,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: colors.primary),
+                    child: Center(
+                        child: Text(
+                          "${e}",
+                          style: TextStyle(color: colors.whiteTemp),
+                        ))),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+  void _showMultiSelect() async {
+    results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (context, setState) {
+          return MultiSelect1(speciplyList: selectCatModel?.data );
+        });
+      },
+    );
+    setState(() {});
+  }
+  SpeciplyData? catDrop;
+  List<SpeciplyData> speciplyData =  [];
+  GetSelectCatModel? selectCatModel;
+  getSpecialityApi() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? Roll = preferences.getString('roll');
+    print("getRoll--------------->${Roll}");
+    var headers = {
+      'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
+    };
+    var request = http.MultipartRequest('POST', Uri.parse('${ApiService.selectCategory}'));
+    request.fields.addAll({
+      'roll':"1",
+      'cat_type':"5"
+    });
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      final result =  await response.stream.bytesToString();
+      final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
+      setState(() {
+        selectCatModel = finalResult;
+        speciplyData =  finalResult.data ?? [];
+      });
+
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+  }
 
   String? userId;
   getRole()async{
     SharedPreferences preferences  = await  SharedPreferences.getInstance();
     userId = preferences.getString("userId");
   }
-  @override
-  void initState() {
-    super.initState();
-    getRole();
-  }
+
 }

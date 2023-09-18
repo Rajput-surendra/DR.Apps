@@ -16,6 +16,7 @@ import '../New_model/Get_brand_model.dart';
 import 'package:http/http.dart'as http;
 
 import '../api/api_services.dart';
+import 'brand_specialization.dart';
 import 'brand_specialization_details.dart';
 import 'brand_specilization_upload.dart';
 import 'brand_upload_second.dart';
@@ -29,13 +30,14 @@ class BrandSpecilizationList extends StatefulWidget {
 
 class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =  GlobalKey<RefreshIndicatorState>();
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
   return RefreshIndicator(
     key: _refreshIndicatorKey,
     onRefresh: _refresh,
     child: Scaffold(
-      bottomSheet:   role == "2" ?  Padding(
+     /* bottomSheet:   role == "2" ?  Padding(
         padding: const EdgeInsets.only(left: 5,bottom: 5,right: 5),
         child: InkWell(
           onTap: () {
@@ -59,9 +61,19 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                 )),
           ),
         ),
-      ): SizedBox.shrink(),
-      appBar:customAppBar (context: context, text: "Speciality Brand", isTrue: true,),
-      body:  Padding(
+      ): SizedBox.shrink(),*/
+      // appBar:
+      // customAppBar (context: context, text: "Speciality Brand", isTrue: true,),
+      appBar: AppBar(
+          title: Text("Speciality Brand"),
+          backgroundColor: colors.secondary,
+          centerTitle: true,
+          leading: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecialization()));
+              },
+              child: Icon(Icons.arrow_back_ios))),
+      body: getBrandModel == null || getBrandModel  == "" ?   Center(child: CircularProgressIndicator()):Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
@@ -79,11 +91,11 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                       )),
                 ),
               ),
-              getBrandModel == null
-                  ? Center(child: CircularProgressIndicator())
-                  : getBrandModel?.data?.length == 0
-                  ? Center(child: Padding(
-                padding: const EdgeInsets.all(80),
+              SizedBox(height: 8,),
+             role == "2"?SizedBox(): searchCard(),
+              SizedBox(height: 8,),
+              getBrandModel == null? Center(child: CircularProgressIndicator()): getBrandModel?.data?.length == 0? Center(child: Padding(
+              padding: const EdgeInsets.all(80),
                 child: Text("No brand list ??"),
               ))
                   :   ListView.builder(
@@ -93,12 +105,12 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                   itemCount: getBrandModel!.data == null ||
                       getBrandModel!.data == ""
                       ? 0
-                      : getBrandModel!.data!.length,
+                      : brandList.length,
                   itemBuilder: (c, i) {
-                    var branddata = getBrandModel!.data;
+                    var branddata = brandList;
 
                     if(role == "1") {
-                      return branddata![i].isDetailsAdded == true?  Padding(
+                      return branddata[i].isDetailsAdded == true?  Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +164,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                             brandDes =  branddata[i].genericName;
                                           });
                                           if(branddata[i].userPlanPurchased == true ){
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
+                                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
                                           }
 
                                         }else {
@@ -169,14 +181,14 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                           }else{
                                             setState((){
                                               cardId = branddata[i].id;
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
+                                           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
                                           }
                                         }
 
@@ -301,14 +313,14 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                       // Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                           }else{
                                             setState((){
                                               cardId = branddata[i].id;
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
+                                         //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
                                           }
                                         }
 
@@ -383,7 +395,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${branddata![i].name}",
+                                        "${branddata[i].name}",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: colors.secondary, fontSize: 25),
@@ -436,7 +448,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                             brandName =  branddata[i].name;
                                             brandDes =  branddata[i].genericName;
                                           });
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                        //Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                           }else {
                                             setState((){
                                               cardId = branddata[i].id;
@@ -451,7 +463,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                                 brandName =  branddata[i].name;
                                                 brandDes =  branddata[i].genericName;
                                               });
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                             }else{
                                               setState((){
                                                 cardId = branddata[i].id;
@@ -463,7 +475,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                                 brandName =  branddata[i].name;
                                                 brandDes =  branddata[i].genericName;
                                               });
-                                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id,isTrueValue: true,)));
+                                           ///  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id,isTrueValue: true,)));
                                             }
                                           }
 
@@ -525,7 +537,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
 
                   }),
               SizedBox(height: 20,),
-              getBrandModel?.data == null ? SizedBox() :
+           /*   getBrandModel?.data == null ? SizedBox() :
               role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
                 "Thank you,\nYour brand with generic name and\n"
                     "company name uploaded successfully\n"
@@ -533,7 +545,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                     " It is displayed in Generics & Brands and Speciality Brands in dashboard of apps",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18),
-              ),
+              ),*/
               SizedBox(height: MediaQuery.of(context).size.height/3.5,),
 
             ],
@@ -542,15 +554,18 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
       ),
     ),
   );
+
   }
-  GetBrandModel? getBrandModel;
+
   Future<Null> _refresh() {
     return callApi();
   }
-
   Future<Null> callApi() async {
     getBrandApi();
   }
+
+  GetBrandModel? getBrandModel;
+  List<BrandData> brandList= [];
   getBrandApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString("userId");
@@ -560,7 +575,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
     var request =
     http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll(
-        {'user_id': role == "2" ? userId.toString() : '', 'category_id': catId.toString()});
+        {'user_id': role == "2" ? userId.toString() : '', 'category_id': catName.toString(),});
     print('_____ddddd_____${request.fields}____${ApiService.getBrandApi}_____');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -569,6 +584,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
       var finalResult = GetBrandModel.fromJson(jsonDecode(result));
       setState(() {
         getBrandModel = finalResult;
+        brandList = finalResult.data ?? [];
         print('______dddd____${result}_________');
       });
     } else {
@@ -582,6 +598,54 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
     role = preferences.getString("roll");
     print('_____userId_____${role}_________');
   }
+  searchCard(){
+    return  Padding(
+      padding: const EdgeInsets.only(left: 2,right: 2),
+      child: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: colors.blackTemp.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(10)),
+        child: Center(
+          child: TextFormField(
+            controller: searchController,
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: colors.primary,
+                ),
+                hintText: 'Search company'),
+            onChanged: (value) {
+              setState(() {
+                searchProduct(value);
+              });
+            },
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+      ),
+    );
+  }
+  searchProduct(String value) {
+    if (value.isEmpty) {
+      getBrandApi();
+      setState(() {
+      });
+    } else if(value.length == 3) {
+      // getGenericApi();
+      final suggestions = brandList.where((element) {
+        final productTitle = element.companyName!.toLowerCase();
+        final input = searchController.text.toLowerCase();
+        return productTitle.contains(input);
+      }).toList();
+      brandList = suggestions;
+      setState(() {
+      });
+    }
+  }
+
  brandDeleteApi(String? brandId) async {
    var headers = {
      'Cookie': 'ci_session=adb41a117ba8fbbc33351cded960bfbb379d3e71'

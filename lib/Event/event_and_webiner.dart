@@ -523,11 +523,14 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   }
   GetSliderModel? _sliderModel ;
   getSliderApi() async {
-    String type = '/event_slide';
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? specialityId = preferences.getString('specialityId');
+    String? localId = preferences.getString('LocalId');
+    String type = '/event_webinar_slide';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
+    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
     request.headers.addAll(headers);
     print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();

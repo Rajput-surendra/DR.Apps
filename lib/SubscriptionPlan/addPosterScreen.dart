@@ -165,8 +165,15 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
     {'id': 'event_webinar_slide', 'name' : 'Event & Webinars'},
     {'id': 'generic_brand_slide', 'name' : 'Generic Brand'},
-    {'id': 'free_graphic_slide', 'name' : 'Free Graphic'},
-    {'id': 'awareness', 'name' : 'Awareness'},
+    {'id': 'free_graphic_slide', 'name' : 'Speciality Brand'},
+    {'id': 'awareness', 'name' : 'Awareness & Free Graphic'},
+
+    // {'id': 'main_dashboard', 'name' : 'Main Dashboard'},
+    // {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
+    // {'id': 'event_webinar_slide', 'name' : 'Event & Webinars'},
+    // {'id': 'generic_brand_slide', 'name' : 'Generic Brand'},
+    // {'id': 'free_graphic_slide', 'name' : 'Free Graphic'},
+    // {'id': 'awareness', 'name' : 'Awareness'},
 
   ];
 

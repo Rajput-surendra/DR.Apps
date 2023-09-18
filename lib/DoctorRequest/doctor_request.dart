@@ -759,20 +759,21 @@ class _DoctorRequestState extends State<DoctorRequest> {
   }
   GetSliderModel? _sliderModel ;
   getSliderApi() async {
-    String type = '/doctor_plus_home';
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? specialityId = preferences.getString('specialityId');
+    String? localId = preferences.getString('LocalId');
+    print('______localId____${specialityId}____${localId}_____');
+    String type = '/Doctor_Request';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
+    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
+    print('____url______${request.url}_________');
     request.headers.addAll(headers);
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetSliderModel.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         _sliderModel = finalResult;
 

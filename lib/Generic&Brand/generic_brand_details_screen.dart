@@ -120,8 +120,20 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
          ),
        ),
              ): SizedBox.shrink(),
-         appBar:customAppBar (context: context, text: "Generics & Brands", isTrue: true,),
-        body:  Padding(
+
+         appBar:
+        AppBar(
+           title: Text("Generics & Brands"),
+           backgroundColor: colors.secondary,
+           centerTitle: true,
+          leading: InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericBrandScreen()));
+            },
+              child: Icon(Icons.arrow_back_ios)),
+         ),
+        //customAppBar (context: context, text: "Generics & Brands", isTrue: true,),
+        body: getBrandModel == null || getBrandModel  == "" ?   Center(child: CircularProgressIndicator()): Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
             child: Column(
@@ -139,6 +151,9 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                     )),
                   ),
                 ),
+                SizedBox(height: 8,),
+              role == "2" ? SizedBox.shrink():  searchCard(),
+                SizedBox(height: 8,),
                 getBrandModel == null
                     ? Center(child: CircularProgressIndicator())
                     : getBrandModel?.data?.length == 0
@@ -153,11 +168,11 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                             itemCount: getBrandModel!.data == null ||
                                     getBrandModel!.data == ""
                                 ? 0
-                                : getBrandModel!.data!.length,
+                                : brandList.length,
                             itemBuilder: (c, i) {
-                              var branddata = getBrandModel!.data;
+                              var branddata = brandList;
                               if(role == "1") {
-                                return branddata![i].isDetailsAdded == true?  Padding(
+                                return branddata[i].isDetailsAdded == true?  Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,7 +456,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "${branddata![i].name}",
+                                                  "${branddata[i].name}",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: colors.secondary, fontSize: 25),
@@ -599,14 +614,61 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
       ),
     );
   }
-
-  GetBrandModel? getBrandModel;
+  TextEditingController searchController = TextEditingController();
   Future<Null> _refresh() {
     return callApi();
   }
-
   Future<Null> callApi() async {
     getBrandApi();
+  }
+  GetBrandModel? getBrandModel;
+  List<BrandData> brandList= [];
+  searchCard(){
+    return  Padding(
+      padding: const EdgeInsets.only(left: 2,right: 2),
+      child: Container(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            color: colors.blackTemp.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(10)),
+        child: Center(
+          child: TextFormField(
+            controller: searchController,
+            decoration: const InputDecoration(
+                border: InputBorder.none,
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: colors.primary,
+                ),
+                hintText: 'Search brand'),
+            onChanged: (value) {
+              setState(() {
+                searchProduct(value);
+              });
+            },
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+      ),
+    );
+  }
+  searchProduct(String value) {
+    if (value.isEmpty) {
+      getBrandApi();
+      setState(() {
+      });
+    } else if(value.length == 3) {
+      // getGenericApi();
+      final suggestions = brandList.where((element) {
+        final productTitle = element.name!.toLowerCase();
+        final input = searchController.text.toLowerCase();
+        return productTitle.contains(input);
+      }).toList();
+      brandList = suggestions;
+      setState(() {
+      });
+    }
   }
   getBrandApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -617,7 +679,11 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
     var request =
         http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll(
-        {'user_id': role == "2" ? userId.toString() : '', 'category_id': catId.toString()});
+        {
+          'user_id': role == "2" ? userId.toString() : '',
+          'category_id': catId.toString(),
+          'type':"0"
+        });
     print('_____ddddd_____${request.fields}____${ApiService.getBrandApi}_____');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -626,6 +692,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
       var finalResult = GetBrandModel.fromJson(jsonDecode(result));
       setState(() {
         getBrandModel = finalResult;
+        brandList = finalResult.data ?? [];
         print('______dddd____${result}_________');
       });
     } else {

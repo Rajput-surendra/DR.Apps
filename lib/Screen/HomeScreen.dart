@@ -156,13 +156,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   GetSliderModel? _sliderModel;
   getSliderApi() async {
-    String type = '/dashboard_slider';
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? specialityId = preferences.getString('specialityId');
+    String? localId = preferences.getString('LocalId');
+    print('___Som_______${localId}______${specialityId}___');
+    String type = '/main_dashboard';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
-    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
+    var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
     request.headers.addAll(headers);
-    print('____sssssssssssss______${ApiService.getPharmaSlider}_________');
+    print('____sssssssssssss______${request.url}_________');
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
@@ -182,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
     userId = preferences.getString('userId');
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
+    print('______localId____${specialityId}____${localId}_____');
     var headers = {
       'Cookie': 'ci_session=3ea10fa720ffb83b4465c35fc49dc217178fc84a'
     };
