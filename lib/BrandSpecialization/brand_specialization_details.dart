@@ -38,7 +38,7 @@ class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails>
               // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
             },
             child: Icon(Icons.arrow_back_ios_rounded)),
-        title:Text( "Speciality Brand"),
+        title:Text( "Speciality Brands"),
       ),
       // customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(

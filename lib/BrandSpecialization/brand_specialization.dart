@@ -35,7 +35,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Speciality Brand"),
+          title: Text("Speciality Brands"),
           backgroundColor: colors.secondary,
           centerTitle: true,
           leading: InkWell(
@@ -50,7 +50,7 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
             getSlider(),
             SizedBox(height: 15,),
 
-            staticText(),
+            //staticText(),
             SizedBox(height: 10,),
           //  searchCard(),
             categoryListCard()

@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../BrandSpecialization/brand_specilization_upload.dart';
 import '../Helper/Appbar.dart';
 import '../Helper/Color.dart';
 import '../New_model/Get_brands_Rx_dosage_model.dart';
@@ -19,8 +20,8 @@ import 'genericRx_Dosage_Screen.dart';
 import 'generic_brand_screen.dart';
 import 'package:http/http.dart' as http;
 class GenericRxDosageDetailsScreen extends StatefulWidget {
-   GenericRxDosageDetailsScreen({Key? key,this.Id, this.isTrueId,this.brand,this.des,this.planId,this.nameChange}) : super(key: key);
-   String? Id ,brand,des, planId;
+   GenericRxDosageDetailsScreen({Key? key,this.Id, this.isTrueId,this.brand,this.des,this.planId,this.nameChange,this.spId}) : super(key: key);
+   String? Id ,brand,des, planId,spId;
    bool? isTrueId;
    bool? nameChange;
   @override
@@ -30,7 +31,7 @@ class GenericRxDosageDetailsScreen extends StatefulWidget {
 class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    print('____surendra______${widget.nameChange}____');
+    print('____surendra______${widget.nameChange}__${widget.spId}__');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -39,10 +40,13 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
           onTap: (){
           //  Navigator.pop(context);
           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
+            if(widget.nameChange ?? false){
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload()));
+            }
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
           },
             child: Icon(Icons.arrow_back_ios_rounded)),
-        title:widget.nameChange == true ?Text( "Speciality Brand"): Text( "Generics & Brands"),
+        title:widget.nameChange == true ?Text( "Speciality Brands"): Text( "Generics & Brands"),
       ),
       // customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
@@ -522,7 +526,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
     var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll({
       'user_id':  role == "1" ? ""  : userId.toString(),
-     'id':widget.isTrueId ?? false ? widget.Id.toString():cardId.toString()
+     'id':widget.nameChange ?? false ? widget.spId ?? "" : widget.isTrueId ?? false ? widget.Id.toString():cardId.toString()
     });
     print('____request.fields______${request.fields}_________');
     request.headers.addAll(headers);

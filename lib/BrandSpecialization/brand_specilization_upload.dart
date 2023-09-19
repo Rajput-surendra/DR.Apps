@@ -51,7 +51,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
 
     genericRxDosageDetailsApi();
 
-    print('_____indicationC.tex_____${indicationC.text}_________');
+    print('_____indicationC.tex_____${widget.id}_________');
 
   }
   @override
@@ -66,7 +66,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationList()));
             },
             child: Icon(Icons.arrow_back_ios)),
-        title: Text("Speciality Brand",style: TextStyle(color: colors.whiteTemp),),
+        title: Text("Speciality Brands",style: TextStyle(color: colors.whiteTemp),),
       ),
       // appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
@@ -781,15 +781,23 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       'contact_details': brandListForJson.toString()
     });
     print('____cccccc______${request.fields}_________');
-
-    if(imageFile == null){
-      Fluttertoast.showToast(msg: "Select Images");
-    }else {
-      request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
+    request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
+    if(imageFile1 != null){
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
+    }else if(imageFile2 != null){
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile2?.path ?? ""));
+    }else{
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile3?.path ?? ""));
     }
+
+    // if(imageFile == null){
+    //   Fluttertoast.showToast(msg: "Select Images");
+    // }else {
+    //   request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
+    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
+    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile2?.path ?? ""));
+    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile3?.path ?? ""));
+    // }
 
     print('__request.files________${request.files}_________');
 
@@ -799,7 +807,9 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       var result = await response.stream.bytesToString();
       var finalResult = jsonDecode(result);
       Fluttertoast.showToast(msg: "${finalResult['message']}");
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(nameChange: true,))).then((value) {
+      print('_____sssss_____${widget.id}_________');
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(nameChange: true,spId: widget.id,))).then((value) {
+
         if(value !=null){
           genericRxDosageDetailsApi();
           brandListForJson.clear() ;

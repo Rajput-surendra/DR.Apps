@@ -65,7 +65,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
       // appBar:
       // customAppBar (context: context, text: "Speciality Brand", isTrue: true,),
       appBar: AppBar(
-          title: Text("Speciality Brand"),
+          title: Text("Speciality Brands"),
           backgroundColor: colors.secondary,
           centerTitle: true,
           leading: InkWell(
@@ -164,7 +164,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                             brandDes =  branddata[i].genericName;
                                           });
                                           if(branddata[i].userPlanPurchased == true ){
-                                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
+                                         /// Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
                                           }
 
                                         }else {
@@ -181,14 +181,14 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                           // Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                          ///  Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                           }else{
                                             setState((){
                                               cardId = branddata[i].id;
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
+                                         ///  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
                                           }
                                         }
 
@@ -313,14 +313,14 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                       // Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                       //Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                           }else{
                                             setState((){
                                               cardId = branddata[i].id;
                                               brandName =  branddata[i].name;
                                               brandDes =  branddata[i].genericName;
                                             });
-                                         //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
+                                       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id)));
                                           }
                                         }
 
@@ -448,7 +448,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                             brandName =  branddata[i].name;
                                             brandDes =  branddata[i].genericName;
                                           });
-                                        //Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                     ///  Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                           }else {
                                             setState((){
                                               cardId = branddata[i].id;
@@ -463,7 +463,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                                 brandName =  branddata[i].name;
                                                 brandDes =  branddata[i].genericName;
                                               });
-                                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
+                                       ///  Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecializationDetails(Id:branddata[i].id,isTrueId: true,)));
                                             }else{
                                               setState((){
                                                 cardId = branddata[i].id;
@@ -475,7 +475,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                                 brandName =  branddata[i].name;
                                                 brandDes =  branddata[i].genericName;
                                               });
-                                           ///  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id,isTrueValue: true,)));
+                                        ///   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationUpload(id:branddata[i].id,isTrueValue: true,)));
                                             }
                                           }
 

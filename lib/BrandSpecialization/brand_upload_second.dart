@@ -40,7 +40,7 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context: context, text:"Speciality Brand", isTrue: true, ),
+      appBar: customAppBar(context: context, text:"Speciality Brands", isTrue: true, ),
       body:Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(

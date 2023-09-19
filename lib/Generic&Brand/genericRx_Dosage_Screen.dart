@@ -19,9 +19,9 @@ import 'genericRx_Dosage_Details_Screen.dart';
 import 'generic_brand_details_screen.dart';
 
 class GenericRxDosageScreen extends StatefulWidget {
- GenericRxDosageScreen({Key? key, this.catName,this.id,this.isTrueValue}) : super(key: key);
- String? catName,id;
- bool?isTrueValue;
+  GenericRxDosageScreen({Key? key, this.catName,this.id,this.isTrueValue}) : super(key: key);
+  String? catName,id;
+  bool?isTrueValue;
 
 
   @override
@@ -48,8 +48,10 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  if(widget.isTrueValue ?? false ){
+    genericRxDosageDetailsApi();
+  }
 
-   genericRxDosageDetailsApi();
 
     print('_____indicationC.tex_____${indicationC.text}_________');
 
@@ -57,17 +59,17 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       /*AppBar(
+      appBar: AppBar(
         centerTitle: true,
         backgroundColor: colors.secondary,
         leading: InkWell(
-          onTap: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
-          },
+            onTap: (){
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
+            },
             child: Icon(Icons.arrow_back_ios)),
-        title: Text("Generics & Brands",style: TextStyle(color: colors.whiteTemp),),
-      ),*/
-       appBar: customAppBar(context: context, text:"Generics & Brands", isTrue: true, ),
+        title: widget.isTrueValue  ?? false ? Text("Speciality Brands",style: TextStyle(color: colors.whiteTemp),) :Text("Generics & Brands",style: TextStyle(color: colors.whiteTemp),),
+      ),
+      // appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -99,9 +101,9 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                           Text("*",style: TextStyle(color: colors.red),)
                         ],
                       ),
-                      Text("image size : 800 pixel * 400 pixel",style: TextStyle(fontSize: 13)),
+                      Text("image size : 200 pixel * 100 pixel",style: TextStyle(fontSize: 13)),
                       SizedBox(height: 5,),
-                       InkWell(
+                      InkWell(
                         onTap: () {
                           showExitPopup();
                         },
@@ -116,13 +118,13 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                           child: Container(
                             height: imageFile ==  null ? 50:150 ,
                             decoration: BoxDecoration(
-                              color: colors.primary,
-                              border: Border.all(color: colors.black54)
+                                color: colors.primary,
+                                border: Border.all(color: colors.black54)
                             ),
                             child: imageFile == null || imageFile == ""
                                 ? const Center(
                                 child: Text("Upload image",style: TextStyle(
-                                  color: colors.blackTemp
+                                    color: colors.blackTemp
                                 ),))
                                 : Column(
                               children: [
@@ -149,11 +151,11 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                       ),
                       SizedBox(height: 5,),
                       TextFormField(
-                         controller:indicationC,
+                        controller:indicationC,
                         maxLines: 2,
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(0.0))
+                              borderRadius: BorderRadius.all(Radius.circular(0.0))
                           ),
                         ),
                         validator: (value) {
@@ -365,10 +367,10 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                                     maxLength: 10,
                                     maxLines: 1,
                                     decoration: InputDecoration(
-                                      counterText: "",
-                                      contentPadding: EdgeInsets.only(left: 8),
-                                     border: InputBorder.none,
-                                      hintText: "Mobile number",hintStyle: TextStyle(color: colors.black54,fontSize: 14,)
+                                        counterText: "",
+                                        contentPadding: EdgeInsets.only(left: 8),
+                                        border: InputBorder.none,
+                                        hintText: "Mobile number",hintStyle: TextStyle(color: colors.black54,fontSize: 14,)
                                     ),
                                     // validator: (value) {
                                     //   if (value == null || value.isEmpty) {
@@ -407,7 +409,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                                     maxLength: 10,
                                     maxLines: 1,
                                     decoration: InputDecoration(
-                                      counterText: "",
+                                        counterText: "",
                                         contentPadding: EdgeInsets.only(left: 8),
                                         border: InputBorder.none,
                                         hintText: "Mobile number",hintStyle: TextStyle(color: colors.black54,fontSize: 14,)
@@ -431,7 +433,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                                 Container(
                                   color:  colors.primary,
                                   child: TextFormField(
-                                     controller: person3C,
+                                    controller: person3C,
                                     maxLines: 1,
                                     decoration: InputDecoration(
                                         contentPadding: EdgeInsets.only(left: 8),
@@ -456,7 +458,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                                     maxLength: 10,
                                     maxLines: 1,
                                     decoration: InputDecoration(
-                                      counterText: "",
+                                        counterText: "",
                                         contentPadding: EdgeInsets.only(left: 8),
                                         border: InputBorder.none,
                                         hintText: "Mobile number",hintStyle: TextStyle(color: colors.black54,fontSize: 14,)
@@ -494,27 +496,27 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
                               brandListForJson.forEach((element) {print(element);});
                               print('__brandListForJson________${brandListForJson}_________');
                             });
-                          addBrandDetailApi();
+                            addBrandDetailApi();
                           }else{
                             Fluttertoast.showToast(msg: "Please fill all field",backgroundColor: colors.secondary);
                           }
                         },
                         child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: colors.secondary,
-                            // border: Border.all(color: colors.primary,width: 4),
-                          ),
-                          child: islodder  ? Center(child: CircularProgressIndicator()):Center(
-                            child: RichText(
-                              text: TextSpan(
-                                text: 'Submit',style: TextStyle(fontSize: 18),
-
-                              ),
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: colors.secondary,
+                              // border: Border.all(color: colors.primary,width: 4),
                             ),
-                          )
+                            child: islodder  ? Center(child: CircularProgressIndicator()):Center(
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Submit',style: TextStyle(fontSize: 18),
+
+                                ),
+                              ),
+                            )
 
                         ),
                       ),
@@ -620,7 +622,7 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
       ],
     );
     setState(() {
-        imageFile = File(croppedFile!.path);
+      imageFile = File(croppedFile!.path);
     }
     );
   }
@@ -753,15 +755,15 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
       if (i == 1) {
         print('_____1_____${i}___${croppedFile!.path}______');
         imageFile1 = File(croppedFile.path);
-       }else if(i == 2){
+      }else if(i == 2){
         print('_____2_____${i}_________');
         imageFile2 = File(croppedFile!.path);
-        }else if(i == 3){
+      }else if(i == 3){
         print('_____3_____${i}_________');
-          imageFile3 = File(croppedFile!.path);
-        }
-
+        imageFile3 = File(croppedFile!.path);
       }
+
+    }
     );
   }
 
@@ -783,53 +785,66 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     });
     print('____cccccc______${request.fields}_________');
 
-    if(imageFile == null){
-      Fluttertoast.showToast(msg: "Select Images");
-    }else {
-      request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
+    // if(imageFile == null){
+    //   Fluttertoast.showToast(msg: "Select Images");
+    // }else {
+    //   request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
+    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
+    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile2?.path ?? ""));
+    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile3?.path ?? ""));
+    // }
+    request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
+    if(imageFile1 != null){
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
+    }else if(imageFile2 != null){
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile2?.path ?? ""));
+    }else{
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile3?.path ?? ""));
     }
+
+
+
+
+
 
     print('__request.files________${request.files}_________');
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-   var result = await response.stream.bytesToString();
-   var finalResult = jsonDecode(result);
-    Fluttertoast.showToast(msg: "${finalResult['message']}");
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen())).then((value) {
-      if(value !=null){
-      genericRxDosageDetailsApi();
-      brandListForJson.clear() ;
-      }
-    });;
-    person1C.clear();
-    person2C.clear();
-    person3C.clear();
-    mobile1C.clear();
-    mobile2C.clear();
-    mobile3C.clear();
-    indicationC.clear();
-    dosageC.clear();
-    rx_infoC.clear();
-    // imageFile == null;
-    // imageFile1  == null;
-    // imageFile2  == null;
-    // imageFile3  == null;
-   brandListForJson.clear();
-     setState(() {
-     islodder = false;
-     });
+      var result = await response.stream.bytesToString();
+      var finalResult = jsonDecode(result);
+      Fluttertoast.showToast(msg: "${finalResult['message']}");
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen())).then((value) {
+        if(value !=null){
+          genericRxDosageDetailsApi();
+          brandListForJson.clear() ;
+        }
+      });
+      person1C.clear();
+      person2C.clear();
+      person3C.clear();
+      mobile1C.clear();
+      mobile2C.clear();
+      mobile3C.clear();
+      indicationC.clear();
+      dosageC.clear();
+      rx_infoC.clear();
+      // imageFile == null;
+      // imageFile1  == null;
+      // imageFile2  == null;
+      // imageFile3  == null;
+      brandListForJson.clear();
+      setState(() {
+        islodder = false;
+      });
     }
 
     else {
       setState(() {
         islodder = false;
       });
-    print(response.reasonPhrase);
+      print(response.reasonPhrase);
     }
 
   }
@@ -852,20 +867,20 @@ class _GenericRxDosageScreenState extends State<GenericRxDosageScreen> {
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result  = await response.stream.bytesToString();
-       getBrandsRxDosageModel =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
+      getBrandsRxDosageModel =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
       setState(() {
         indicationC.text = getBrandsRxDosageModel?.data?.first.details?.indication ?? "" ;
         rx_infoC.text = getBrandsRxDosageModel?.data!.first.details?.rxInfo ?? "" ;
         dosageC.text = getBrandsRxDosageModel?.data!.first.details?.dosage ?? "" ;
         if(getBrandsRxDosageModel?.data?[0].contactDetails?.isNotEmpty ?? false || getBrandsRxDosageModel?.data?[0].contactDetails != null )
-        for(int i=0; i<getBrandsRxDosageModel!.data![0].contactDetails!.length; i++){
-          person1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].name!;
-          person2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].name!;
-          person3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].name!;
-          mobile1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].mobile!;
-          mobile2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].mobile!;
-          mobile3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].mobile!;
-        }
+          for(int i=0; i<getBrandsRxDosageModel!.data![0].contactDetails!.length; i++){
+            person1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].name!;
+            person2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].name!;
+            person3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].name!;
+            mobile1C.text = getBrandsRxDosageModel!.data![0].contactDetails![0].mobile!;
+            mobile2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].mobile!;
+            mobile3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].mobile!;
+          }
         print('_____finalResult_____${indicationC.text}_________');
       });
     }
