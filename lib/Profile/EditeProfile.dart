@@ -119,7 +119,6 @@ class _EditeProfileState extends State<EditeProfile> {
     if (response.statusCode == 200) {
       var result =await response.stream.bytesToString();
       var finalResult = GetStateResponseModel.fromJson(jsonDecode(result));
-      print("+}++++++++++++++++++++++${finalResult}");
       setState(() {
         getStateResponseModel =  finalResult;
       });
@@ -176,13 +175,10 @@ class _EditeProfileState extends State<EditeProfile> {
 
 onTapCall2() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
- // stateselected = preferences.getString('selectedState');
-  //cityselected = preferences.getString('selectedCity');
+
   placeselected = preferences.getString('selectedPlace');
- // selectedTitle = preferences.getString('selectedTitle');
-  //selectedPharma = preferences.getString('selectedPharma');
+
   selectedTeam = preferences.getString('selectedTeam');
-  print('_____selectedTitle_____${selectedTeam}______${selectedPharma}___');
 
 
 }
@@ -192,8 +188,7 @@ onTapCall2() async {
 String? catName ;
   Future<bool> showExitPopup1() async {
     return await showDialog(
-      //show confirm dialogue
-      //the return value will be from "Yes" or "No" options
+
       context: context,
       builder: (context) => AlertDialog(
           title: Text('Select Image'),
@@ -216,7 +211,6 @@ String? catName ;
 
                 },
 
-                //return true when click on "Yes"
                 child: Text('Gallery'),
               ),
             ],
@@ -306,11 +300,10 @@ String? catName ;
   getRoll() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     roll = preferences.getString('roll');
-    print('___roll__________roll__________roll__________roll_______${roll}_________');
+
   }
   @override
   Widget build(BuildContext context) {
-    print('_____jhhhhkhhhkhhjkh_____${cityselected}_________');
     return Scaffold(
       bottomSheet:  Padding(
         padding: const EdgeInsets.all(8.0),
@@ -323,21 +316,7 @@ String? catName ;
           child: InkWell(
               onTap: (){
                 updateProfileApi();
-                // if(image != null || image != '') {
-                //   if (imageFile == null) {
-                //     Fluttertoast.showToast(
-                //         msg: "please selected profile image");
-                //   } else {
-                //
-                //   }
-                // }else{
-                //   if (imageFile == null) {
-                //     Fluttertoast.showToast(
-                //         msg: "please selected profile image");
-                //   } else {
-                //     updateProfileApi();
-                //   }
-                // }
+
 
               },
               child:isLodding ? Center(child: CircularProgressIndicator()) :Center(child: Text("Update Profile",style: TextStyle(color: colors.whiteTemp),))
@@ -454,8 +433,6 @@ String? catName ;
                                   setState(() {
                                     pharmaselected = value!;
 
-                                    // indexSectet = items.indexOf(value);
-                                    // indexSectet++;
                                   });
                                 },
 
@@ -535,8 +512,6 @@ String? catName ;
                                   setState(() {
                                     titleSelected = value!;
 
-                                    // indexSectet = items.indexOf(value);
-                                    // indexSectet++;
                                   });
                                 },
 
@@ -632,24 +607,7 @@ String? catName ;
                       ),
                     ),
                     SizedBox(height: 10,),
-                    // const Padding(
-                    //   padding: EdgeInsets.all(5.0),
-                    //   child: Text("City Name", style: TextStyle(
-                    //       color: colors.black54, fontWeight: FontWeight.bold),),
-                    // ),
-                    // const SizedBox(height: 10,),
-                    // TextFormField(
-                    //   controller: cityController,
-                    //   keyboardType: TextInputType.text,
-                    //   decoration: InputDecoration(
-                    //       hintText: 'City Name',
-                    //       hintStyle: TextStyle(
-                    //           fontSize: 15.0, color: colors.secondary),
-                    //       border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(10)),
-                    //       contentPadding: EdgeInsets.only(left: 10, top: 5)
-                    //   ),
-                    // ),
+
                    SizedBox(height: 10,),
                     Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
@@ -690,7 +648,6 @@ String? catName ;
                                       // This is called when the user selects an item.
                                       setState(() {
                                         selectedState = value!;
-                                        print('__________${getStateResponseModel!.data!.first.name}_________');
                                         getStateResponseModel!.data!.forEach((element) {
                                           if(element.name == value){
                                             selectedSateIndex = getStateResponseModel!.data!.indexOf(element);
@@ -698,7 +655,6 @@ String? catName ;
                                             selectedCity = null;
                                             selectedPlace = null;
                                             getCityApi(stateId!);
-                                            print('_____Surendra_____${stateId}_________');
                                             //getStateApi();
                                           }
                                         });
@@ -753,11 +709,7 @@ String? catName ;
                                             color: colors.black54,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      // Text(
-                                      //   "*",
-                                      //   style: TextStyle(
-                                      //       color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                                      // ),
+
                                     ],
                                   )
 
@@ -796,7 +748,6 @@ String? catName ;
                                       // This is called when the user selects an item.
                                       setState(() {
                                         selectedCity = value!;
-                                        print('__________${selectedCity}_________');
                                         getCitiesResponseModel!.data!.forEach((element) {
                                           if(element.name == value){
                                             selectedSateIndex = getCitiesResponseModel!.data!.indexOf(element);
@@ -845,158 +796,7 @@ String? catName ;
                             ],
                           ),
                           SizedBox(height: 10,),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     Padding(
-                          //         padding: const EdgeInsets.all(5.0),
-                          //         child:Row(
-                          //           children: const [
-                          //             Text(
-                          //               "Select Place",
-                          //               style: TextStyle(
-                          //                   color: colors.black54,
-                          //                   fontWeight: FontWeight.bold),
-                          //             ),
-                          //             Text(
-                          //               "*",
-                          //               style: TextStyle(
-                          //                   color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                          //             ),
-                          //           ],
-                          //         )
-                          //
-                          //     ),
-                          //     const SizedBox(
-                          //       height: 5,
-                          //     ),
-                          //     Container(
-                          //       width: MediaQuery.of(context).size.width/1.0,
-                          //       decoration: BoxDecoration(
-                          //           borderRadius: BorderRadius.circular(10),
-                          //           border: Border.all(color: colors.black54)
-                          //       ),
-                          //       child: DropdownButtonHideUnderline(
-                          //         child: DropdownButton2<String>(
-                          //           hint:  Text('${placeselected}',
-                          //             style: const TextStyle(
-                          //                 color: colors.black54,fontWeight: FontWeight.w500,fontSize:15
-                          //             ),),
-                          //           // dropdownColor: colors.primary,
-                          //           value: selectedPlace,
-                          //           icon:  const Padding(
-                          //             padding: EdgeInsets.only(left:10.0),
-                          //             child: Icon(Icons.keyboard_arrow_down_rounded,  color:colors.secondary,size: 30,),
-                          //           ),
-                          //           // elevation: 16,
-                          //           style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                          //           underline: Padding(
-                          //             padding: const EdgeInsets.only(left: 0,right: 0),
-                          //             child: Container(
-                          //               // height: 2,
-                          //               color:  colors.whiteTemp,
-                          //             ),
-                          //           ),
-                          //           onChanged: (String? value) {
-                          //             // This is called when the user selects an item.
-                          //             setState(() {
-                          //               selectedPlace = value!;
-                          //               getPlaceResponseModel!.data!.forEach((element) {
-                          //                 if(element.name == value){
-                          //                   selectedSateIndex = getPlaceResponseModel!.data!.indexOf(element);
-                          //                   placeId = element.id;
-                          //                   //selectedCity = null;
-                          //                   //selectedPlace = null;
-                          //
-                          //                   print('_____Surdfdgdgendra_____${placeId}_________');
-                          //                   //getStateApi();
-                          //                 }
-                          //               });
-                          //             });
-                          //           },
-                          //           items: getPlaceResponseModel?.data?.map((items) {
-                          //             return DropdownMenuItem(
-                          //               value: items.name.toString(),
-                          //               child:  Column(
-                          //                 crossAxisAlignment: CrossAxisAlignment.start,
-                          //                 mainAxisAlignment: MainAxisAlignment.center,
-                          //                 children: [
-                          //                   Padding(
-                          //                     padding: const EdgeInsets.only(top: 5),
-                          //                     child: Container(
-                          //                         width: MediaQuery.of(context).size.width/1.42,
-                          //                         child: Padding(
-                          //                           padding: const EdgeInsets.only(top: 10),
-                          //                           child: Text(items.name.toString(),overflow:TextOverflow.ellipsis,style: const TextStyle(color:colors.black54),),
-                          //                         )),
-                          //                   ),
-                          //                   const Divider(
-                          //                     thickness: 0.2,
-                          //                     color: colors.black54,
-                          //                   ),
-                          //
-                          //                 ],
-                          //               ),
-                          //             );
-                          //           })
-                          //               .toList(),
-                          //
-                          //
-                          //         ),
-                          //
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          // SizedBox(height: 10,),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     Padding(
-                          //       padding: EdgeInsets.all(5.0),
-                          //       child: Text("Experience ", style: TextStyle(
-                          //           color: colors.black54, fontWeight: FontWeight.bold),),
-                          //     ),
-                          //     SizedBox(height: 10,),
-                          //     TextFormField(
-                          //       controller: ExpController,
-                          //       keyboardType: TextInputType.text,
-                          //       decoration: InputDecoration(
-                          //           hintText: 'Experience Name',
-                          //           hintStyle: TextStyle(
-                          //               fontSize: 15.0, color: colors.blackTemp),
-                          //           border: OutlineInputBorder(
-                          //               borderRadius: BorderRadius.circular(10)),
-                          //           contentPadding: EdgeInsets.only(left: 10, top: 10)
-                          //       ),
-                          //       // validator: (v) {
-                          //       //   if (v!.isEmpty) {
-                          //       //     return "Date of Birth is required";
-                          //       //   }
-                          //       //
-                          //       // },
-                          //     ),
-                          //     SizedBox(height: 10,),
-                          //     Padding(
-                          //       padding: const EdgeInsets.all(5.0),
-                          //       child: Text("Degree ", style: TextStyle(
-                          //           color: colors.black54, fontWeight: FontWeight.bold),),
-                          //     ),
-                          //     SizedBox(height: 10,),
-                          //     TextFormField(
-                          //       controller: deegreeController,
-                          //       keyboardType: TextInputType.text,
-                          //       decoration: InputDecoration(
-                          //           hintText: 'Degree',
-                          //           hintStyle: TextStyle(
-                          //               fontSize: 15.0, color: colors.blackTemp),
-                          //           border: OutlineInputBorder(
-                          //               borderRadius: BorderRadius.circular(10)),
-                          //           contentPadding: EdgeInsets.only(left: 10, top: 10)
-                          //       ),
-                          //     )
-                          //   ],
-                          // ),
+
                         ],
                       ),
 
@@ -1023,132 +823,12 @@ String? catName ;
                                       borderRadius: BorderRadius.circular(10)),
                                   contentPadding: EdgeInsets.only(left: 10, top: 10)
                               ),
-                              // validator: (v) {
-                              //   if (v!.isEmpty) {
-                              //     return "Date of Birth is required";
-                              //   }
-                              //
-                              // },
+
                             ),
                           ],
                         ),
                         SizedBox(height: 10,),
-                     // roll == "2" ? Column(
-                     //   crossAxisAlignment: CrossAxisAlignment.start,
-                     //     children: [
-                     //       Padding(
-                     //         padding: const EdgeInsets.all(5.0),
-                     //         child: Text("Select Category", style: TextStyle(
-                     //             color: colors.black54, fontWeight: FontWeight.bold),),
-                     //       ),
-                     //       Column(
-                     //         crossAxisAlignment: CrossAxisAlignment.start,
-                     //         children: [
-                     //           Container(
-                     //               padding: EdgeInsets.only(right: 5, top: 12),
-                     //               width: MediaQuery.of(context).size.width,
-                     //               height: 55,
-                     //               decoration:
-                     //               BoxDecoration(
-                     //                 borderRadius: BorderRadius.circular(10),
-                     //                 border: Border.all( color: colors.black54),
-                     //               ),
-                     //               child: DropdownButtonHideUnderline(
-                     //                 child: DropdownButton2<String>(
-                     //                   dropdownMaxHeight: 150,
-                     //                   hint:  Padding(
-                     //                     padding: EdgeInsets.only(bottom: 15),
-                     //                     child: Text("${selectedTeam}",
-                     //                       style: TextStyle(
-                     //                           color: colors.blackTemp,fontWeight: FontWeight.normal
-                     //                       ),),
-                     //                   ),
-                     //                   // dropdownColor: colors.primary,
-                     //                   value: teamSelected,
-                     //                   icon:  const Padding(
-                     //                     padding: EdgeInsets.only(bottom: 30),
-                     //                     child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
-                     //                   ),
-                     //                   // elevation: 16,
-                     //                   style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
-                     //                   underline: Padding(
-                     //                     padding: const EdgeInsets.only(left: 0,right: 0),
-                     //                     child: Container(
-                     //                       // height: 2,
-                     //                       color:  colors.whiteTemp,
-                     //                     ),
-                     //                   ),
-                     //                   onChanged: (String? value) {
-                     //                     // This is called when the user selects an item.
-                     //                     setState(() {
-                     //                       teamSelected = value!;
-                     //                       selectedIndex = items.indexOf(value);
-                     //                       if (selectedIndex == 0) {
-                     //                         category = 2;
-                     //                       } else {
-                     //                         category = 3;
-                     //                       }
-                     //                       // indexSectet = items.indexOf(value);
-                     //                       // indexSectet++;
-                     //                     }
-                     //                     );
-                     //                   },
-                     //
-                     //                   items: items
-                     //                       .map<DropdownMenuItem<String>>((String value) {
-                     //                     return DropdownMenuItem<String>(
-                     //                       value: value,
-                     //                       child:
-                     //                       Column(
-                     //                         mainAxisSize: MainAxisSize.min,
-                     //                         crossAxisAlignment: CrossAxisAlignment.start,
-                     //                         mainAxisAlignment: MainAxisAlignment.center,
-                     //                         children: [
-                     //                           Padding(
-                     //                             padding: const EdgeInsets.all(4.0),
-                     //                             child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
-                     //                           ),
-                     //                           const Divider(
-                     //                             thickness: 0.2,
-                     //                             color: colors.black54,
-                     //                           )
-                     //                         ],
-                     //                       ),
-                     //                     );
-                     //
-                     //                   }).toList(),
-                     //
-                     //                 ),
-                     //
-                     //               )
-                     //
-                     //           ),
-                     //
-                     //           const SizedBox(height: 10,),
-                     //           Padding(
-                     //               padding: EdgeInsets.all(5.0),
-                     //               child: Row(
-                     //                 children: const [
-                     //                   Text(
-                     //                     "Designation",
-                     //                     style: TextStyle(
-                     //                         color: colors.black54,
-                     //                         fontWeight: FontWeight.bold),
-                     //                   ),
-                     //                   Text(
-                     //                     "*",
-                     //                     style: TextStyle(
-                     //                         color: colors.red, fontWeight: FontWeight.bold,fontSize: 10),
-                     //                   ),
-                     //                 ],
-                     //               )
-                     //
-                     //           ),
-                     //           select(),
-                     //         ],
-                     //       ) ,
-                     //     ],
-                     //   ):SizedBox()
+
                       ],
                     ),
 
@@ -1196,12 +876,7 @@ String? catName ;
                                       borderRadius: BorderRadius.circular(10)),
                                   contentPadding: EdgeInsets.only(left: 10, top: 10)
                               ),
-                              // validator: (v) {
-                              //   if (v!.isEmpty) {
-                              //     return "Date of Birth is required";
-                              //   }
-                              //
-                              // },
+
                             ),
                           ],
                         ),
@@ -1258,8 +933,7 @@ String? catName ;
                                         } else {
                                           category = 3;
                                         }
-                                        // indexSectet = items.indexOf(value);
-                                        // indexSectet++;
+
                                       }
                                       );
                                     },
@@ -1363,8 +1037,6 @@ String? catName ;
 
 
     });
-    print("this os p spos pms oskm ms=========>${request.fields}");
-   // request.files.add(await http.MultipartFile.fromPath('registration_card', registrationImage?.path ?? ''  ));
    if(imageFile != null){
      request.files.add(await http.MultipartFile.fromPath('image', imageFile?.path ?? ''));
    }
@@ -1466,24 +1138,17 @@ class _MultiSelectState extends State<MultiSelect> {
     request.fields.addAll({
       'cat_type': category.toString(),
     });
-    print("request________${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    print('${response.statusCode}_____________statuscode');
     if (response.statusCode == 200) {
-      print('_____________');
       var finalResult = await response.stream.bytesToString();
       final jsonResponse =
           GetPharmaCategory.fromJson(json.decode(finalResult)).data;
-      //Fluttertoast.showToast(msg: "${jsonResponse}");
       setState(() {
         pharmaCategoryList = jsonResponse ?? [];
       });
     } else {
-      //Fluttertoast.showToast(msg: "${detailsData?.message}");
-      // Fluttertoast.showToast(msg: "${jsonResponse['message']}");
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => LoginScreen()));
+
       print(response.reasonPhrase);
     }
   }
@@ -1531,24 +1196,7 @@ class _MultiSelectState extends State<MultiSelect> {
                 .toList(),
           ),
         ),
-        // actions: [
-        //   TextButton(
-        //     onPressed: _cancel,
-        //     child: const Text(
-        //       'Cancel',
-        //       style: TextStyle(color: colors.primary),
-        //     ),
-        //   ),
-        //   ElevatedButton(
-        //     style: ElevatedButton.styleFrom(backgroundColor: colors.primary),
-        //     child: Text('Submit'),
-        //     onPressed: () {
-        //       // _submit();
-        //
-        //     }
-        //     ,
-        //   ),
-        // ],
+
       );
     });
   }

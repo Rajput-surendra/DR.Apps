@@ -30,7 +30,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
   @override
 
   verifyOtp() async {
-    print('____widget.otp______${widget.otp}_________');
+
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     var headers = {
@@ -41,7 +41,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
       'mobile': widget.mobile.toString(),
       'otp': widget.otp.toString()
     });
-    print("ooooooooooooo>>>>>>>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -49,7 +48,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
       final jsonresponse = json.decode(finalresponse);
       if (!jsonresponse['error']){
         String? otp = jsonresponse["otp"];
-        print('__________${otp}__Otp_______');
         String userId = jsonresponse["data"]['id'];
         String roll = jsonresponse["data"]['roll'];
         String mobile = jsonresponse["data"]['mobile'];
@@ -61,7 +59,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => HomeScreen()
+                builder: (context) => const HomeScreen()
             ));
       }
       else{
@@ -78,14 +76,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
     String? token ;
     try{
       token  = await FirebaseMessaging.instance.getToken();
-      print("-----------token:-----${token}");
     } on FirebaseException{
-      print('__________FirebaseException_____________');
     }
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('otp', "otp");
     preferences.setString('mobile', "mobile");
-    print("this is apiiiiiiii");
     var headers = {
       'Cookie': 'ci_session=b13e618fdb461ccb3dc68f327a6628cb4e99c184'
     };
@@ -106,12 +101,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
         int? otp = jsonresponse["otp"];
         String mobile = jsonresponse["mobile"];
         Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
-        print('_____otp_____${otp}_________');
-        // Navigator.pushReplacement(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => VerifyOtp(otp: otp.toString(),mobile:mobile.toString() ,)
-        //     ));
+
       }
       else{
         Fluttertoast.showToast(msg: "${jsonresponse['message']}",backgroundColor: colors.secondary);
@@ -127,16 +117,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
     @override
   void initState() {
     super.initState();
-    //verifyOtp();
-    // Future.delayed(Duration(seconds: 60)).then((_) {
-    //   verifyOtp();
-    //
-    // });
-
   }
   @override
   Widget build(BuildContext context) {
-    print('____widget.otp______${widget.otp}_________');
+
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
@@ -145,19 +129,19 @@ class _VerifyOtpState extends State<VerifyOtp> {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Confirm Exit"),
-                  content: Text("Are you sure you want to exit?"),
+                  title: const Text("Confirm Exit"),
+                  content: const Text("Are you sure you want to exit?"),
                   actions: <Widget>[
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: colors.primary),
-                      child: Text("YES"),
+                      child: const Text("YES"),
                       onPressed: () {
                         SystemNavigator.pop();
                       },
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: colors.primary),
-                      child: Text("NO"),
+                      child: const Text("NO"),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -191,17 +175,13 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   ),
                   Text(
                     "+91${widget.mobile}",
-                    style: TextStyle(color:  colors.blackTemp,fontWeight:FontWeight.w500,fontSize: 18),
+                    style: const TextStyle(color:  colors.blackTemp,fontWeight:FontWeight.w500,fontSize: 18),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  // Text(
-                  //   "OTP-${widget.otp}",
-                  //   style: TextStyle(color:  colors.blackTemp,fontWeight:FontWeight.bold,fontSize: 16),
-                  // ),
 
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Center(
                     child: Form(
                       child: Column(
@@ -235,19 +215,19 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 40,),
-                  Text("Haven't received the verification code?",style: TextStyle(
+                  const SizedBox(height: 40,),
+                  const Text("Haven't received the verification code?",style: TextStyle(
                       color: colors.blackTemp,fontSize: 15,fontWeight: FontWeight.bold
                   ),),
                   InkWell(
                     onTap: (){
                       loginwitMobile();
                     },
-                    child: Text("Resend",style: TextStyle(
+                    child: const Text("Resend",style: TextStyle(
                         color: colors.secondary,fontWeight: FontWeight.bold,fontSize: 17
                     ),),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 60,
                   ),
                   Btn(

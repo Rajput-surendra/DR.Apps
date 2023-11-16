@@ -46,11 +46,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       setState(() {
         privacyPolicy = jsonResponse['data']['privacy_policy'][0];
       });
-      // var FinalResult = GetSettingModel.fromJson(jsonDecode(result));
-      // print("thi osoks0  ============>${FinalResult}");
-      // setState(() {
-      //   settingModel = FinalResult;
-      // });
+
     }
     else {
       print(response.reasonPhrase);

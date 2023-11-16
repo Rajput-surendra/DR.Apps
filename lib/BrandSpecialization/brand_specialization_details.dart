@@ -27,7 +27,6 @@ class BrandSpecializationDetails extends StatefulWidget {
 class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails> {
   @override
   Widget build(BuildContext context) {
-    print('____zzXx______${widget.isTrueId}____${cardId}_____');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -172,27 +171,7 @@ class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails>
                             child: Center(child: Text("Link this page to sliding ad",style: TextStyle(color: colors.whiteTemp,fontSize: 15))),
                           ),
                         )
-                        //     :InkWell(
-                        //   onTap: (){
-                        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
-                        //     // if(getBrandsRxDosageModel!.data!.first.isDetailsAdded == false){
-                        //     //   _showAlertDialog(context);
-                        //     // }else{
-                        //     //
-                        //     // }
-                        //
-                        //   },
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //         color: colors.secondary,
-                        //         borderRadius: BorderRadius.circular(10)
-                        //     ),
-                        //
-                        //     height: 50,
-                        //     width: MediaQuery.of(context).size.width/1.8  ,
-                        //     child: Center(child: Text("Change sliding ad image",style: TextStyle(color: colors.whiteTemp))),
-                        //   ),
-                        // )
+
                             :SizedBox.shrink()
                       ],
                     )
@@ -261,12 +240,7 @@ class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails>
                   aspectRatio:16/4,
                   child: Image.network("${images}",fit: BoxFit.fill,)
 
-                // Container(
-                //   width: MediaQuery.of(context).size.width,
-                //   // height: MediaQuery.of(context).size.height /1.9,
-                //   decoration: BoxDecoration(borderRadius:BorderRadius.circular(0),image: DecorationImage(image: NetworkImage("${images}"),fit: BoxFit.cover)),
-                //
-                // ),
+
               )
           );
         }).toList());
@@ -354,13 +328,7 @@ class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails>
                   ),
                   SizedBox(height: 5,),
                   Image.asset("assets/images/generic1.png"),
-                  // Container(
-                  //   height: 50,
-                  //  decoration: BoxDecoration(
-                  //    border: Border.all(color: colors.blackTemp)
-                  //  ),
-                  //   child: Center(child: Text("Logo upload area\n image size : 200 pixel * 100 pixed",style: TextStyle(fontSize: 12),)),
-                  // ),
+
                   SizedBox(height: 30,),
                   InkWell(
                     onTap: (){
@@ -449,7 +417,6 @@ class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails>
       'user_id':  role == "1" ? ""  : userId.toString(),
       'id':widget.isTrueId ?? false ? widget.Id.toString():cardId.toString()
     });
-    print('____request.fields______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -457,7 +424,6 @@ class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails>
       var finalResult =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
       setState(() {
         getBrandsRxDosageModel =  finalResult;
-        print('_____finalResult_____${finalResult}_________');
       });
     }
     else {
@@ -477,7 +443,6 @@ class _BrandSpecializationDetailsState extends State<BrandSpecializationDetails>
   getRole() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     role = preferences.getString("roll");
-    print('_____role_____${role}_________');
   }
 
 }

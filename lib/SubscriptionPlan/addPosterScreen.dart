@@ -55,29 +55,13 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   getRole() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
-    role = preferences.getString('roll');
-    print('_______sadsadasdas___${role}_________');
-  }
+    role = preferences.getString('roll');}
   final _formKey = GlobalKey<FormState>();
   File? imageFile;
   File? newImageFile;
   bool isloader = false;
   List<File> files = [];
-  // _getFromGallery(bool type) async {
-  //   FilePickerResult? result;
-  //   if(type){
-  //     result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
-  //   else{
-  //     result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['mp4']);}
-  //
-  //   if (result != null) {
-  //     setState(() {
-  //       files = result!.paths.map((path) => File(path!)).toList();
-  //     });}
-  //
-  //
-  //
-  // }
+
 
   Future _getFromGallery(ImageSource source, BuildContext context, ) async {
     var image = await ImagePicker().pickImage(
@@ -87,25 +71,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     getCropImageLogo(context, image);
     //Navigator.pop(context);
   }
-  // _getFromGallery(bool type) async {
-  //   FilePickerResult? result;
-  //   if(type){
-  //     result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
-  //   if (result != null) {
-  //     setState(() {
-  //       files = result!.paths.map((path) => File(path!)).toList();
-  //     });}
-  //   else {
-  //     result = await FilePicker.platform.pickFiles(
-  //         type: FileType.custom, allowedExtensions: ['pdf']);
-  //     if (result != null) {
-  //       setState(() {
-  //
-  //       });
-  //     }
-  //   }
-  //
-  // }
+
 
   Future getCropImageLogo(BuildContext context,  var image) async {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
@@ -154,12 +120,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   bool isImage = false;
   var dropdownInput ;
   List<Map<String, dynamic>> list = [
-    // {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
-    // {'id': 'event_webinars_slide', 'name' : 'Event & Webinars'},
-    // {'id': 'pharma_product_slide', 'name' : 'Pharma Product'},
-    // {'id': 'free_graphic_slide', 'name' : 'Free Graphic'},
-    // {'id': 'awareness', 'name' : 'Awareness Input'},
-    // {'id': 'doctor_plus_slide', 'name' : 'Doctor plus'},
+
 
     {'id': 'main_dashboard', 'name' : 'Main Dashboard'},
     {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
@@ -167,13 +128,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     {'id': 'generic_brand_slide', 'name' : 'Generic Brand'},
     {'id': 'free_graphic_slide', 'name' : 'Speciality Brand'},
     {'id': 'awareness', 'name' : 'Awareness & Free Graphic'},
-
-    // {'id': 'main_dashboard', 'name' : 'Main Dashboard'},
-    // {'id': 'Doctor_Request', 'name' : "Doctor's Request"},
-    // {'id': 'event_webinar_slide', 'name' : 'Event & Webinars'},
-    // {'id': 'generic_brand_slide', 'name' : 'Generic Brand'},
-    // {'id': 'free_graphic_slide', 'name' : 'Free Graphic'},
-    // {'id': 'awareness', 'name' : 'Awareness'},
 
   ];
 
@@ -184,7 +138,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   getSpecialityApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? Roll = preferences.getString('roll');
-    print("getRoll--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
     };
@@ -192,13 +145,11 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     request.fields.addAll({
       'roll':"1",
     });
-    print("this is a Response==========>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
-      print("this is =============>${finalResult}");
       setState(() {
         selectCatModel = finalResult;
         speciplyData =  finalResult.data ?? [];
@@ -215,7 +166,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
     role = preferences.getString('roll');
-    print('__________${role}_________');
     var headers = {
       'Cookie': 'ci_session=64caa747045713fca2e42eb930c7387e303fd583'
     };
@@ -224,7 +174,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       'user_id': "$userId",
       'type':role =="1" ?"doctor":'pharma'
     });
-    print('___sadsfdsfsdfsdafgsdgdg_______${request.fields}_________');
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -237,7 +186,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       }else{
         Navigator.push(context, MaterialPageRoute(builder: (context)=>SliderPlanScreen()));
       }
-      print('____Bew Api______${finalResult}_________');
       setState(() {
         checkPlanModel =  finalResult ;
       });
@@ -252,7 +200,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
     role = preferences.getString('roll');
-    print('__________${role}_________');
     var headers = {
       'Cookie': 'ci_session=64caa747045713fca2e42eb930c7387e303fd583'
     };
@@ -261,7 +208,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       'user_id': "$userId",
       'type':role =="1" ?"doctor":'pharma'
     });
-    print('___sadsfdsfsdfsdafgsdgdg_______${request.fields}_________');
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -280,7 +226,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    print('_____surendra_____${widget.id}___${widget.isTrue}______');
     return Scaffold(
       bottomSheet: Container(
         child:  Padding(
@@ -289,18 +234,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
             height: 50,
             title: isloader ? "Please wait......" : 'Advertisement',
             onPress: () async{
-              print('__filesVideo != null________${filesVideo}_________');
-              // if(files != null){
-              //   Fluttertoast.showToast(msg: "Please select all field",backgroundColor: colors.secondary);
-              // }
-              // if(selectedState ==  null ){
-              //   Fluttertoast.showToast(msg: "Please select state",backgroundColor: colors.secondary);
-              // }
-              // else {
-              //
-              //
-              //
-              // }
+
               if(await checkSubscriptionStatus()){
                 widget.isTrue  ?? false ? updateAdvertisement():
                 getUploadBannerNewApi();
@@ -337,48 +271,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                   SizedBox(height: 10,),
                  role == "1" ? Text("Advertisement for DR Plus app and DR Plus website",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),):Text("Advertisement",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
                   SizedBox(height: 15,),
-                  //  Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     Radio(
-                  //       value: 1,
-                  //       fillColor: MaterialStateColor.resolveWith(
-                  //               (states) =>  colors.secondary),
-                  //       activeColor:  colors.secondary,
-                  //       groupValue: _value,
-                  //       onChanged: (int? value) {
-                  //         setState(() {
-                  //           _value = value!;
-                  //           isVideo = false;
-                  //         });
-                  //       },
-                  //     ),
-                  //     Text(
-                  //       "Video",
-                  //       style: TextStyle(
-                  //           color: colors.secondary, fontSize: 21),
-                  //     ),
-                  //     Radio(
-                  //         value: 2,
-                  //         fillColor: MaterialStateColor.resolveWith(
-                  //                 (states) => colors.secondary),
-                  //         activeColor:   colors.secondary,
-                  //         groupValue: _value,
-                  //         onChanged: (int? value) {
-                  //           setState(() {
-                  //             _value = value!;
-                  //             isImage = true;
-                  //           });
-                  //         }),
-                  //     // SizedBox(width: 10.0,),
-                  //     Text(
-                  //       "Images",
-                  //       style: TextStyle(
-                  //           color:  colors.secondary, fontSize: 21),
-                  //     ),
-                  //   ],
-                  // ),
+
                   Row(
                     children: [
                     Text("Select AD format" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -678,7 +571,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
                                   // This is called when the user selects an item.
                                   setState(() {
                                     selectedState = value!;
-                                    print('__________${getStateResponseModel!.data!.first.name}_________');
                                     getStateResponseModel!.data!.forEach((element) {
                                       if(element.name == value){
                                         selectedSateIndex = getStateResponseModel!.data!.indexOf(element);
@@ -875,8 +767,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
   image(){
     return InkWell(
       onTap: (){
-        // showExitPopup();
-        // _getFromGallery(true);
+
         _getFromGallery(ImageSource.gallery,context,);
 
       }, child: Padding(
@@ -898,7 +789,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
             child: Center(
                 child:
                 Column(
-                  children: [
+                  children: const [
                     Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 25,),
                     Text("Banner file Upload",style: TextStyle(color: colors.red,fontSize: 13),),
                     Text("1360*880 pixel",style: TextStyle(color: colors.red,fontSize: 12),)
@@ -925,7 +816,7 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     request.fields.addAll(
         {'user_id': "${userId}"}
     );
-    print('______request.fields____${request.fields}_________');
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -951,7 +842,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     if (response.statusCode == 200) {
       var result =await response.stream.bytesToString();
       var finalResult = GetStateResponseModel.fromJson(jsonDecode(result));
-      print("+}++++++++++++++++++++++${finalResult}");
       setState(() {
         getStateResponseModel=  finalResult;
       });
@@ -971,7 +861,6 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       'state_id': id.toString()
     });
 
-    print('______ccccccccccccccc____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -998,35 +887,33 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
     request.fields.addAll({
       'user_id': '$userId',
       'link': linkController.text,
-      // if(role == "1" )
-      //  'type': role == "1" ? "" : dropdownInput
+
       'type': role == "1" ? "": dropdownInput,
       'speciality':catDrop?.id.toString() ?? "",
       'state_id': role == "2" ? "":stateId.toString(),
       'city_id':role == "2" ? "":cityId.toString(),
     });
-    print("getEventUserId--------------->${request.fields}");
+
     if(files == null) {
-      print('________2__________');
+
       if (filesVideo != null) {
         request.files.add(await http.MultipartFile.fromPath(
             'image', filesVideo[0].path ?? '' ));
       }
     }else{
       if (files != null) {
-        print('__________3_________');
+
         request.files.add(await http.MultipartFile.fromPath(
             'image',  imageFile!.path ?? '' ));
       }
     }
 
-    print("files--------------->${request.files}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
+
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
       setState(() {
@@ -1058,21 +945,21 @@ class _AddPosterScreenState extends State<AddPosterScreen> {
       'state_id': role == "2" ? "":stateId.toString(),
       'city_id':role == "2" ? "":cityId.toString(),
     });
-    print('_____city_id_____${request.fields}_________');
+
     if(files == null) {
-      print('________2__________');
+
       if (filesVideo != null) {
         request.files.add(await http.MultipartFile.fromPath(
             'image', filesVideo[0].path ?? '' ));
       }
     }else{
       if (files != null) {
-        print('__________3_________');
+
         request.files.add(await http.MultipartFile.fromPath(
             'image',  files[0].path ?? '' ));
       }
     }
-    print('____sdsdsds______${request.files}_________');
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {

@@ -51,7 +51,6 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
 
     genericRxDosageDetailsApi();
 
-    print('_____indicationC.tex_____${widget.id}_________');
 
   }
   @override
@@ -65,8 +64,8 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
             onTap: (){
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BrandSpecilizationList()));
             },
-            child: Icon(Icons.arrow_back_ios)),
-        title: Text("Speciality Brands",style: TextStyle(color: colors.whiteTemp),),
+            child: const Icon(Icons.arrow_back_ios)),
+        title: const Text("Speciality Brands",style: TextStyle(color: colors.whiteTemp),),
       ),
       // appBar: customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
@@ -84,7 +83,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Center(child: Text("${catName}",style: TextStyle(
+                    child: Center(child: Text("${catName}",style: const TextStyle(
                         color: colors.black54
                     ),)),
                   ),
@@ -96,12 +95,12 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                     children: [
                       Row(
                         children: [
-                          Text("Logo Upload Area",style: TextStyle(fontSize: 15),),
-                          Text("*",style: TextStyle(color: colors.red),)
+                          const Text("Logo Upload Area",style: TextStyle(fontSize: 15),),
+                          const Text("*",style: TextStyle(color: colors.red),)
                         ],
                       ),
-                      Text("image size : 200 pixel * 100 pixel",style: TextStyle(fontSize: 13)),
-                      SizedBox(height: 5,),
+                      const Text("image size : 200 pixel * 100 pixel",style: TextStyle(fontSize: 13)),
+                      const SizedBox(height: 5,),
                       InkWell(
                         onTap: () {
                           showExitPopup();
@@ -139,19 +138,19 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
                       Row(
                         children: [
-                          Text("Indication",),
-                          Text("*",style: TextStyle(color: colors.red),)
+                          const Text("Indication",),
+                          const Text("*",style: TextStyle(color: colors.red),)
                         ],
                       ),
-                      SizedBox(height: 5,),
+                      const SizedBox(height: 5,),
                       TextFormField(
                         controller:indicationC,
                         maxLines: 2,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(0.0))
                           ),
                         ),
@@ -162,19 +161,19 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
                       Row(
                         children: [
-                          Text("Dosage"),
-                          Text("*",style: TextStyle(color: colors.red),)
+                          const Text("Dosage"),
+                          const Text("*",style: TextStyle(color: colors.red),)
                         ],
                       ),
-                      SizedBox(height: 5,),
+                      const SizedBox(height: 5,),
                       TextFormField(
                         controller: dosageC,
                         maxLines: 2,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(0.0)
                             ),
                           ),
@@ -186,19 +185,19 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
                       Row(
                         children: [
-                          Text("Rx info",),
-                          Text("*",style: TextStyle(color: colors.red),)
+                          const Text("Rx info",),
+                          const Text("*",style: TextStyle(color: colors.red),)
                         ],
                       ),
-                      SizedBox(height: 5,),
+                      const SizedBox(height: 5,),
                       TextFormField(
                         controller: rx_infoC,
                         maxLines: 2,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(0.0)),
                           ),
                         ),
@@ -209,15 +208,15 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(height: 15,),
                       Row(
                         children: [
-                          Text("Ads Upload Area",style: TextStyle(fontSize: 15)),
-                          Text("*",style: TextStyle(color: colors.red),)
+                          const Text("Ads Upload Area",style: TextStyle(fontSize: 15)),
+                          const Text("*",style: TextStyle(color: colors.red),)
                         ],
                       ),
-                      Text("image size : 1360 pixel * 880 pixel(minimum one ad, maximum 3 ad)",style: TextStyle(fontSize: 11)),
-                      SizedBox(height: 5,),
+                      const Text("image size : 1360 pixel * 880 pixel(minimum one ad, maximum 3 ad)",style: TextStyle(fontSize: 11)),
+                      const SizedBox(height: 5,),
                       Row(
                         children: [
                           Expanded(
@@ -256,7 +255,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 5,),
+                          const SizedBox(width: 5,),
                           Expanded(
                             child: InkWell(
                               onTap: () {
@@ -289,17 +288,14 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 5,),
+                          const SizedBox(width: 5,),
                           Expanded(
                             child: InkWell(
                               onTap: () {
                                 showExitPopup3();
                               },
                               child:
-                              // imageFile3 == null ? Container(
-                              //     height: 100,
-                              //     width: double.infinity,
-                              //     child: Image.network("${getBrandsRxDosageModel!.data![0].images2}",fit: BoxFit.fill,)) :
+
                               Container(
 
                                 color: colors.primary,
@@ -325,10 +321,10 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 15,),
-                      Text("Mobile No . for brand inquiry and order",style: TextStyle(fontSize: 15)),
-                      Text("Insert 2 to 3 mobile number for brand inquiry and order)",style: TextStyle(fontSize: 11)),
-                      SizedBox(height: 5,),
+                      const SizedBox(height: 15,),
+                      const Text("Mobile No . for brand inquiry and order",style: TextStyle(fontSize: 15)),
+                      const Text("Insert 2 to 3 mobile number for brand inquiry and order)",style: TextStyle(fontSize: 11)),
+                      const SizedBox(height: 5,),
                       Row(
                         crossAxisAlignment:
                         CrossAxisAlignment.start,
@@ -342,20 +338,15 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                                   child: TextFormField(
                                     controller: person1C,
                                     maxLines: 1,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         contentPadding: EdgeInsets.only(left: 8),
                                         border: InputBorder.none,
                                         hintText: "Person Name 1",hintStyle: TextStyle(color: colors.white70,fontSize: 14,)
                                     ),
-                                    // validator: (value) {
-                                    //   if (value == null || value.isEmpty) {
-                                    //     return 'Please Enter Per';
-                                    //   }
-                                    //   return null;
-                                    // },
+
                                   ),
                                 ),
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Container(
                                   color:  colors.black54.withOpacity(0.1),
                                   child: TextFormField(
@@ -363,24 +354,19 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
                                     maxLines: 1,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         counterText: "",
                                         contentPadding: EdgeInsets.only(left: 8),
                                         border: InputBorder.none,
                                         hintText: "Mobile number",hintStyle: TextStyle(color: colors.black54,fontSize: 14,)
                                     ),
-                                    // validator: (value) {
-                                    //   if (value == null || value.isEmpty) {
-                                    //     return 'Please Enter Per';
-                                    //   }
-                                    //   return null;
-                                    // },
+
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(width: 5,),
+                          const SizedBox(width: 5,),
                           Expanded(
                             child: Column(
                               children: [
@@ -389,7 +375,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                                   child: TextFormField(
                                     controller: person2C,
                                     maxLines: 1,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         contentPadding: EdgeInsets.only(left: 8),
                                         border: InputBorder.none,
                                         hintText: "Person Name 2",hintStyle: TextStyle(color: colors.white70,fontSize: 14,)
@@ -397,7 +383,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
 
                                   ),
                                 ),
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Container(
                                   color:  colors.black54.withOpacity(0.1),
                                   child: TextFormField(
@@ -405,24 +391,19 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
                                     maxLines: 1,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         counterText: "",
                                         contentPadding: EdgeInsets.only(left: 8),
                                         border: InputBorder.none,
                                         hintText: "Mobile number",hintStyle: TextStyle(color: colors.black54,fontSize: 14,)
                                     ),
-                                    // validator: (value) {
-                                    //   if (value == null || value.isEmpty) {
-                                    //     return 'Please Enter Per';
-                                    //   }
-                                    //   return null;
-                                    // },
+
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(width: 5,),
+                          const SizedBox(width: 5,),
                           Expanded(
                             child: Column(
                               children: [
@@ -432,21 +413,16 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                                   child: TextFormField(
                                     controller: person3C,
                                     maxLines: 1,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         contentPadding: EdgeInsets.only(left: 8),
                                         border: InputBorder.none,
                                         hintText: "Person Name 3",hintStyle: TextStyle(color: colors.white70,fontSize: 14,)
                                     ),
-                                    // validator: (value) {
-                                    //   if (value == null || value.isEmpty) {
-                                    //     return 'Please Enter Per';
-                                    //   }
-                                    //   return null;
-                                    // },
+
                                   ),
                                 ),
 
-                                SizedBox(height: 5,),
+                                const SizedBox(height: 5,),
                                 Container(
                                   color:  colors.black54.withOpacity(0.1),
                                   child: TextFormField(
@@ -454,18 +430,13 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
                                     maxLines: 1,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         counterText: "",
                                         contentPadding: EdgeInsets.only(left: 8),
                                         border: InputBorder.none,
                                         hintText: "Mobile number",hintStyle: TextStyle(color: colors.black54,fontSize: 14,)
                                     ),
-                                    // validator: (value) {
-                                    //   if (value == null || value.isEmpty) {
-                                    //     return 'Please Enter Per';
-                                    //   }
-                                    //   return null;
-                                    // },
+
                                   ),
                                 ),
                               ],
@@ -473,7 +444,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 30,),
+                      const SizedBox(height: 30,),
                       InkWell(
                         onTap: (){
                           if(_formKey.currentState!.validate()){
@@ -491,7 +462,6 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
 
                             setState(() {
                               brandListForJson.forEach((element) {print(element);});
-                              print('__brandListForJson________${brandListForJson}_________');
                             });
                             addBrandDetailApi();
                           }else{
@@ -499,16 +469,16 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                           }
                         },
                         child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
                             height: 50,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: colors.secondary,
                               // border: Border.all(color: colors.primary,width: 4),
                             ),
-                            child: islodder  ? Center(child: CircularProgressIndicator()):Center(
+                            child: islodder  ? const Center(child: CircularProgressIndicator()):Center(
                               child: RichText(
-                                text: TextSpan(
+                                text: const TextSpan(
                                   text: 'Submit',style: TextStyle(fontSize: 18),
 
                                 ),
@@ -517,27 +487,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
 
                         ),
                       ),
-                      // Container(
-                      //     height: 50,
-                      //     decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(15),
-                      //       color: colors.secondary,
-                      //       border: Border.all(color: colors.primary,width: 4),
-                      //
-                      //
-                      //     ),
-                      //     child: Center(
-                      //       child: RichText(
-                      //         text: TextSpan(
-                      //           text: 'Subscribe now to upload ',style: TextStyle(fontSize: 15),
-                      //           children: const <TextSpan>[
-                      //             TextSpan(text: 'BRAND MODEL', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     )
-                      //
-                      // )
+
                     ],
                   ),
                 ),
@@ -562,7 +512,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       //the return value will be from "Yes" or "No" options
       context: context,
       builder: (context) => AlertDialog(
-          title: Text('Select Image'),
+          title: const Text('Select Image'),
           content: Row(
             // crossAxisAlignment: CrossAxisAlignment.s,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -571,7 +521,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                 onPressed: () {
                   getImageLogo(ImageSource.camera, context,);
                 },
-                child: Text('Camera'),
+                child: const Text('Camera'),
               ),
               const SizedBox(
                 width: 15,
@@ -581,7 +531,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                   getImageCmeraLogo(ImageSource.gallery,context,);
                 },
                 //return true when click on "Yes"
-                child: Text('Gallery'),
+                child: const Text('Gallery'),
               ),
             ],
           )),
@@ -607,7 +557,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
   Future getCropImageLogo(BuildContext context,  var image) async {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
       sourcePath: image.path,
-      aspectRatio: CropAspectRatio(ratioX: 16, ratioY: 9),
+      aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
       uiSettings: [
         AndroidUiSettings(
             toolbarTitle: 'Cropper',
@@ -630,7 +580,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       //the return value will be from "Yes" or "No" options
       context: context,
       builder: (context) => AlertDialog(
-          title: Text('Select Image'),
+          title: const Text('Select Image'),
           content: Row(
             // crossAxisAlignment: CrossAxisAlignment.s,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -639,7 +589,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                 onPressed: () {
                   getImage(ImageSource.camera, context,1);
                 },
-                child: Text('Camera'),
+                child: const Text('Camera'),
               ),
               const SizedBox(
                 width: 15,
@@ -649,7 +599,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                   getImageCmera(ImageSource.gallery,context,1);
                 },
                 //return true when click on "Yes"
-                child: Text('Gallery'),
+                child: const Text('Gallery'),
               ),
             ],
           )),
@@ -660,7 +610,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
     return await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          title: Text('Select Image'),
+          title: const Text('Select Image'),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -668,7 +618,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                 onPressed: () {
                   getImage(ImageSource.camera, context,2);
                 },
-                child: Text('Camera'),
+                child: const Text('Camera'),
               ),
               const SizedBox(
                 width: 15,
@@ -677,7 +627,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                 onPressed: () {
                   getImageCmera(ImageSource.gallery,context,2);
                 },
-                child: Text('Gallery'),
+                child: const Text('Gallery'),
               ),
             ],
           )),
@@ -688,7 +638,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
     return await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          title: Text('Select Image'),
+          title: const Text('Select Image'),
           content: Row(
             // crossAxisAlignment: CrossAxisAlignment.s,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -697,7 +647,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                 onPressed: () {
                   getImage(ImageSource.camera, context,3);
                 },
-                child: Text('Camera'),
+                child: const Text('Camera'),
               ),
               const SizedBox(
                 width: 15,
@@ -709,7 +659,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
                 },
 
                 //return true when click on "Yes"
-                child: Text('Gallery'),
+                child: const Text('Gallery'),
               ),
             ],
           )),
@@ -735,7 +685,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
   Future getCropImage(BuildContext context, int i, var image) async   {
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
       sourcePath: image.path,
-      aspectRatio: CropAspectRatio(ratioX: 4, ratioY: 3),
+      aspectRatio: const CropAspectRatio(ratioX: 4, ratioY: 3),
       compressFormat: ImageCompressFormat.png,
       uiSettings: [
         AndroidUiSettings(
@@ -750,13 +700,10 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
     setState(() {
 
       if (i == 1) {
-        print('_____1_____${i}___${croppedFile!.path}______');
-        imageFile1 = File(croppedFile.path);
+        imageFile1 = File(croppedFile!.path);
       }else if(i == 2){
-        print('_____2_____${i}_________');
         imageFile2 = File(croppedFile!.path);
       }else if(i == 3){
-        print('_____3_____${i}_________');
         imageFile3 = File(croppedFile!.path);
       }
 
@@ -780,7 +727,6 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       'rx_info': rx_infoC.text,
       'contact_details': brandListForJson.toString()
     });
-    print('____cccccc______${request.fields}_________');
     request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
     if(imageFile1 != null){
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
@@ -790,16 +736,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       request.files.add(await http.MultipartFile.fromPath('images[]', imageFile3?.path ?? ""));
     }
 
-    // if(imageFile == null){
-    //   Fluttertoast.showToast(msg: "Select Images");
-    // }else {
-    //   request.files.add(await http.MultipartFile.fromPath('logo', imageFile?.path ?? ""));
-    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile1?.path ?? ""));
-    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile2?.path ?? ""));
-    //   request.files.add(await http.MultipartFile.fromPath('images[]', imageFile3?.path ?? ""));
-    // }
 
-    print('__request.files________${request.files}_________');
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -807,7 +744,6 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       var result = await response.stream.bytesToString();
       var finalResult = jsonDecode(result);
       Fluttertoast.showToast(msg: "${finalResult['message']}");
-      print('_____sssss_____${widget.id}_________');
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(nameChange: true,spId: widget.id,))).then((value) {
 
         if(value !=null){
@@ -824,10 +760,7 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       indicationC.clear();
       dosageC.clear();
       rx_infoC.clear();
-      // imageFile == null;
-      // imageFile1  == null;
-      // imageFile2  == null;
-      // imageFile3  == null;
+
       brandListForJson.clear();
       setState(() {
         islodder = false;
@@ -856,7 +789,6 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
       'user_id':  userId.toString(),
       'id':cardId.toString()
     });
-    print('____request.fields______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -875,7 +807,6 @@ class _BrandSpecilizationUploadState extends State<BrandSpecilizationUpload> {
             mobile2C.text = getBrandsRxDosageModel!.data![0].contactDetails![1].mobile!;
             mobile3C.text = getBrandsRxDosageModel!.data![0].contactDetails![2].mobile!;
           }
-        print('_____finalResult_____${indicationC.text}_________');
       });
     }
     else {

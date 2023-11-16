@@ -33,19 +33,19 @@ class _SignupScreenState extends State<SignupScreen> {
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("Confirm Exit"),
-                    content: Text("Are you sure you want to exit?"),
+                    title: const Text("Confirm Exit"),
+                    content: const Text("Are you sure you want to exit?"),
                     actions: <Widget>[
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: colors.primary),
-                        child: Text("YES"),
+                        child: const Text("YES"),
                         onPressed: () {
                           SystemNavigator.pop();
                         },
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: colors.primary),
-                        child: Text("NO"),
+                        child: const Text("NO"),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -68,7 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 Container(
                   width: double.maxFinite,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: colors.whiteTemp,
                       borderRadius: BorderRadius.only(topRight: Radius.circular(1),topLeft: Radius.circular(1))
                   ),
@@ -76,9 +76,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: MediaQuery.of(context).size.height/1.59,
                   child: Column(
                     children: [
-                      SizedBox(height: 20,),
-                      Text("Signup",style: TextStyle(color: colors.blackTemp,fontSize: 35 ,fontWeight: FontWeight.bold),),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
+                      const Text("Signup",style: TextStyle(color: colors.blackTemp,fontSize: 35 ,fontWeight: FontWeight.bold),),
+                      const SizedBox(height: 20,),
                       SingleChildScrollView(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 15,left: 15,top: 20),
@@ -86,53 +86,10 @@ class _SignupScreenState extends State<SignupScreen> {
                             key: _formKey,
                             child: Column(
                               children: [
-                                // InkWell(
-                                //   onTap: (){
-                                //
-                                //   },
-                                //   child: Card(
-                                //     elevation: 5,
-                                //     shape: RoundedRectangleBorder(
-                                //       borderRadius: BorderRadius.circular(10.0),
-                                //     ),
-                                //     child: Padding(
-                                //       padding: const EdgeInsets.all(2.0),
-                                //       child: DropdownButtonHideUnderline(
-                                //         child: DropdownButton(
-                                //           hint: Text("Choose gender"),
-                                //           isExpanded: true,
-                                //           elevation: 0,
-                                //           value: docterList,
-                                //           icon: Icon(Icons.keyboard_arrow_down,size: 40,color: colors.secondary,),
-                                //           items:items.map((String items) {
-                                //             return DropdownMenuItem(
-                                //                 value: items,
-                                //                 child: Padding(
-                                //                   padding: const EdgeInsets.all(8.0),
-                                //                   child: Text(items,style: TextStyle(color: colors.secondary),),
-                                //                 )
-                                //             );
-                                //           }
-                                //           ).toList(),
-                                //           onChanged: (String? newValue){
-                                //             setState(() {
-                                //               docterList = newValue!;
-                                //                indexSectet = items.indexOf(newValue);
-                                //               indexSectet++;
-                                //               print("tttttt--dfdfdsfsf------->${indexSectet}");
-                                //             });
-                                //           },
-                                //
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-
                                 Padding(
                                   padding: const EdgeInsets.only(left: 5.0, right: 5),
                                   child: Container(
-                                      padding: EdgeInsets.only(right: 5, top: 14),
+                                      padding: const EdgeInsets.only(right: 5, top: 14),
                                       width: MediaQuery.of(context).size.width,
                                       height: 60,
                                       decoration:
@@ -154,7 +111,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                             child: Icon(Icons.keyboard_arrow_down_rounded,  color: colors.secondary,size: 30,),
                                           ),
                                          // elevation: 16,
-                                          style:  TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
+                                          style:  const TextStyle(color: colors.secondary,fontWeight: FontWeight.bold),
                                           underline: Padding(
                                             padding: const EdgeInsets.only(left: 0,right: 0),
                                             child: Container(
@@ -182,7 +139,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                 children: [
                                                   Padding(
                                                     padding: const EdgeInsets.all(6.0),
-                                                    child: Text(value,style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
+                                                    child: Text(value,style: const TextStyle(color: colors.blackTemp,fontWeight: FontWeight.normal),),
                                                   ),
                                                   const Padding(
                                                     padding: EdgeInsets.all(0),
@@ -203,7 +160,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                                   ),
                                 ),
-                                SizedBox(height: 60,),
+                                const SizedBox(height: 60,),
                                 Btn(
                                   color: colors.secondary,
                                     height: 50,
@@ -220,7 +177,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                                 role: indexSectet,
                                               )));
                                         }
-                                        print("thisin is iss indexxxxxxxx=>${indexSectet}");
                                       } else {
                                         const snackBar = SnackBar(
                                           content: Text('All Fields are required!'),
@@ -249,11 +205,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     ],
                   ),
                 )
-
-                // Container(
-                //   color: colors.primary,
-                //   child:
-                // )
               ],
             ),
           ),

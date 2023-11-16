@@ -44,16 +44,13 @@ class _RequestListCardState extends State<RequestListCard> {
   String? role;
   String? userIdNew;
   getRole()async{
-    print('______userId_______${userIdNew}___');
 
     SharedPreferences preferences  = await  SharedPreferences.getInstance();
     role = preferences.getString("roll");
     userIdNew = preferences.getString('userId');
-    print('______userId_______${userIdNew}___');
   }
   @override
   Widget build(BuildContext context) {
-    print('___ggggggggggggg____________${widget.getRequestModel?.userId}');
 
     return   RepaintBoundary(
       key: keyList,

@@ -47,9 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // _getFromGallery();
-                      // Navigator.pop(context,true);
-                      // Navigator.pop(context,true);
+
                     },
                     //return true when click on "Yes"
                     child: Text('Gallery'),
@@ -59,34 +57,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ) ??
         false; //if showDialouge had returned null, then return false
   }
-
-  // _getFromGallery() async {
-  //   final XFile? pickedFile =
-  //   await _picker.pickImage(source: ImageSource.gallery, imageQuality: 100);
-  //   /* PickedFile? pickedFile = await ImagePicker().getImage(
-  //     source: ImageSource.gallery,
-  //   );*/
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       imageFile = File(pickedFile.path);
-  //     });
-  //     Navigator.pop(context);
-  //   }
-  // }
-
-  // _getFromCamera() async {
-  //   final XFile? pickedFile =
-  //   await _picker.pickImage(source: ImageSource.camera, imageQuality: 100);
-  //   /*  PickedFile? pickedFile = await ImagePicker().getImage(
-  //     source: ImageSource.camera,
-  //   );*/
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       imageFile = File(pickedFile.path);
-  //     });
-  //     Navigator.pop(context);
-  //   }
-  // }
 
   GetUserProfileModel? getprofile;
   getuserProfile() async {
@@ -134,7 +104,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
       var finalResult = CheckPlanModel.fromJson(jsonDecode(result));
-      print('____Bew Api______${finalResult}_________');
       setState(() {
         checkPlanModel = finalResult;
       });
@@ -143,29 +112,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // userProfile() async {
-  //
-  //   var headers = {
-  //     'Cookie': 'ci_session=bacf39f3998692bb37277bfd0e78e137fbd49a22'
-  //   };
-  //   var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/user_profile'));
-  //   request.fields.addAll({
-  //     'user_id': '49'
-  //   });
-  //
-  //   request.headers.addAll(headers);
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //
-  //     print(await response.stream.bytesToString());
-  //   }
-  //   else {
-  //   print(response.reasonPhrase);
-  //   }
-  //
-  // }
   void initState() {
     super.initState();
     checkSubscriptionApi();
@@ -181,15 +127,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   getRoll() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     roll = preferences.getString('roll');
-    print(
-        '___roll__________roll__________roll__________roll_______${roll}_________');
+
   }
 
   bool isShow = false;
 
   @override
   Widget build(BuildContext context) {
-    print("My Profile pic is here U can ------${getprofile?.user?.profilePic}");
     return Scaffold(
       bottomSheet: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -237,22 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 20,
                     ),
                     Stack(children: [
-                      /*Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          // color: whiteColor
-                        ),
-                        child: imageFile != null
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Image.file(
-                                  imageFile!,
-                                  fit: BoxFit.cover,
-                                ))
-                            : Image.asset('assets/images/tablets.png'),
-                      ),*/
+
                       Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50)),
@@ -364,37 +293,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 )
                               : SizedBox.shrink(),
-                          // roll == "2"
-                          //     ? Padding(
-                          //         padding: const EdgeInsets.all(8.0),
-                          //         child: Row(
-                          //           mainAxisAlignment:
-                          //               MainAxisAlignment.spaceBetween,
-                          //           children: [
-                          //             const Text('Company Name',
-                          //                 style: TextStyle(
-                          //                     fontSize: 15,
-                          //                     fontWeight: FontWeight.w700)),
-                          //             const SizedBox(
-                          //               width: 50,
-                          //             ),
-                          //             Padding(
-                          //               padding:
-                          //                   const EdgeInsets.only(left: 0.0),
-                          //               child: getprofile?.user?.userData?.first
-                          //                               .companyName ==
-                          //                           null ||
-                          //                       getprofile?.user?.userData
-                          //                               ?.first.companyName ==
-                          //                           ""
-                          //                   ? Text("No Name")
-                          //                   : Text(
-                          //                       "${getprofile?.user?.userData?.first.companyName}"),
-                          //             )
-                          //           ],
-                          //         ),
-                          //       )
-                          //     : SizedBox.shrink(),
+
                           roll == "1"
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -446,26 +345,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       const Text('City Name',
-                          //           style: TextStyle(
-                          //               fontSize: 15,
-                          //               fontWeight: FontWeight.w700)),
-                          //       const SizedBox(
-                          //         width: 50,
-                          //       ),
-                          //       Padding(
-                          //         padding: const EdgeInsets.only(left: 0.0),
-                          //         child: Text(
-                          //             "${getprofile?.user?.userData?.first.city}"),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
+
                           roll == "1"
                               ? SizedBox.shrink()
                               : Padding(
@@ -879,15 +759,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               SizedBox(height: 8),
                                             ],
                                           ),
-                                          // trailing: getPlan!.data![index].isPurchased == true ? Container(
-                                          //   height: 30,
-                                          //   width: 90,
-                                          //   decoration: BoxDecoration(
-                                          //       color: colors.secondary,
-                                          //       borderRadius: BorderRadius.circular(10)
-                                          //   ),
-                                          //   child: Center(child: Text("Purchased",style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),)),
-                                          // ):SizedBox.shrink()
+
                                         ),
                                       );
                                     }),

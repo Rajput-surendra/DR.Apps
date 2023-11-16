@@ -46,34 +46,10 @@ class _HomePageState extends State<UpdsateScreen>
   bool loading1 = false;
   bool iconVisible = true;
 
-  // final _selectedColor = colors.primary;
-  // final _unselectedColor = Color(0xff5f6368);
-  // final _tabs = [
-  //   Tab(text: 'Doctor News',),
-  //   Tab(text: 'Pharma News'),
-  //   Tab(text: 'Product News'),
-  // ];
-  // List<Map<String, dynamic>> newsList1 = [
-  //   {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
-  //   {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-  //   {"image": "assets/images/News1.png", "title": "1 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-  // ];
-  // List<Map<String, dynamic>> newsList2 = [
-  //   {"image": "assets/images/1ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-  //   {"image": "assets/images/2ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
-  //   {"image": "assets/images/3ProductNews.png", "title": "2 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
-  //
-  // ];
-  // List<Map<String, dynamic>> newsList3 = [
-  //   {"image": "assets/images/1PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-  //   {"image": "assets/images/2PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is \nsimply dummy text','time':'10:00'},
-  //   {"image": "assets/images/3PharmaNews.png", "title": "3 News",'subtitle':'Lorem Ipsum is\n simply dummy text','time':'10:00'},
-  // ];
   String? role;
   getRoll() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     role = preferences.getString('roll');
-    print("getEventUserId--------------->222222222222${role}");
   }
   @override
    initState() {
@@ -86,7 +62,6 @@ class _HomePageState extends State<UpdsateScreen>
     getNewListApi(1);
     copyBundleAssets();
     String date = dateTime.substring(11,16);
-    print("aaaaaaaaaaaaa====>${date}");
 
   }
 
@@ -389,10 +364,8 @@ class _HomePageState extends State<UpdsateScreen>
   getNewWishlistApi(String id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? specialityId = preferences.getString('specialityId');
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -405,13 +378,11 @@ class _HomePageState extends State<UpdsateScreen>
       'type': '$newsType',
       'speciality_id':'${specialityId}'
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
 
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
     }
@@ -428,7 +399,6 @@ class _HomePageState extends State<UpdsateScreen>
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print("Specialityid--------->${specialityId}");
     setState(() {
       loading1 = true ;
     });
@@ -440,20 +410,16 @@ class _HomePageState extends State<UpdsateScreen>
       'news_type': i.toString(),
       'speciality_id': localId==null || localId== '' ? specialityId ?? '' : localId
     });
-    print("this is a finalRe----------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
      final result =  await response.stream.bytesToString();
      final finalResult = NewModel.fromJson(jsonDecode(result));
-     //print("this is a finalRe----------->${finalResult}");
+
      setState(() {
        newModel = finalResult;
        newsDatalist = finalResult.data;
 
-       print('MY Doctor Name-------${newsDatalist[0].docName}');
-       print('__________${finalResult.data.first.profileImage}_________');
-       //newTypeModel?.data!.reversed;
        loading1 =false ;
      });
     }
@@ -473,7 +439,7 @@ class _HomePageState extends State<UpdsateScreen>
   }
 
   Future<Null> callApi() async {
-    //getNewListApi();
+
   }
 
 
@@ -624,14 +590,10 @@ class _HomePageState extends State<UpdsateScreen>
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getSlider}$type'));
     request.headers.addAll(headers);
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetSliderModel.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         _sliderModel = finalResult;
 

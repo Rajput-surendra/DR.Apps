@@ -43,6 +43,72 @@
       },
       "oauth_client": [
         {
+          "client_id": "447434886949-ge1247b6b25eocaaoo2g2601njurfm6g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doctorapp",
+            "certificate_hash": "c5c2c372a183dbf4ac199387595e30503a9082c3"
+          }
+        },
+        {
+          "client_id": "447434886949-c6ls0nq0u6ab2medkulvkv4unqld1bam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDARk0T2twvEnO-7nsWr8fCDhuuAdhtzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "447434886949-c6ls0nq0u6ab2medkulvkv4unqld1bam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447434886949:android:3471355726bface3a594cc",
+        "android_client_info": {
+          "package_name": "com.dr.applications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "447434886949-c6ls0nq0u6ab2medkulvkv4unqld1bam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDARk0T2twvEnO-7nsWr8fCDhuuAdhtzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "447434886949-c6ls0nq0u6ab2medkulvkv4unqld1bam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447434886949:android:8ab4ae29f9a1a9aca594cc",
+        "android_client_info": {
+          "package_name": "com.dr.app"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "447434886949-c6ls0nq0u6ab2medkulvkv4unqld1bam.apps.googleusercontent.com",
           "client_type": 3
         }

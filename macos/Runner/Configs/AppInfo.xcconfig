@@ -8,7 +8,7 @@
 PRODUCT_NAME = doctorapp
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.doctorapp
+PRODUCT_BUNDLE_IDENTIFIER = com.dr.applications
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.doctorapp. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 com.dr.applications. All rights reserved.

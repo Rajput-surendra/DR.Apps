@@ -113,7 +113,6 @@ class _AddRequestState extends State<AddRequest> {
     var request = http.MultipartRequest(
         'POST', Uri.parse('${ApiService.getUserProfile}'));
     request.fields.addAll({'user_id': "${userId}"});
-    print('_____ request.fields_____${ request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -1648,7 +1647,7 @@ class _AddRequestState extends State<AddRequest> {
         false; //if showDialouge had returned null, then return false
   }
   void requestPermission(BuildContext context,int i) async{
-    print("okay");
+
     Map<Permission, PermissionStatus> statuses = await [
       Permission.photos,
       Permission.mediaLibrary,
@@ -1769,7 +1768,6 @@ class _AddRequestState extends State<AddRequest> {
       'json': newData.toString(),
       'user_id': userId.toString()
     });
-    print('_____request.fields_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {

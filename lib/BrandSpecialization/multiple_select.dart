@@ -26,7 +26,6 @@ class _MultiSelect1State extends State<MultiSelect1> {
         });
       }
     });
-    print("this is selected values ${_selectedUserItems.toString()}");
   }
   void _cancel() {
     //Navigator.pop(context);
@@ -43,7 +42,6 @@ class _MultiSelect1State extends State<MultiSelect1> {
 
   @override
   Widget build(BuildContext context) {
-    print('_____surendra_____${widget.speciplyList}_________');
     return StatefulBuilder(
         builder: (context, setState)
         {

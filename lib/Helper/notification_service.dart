@@ -1,6 +1,3 @@
-/*
-import 'dart:math';
-*/
 
 import 'dart:math';
 
@@ -44,25 +41,15 @@ class LocalNotificationService {
         print("FirebaseMessaging.instance.getInitialMessage");
         if (message != null) {
           print("New Notification");
-          // if (message.data['_id'] != null) {
-          //   Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => DemoScreen(
-          //         id: message.data['_id'],
-          //       ),
-          //     ),
-          //   );
-          // }
+
         }
       },
     );
 
     FirebaseMessaging.onMessage.listen(
           (message) {
-        print("FirebaseMessaging.onMessage______________");
         if (message.notification != null) {
-          print('${message.notification}_________________');
-          print('${message.notification!.body}_________body____');
+
           print("message.data11 ${message.data}");
 
          display(message);
@@ -75,18 +62,10 @@ class LocalNotificationService {
 
     FirebaseMessaging.onMessageOpenedApp.listen(
           (message) {
-        print("FirebaseMessaging.onMessageOpenedApp___________");
         if (message.notification != null) {
-          print('_____________${message.notification}_______________');
-          print('_____________${message.notification?.title}_______________');
+
           print(message.notification!.body);
           print("message.data22 ${message.data}");
-
-
-          //handleNotification(message.data);
-
-         // HomeScreenState().setSegmentValue(2) ;
-
 
 
 
@@ -112,7 +91,6 @@ class LocalNotificationService {
 
   static void display(RemoteMessage message) async {
     try {
-      print("In Notification method");
       // int id = DateTime.now().microsecondsSinceEpoch ~/1000000;
       Random random = Random();
       int id = random.nextInt(1000);
@@ -123,7 +101,6 @@ class LocalNotificationService {
             importance: Importance.max,
             priority: Priority.high,
           ));
-      //print("my id is ${id.toString()}");
       await _flutterLocalNotificationsPlugin.show(
           id,
           message.notification!.title,

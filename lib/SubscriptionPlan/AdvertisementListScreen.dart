@@ -55,12 +55,7 @@ class _AdvertisementListScreenState extends State<AdvertisementListScreen> {
                           onPressed: () {
                             deleteAdvertisementApi(brandId);
                             Navigator.of(context).pop(false);
-                            // SettingProvider settingProvider =
-                            // Provider.of<SettingProvider>(context, listen: false);
-                            // settingProvider.clearUserSession(context);
-                            // //favList.clear();
-                            // Navigator.of(context).pushNamedAndRemoveUntil(
-                            //     '/home', (Route<dynamic> route) => false);
+
                           })
                     ],
                   );
@@ -98,7 +93,6 @@ class _AdvertisementListScreenState extends State<AdvertisementListScreen> {
           itemCount: adversementListModel!.data!.length,
             itemBuilder: (context,i){
              adv = adversementListModel!.data![i];
-            print('__________${adv.speciality}_________');
           return  Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -162,7 +156,6 @@ class _AdvertisementListScreenState extends State<AdvertisementListScreen> {
   getAdvertisementListApi() async {
      SharedPreferences prefs = await SharedPreferences.getInstance();
      String? userId = prefs.getString("userId");
-     print('______userId____${userId}_________');
     var headers = {
       'Cookie': 'ci_session=d23d6cf3108e12a0914f5225c6bbf7c18ac5be52'
     };
@@ -175,7 +168,6 @@ class _AdvertisementListScreenState extends State<AdvertisementListScreen> {
     if (response.statusCode == 200) {
      var result =  await response.stream.bytesToString();
      var finalResult = AdversementListModel.fromJson(jsonDecode(result));
-     print('_____finalResult_____${finalResult}_________');
      setState(() {
        adversementListModel = finalResult;
      });

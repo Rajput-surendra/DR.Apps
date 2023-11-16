@@ -46,12 +46,10 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
       'user_id': '$userId',
       'type':role =="1" ?"doctor":'pharma'
     });
-    print('_____Surendra_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
      var result = await response.stream.bytesToString();
-     print('_____result_____${result}_________');
      var finalResult = GetPlan.fromJson(json.decode(result));
      setState(() {
        getPlan = finalResult;
@@ -79,7 +77,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
       'transaction_id': 'TestingTransactions',
       'type':role =="1" ?"doctor":'pharma'
     });
-    print('_____fields_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -87,7 +84,6 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
    final finalResult = json.decode(result);
    Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
-   print('____Sdfdfdfdff______${finalResult}_________');
    setState(() {
 
    });
@@ -147,8 +143,7 @@ class _SubscriptionPlanState extends State<SubscriptionPlan> {
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: (){
-                      // price = int.parse(getPlan!.data![index].amount ?? '') ;
-                      // print("checking razorpay price ${price}");
+
                       if(getPlan!.data![index].isPurchased ?? false){
                         Fluttertoast.showToast(msg: "You all ready purchased plan",
                             toastLength: Toast.LENGTH_SHORT,

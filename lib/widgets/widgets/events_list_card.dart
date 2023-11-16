@@ -44,7 +44,6 @@ class _EventsListCardState extends State<EventsListCard> {
 
   void initState() {
     // TODO: implement initState
-    //keyList =  List.generate(1000, (_) => GlobalKey());
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
@@ -60,7 +59,6 @@ class _EventsListCardState extends State<EventsListCard> {
   userId = preferences.getString('userId');
   role =  preferences.getString("roll");
 
-  print('_____role_____${role}_________');
   }
 
 bool webViewIsLoading  = true;
@@ -68,7 +66,6 @@ List? strObj;
   @override
   Widget build(BuildContext context) {
     strObj = widget.getEventModel!.image.split(".");
-    print('_____strObj_____${strObj![2]}_________');
     return WillPopScope(
       onWillPop: () async{
         if (webViewIsLoading) { // Check if the WebView is still loading
@@ -129,9 +126,9 @@ List? strObj;
                                   iconVisible = false;
                                 });
                                 Future.delayed(Duration(milliseconds: 500), (){
-                                  //_CaptureScreenShot(index: index);
+
                                   _shareQrCode(widget.getEventModel?.link ?? '');
-                                  // _shareQrCode(eventModel?.data[index].link ?? '', context, eventModel?.data[index].image ?? '');
+
                                 });
 
                               },
@@ -167,7 +164,7 @@ List? strObj;
                                 width: 50,
                                 height: 55 ,
                                 child: Column(
-                                  children: [
+                                  children: const [
                                     Icon(Icons.download,size: 35,color: colors.secondary,),
                                     Text("pdf")
                                   ],
@@ -212,9 +209,8 @@ List? strObj;
                             ),
                             child: TextButton(onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: widget.getEventModel)));
-                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>EventDeatils(getEventModel: widget eventDataList[index])));
 
-                            }, child: Text("Click For Details",style: TextStyle(
+                            }, child: const Text("Click For Details",style: TextStyle(
                               color: colors.whiteTemp
                             ),)),
                           ),
@@ -240,7 +236,7 @@ List? strObj;
   _shareQrCode(String text) async {
     iconVisible = true ;
     var status =  await Permission.photos.request();
-    // PermissionStatus storagePermission = await Permission.storage.request();
+
     if (/*storagePermission == PermissionStatus.granted*/status.isGranted) {
       final directory = (await getApplicationDocumentsDirectory()).path;
 
@@ -252,7 +248,6 @@ List? strObj;
       ui.Image image = await bound.toImage();
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
-      print('${byteData?.buffer.lengthInBytes}___________');
       // this will save image screenshot in gallery
       if(byteData != null ){
         Uint8List pngBytes = byteData.buffer.asUint8List();
@@ -263,8 +258,7 @@ List? strObj;
         final imagePath = await File('$directory/$fileName.png').create();
         await imagePath.writeAsBytes(pngBytes);
         Share.shareFiles([imagePath.path],text: text);
-        // final resultsave = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes),quality: 90,name: 'screenshot-${DateTime.now()}.png');
-        //print(resultsave);
+
       }
     } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -285,7 +279,6 @@ List? strObj;
       await dio.download(url, filePath);
       // Open PDF using FlutterPdfView plugin
       if (await File(filePath).exists()) {
-        print('This is file path is here------${filePath}');
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -318,12 +311,7 @@ List? strObj;
           displayPDF(url);
           //  setSnackbar("File Downloaded successfully!", context);
           Fluttertoast.showToast(msg: "File View successfully!",backgroundColor: colors.secondary);
-          // var snackBar = SnackBar(
-          //   backgroundColor: colors.primary,
-          //   // content: Text('File Download Successfully '),
-          // );
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          //This will be the path of the downloaded file
+
         });
   }
 
@@ -346,35 +334,12 @@ List? strObj;
           //This will be the path of the downloaded file
         });
   }
-  // downloadFile(String url, String filename) async {
-  //   FileDownloader.downloadFile(
-  //       url: "${url}",
-  //       name: "${filename}",
-  //       onDownloadCompleted: (path) {
-  //         print(path);
-  //         String tempPath = path.toString().replaceAll("Download", "DR Apps");
-  //         final File file = File(tempPath);
-  //         print("path here ${file}");
-  //         var snackBar = SnackBar(
-  //           backgroundColor: colors.primary,
-  //           content: Row(
-  //             children: [
-  //               const Text('doctorapp Saved in your storage'),
-  //               TextButton(onPressed: (){}, child: Text("View"))
-  //
-  //             ],
-  //           ),
-  //         );
-  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //         //This will be the path of the downloaded file
-  //       });
-  // }
+
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
+
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -386,13 +351,11 @@ List? strObj;
       'status': '1',
       'type': '$event'
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
 

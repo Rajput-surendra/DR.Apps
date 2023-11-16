@@ -27,7 +27,7 @@ class _ForgotPassState extends State<ForgotPass> {
     String? token ;
     try{
       token  = await FirebaseMessaging.instance.getToken();
-      print("-----------token:-----${token}");
+
     } on FirebaseException{
     }
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -52,7 +52,7 @@ class _ForgotPassState extends State<ForgotPass> {
       if (jsonresponse['error'] == false) {
         String otp = jsonresponse['data'][0]["otp"];
         String mobile = jsonresponse['data'][0]["mobile"];
-        print('_____otp_____${otp}_________');
+
         Fluttertoast.showToast(msg: '${jsonresponse['message']}',backgroundColor: colors.secondary);
         Navigator.pushReplacement(
             context,
@@ -98,7 +98,7 @@ class _ForgotPassState extends State<ForgotPass> {
                            return "mobile number is required";
                          }
                        },
-                       decoration: InputDecoration(
+                       decoration: const InputDecoration(
                          border: InputBorder.none,
                          counterText: "",
                          contentPadding:
@@ -137,7 +137,6 @@ class _ForgotPassState extends State<ForgotPass> {
                        width: MediaQuery.of(context).size.width/1.2,
                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
                        child:
-                       // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
                        Center(child: Text("Send OTP", style: TextStyle(fontSize: 18, color: colors.whiteTemp))),
                      ),
                    )

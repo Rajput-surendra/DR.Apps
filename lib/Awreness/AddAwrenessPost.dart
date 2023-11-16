@@ -51,7 +51,6 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
 
   var dropdownInput;
 
-  // var items1 =  [ 'Patient awareness poster','Patient awareness leaflets','Patient awareness booklets','Patient awareness video', 'Patient awareness m-poster'];
   List<Map<String, dynamic>> list = [
     {'id': 'poster', 'name': 'Patient awareness poster(jpg)'},
     {'id': 'leaflets', 'name': 'Patient awareness leaflets(pdf)'},
@@ -132,16 +131,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
       'aware_input': dropdownInput ?? '',
       'language': langList.join(','),
     });
-  print('_______request.fields___${request.fields}_________');
-    // if(videoList.isNotEmpty) {
-    //   print('__________${videoList.first}_________');
-    //   videoList.forEach((element) async {
-    //     request.files.add(
-    //         await http.MultipartFile.fromPath('image[]', element.path ?? ''));
-    //   });
-    //   print('_____fgdgfdgdggdfg_____${videoList.first.path.toString()}_________');
-    //
-    // }
+
     if (imgList.isNotEmpty) {
       for (var i = 0; i < imgList.length; i++) {
         imgList.length == 0 || imgList == null
@@ -159,7 +149,6 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
       request.files
           .add(await http.MultipartFile.fromPath('image[]', pickedFiles ?? ''));
     }
-    print('filessssssss${request.files}');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     final result = await response.stream.bytesToString();
@@ -167,12 +156,10 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
 
     if (response.statusCode == 200) {
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
       isButtonLoading = false;
       setState(() {});
       Navigator.pop(context);
       Fluttertoast.showToast(msg: 'Your input will be displayed in a few times after verification',backgroundColor: colors.secondary);
-      // Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       doctoreController.clear();
       pickedFiles = null;
       setState(() {
@@ -612,8 +599,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
                                         langList.remove(i);
                                         imgList.remove(i);
                                       });
-                                      print(
-                                          "here are values ${dataList} and ${langList}  and ${imgList}");
+
                                     },
                                     child: const Icon(
                                       Icons.delete_outline,
@@ -659,21 +645,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
     );
   }
 
-  // void _showMultiSelect() async {
-  //    results = await showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return StatefulBuilder(
-  //             builder: (context, setState)
-  //             {
-  //               return
-  //                 MultiSelect();
-  //             }
-  //         );
-  //       }
-  //   );
-  //
-  // }
+
   getDialogBox() {
     return showDialog(
       context: context,
@@ -769,7 +741,7 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
 
                         langList.add(dropdownvalue.toString());
                         imgList.add(imageFile!.path.toString());
-                        print("pppppp ${langList} and ${imgList}");
+
                         Navigator.pop(context, true);
                         imageFile = null;
                         dropdownvalue = null;
@@ -797,112 +769,4 @@ class _AddAwanessPostState extends State<AddAwanessPost> {
   }
 }
 
-// class MultiSelect extends StatefulWidget {
-//   // String type;
-//   // required this.type
-//   MultiSelect({Key? key, }) : super(key: key);
-//
-//   @override
-//   State<StatefulWidget> createState() => _MultiSelectState();
-//
-// }
-//
-// class _MultiSelectState extends State<MultiSelect> {
-//   List selectedItems = [];
-//   List<String> eventCat = [];
-//   bool isChecked = false;
-//
-//   void _itemChange(String itemValue, bool isSelected) {
-//     setState(() {
-//       if (isSelected) {
-//         _selectedItems2.add(itemValue);
-//       } else {
-//         _selectedItems2.remove(itemValue);
-//       }
-//     });
-//     print("this is selected values ${_selectedItems2.toString()}");
-//   }
-//
-//   void _cancel() {
-//     Navigator.pop(context);
-//   }
-//
-//   void _submit() {
-//     List selectedItem = _selectedItems2.map((item) => item).toList();
-//     //Navigator.pop(context);
-//   }
-//
-//
-//
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//
-//   }
-//   String finalList = '';
-//   var languageList =  [ 'Hindi',
-//     'English',
-//     'Assam',
-//     'Bengali',
-//     'Oriya',
-//     'Urdu',
-//     'Gujrati',
-//     'Punjabi',
-//     'Tamil',
-//     'Telgu',
-//     'Marathi',
-//     'Kanada'
-//   ];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return StatefulBuilder(
-//         builder: (context, setState)
-//         {
-//           return
-//             AlertDialog(
-//               title: const Text('Awareness Language Upload'),
-//               content: SingleChildScrollView(
-//                 child: ListBody(
-//                   children: languageList
-//                       .map((data) =>
-//                   CheckboxListTile(
-//                     activeColor: colors.primary,
-//                     value: _selectedItems2.contains(data),
-//                     title: Text(data),
-//                     controlAffinity: ListTileControlAffinity.leading,
-//                     onChanged: (isChecked) => _itemChange(data, isChecked!),
-//
-//                   )
-//                   ).toList(),
-//                 ),
-//               ),
-//
-//               actions: [
-//                 TextButton(
-//                   child: Text('Cancel',
-//                     style: TextStyle(color: colors.primary),),
-//                   onPressed: _cancel,
-//                 ),
-//                 ElevatedButton(
-//                   style: ElevatedButton.styleFrom(
-//                       primary: colors.primary
-//                   ),
-//                   child: Text('Submit'),
-//                   onPressed: () {
-//                     setState((){
-//                     });
-//                     _submit();
-//                     Navigator.pop(context, _selectedItems2);
-//                   }
-//
-//                   ,
-//                 ),
-//               ],
-//             );
-//         }
-//     );
-//   }
-//
-// }
+

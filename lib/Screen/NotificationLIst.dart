@@ -35,7 +35,6 @@ class StateNoti extends State<NotificationList> with TickerProviderStateMixin {
   getNotificationApi() async {
     SharedPreferences  preferences = await  SharedPreferences.getInstance();
     String ? userId =  preferences.getString("userId");
-    print('______userId____${userId}_________');
     var headers = {
       'Cookie': 'ci_session=df5d2c0086921174ef313c606ea7aa6bc52cc05f'
     };

@@ -26,7 +26,6 @@ class _MySpecialityState extends State<MySpeciality> {
   getCatApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? Roll = preferences.getString('roll');
-    print("getRoll--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
     };
@@ -34,13 +33,11 @@ class _MySpecialityState extends State<MySpeciality> {
     request.fields.addAll({
       'roll': '1'
     });
-    print("this is a Response==========>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
      final result =  await response.stream.bytesToString();
      final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
-     print("this is =============>${finalResult}");
      setState(() {
        selectCatModel = finalResult;
      });
@@ -51,17 +48,7 @@ class _MySpecialityState extends State<MySpeciality> {
     print(response.reasonPhrase);
     }
   }
-  // bool isPrime(int number) {
-  //   if (number <= 1) {
-  //     return false;
-  //   }
-  //   for (int i = 2; i <= sqrt(number); i++) {
-  //     if (number % i == 0) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
+
 
 
   int? number;
@@ -89,7 +76,6 @@ class _MySpecialityState extends State<MySpeciality> {
             children:[
               SizedBox(height: 10,),
               SizedBox(
-               // height:MediaQuery.of(context).size.height/1.0,
                 child:  selectCatModel?.data == null ? Center(child: CircularProgressIndicator()) :
                 ListView.builder(
                     scrollDirection: Axis.vertical,

@@ -67,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
   getuserProfile() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getProfile--------------->${userId}");
     var headers = {
       'Cookie': 'ci_session=d9075fff59f39b7a82c03ca267be8899c1a9fbf8'
     };
@@ -82,8 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
       var finalResult = await response.stream.bytesToString();
       final jsonResponse =
           GetUserProfileModel.fromJson(json.decode(finalResult));
-      print("this is a ========>profile${jsonResponse}");
-      print("emailllllll${getprofile?.user?.mobile}");
+
       setState(() {
         getprofile = jsonResponse;
       });
@@ -98,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? Roll = preferences.getString('roll');
     String? userId = preferences.getString('userId');
-    print("getRoll--------------->${Roll}");
 
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
@@ -106,16 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
     var request = http.MultipartRequest(
         'POST', Uri.parse('${ApiService.selectCategory}'));
     request.fields.addAll({'roll': "1", 'cat_type': "2", 'user_id': '$userId'});
-    print("this is a Response==========>${request.fields}");
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-      //preferences.setString('id', "Id");
       final result = await response.stream.bytesToString();
       final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
 
       String? speciality;
-      print('______result____${finalResult}_________');
 
       finalResult.data?.forEach((element) {
         if(element.isSelected ?? false) {
@@ -159,14 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('___Som_______${localId}______${specialityId}___');
     String type = '/main_dashboard';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
     request.headers.addAll(headers);
-    print('____sssssssssssss______${request.url}_________');
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
@@ -180,13 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   GetCountingModel? countingModel;
   getCounting() async {
-    print('___role____role__${role}__________');
     SharedPreferences preferences = await SharedPreferences.getInstance();
      role = preferences.getString('roll');
     userId = preferences.getString('userId');
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('______localId____${specialityId}____${localId}_____');
     var headers = {
       'Cookie': 'ci_session=3ea10fa720ffb83b4465c35fc49dc217178fc84a'
     };
@@ -196,7 +187,6 @@ class _HomeScreenState extends State<HomeScreen> {
       'type': role == "1" ? "doctor" : "pharma",
       'speciality_id': localId==null || localId== '' ? specialityId ?? '' : localId
     });
-    print('Role dct or pharma.... ${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -213,12 +203,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initState() {
     super.initState();
-    print("this is my speiality  ${widget.speciality}");
     Future.delayed(Duration(milliseconds: 300), () {
       return getuserProfile();
     });
     getSliderApi();
-    //getCounting();
     getCatApi();
     if(widget.speciality == true){
       setState(() {
@@ -497,7 +485,6 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
          role = preferences.getString('roll');
-        print('_____role_____${role}_________');
 
         if (i == 0) {
           Navigator.push(
@@ -527,18 +514,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.push(
               context, MaterialPageRoute(builder: (C) => AddPosterScreen()));
 
-          // checkSubscriptionApi();
-          // if(role == "1")
-          //   {
-          //
-          //   }
-          // else{
-          //
-          // }
-
-          //openRazorpayPayment();
-          // Fluttertoast.showToast(
-          //     backgroundColor: colors.secondary, msg: "Coming Soon");
         }
       },
       child: Card(
@@ -651,9 +626,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   width: 10,
                 ),
-                // userModel == null || userModel!.data == null
-                //     ? SizedBox.shrink()
-                //     :
+
                 Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1028,7 +1001,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ElevatedButton.styleFrom(primary: colors.primary),
                           child: Text("YES"),
                           onPressed: () async {
-                            print('__________${userId}_________');
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.clear();
                             Navigator.push(
@@ -1131,7 +1103,6 @@ class _HomeScreenState extends State<HomeScreen> {
     request.fields.addAll({
       'user_id': userID.toString()
     });
-    print("------------------${request.fields} ${ApiService.deleteApi} ");
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();

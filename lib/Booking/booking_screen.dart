@@ -19,33 +19,6 @@ class BookingScreen extends StatefulWidget {
 
 class _BookingScreenState extends State<BookingScreen> {
 
-  // BookingModel? bookingData;
-  // getBooking() async {
-  //   var headers = {
-  //     'Cookie': 'ci_session=cdb936dc30ae5e18b6f47686df46d292c59302e6'
-  //   };
-  //   var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getBooking}'));
-  //   request.fields.addAll({
-  //     'user_id': '430'
-  //   });
-  //
-  //   request.headers.addAll(headers);
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //     var   Result = await response.stream.bytesToString();
-  //     final finalResult = BookingModel.fromJson(json.decode(Result));
-  //     setState(() {
-  //       bookingData = finalResult;
-  //       //print('My booking name is---------${bookingData?.data.first.name}');
-  //     });
-  //   }
-  //   else {
-  //   print(response.reasonPhrase);
-  //   }
-  //
-  //
-  // }
    String? id;
   int? isSelected=0;
 
@@ -54,7 +27,6 @@ class _BookingScreenState extends State<BookingScreen> {
   getBookingDetails() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print('wwwwwwwwwwwwwwwwwwwwwwwww${userId}');
     var headers = {
       'Cookie': 'ci_session=9ce8eb13e8d5c2aa354db633884a5ea99e4f1d6e'
     };
@@ -63,13 +35,11 @@ class _BookingScreenState extends State<BookingScreen> {
       'user_id': userId.toString()
       //id.toString()
     });
-    print('_____request.fields_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result =  await response.stream.bytesToString();
       var finalResult =  GetBookingDetailsModel.fromJson(jsonDecode(result));
-      print('_____vfdvvv_____${finalResult}_________');
       setState(() {
         getBookingDetailsModel = finalResult;
       });
@@ -82,7 +52,6 @@ class _BookingScreenState extends State<BookingScreen> {
   }
   CencelbookingModel?cencelbookingModel;
   acceptedApi(String id ,String status) async {
- print("idddddddddddddddddddd${id}");
     var headers = {
       'Cookie': 'ci_session=5a635878f9da494ef0b40bd7b646d7db01adacf3'
     };
@@ -162,7 +131,6 @@ class _BookingScreenState extends State<BookingScreen> {
                   itemCount: getBookingDetailsModel!.data!.length,
                   itemBuilder:
                       (BuildContext context ,int index){
-                    print('yyyyyyyyyyyyyyy${getBookingDetailsModel?.data?[index].id}');
 
                     return Card(
                       elevation: 3,
@@ -233,26 +201,13 @@ class _BookingScreenState extends State<BookingScreen> {
                                       ],
                                     ),
                                     SizedBox(height: 5,),
-                                    // Row(
-                                    //   children: [
-                                    //     const Text('Doctor Mobile : ',style: TextStyle(fontWeight: FontWeight.w600)),
-                                    //     const SizedBox(width:5,),
-                                    //     Container(
-                                    //         width: 90,
-                                    //         child: Text("${getBookingDetailsModel!.data?[index].description}",overflow: TextOverflow.ellipsis,)),
-                                    //
-                                    //   ],
-                                    // ),
+
 
                                   ],
                                 ),
                                 Column(
                                   children: [
-                                    // InkWell(
-                                    //   onTap: (){
-                                    //     deleteApi();
-                                    //   },
-                                    //     child: Icon(Icons.delete)),
+
                                         getBookingDetailsModel!.data![index].status == "2" ? Container(
                                          height: 35,
                                          width: 60,
@@ -305,53 +260,6 @@ class _BookingScreenState extends State<BookingScreen> {
 
                                  ],
                                ),
-
-                                    // SizedBox(height: 10,),
-                                    // InkWell(
-                                    //   onTap: (){
-                                    //     // cancelBooking();
-                                    //   },
-                                    //   child: Container(
-                                    //     height: 40,
-                                    //     width: 100,
-                                    //     decoration: BoxDecoration(
-                                    //         color:getBookingDetailsModel?.data?[index].statusText=='Cancelled' ? colors.whiteTemp:colors.red,
-                                    //         borderRadius: BorderRadius.circular(10)
-                                    //     ),
-                                    //     child: Center(child: Text("Cancel",style: TextStyle(color: colors.whiteTemp),)),
-                                    //   ),
-                                    // ),
-                                    ///
-                                    // const SizedBox(height: 10,),
-                                    // getBookingDetailsModel!.data![index].status=="2" ? InkWell(
-                                    //   onTap: () {
-                                    //     acceptedApi("${getBookingDetailsModel!.data![index].id}","3");
-                                    //   },
-                                    //   child: Container(
-                                    //     height: 35,
-                                    //     width: 60,
-                                    //     decoration: BoxDecoration(
-                                    //         color:Colors.red,
-                                    //         borderRadius: BorderRadius.circular(10)
-                                    //     ),
-                                    //     child: Center(child: Text("Cencel",style: TextStyle(color:colors.whiteTemp,fontSize:10),)),
-                                    //   ),
-                                    // ):SizedBox.shrink(),
-                                    // const SizedBox(height: 10,),
-                                    // getBookingDetailsModel!.data![index].status=="2" ? InkWell(
-                                    //   onTap: () {
-                                    //     acceptedApi("${getBookingDetailsModel!.data![index].id}","2");
-                                    //   },
-                                    //   child: Container(
-                                    //     height: 35,
-                                    //     width: 60,
-                                    //     decoration: BoxDecoration(
-                                    //         color:Colors.green,
-                                    //         borderRadius: BorderRadius.circular(10)
-                                    //     ),
-                                    //     child:Center(child:getBookingDetailsModel!.data![index].status=='1'?Text("Accept",style: TextStyle(color:colors.whiteTemp,fontSize:10),):Text("Accepted",style: TextStyle(color:colors.whiteTemp,fontSize:10),))
-                                    //   ),
-                                    // )
 
                                   ],
                                 )

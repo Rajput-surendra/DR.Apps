@@ -18,7 +18,6 @@ import '../Helper/Color.dart';
 import '../New_model/GetEventModel.dart';
 import '../New_model/GetSliderModel.dart';
 import '../New_model/GetWebinarModel.dart';
-import '../Webiner/Online_webinar.dart';
 import '../api/api_services.dart';
 import '../widgets/widgets/commen_slider.dart';
 import '../widgets/widgets/events_list_card.dart';
@@ -44,10 +43,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-
-    print("getEventUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -59,13 +55,11 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'status': '1',
       'type': '$event'
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
 
@@ -92,7 +86,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'roll': '$Roll',
       'speciality_id': localId == null || localId== '' ?  specialityId ?? '' : localId
     });
-    print("this is is request======xccxvxvxcvxc===>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
@@ -116,9 +109,7 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? specialityId = preferences.getString('specialityId');
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -131,13 +122,11 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'type': '$event',
       'speciality_id':"${specialityId}"
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
 
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       Navigator.pop(context);
@@ -155,7 +144,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     String? Roll = preferences.getString('roll');
      specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('____specialityId______${specialityId}_____${localId}____');
     var headers = {
       'Cookie': 'ci_session=ff45191bc42e12d2471ecac1e726d8107925e77c'
     };
@@ -165,7 +153,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'roll': '$Roll',
       'speciality_id': localId == null || localId== '' ?  specialityId ?? '' : localId
     });
-    print('_____localId_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -259,13 +246,11 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   getS() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     specialityId = preferences.getString('specialityId');
-    print('___specialityId____surendra___${specialityId}_________');
   }
 
   getrole() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     Roll = preferences.getString('roll');
-    print('___Roll____Roll___${Roll}_________');
   }
   String dateTime = '2023-03-25 13:45:05';
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -283,7 +268,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
   }
   @override
   Widget build(BuildContext context) {
-    print('_____roll_____${Roll}_________');
     return RefreshIndicator(
       onRefresh: _refresh,
       key: _refreshIndicatorKey,
@@ -386,7 +370,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'id': enentId,
       'type':'event'
     });
-    print('____sdsdfsdfsdf______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -409,7 +392,6 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
       'id': webinarId,
       'type':'webinar'
     });
-    print('____sdsdfsdfsdf______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -532,14 +514,10 @@ class _EventAndWebinerState extends State<EventAndWebiner> {
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
     request.headers.addAll(headers);
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetSliderModel.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         _sliderModel = finalResult;
       });

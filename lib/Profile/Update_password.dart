@@ -33,7 +33,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
   @override
   Widget build(BuildContext context) {
-    print('__________${widget.OTP}_________');
+
     verifyOtp() async {
       var headers = {
         'Cookie': 'ci_session=8aab49b6e6c12572dfec865bf8b192a8a73d19de'
@@ -189,41 +189,4 @@ class _UpdatePasswordState extends State<UpdatePassword> {
     );
   }
 
-  // updateProfile() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   String? userId = preferences.getString('userId');
-  //
-  //   var request = http.MultipartRequest(
-  //       'POST',
-  //       Uri.parse(
-  //           '${ApiService.getUserProfile}'));
-  //   request.fields.addAll({
-  //     'user_id': userId ?? '',
-  //     'old': oldPasswordController.text,
-  //     'new': newPasswordController.text,
-  //   });
-  //
-  //   http.StreamedResponse response = await request.send();
-  //
-  //   if (response.statusCode == 200) {
-  //     final response2 = await response.stream.bytesToString();
-  //
-  //     final result = UpdateprofileResponse.fromJson(jsonDecode(response2));
-  //
-  //     if (result.error == false) {
-  //       print('__________${response2}_____________');
-  //
-  //       ScaffoldMessenger.of(context)
-  //           .showSnackBar(SnackBar(content: Text(result.message ?? '')));
-  //
-  //       Navigator.pushReplacement(
-  //           context, MaterialPageRoute(builder: (context) => HomeScreen()));
-  //     } else {
-  //       ScaffoldMessenger.of(context)
-  //           .showSnackBar(SnackBar(content: Text(result.message ?? '')));
-  //     }
-  //   } else {
-  //     print(response.reasonPhrase);
-  //   }
-  // }
 }

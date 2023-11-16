@@ -31,7 +31,7 @@ class _FilterSpecialityState extends State<FilterSpeciality> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? Roll = preferences.getString('roll');
     String? userId = preferences.getString('userId');
-    print("getRoll--------------->${Roll}");
+
 
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
@@ -42,7 +42,7 @@ class _FilterSpecialityState extends State<FilterSpeciality> {
       'cat_type': "2",
       'user_id':'$userId'
     });
-    print("this is a Response==========>${request.fields}");
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -132,11 +132,7 @@ class _FilterSpecialityState extends State<FilterSpeciality> {
 
                       return   InkWell(
                         onTap: () async {
-                         // SharedPreferences preferences = await SharedPreferences.getInstance();
 
-                       //  preferences.setString('sId', selectCatModel?.data?[index].id ?? '');
-                         // String? id = preferences.getString('sId');
-                        // print('___ddgfdg_______${id}_________');
 
                           Navigator.pop(context, selectCatModel?.data?[index]);
                         },

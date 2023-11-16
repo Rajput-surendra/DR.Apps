@@ -55,13 +55,12 @@ class _EditorialListCardState extends State<EditorialListCard> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
     role =  preferences.getString("roll");
-    print('_____role___vv__${role}_________');
+
   }
   List? strObj;
   @override
   Widget build(BuildContext context) {
     strObj = widget.getEdoDataList?.image.split('.');
-    print('____sasadsadsad______${strObj![2]}_________');
     return RepaintBoundary(
       key: keyList,
       child: _isReady ?   Padding(
@@ -193,22 +192,17 @@ class _EditorialListCardState extends State<EditorialListCard> {
   _shareQrCode({String? text}) async {
     iconVisible = true ;
     var status =  await Permission.photos.request();
-    //Permission.manageExternalStorage.request();
 
-    //PermissionStatus storagePermission = await Permission.storage.request();
     if ( status.isGranted/*storagePermission == PermissionStatus.denied*/) {
       final directory = (await getApplicationDocumentsDirectory()).path;
 
       RenderRepaintBoundary bound = keyList.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      /*if(bound.debugNeedsPaint){
-        Timer(const Duration(seconds: 2),()=>_shareQrCode());
-        return null;
-      }*/
+
       ui.Image image = await bound.toImage(pixelRatio: 10);
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
       print('${byteData?.buffer.lengthInBytes}___________');
-      // this will save image screenshot in gallery
+
       if(byteData != null ){
         Uint8List pngBytes = byteData.buffer.asUint8List();
         String fileName = DateTime
@@ -241,12 +235,7 @@ class _EditorialListCardState extends State<EditorialListCard> {
           displayPDF(url);
           //  setSnackbar("File Downloaded successfully!", context);
           Fluttertoast.showToast(msg: "File View successfully!",backgroundColor: colors.secondary);
-          // var snackBar = SnackBar(
-          //   backgroundColor: colors.primary,
-          //   // content: Text('File Download Successfully '),
-          // );
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          //This will be the path of the downloaded file
+
         });
   }
   Future<void>  displayPDF(String url) async {
@@ -261,7 +250,6 @@ class _EditorialListCardState extends State<EditorialListCard> {
 
       // Open PDF using FlutterPdfView plugin
       if (await File(filePath).exists()) {
-        print('This is file path is here------${filePath}');
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -300,36 +288,10 @@ class _EditorialListCardState extends State<EditorialListCard> {
           //This will be the path of the downloaded file
         });
   }
-  // downloadFile(String url, String filename) async {
-  //   FileDownloader.downloadFile(
-  //       url: "${url}",
-  //       name: "${filename}",
-  //       onDownloadCompleted: (path) {
-  //         print(path);
-  //         String tempPath = path.toString().replaceAll("Download", "doctorapp");
-  //         final File file = File(tempPath);
-  //         print("path here ${file}");
-  //         var snackBar = SnackBar(
-  //           backgroundColor: colors.primary,
-  //           content: Row(
-  //             children: [
-  //               const Text('doctorapp Saved in your storage'),
-  //               TextButton(onPressed: (){}, child: Text("View"))
-  //
-  //             ],
-  //           ),
-  //         );
-  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //         //This will be the path of the downloaded file
-  //       });
-  // }
-
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -341,13 +303,11 @@ class _EditorialListCardState extends State<EditorialListCard> {
       'status': '1',
       'type': '$event'
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
 

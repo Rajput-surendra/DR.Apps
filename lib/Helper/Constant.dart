@@ -21,10 +21,9 @@ const int perPage = 10;
 final String baseUrl = 'https://developmentalphawizz.com/dr_booking/app/v1/api/';
 final String imageUrl = 'https://developmentalphawizz.com/';
 final String jwtKey = "78084f1698c9fcff5a668b68dcd103db39be2605";
-//cart
+
 List<User> addressList = [];
-//List<SectionModel> cartList = [];
-//List<Promo> promoList = [];
+
 String unit ="";
 double totalPrice = 0,
     oriPrice = 0,
@@ -59,8 +58,7 @@ String? razorpayId,
     stripePayId;
 
 bool payTesting = true;
-//payment
-//List<Model> timeSlotList = [];
+
 String? allowDay;
 bool codAllowed = true;
 String? bankName, bankNo, acName, acNo, exDetails;

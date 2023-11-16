@@ -88,8 +88,7 @@ List<String> daysLists = [];
         getprofile = jsonResponse;
       });
          getprofile!.user!.userData!.first.clinics!.forEach((element) {
-          // dayConatroller.add(getprofile!.user!.userData.clinics.first.day.split(pattern))
-          // dayConatroller.add(TextEditingController(text:element.day!.split(',').first));
+
            results = element.day?.split(",");
         grandResults.add(results ?? []);
         morningTimeController.add(TextEditingController(text:element.morningShift!.split('-').first));
@@ -145,7 +144,6 @@ List<String> daysLists = [];
                       "appoint_number":appointNOController[i].text,
                       "clinic_name": clinicController[i].text
                     }));
-                   print('______ddd____${newList}_________');
 
                   }
                  if(newList.isEmpty){
@@ -153,7 +151,6 @@ List<String> daysLists = [];
                  }else{
                    updatedDataApi();
                  }
-                  print('__sadsadsds________${newList}_________');
 
                 },
                 child: Container(
@@ -196,10 +193,6 @@ List<String> daysLists = [];
 
     });
 
-    print("checking result here ${results.runtimeType}");
-
-
-
   }
   Future<void> _selectTime(BuildContext context,int i) async {
     final TimeOfDay pickedTime = await showTimePicker(
@@ -213,7 +206,6 @@ List<String> daysLists = [];
         _selectedTime = pickedTime;
         morningTimeController[i].text = _selectedTime!.format(context);
       });
-      print('_____sfgfdgfdg_____${_selectedTime!.format(context)}_________');
     }
 
   }
@@ -243,7 +235,6 @@ List<String> daysLists = [];
         eveingTimeController[i].text = _selectedTimeNew!.format(context);
 
       });
-      print('_____sfgfdgfdg_____${_selectedTimeNew!.format(context)}_________');
     }
 
   }
@@ -319,22 +310,7 @@ List<String> daysLists = [];
           const Text("Clinic/Hospital Days",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
           const SizedBox(height:15,),
            select(i),
-          // TextFormField(
-          //   onTap: (){
-          //     _showMultiSelect(i);
-          //   },
-          //   readOnly: true,
-          //   controller: dayConatroller[i],
-          //   keyboardType: TextInputType.text,
-          //   decoration: InputDecoration(
-          //       hintText: 'Day',
-          //       hintStyle: TextStyle(
-          //           fontSize: 15.0, color: colors.blackTemp),
-          //       border: OutlineInputBorder(
-          //           borderRadius: BorderRadius.circular(10)),
-          //       contentPadding: EdgeInsets.only(left: 10, top: 10)
-          //   ),
-          // ),
+
           const SizedBox(height:15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

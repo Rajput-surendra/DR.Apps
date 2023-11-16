@@ -33,7 +33,6 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
   String ?role;
   @override
   Widget build(BuildContext context) {
-    print('____role____aaaa__${role}_________');
     return  Scaffold(
       appBar: AppBar(
           title: Text("Generics & Brands"),
@@ -198,13 +197,11 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('______localId____${specialityId}____${localId}_____');
     String type = '/generic_brand_slide';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
-    print('____url______${request.url}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -222,7 +219,6 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
   getGenericApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
      role = preferences.getString('roll');
-    print("getRoll--------------->${role}");
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
     };
@@ -239,7 +235,6 @@ class _GenericBrandScreenState extends State<GenericBrandScreen> {
       final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
       setState(() {
         selectCatModel = finalResult;
-        print('_____finalResult_____${finalResult}_________');
       });
 
     }

@@ -6,20 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Generic&Brand/Gereric_Brand_Uplaod_Screen.dart';
 import '../Generic&Brand/generic_brand_screen.dart';
-import '../Generic&Brand/generic_brand_screen.dart';
-import '../Generic&Brand/generic_brand_screen.dart';
-import '../Helper/Appbar.dart';
+
 import '../Helper/Color.dart';
 import '../New_model/Get_brand_model.dart';
 import 'package:http/http.dart'as http;
 
 import '../api/api_services.dart';
 import 'brand_specialization.dart';
-import 'brand_specialization_details.dart';
-import 'brand_specilization_upload.dart';
-import 'brand_upload_second.dart';
+
 String? cardId,brandName,brandDes;
 class BrandSpecilizationList extends StatefulWidget {
     BrandSpecilizationList({Key? key,this.catId, this.catName}) : super(key: key,);
@@ -37,43 +32,17 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
     key: _refreshIndicatorKey,
     onRefresh: _refresh,
     child: Scaffold(
-     /* bottomSheet:   role == "2" ?  Padding(
-        padding: const EdgeInsets.only(left: 5,bottom: 5,right: 5),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => BrandUploadScreen(
-              catName: catName,
-              catId: widget.catId,
-            ))).then((value) {
-              if(value !=null){
-                callApi();
-              }
-            });
-          },
-          child: Container(
-            height: 50,
-            decoration: BoxDecoration(
-                color: colors.primary, borderRadius: BorderRadius.circular(15)),
-            child: Center(
-                child: Text(
-                  "Add your brand to promote in Doctor's side in apps",
-                  style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),
-                )),
-          ),
-        ),
-      ): SizedBox.shrink(),*/
-      // appBar:
-      // customAppBar (context: context, text: "Speciality Brand", isTrue: true,),
+
       appBar: AppBar(
-          title: Text("Speciality Brands"),
+          title: const Text("Speciality Brands"),
           backgroundColor: colors.secondary,
           centerTitle: true,
           leading: InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandSpecialization()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const BrandSpecialization()));
               },
-              child: Icon(Icons.arrow_back_ios))),
-      body: getBrandModel == null || getBrandModel  == "" ?   Center(child: CircularProgressIndicator()):Padding(
+              child: const Icon(Icons.arrow_back_ios))),
+      body: getBrandModel == null || getBrandModel  == "" ?   const Center(child: CircularProgressIndicator()):Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
@@ -87,21 +56,21 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                   child: Center(
                       child: Text(
                         "${catName}",
-                        style: TextStyle(color: colors.black54),
+                        style: const TextStyle(color: colors.black54),
                       )),
                 ),
               ),
-              SizedBox(height: 8,),
-             role == "2"?SizedBox(): searchCard(),
-              SizedBox(height: 8,),
-              getBrandModel == null? Center(child: CircularProgressIndicator()): getBrandModel?.data?.length == 0? Center(child: Padding(
-              padding: const EdgeInsets.all(80),
+              const SizedBox(height: 8,),
+             role == "2"?const SizedBox(): searchCard(),
+              const SizedBox(height: 8,),
+              getBrandModel == null? const Center(child: CircularProgressIndicator()): getBrandModel?.data?.length == 0? const Center(child: Padding(
+              padding: EdgeInsets.all(80),
                 child: Text("No brand list ??"),
               ))
                   :   ListView.builder(
                   shrinkWrap: true,
                   reverse: true ,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: getBrandModel!.data == null ||
                       getBrandModel!.data == ""
                       ? 0
@@ -115,23 +84,23 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
                               "${branddata[i].name}",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: colors.secondary, fontSize: 25),
                             ),
                             Text(
                               "${branddata[i].genericName}",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: colors.black54,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -140,7 +109,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                   child: Container(
                                     height: 38,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                             bottomLeft:
                                             Radius.circular(10)),
                                         color: colors.darkIcon.withOpacity(0.6)),
@@ -148,7 +117,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                         child: Text(
                                           "By ${branddata[i].companyName}",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: colors.whiteTemp,
                                               fontSize: 12),
                                         )),
@@ -196,7 +165,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                       child: branddata[i].isDetailsAdded == true ?  InkWell(
                                         child: Container(
                                           height: 38,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.only(
                                                   bottomRight:
                                                   Radius.circular(10)),
@@ -215,7 +184,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                         ),
                                       ) :  Container(
                                         height: 38,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                                 bottomRight:
                                                 Radius.circular(10)),
@@ -225,13 +194,13 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                           BlinkText(
                                               '${branddata[i].detailText}',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 12),
                                               beginColor: colors.blackTemp,
                                               endColor: colors.whiteTemp,
                                               times: 1000,
-                                              duration: Duration(seconds: 1)),
+                                              duration: const Duration(seconds: 1)),
                                         ),
                                       )
 
@@ -247,23 +216,23 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
                               "${branddata[i].name}",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: colors.secondary, fontSize: 25),
                             ),
                             Text(
                               "${branddata[i].genericName}",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: colors.black54,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -272,7 +241,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                   child: Container(
                                     height: 38,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                             bottomLeft:
                                             Radius.circular(10)),
                                         color: colors.darkIcon.withOpacity(0.6)),
@@ -280,7 +249,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                         child: Text(
                                           "By ${branddata[i].companyName}",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: colors.whiteTemp,
                                               fontSize: 12),
                                         )),
@@ -290,14 +259,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                   child: InkWell(
                                       onTap: () {
                                         if(role == "1"){
-                                          /*setState((){
-                                                      cardId = branddata[i].id;
-                                                      brandName =  branddata[i].name;
-                                                      brandDes =  branddata[i].genericName;
-                                                    });
-                                                    if(branddata[i].userPlanPurchased == true ){
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
-                                                    }*/
+
 
                                         }else {
                                           setState((){
@@ -328,7 +290,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                       child: /*branddata[i].isDetailsAdded == true ? */ InkWell(
                                         child: Container(
                                           height: 38,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.only(
                                                   bottomRight:
                                                   Radius.circular(10)),
@@ -346,27 +308,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                           ),
                                         ),
                                       )
-                                    /*       :  Container(
-                                                  height: 38,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.only(
-                                                          bottomRight:
-                                                          Radius.circular(10)),
-                                                      color: colors.red ),
-                                                  child: Center(
-                                                    child:
-                                                    BlinkText(
-                                                        '${branddata[i].detailText}',
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12),
-                                                        beginColor: colors.blackTemp,
-                                                        endColor: colors.whiteTemp,
-                                                        times: 1000,
-                                                        duration: Duration(seconds: 1)),
-                                                  ),
-                                                )*/
+
 
 
                                   ),
@@ -385,7 +327,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
@@ -397,27 +339,23 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                       Text(
                                         "${branddata[i].name}",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: colors.secondary, fontSize: 25),
                                       ),
                                       Text(
                                         "${branddata[i].genericName}",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: colors.black54,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  // InkWell(
-                                  //   onTap: (){
-                                  //     brandDeleteApi(branddata[i].id);
-                                  //   },
-                                  //     child: Icon(Icons.delete))
+
                                 ],
                               ),
                              
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Row(
@@ -426,7 +364,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                     child: Container(
                                       height: 38,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
+                                          borderRadius: const BorderRadius.only(
                                               bottomLeft:
                                               Radius.circular(10)),
                                           color: colors.darkIcon.withOpacity(0.6)),
@@ -434,7 +372,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                           child: Text(
                                             "By ${branddata[i].companyName}",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: colors.whiteTemp,
                                                 fontSize: 12),
                                           )),
@@ -483,7 +421,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                         child: branddata[i].isDetailsAdded == true ?  InkWell(
                                           child: Container(
                                             height: 38,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 borderRadius: BorderRadius.only(
                                                     bottomRight:
                                                     Radius.circular(10)),
@@ -493,7 +431,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                               Text(
                                                 '${branddata[i].detailText}',
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 12),
 
@@ -502,7 +440,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                           ),
                                         ) : Container(
                                           height: 38,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.only(
                                                   bottomRight:
                                                   Radius.circular(10)),
@@ -512,13 +450,13 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                                             BlinkText(
                                                 '${branddata[i].detailText}',
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 12),
                                                 beginColor: colors.blackTemp,
                                                 endColor: colors.whiteTemp,
                                                 times: 1000,
-                                                duration: Duration(seconds: 1)),
+                                                duration: const Duration(seconds: 1)),
                                           ),
                                         )
 
@@ -536,16 +474,8 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                     }
 
                   }),
-              SizedBox(height: 20,),
-           /*   getBrandModel?.data == null ? SizedBox() :
-              role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
-                "Thank you,\nYour brand with generic name and\n"
-                    "company name uploaded successfully\n"
-                    "for Doctor's side in this app for promotion\n"
-                    " It is displayed in Generics & Brands and Speciality Brands in dashboard of apps",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18),
-              ),*/
+              const SizedBox(height: 20,),
+
               SizedBox(height: MediaQuery.of(context).size.height/3.5,),
 
             ],
@@ -576,7 +506,6 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
     http.MultipartRequest('POST', Uri.parse('${ApiService.getBrandApi}'));
     request.fields.addAll(
         {'user_id': role == "2" ? userId.toString() : '', 'category_id': catName.toString(),});
-    print('_____ddddd_____${request.fields}____${ApiService.getBrandApi}_____');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -585,7 +514,6 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
       setState(() {
         getBrandModel = finalResult;
         brandList = finalResult.data ?? [];
-        print('______dddd____${result}_________');
       });
     } else {
       print(response.reasonPhrase);
@@ -596,7 +524,6 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString("userId");
     role = preferences.getString("roll");
-    print('_____userId_____${role}_________');
   }
   searchCard(){
     return  Padding(
@@ -622,7 +549,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                 searchProduct(value);
               });
             },
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
       ),
@@ -672,7 +599,6 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
   @override
   void initState() {
     super.initState();
-    print('__________ffffffffffffffffffffff_________');
     getRole();
     getBrandApi();
     callApi();
@@ -735,9 +661,9 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                         ),
                         child: Center(
                           child: RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                               text: 'Subscribe now to upload ',style: TextStyle(fontSize: 11),
-                              children: const <TextSpan>[
+                              children: <TextSpan>[
                                 TextSpan(text: 'BRAND MODEL', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
                               ],
                             ),
@@ -745,7 +671,7 @@ class _BrandSpecilizationListState extends State<BrandSpecilizationList> {
                         )
 
                     ),
-                  ):SizedBox.shrink()
+                  ):const SizedBox.shrink()
                 ],
               )),
           // actions: [],

@@ -170,7 +170,6 @@ class _UpdateNewState extends State<UpdateNew> {
       final result = UpdateprofileResponse.fromJson(jsonDecode(response2));
 
       if (result.error == false) {
-        print('__________${response2}_____________');
 
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(result.message ?? '')));

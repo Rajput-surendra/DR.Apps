@@ -94,7 +94,6 @@ class _AwarenessState extends State<AwarenessListCard> {
 
       // Open PDF using FlutterPdfView plugin
       if (await File(filePath).exists()) {
-        print('This is file path is here------${filePath}');
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -124,10 +123,6 @@ class _AwarenessState extends State<AwarenessListCard> {
   } else{
 
     }
-
-
-
-    // print('______ZZZZZZZZZZZZZZ__${strObjLeaflets![2]}-----------}');
     if(widget.currentIndex == 1){
       newsType= 'doctor-news';
     }else if(widget.currentIndex == 2){
@@ -137,7 +132,8 @@ class _AwarenessState extends State<AwarenessListCard> {
     }
 
 
-    return widget.currentIndex == 0 ? RepaintBoundary(
+    return widget.currentIndex == 0 ?
+    RepaintBoundary(
       key: keyList,
       child: _isReady ? Padding(
         padding: const EdgeInsets.all(5.0),
@@ -154,14 +150,7 @@ class _AwarenessState extends State<AwarenessListCard> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 5,bottom: 8),
-                      //   child: CircleAvatar(
-                      //     backgroundImage: NetworkImage("${ApiService.imageUrl}${newTypeModel?.data?[i].profileImage}"),
-                      //     backgroundColor: colors.primary,
-                      //     radius: 25,
-                      //   ),
-                      // ), //CircleAvatar
+
                       Padding(
                         padding: const EdgeInsets.only(top: 10,left: 3),
                         child: Column(
@@ -176,15 +165,6 @@ class _AwarenessState extends State<AwarenessListCard> {
                       )
                     ],
                   ),
-                  // Container(
-                  //   width: double.infinity,
-                  //   child:  DecoratedBox(
-                  //       decoration:  BoxDecoration(
-                  //       ),
-                  //       child:widget.getAwareNess?.data.poster?[widget.index].image == null || widget.getAwareNess?.data.poster?[widget.index].image == "" ? Image.asset("assets/splash/splashimages.png"):Image.network("${widget.getAwareNess?.data.poster?[widget.index].image}",fit: BoxFit.cover,)
-                  //   ),
-                  //
-                  // ),
 
                   Container(
                     width: double.infinity,
@@ -249,7 +229,8 @@ class _AwarenessState extends State<AwarenessListCard> {
             )
         ),
       ) : SizedBox(),
-    ) : widget.currentIndex == 1 ? RepaintBoundary(
+    ) : widget.currentIndex == 1 ?
+    RepaintBoundary(
       key: keyList,
       child: _isReady ? Padding(
         padding: const EdgeInsets.all(5.0),
@@ -266,14 +247,6 @@ class _AwarenessState extends State<AwarenessListCard> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 5,bottom: 8),
-                      //   child: CircleAvatar(
-                      //     backgroundImage: NetworkImage("${ApiService.imageUrl}${newTypeModel?.data?[i].profileImage}"),
-                      //     backgroundColor: colors.primary,
-                      //     radius: 25,
-                      //   ),
-                      // ), //CircleAvatar
                       Padding(
                         padding: const EdgeInsets.only(top: 10,left: 3),
                         child: Column(
@@ -391,7 +364,8 @@ class _AwarenessState extends State<AwarenessListCard> {
             )
         ),
       ) : SizedBox(),
-    ) : widget.currentIndex == 2 ? RepaintBoundary(
+    ) : widget.currentIndex == 2 ?
+    RepaintBoundary(
       key: keyList,
       child: _isReady ? Padding(
         padding: const EdgeInsets.all(5.0),
@@ -518,7 +492,8 @@ class _AwarenessState extends State<AwarenessListCard> {
             )
         ),
       ) : SizedBox(),
-    ) : widget.currentIndex == 3 ? RepaintBoundary(
+    ) : widget.currentIndex == 3 ?
+    RepaintBoundary(
       key: keyList,
       child: _isReady ? Padding(
         padding: const EdgeInsets.all(5.0),
@@ -623,7 +598,7 @@ class _AwarenessState extends State<AwarenessListCard> {
           final File file = File(tempPath);
           print("path here ${file}");
 
-          var snackBar = SnackBar(
+          var snackBar = const SnackBar(
             backgroundColor: colors.secondary,
             content: Text('File Download Successfully'),
           );
@@ -667,9 +642,7 @@ class _AwarenessState extends State<AwarenessListCard> {
     });
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -681,14 +654,12 @@ class _AwarenessState extends State<AwarenessListCard> {
       'status': '1',
       'type': '$event'
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
-      print("thi os ojon=result=========>${result}");
+
       Fluttertoast.showToast(msg: finalResult['message']);
 
       isScreenLoading = false ;

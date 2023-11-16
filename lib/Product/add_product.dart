@@ -43,17 +43,7 @@ class _AddProductSrcreenState extends State<AddProductSrcreen> {
       // User canceled the picker
     }
   }
-  // _getFromGallery1() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);
-  //   if (result != null) {
-  //     setState(() {
-  //       files1 = result.paths.map((path) => File(path!)).toList();
-  //     });
-  //     print("thi osko oi============>${files1}");
-  //   } else {
-  //     // User canceled the picker
-  //   }
-  // }
+
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController indicationController = TextEditingController();
@@ -84,7 +74,6 @@ class _AddProductSrcreenState extends State<AddProductSrcreen> {
        'rx_info':infoController.text,
       'category': dropdownInput?.id.toString()?? ""
     });
-    print("this is respoce=============>${request.fields}");
     if(files != null){
       request.files.add(await http.MultipartFile.fromPath('image', files[0].path ?? ''));
     }
@@ -95,7 +84,6 @@ class _AddProductSrcreenState extends State<AddProductSrcreen> {
       final result =  await response.stream.bytesToString();
       final finalResult = jsonDecode(result);
       Navigator.pop(context);
-      // print("thi os ojon==========>${finalResult}");
        Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       nameController.clear();
       descriptionController.clear();
@@ -120,7 +108,6 @@ class _AddProductSrcreenState extends State<AddProductSrcreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('__________${widget.categoryData?.first.name}_________');
   }
   @override
   Widget build(BuildContext context) {
@@ -320,17 +307,14 @@ class _AddProductSrcreenState extends State<AddProductSrcreen> {
                   Row(
                     children: [
                       Text("Image"),
-                      // Text("*",style: TextStyle(color: colors.red),),
                     ],
                   ),
                   SizedBox(height: 5,),
                   InkWell(
                     onTap: (){
-                      // showExitPopup();
                       _getFromGallery();
                     },
                     child: Container(
-                      // height: MediaQuery.of(context).size.height/6,
                       height: imageFile == null ?50:100,
                       child: DottedBorder(
                           borderType: BorderType.RRect,

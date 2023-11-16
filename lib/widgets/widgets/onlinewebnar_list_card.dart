@@ -62,7 +62,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
   @override
   Widget build(BuildContext context) {
     strObj = widget.getWebinarDataList!.image!.split(".");
-    print('______ZZZZZZZZZZZZZZ____${strObj}_________');
     return  RepaintBoundary(
       key: keyList,
       child: _isReady ? Column(
@@ -278,7 +277,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
 
       // Open PDF using FlutterPdfView plugin
       if (await File(filePath).exists()) {
-        print('This is file path is here------${filePath}');
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -367,7 +365,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
       'status': '1',
       'type': '$event'
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -380,28 +377,6 @@ class _OnlineWebinarListCardState extends State<OnlineWebinarListCard> {
     }
 
   }
-  // downloadFile(String url, String filename) async {
-  //   FileDownloader.downloadFile(
-  //       url: "${url}",
-  //       name: "${filename}",
-  //       onDownloadCompleted: (path) {
-  //         print(path);
-  //         String tempPath = path.toString().replaceAll("Download", "DR Apps");
-  //         final File file = File(tempPath);
-  //         print("path here ${file}");
-  //         var snackBar = SnackBar(
-  //           backgroundColor: colors.primary,
-  //           content: Row(
-  //             children: [
-  //               const Text('doctorapp Saved in your storage'),
-  //               TextButton(onPressed: (){}, child: Text("View"))
-  //
-  //             ],
-  //           ),
-  //         );
-  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //         //This will be the path of the downloaded file
-  //       });
-  // }
+
 
 }

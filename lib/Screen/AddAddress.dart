@@ -56,38 +56,7 @@ class _AddAddressState extends State<AddAddress> {
                 )
             ),),
             SizedBox(height: 10,),
-            // TextFormField(
-            //   validator: (v){
-            //     if(v!.isEmpty){
-            //       return "Enter Address";
-            //     }
-            //   },
-            //   controller: addressController,
-            //   decoration: InputDecoration(
-            //     hintText: "Recipient's Address",
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(6),
-            //       borderSide: BorderSide(color: Colors.grey),
-            //     )
-            // ),),
-            // SizedBox(height: 10,),
-            // TextFormField(
-            //   validator: (v){
-            //     if(v!.length != 10){
-            //       return "Enter correct number";
-            //     }
-            //   },
-            //   keyboardType: TextInputType.number,
-            //   maxLength: 10,
-            //   controller: mobileController1,decoration: InputDecoration(
-            //     hintText: "Recipient's Mobile",
-            //     counterText: "",
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(6),
-            //       borderSide: BorderSide(color: Colors.grey),
-            //     )
-            // ),),
-            // SizedBox(height: 10,),
+
             TextFormField(
               validator: (v){
                 if(v!.length != 10){
@@ -106,44 +75,9 @@ class _AddAddressState extends State<AddAddress> {
             ),),
 
             SizedBox(height: 10,),
-            // TextFormField(
-            //   validator: (v){
-            //     if(v!.isEmpty){
-            //       return "Enter Address";
-            //     }
-            //   },
-            //   controller: addressController,
-            //   decoration: InputDecoration(
-            //     hintText: "Recipient's Address",
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(6),
-            //       borderSide: BorderSide(color: Colors.grey),
-            //     )
-            // ),),
-            // SizedBox(height: 10,),
-            // TextFormField(
-            //   validator: (v){
-            //     if(v!.length != 10){
-            //       return "Enter correct number";
-            //     }
-            //   },
-            //   keyboardType: TextInputType.number,
-            //   maxLength: 10,
-            //   controller: mobileController1,decoration: InputDecoration(
-            //     hintText: "Recipient's Mobile",
-            //     counterText: "",
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(6),
-            //       borderSide: BorderSide(color: Colors.grey),
-            //     )
-            // ),),
-            // SizedBox(height: 10,),
+
             TextFormField(
-              // validator: (v){
-              //   if(v!.contains('@')){
-              //     return "Enter Email";
-              //   }
-              // },
+
               keyboardType: TextInputType.emailAddress,
               controller: emailController,decoration: InputDecoration(
                 hintText: "Email",
@@ -183,7 +117,6 @@ class _AddAddressState extends State<AddAddress> {
                     "mobile1":mobileController2.text,
 
                   });
-                  print('_____asasasa_____${nameController.text}_________');
                 }
                 else{
                   Fluttertoast.showToast(msg: "All Fields are required");

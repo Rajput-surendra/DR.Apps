@@ -47,18 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
   int selectedIndex = 1;
   bool _isObscure = true;
 
-  // String? password,
-  //     mobile,
-  //     username,
-  //     email,
-  //     id,
-  //     mobileno;
-
   loginwitMobile() async {
     String? token ;
     try{
       token  = await FirebaseMessaging.instance.getToken();
-      print("-----------token:-----${token}");
+
     } on FirebaseException{
     }
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -103,9 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String? token ;
     try{
       token  = await FirebaseMessaging.instance.getToken();
-      print("-----------token:-----${token}");
     } on FirebaseException{
-      print('__________FirebaseException_____________');
     }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -136,18 +127,15 @@ class _LoginScreenState extends State<LoginScreen> {
         prefs.setString('userMobile', logInResponse?.data?.first.mobile ?? "8989898989" );
         prefs.setBool('isLogin', true);
         String? Data =  prefs.getString('roll');
-
-        print('__________${prefs.getString('userId')}_________');
-
         Fluttertoast.showToast(msg: logInResponse?.message ?? '' ,backgroundColor: colors.secondary);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const HomeScreen()));
       }
       else{
         Fluttertoast.showToast(msg: logInResponse?.message ?? '' ,backgroundColor: colors.secondary);
         setState(() {
           isLoading1 = false;
         });
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
+
       }
     }
     else {
@@ -164,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState()  {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
     _firebaseMessaging.getToken().then((token){
-      print("token is print-------------> $token");
+
     });
   }
 
@@ -178,19 +166,19 @@ class _LoginScreenState extends State<LoginScreen> {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Confirm Exit"),
-                  content: Text("Are you sure you want to exit?"),
+                  title: const Text("Confirm Exit"),
+                  content: const Text("Are you sure you want to exit?"),
                   actions: <Widget>[
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: colors.primary),
-                      child: Text("YES"),
+                      child: const Text("YES"),
                       onPressed: () {
                         SystemNavigator.pop();
                       },
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: colors.primary),
-                      child: Text("NO"),
+                      child: const Text("NO"),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -214,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Container(
                     width: double.maxFinite,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: colors.whiteTemp,
                        // borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10))
                     ),
@@ -222,9 +210,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: MediaQuery.of(context).size.height/1.30,
                     child: Column(
                       children: [
-                        SizedBox(height: 20,),
-                        Text("Login",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 35),),
-                        SizedBox(height: 15,),
+                        const SizedBox(height: 20,),
+                        const Text("Login",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold,fontSize: 35),),
+                        const SizedBox(height: 15,),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -242,12 +230,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 });
                               },
                             ),
-                            Text(
+                            const Text(
                               "Email",
                               style: TextStyle(
                                   color: colors.secondary, fontSize: 21),
                             ),
-                            SizedBox(height: 10,),
+                            const SizedBox(height: 10,),
                             Radio(
                                 value: 2,
                                 fillColor: MaterialStateColor.resolveWith(
@@ -343,7 +331,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             counterText: "",
                                             contentPadding: const EdgeInsets.only(
                                                 left: 15, top: 15),
-                                            hintText: "Password",hintStyle: TextStyle(color: colors.secondary),
+                                            hintText: "Password",hintStyle: const TextStyle(color: colors.secondary),
                                             prefixIcon: const Icon(
                                               Icons.lock,
                                               color: colors.secondary,
@@ -374,7 +362,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  ForgotPass()));
+                                                  const ForgotPass()));
                                     },
                                     child: Row(
                                       mainAxisAlignment:
@@ -391,7 +379,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Btn(
@@ -415,52 +403,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                 ),
 
-                                // InkWell(
-                                //   // onTap: (){
-                                //   //   setState((){
-                                //   //     isLoading = true;
-                                //   //   });
-                                //   //   if (_formKey.currentState!.validate()) {
-                                //   //     Navigator.push(context,MaterialPageRoute(builder:(context)=> SignupScreen()));
-                                //   //   } else {
-                                //   //     setState((){
-                                //   //       isLoading =false;
-                                //   //     });
-                                //   //     Fluttertoast.showToast(
-                                //   //         msg:
-                                //   //         "Please Enter Correct Credentials!!");
-                                //   //   }
-                                //   // },
-                                //     onTap: ()
-                                //     {
-                                //       setState(() {
-                                //         isloader = true;
-                                //       }); if (_formKey.currentState!.validate()) {
-                                //         emailPasswordLogin();
-                                //       } else {
-                                //         Fluttertoast.showToast(
-                                //             msg:
-                                //             "Please Enter Correct Credentials!!");
-                                //       }
-                                //     },
-                                //     child:
-                                //     Container(
-                                //       height: 50,
-                                //       width: MediaQuery.of(context).size.width,
-                                //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
-                                //       child:
-                                //       // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
-                                //       Center(child: Text("Sign In", style: TextStyle(fontSize: 18, color:colors.whiteTemp))),
-                                //     )
-                                //
-                                // ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("Dont have an account?",style: TextStyle(color: colors.blackTemp,fontSize: 14,fontWeight: FontWeight.bold),),
+                                    const Text("Dont have an account?",style: TextStyle(color: colors.blackTemp,fontSize: 14,fontWeight: FontWeight.bold),),
                                     TextButton(onPressed: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupScreen()));
-                                    }, child: Text("SignUp",style: TextStyle(color: colors.secondary,fontSize: 16,fontWeight: FontWeight.bold),))
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignupScreen()));
+                                    }, child: const Text("SignUp",style: TextStyle(color: colors.secondary,fontSize: 16,fontWeight: FontWeight.bold),))
                                   ],
                                 )
 
@@ -468,10 +417,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                         isMobile == true
                             ? Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 20),
                           child: Container(
                             height: 60,
@@ -493,7 +442,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       return "mobile number is required";
                                     }
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     counterText: "",
                                     contentPadding:
@@ -511,7 +460,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                           isMobile == true
                             ? Padding(
                             padding: const EdgeInsets.only(
@@ -536,23 +485,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: colors.secondary),
                                   child:
-                                  // isloader == true ? Center(child: CircularProgressIndicator(color: Colors.white,),) :
-                                  Center(child: Text("Send OTP", style: TextStyle(fontSize: 18, color: colors.whiteTemp))),
+                                  const Center(child: Text("Send OTP", style: TextStyle(fontSize: 18, color: colors.whiteTemp))),
                                 )
                             )
 
                         )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                       ],
                     )
 
 
                 )
 
-                // Container(
-                //   color: colors.primary,
-                //   child:
-                // )
               ],
             ),
           ),

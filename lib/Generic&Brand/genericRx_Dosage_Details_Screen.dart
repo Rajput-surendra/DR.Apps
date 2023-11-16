@@ -31,7 +31,6 @@ class GenericRxDosageDetailsScreen extends StatefulWidget {
 class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    print('____surendra______${widget.nameChange}__${widget.spId}__');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -45,14 +44,14 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
             }
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>GenericBrandDetailsScreen()));
           },
-            child: Icon(Icons.arrow_back_ios_rounded)),
-        title:widget.nameChange == true ?Text( "Speciality Brands"): Text( "Generics & Brands"),
+            child: const Icon(Icons.arrow_back_ios_rounded)),
+        title:widget.nameChange == true ?const Text( "Speciality Brands"): const Text( "Generics & Brands"),
       ),
       // customAppBar(context: context, text:"Generic & Brand", isTrue: true, ),
       body: Padding(
         padding: const EdgeInsets.all(5.0),
         child: SingleChildScrollView(
-          child:getBrandsRxDosageModel ==  null ? Center(child: CircularProgressIndicator()): getBrandsRxDosageModel!.data!.length == 0 ? Center(child: Text("No Data Found !!!!")): Column(
+          child:getBrandsRxDosageModel ==  null ? const Center(child: CircularProgressIndicator()): getBrandsRxDosageModel!.data!.length == 0 ? const Center(child: Text("No Data Found !!!!")): Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -65,19 +64,19 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Center(child: Text("${catName}",style: TextStyle(
+                        child: Center(child: Text("${catName}",style: const TextStyle(
                             color: colors.black54
                         ),)),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
                     Container(
 
                         child: ClipRRect(
                             child: AspectRatio(
                               aspectRatio: 2/1,
                                 child: Image.network("${getBrandsRxDosageModel!.data!.first.logo}",fit: BoxFit.cover,)))),
-                    SizedBox(height: 10,),
+                    const SizedBox(height: 10,),
 
                     Row(
                       children: [
@@ -89,13 +88,13 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                             child: Container(
                               height: 40,
                               color: colors.primary,
-                              child: Center(child: Text("Indication",style: TextStyle(
+                              child: const Center(child: Text("Indication",style: TextStyle(
                                   color: colors.whiteTemp
                               ),)),
                             ),
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Expanded(
                           child: InkWell(
                             onTap: (){
@@ -104,13 +103,13 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                             child: Container(
                               height: 40,
                               color: colors.primary,
-                              child: Center(child: Text("Dosage",style: TextStyle(
+                              child: const Center(child: Text("Dosage",style: TextStyle(
                                   color: colors.whiteTemp
                               ),)),
                             ),
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        const SizedBox(width: 5,),
                         Expanded(
                           child: InkWell(
                             onTap: (){
@@ -119,7 +118,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                             child: Container(
                               height: 40,
                               color: colors.primary,
-                              child: Center(child: Text("Rx info",style: TextStyle(
+                              child: const Center(child: Text("Rx info",style: TextStyle(
                                   color: colors.whiteTemp
                               ),)),
                             ),
@@ -128,20 +127,20 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       ],
                     ),
 
-                   SizedBox(height: 20,),
+                   const SizedBox(height: 20,),
                     sliderCard(),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:  _buildDots(),),
-                    SizedBox(height: 10,),
-                    Text("CONTACT FOR BRAND INQUIRY AND ORDER",textAlign: TextAlign.center,),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 10,),
+                    const Text("CONTACT FOR BRAND INQUIRY AND ORDER",textAlign: TextAlign.center,),
+                    const SizedBox(height: 5,),
                     personAllWidget(),
-                    SizedBox(height: 10,),
-                    widget.isTrueId == true ? SizedBox.shrink() : Row(
+                    const SizedBox(height: 10,),
+                    widget.isTrueId == true ? const SizedBox.shrink() : Row(
                       children: [
-                        role == "1" ? SizedBox.shrink():   InkWell(
+                        role == "1" ? const SizedBox.shrink():   InkWell(
                           onTap: (){
                          Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageScreen(isTrueValue: true,)));
                            //    Navigator.pop(context,[true]);
@@ -154,12 +153,12 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
 
                             height: 50,
                             width: MediaQuery.of(context).size.width/3 ,
-                            child: Center(child: Text("Edit Details",style: TextStyle(color: colors.whiteTemp),)),
+                            child: const Center(child: Text("Edit Details",style: TextStyle(color: colors.whiteTemp),)),
                           ),
                         ),
-                        SizedBox(width: 15,),
+                        const SizedBox(width: 15,),
                         role == "2"?
-                        //getBrandsRxDosageModel?.data?.first.isDetailsAdded == false ?
+
                         InkWell(
                           onTap: (){
                             if(getBrandsRxDosageModel!.data!.first.isAddPlanSubscribed == false){
@@ -177,31 +176,11 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
 
                             height: 50,
                             width: MediaQuery.of(context).size.width/1.8 ,
-                            child: Center(child: Text("Link this page to sliding ad",style: TextStyle(color: colors.whiteTemp,fontSize: 15))),
+                            child: const Center(child: Text("Link this page to sliding ad",style: TextStyle(color: colors.whiteTemp,fontSize: 15))),
                           ),
                         )
-                        //     :InkWell(
-                        //   onTap: (){
-                        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>AdvertisementScreen()));
-                        //     // if(getBrandsRxDosageModel!.data!.first.isDetailsAdded == false){
-                        //     //   _showAlertDialog(context);
-                        //     // }else{
-                        //     //
-                        //     // }
-                        //
-                        //   },
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //         color: colors.secondary,
-                        //         borderRadius: BorderRadius.circular(10)
-                        //     ),
-                        //
-                        //     height: 50,
-                        //     width: MediaQuery.of(context).size.width/1.8  ,
-                        //     child: Center(child: Text("Change sliding ad image",style: TextStyle(color: colors.whiteTemp))),
-                        //   ),
-                        // )
-                            :SizedBox.shrink()
+
+                            :const SizedBox.shrink()
                       ],
                     )
 
@@ -226,7 +205,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
     for (int i = 0; i < (getBrandsRxDosageModel?.data?.first.images?.length ?? 10); i++) {
       dots.add(
         Container(
-          margin: EdgeInsets.all(2.5),
+          margin: const EdgeInsets.all(2.5),
           width: 6,
           height: 6,
           decoration: BoxDecoration(
@@ -254,8 +233,8 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
           enableInfiniteScroll: true,
           reverse: false,
           autoPlay: true,
-          autoPlayInterval: Duration(seconds: 5),
-          autoPlayAnimationDuration: Duration(milliseconds: 500),
+          autoPlayInterval: const Duration(seconds: 5),
+          autoPlayAnimationDuration: const Duration(milliseconds: 500),
           enlargeCenterPage: false,
           scrollDirection: Axis.horizontal,
           height: 250,
@@ -269,12 +248,6 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                 aspectRatio:16/4,
                 child: Image.network("${images}",fit: BoxFit.fill,)
 
-                // Container(
-                //   width: MediaQuery.of(context).size.width,
-                //   // height: MediaQuery.of(context).size.height /1.9,
-                //   decoration: BoxDecoration(borderRadius:BorderRadius.circular(0),image: DecorationImage(image: NetworkImage("${images}"),fit: BoxFit.cover)),
-                //
-                // ),
               )
           );
         }).toList());
@@ -286,7 +259,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text("Indication",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+              title: const Text("Indication",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
               content: Text('${getBrandsRxDosageModel?.data?.first.details?.indication}'),
               actions: <Widget>[
 
@@ -304,7 +277,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text("Dosage",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+              title: const Text("Dosage",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
               content: Text('${getBrandsRxDosageModel?.data?.first.details?.dosage}'),
               actions: <Widget>[
 
@@ -322,7 +295,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text("Rx info",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
+              title: const Text("Rx info",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
               content: Text('${getBrandsRxDosageModel?.data?.first.details?.rxInfo}'),
               actions: <Widget>[
 
@@ -347,10 +320,10 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
               child: Column(
                 children: [
                   RichText(
-                    text: TextSpan(
+                    text: const TextSpan(
                       text: ' ',
                       style: TextStyle(fontSize: 13,color: colors.blackTemp),
-                      children: const <TextSpan>[
+                      children: <TextSpan>[
                         TextSpan(
                             text: 'Sliding ad detail',
                             style: TextStyle(
@@ -360,7 +333,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                       ],
                     ),
                   ),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
                   Image.asset("assets/images/generic1.png"),
                   // Container(
                   //   height: 50,
@@ -369,10 +342,10 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                   //  ),
                   //   child: Center(child: Text("Logo upload area\n image size : 200 pixel * 100 pixed",style: TextStyle(fontSize: 12),)),
                   // ),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   InkWell(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SliderPlanScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const SliderPlanScreen()));
 
                     },
                     child: Container(
@@ -386,9 +359,9 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
                         ),
                         child: Center(
                           child: RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                               text: 'Subscribe now to upload ',style: TextStyle(fontSize: 11),
-                              children: const <TextSpan>[
+                              children: <TextSpan>[
                                 TextSpan(text: 'Sliding ad', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
                               ],
                             ),
@@ -440,78 +413,7 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
             ],
           ),
         );
-            
-        //   Container(
-        //   width: 100,
-        //   child:
-        //   // Row(
-        //   //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   //   children: [
-        //   //     Column(
-        //   //       children: [
-        //   //         Padding(
-        //   //           padding: const EdgeInsets.all(0.0),
-        //   //           child: Container(
-        //   //             color:  colors.primary,
-        //   //             child: Center(child: Padding(
-        //   //               padding: const EdgeInsets.symmetric(horizontal: 5),
-        //   //               child: Text('${getBrandsRxDosageModel?.data?.first.contactDetails?[i].name}',style: TextStyle(color: colors.whiteTemp),),
-        //   //             )),
-        //   //           ),
-        //   //         ),
-        //   //         Padding(
-        //   //           padding: const EdgeInsets.all(5.0),
-        //   //           child: Container(
-        //   //             color:  colors.black54.withOpacity(0.1),
-        //   //             child: Center(child: Padding(
-        //   //               padding: const EdgeInsets.symmetric(horizontal: 6),
-        //   //               child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?[i].mobile}"),
-        //   //             )),
-        //   //           ),
-        //   //         ),
-        //   //       ],
-        //   //     ),
-        //   //     // SizedBox(width: 5,),
-        //   //     // Expanded(
-        //   //     //   child: Column(
-        //   //     //     children: [
-        //   //     //       Container(
-        //   //     //         height: 50,
-        //   //     //         color:  colors.primary,
-        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.name}",style: TextStyle(color: colors.whiteTemp))),
-        //   //     //       ),
-        //   //     //       SizedBox(height: 5,),
-        //   //     //       Container(
-        //   //     //         height: 50,
-        //   //     //         color:  colors.black54.withOpacity(0.1),
-        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.mobile}")),
-        //   //     //       ),
-        //   //     //     ],
-        //   //     //   ),
-        //   //     // ),
-        //   //     // SizedBox(width: 5,),
-        //   //     // Expanded(
-        //   //     //   child: Column(
-        //   //     //     children: [
-        //   //     //
-        //   //     //       Container(
-        //   //     //         height: 50,
-        //   //     //         color:  colors.primary,
-        //   //     //         child: Center(child: Text("${getBrandsRxDosageModel?.data?.first.contactDetails?.first.name}",style: TextStyle(color: colors.whiteTemp))),
-        //   //     //       ),
-        //   //     //
-        //   //     //       SizedBox(height: 5,),
-        //   //     //       Container(
-        //   //     //         height: 50,
-        //   //     //         color:  colors.black54.withOpacity(0.1),
-        //   //     //         child: Center(child: Text('${getBrandsRxDosageModel?.data?.first.contactDetails?.first.mobile}')),
-        //   //     //       ),
-        //   //     //     ],
-        //   //     //   ),
-        //   //     // ),
-        //   //   ],
-        //   // ),
-        // );
+
       }),
     );
   }
@@ -528,7 +430,6 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
       'user_id':  role == "1" ? ""  : userId.toString(),
      'id':widget.nameChange ?? false ? widget.spId ?? "" : widget.isTrueId ?? false ? widget.Id.toString():cardId.toString()
     });
-    print('____request.fields______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -536,7 +437,6 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
      var finalResult =  GetBrandsRxDosageModel.fromJson(jsonDecode(result));
      setState(() {
        getBrandsRxDosageModel =  finalResult;
-       print('_____finalResult_____${finalResult}_________');
      });
     }
     else {
@@ -556,7 +456,6 @@ class _GenericRxDosageDetailsScreenState extends State<GenericRxDosageDetailsScr
   getRole() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     role = preferences.getString("roll");
-    print('_____role_____${role}_________');
   }
 
 }

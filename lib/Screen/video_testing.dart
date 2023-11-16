@@ -15,10 +15,9 @@ class _VideoThumbnailScreenState extends State<VideoThumbnailScreen> {
   @override
   void initState() {
     super.initState();
-    // Replace 'video_url_here' with the actual URL of your video
+
     _videoPlayerController = VideoPlayerController.network('https://developmentalphawizz.com/dr_booking/uploads/media/2023/WhatsApp_Video_2023-06-14_at_12_44_09_PM.mp4')
       ..initialize().then((_) {
-        // Set the video to loop to keep showing the thumbnail
         _videoPlayerController.setLooping(true);
         setState(() {
           _showThumbnail = true;

@@ -52,7 +52,6 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
         _isReady = true;
       });
     });
-    print('Doctor Name>>>>>>>${widget.newModel?.docName}');
     super.initState();
     getUserId();
   }
@@ -60,7 +59,6 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
   getUserId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
    userId = preferences.getString('userId');
-    print("new--------------->${userId}");
   }
 
   List? strObj;
@@ -69,15 +67,11 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
   Widget build(BuildContext context) {
     strObj = widget.newModel?.image!.split('.');
 
-    print('_____sxsddsdsfsdfsd_____${strObj![1]}_________');
     if(widget.currentIndex == 1){
-      print('My index is 1111${widget.currentIndex}');
       newsType= 'doctor-news';
     }else if(widget.currentIndex == 3){
-      print('My index is 3333${widget.currentIndex}');
       newsType= 'pharma-news';
     }else if(widget.currentIndex == 2){
-      print('My index is 22222${widget.currentIndex}');
       newsType= 'product-news';
     }
     return RepaintBoundary(
@@ -270,15 +264,11 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
       final directory = (await getApplicationDocumentsDirectory()).path;
 
       RenderRepaintBoundary bound = keyList.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      /*if(bound.debugNeedsPaint){
-        Timer(const Duration(seconds: 2),()=>_shareQrCode());
-        return null;
-      }*/
+
       ui.Image image = await bound.toImage(pixelRatio: 10);
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
-      print('${byteData?.buffer.lengthInBytes}___________');
-      // this will save image screenshot in gallery
+
       if(byteData != null ){
         Uint8List pngBytes = byteData.buffer.asUint8List();
         String fileName = DateTime
@@ -288,8 +278,7 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
         final imagePath = await File('$directory/$fileName.png').create();
         await imagePath.writeAsBytes(pngBytes);
         Share.shareFiles([imagePath.path],text: text);
-        // final resultsave = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes),quality: 90,name: 'screenshot-${DateTime.now()}.png');
-        //print(resultsave);
+
       }
     } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -303,9 +292,9 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
   getNewWishlistApi(String id) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
+
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
+
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -317,13 +306,13 @@ class _UpdateScreenListCardState extends State<UpdateScreenListCard> {
       'status': '1',
       'type': '${newsType}'
     });
-    print("this is data------------->${request.fields}");
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
+
 
       Fluttertoast.showToast(msg: finalResult['message']);
     }

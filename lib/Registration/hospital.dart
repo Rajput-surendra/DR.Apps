@@ -54,7 +54,6 @@ class _HospitalState extends State<Hospital> {
 
      });
 
-     print("checking result here ${results.runtimeType}");
 
 
 
@@ -74,7 +73,6 @@ class _HospitalState extends State<Hospital> {
     );
     setState(() {
     });
-    print("checking result here ${results1}");
   }
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay pickedTime = await showTimePicker(
@@ -87,7 +85,6 @@ class _HospitalState extends State<Hospital> {
       setState(() {
         _selectedTime = pickedTime;
       });
-      print('_____sfgfdgfdg_____${_selectedTime!.format(context)}_________');
     }
 
   }
@@ -114,7 +111,6 @@ class _HospitalState extends State<Hospital> {
       setState(() {
         _selectedTimeNew = pickedTime;
       });
-      print('_____sfgfdgfdg_____${_selectedTimeNew!.format(context)}_________');
     }
 
   }
@@ -152,7 +148,6 @@ class _HospitalState extends State<Hospital> {
 
     List newList = [];
     for(int i = 0; i< clinicListForJson.length; i++){
-      print('${clinicListForJson[i]['days']}____________');
       newList.add(jsonEncode({
         "days":clinicListForJson[i]['days'],
         "clinic_name":clinicListForJson[i]['clinic_name'],
@@ -178,7 +173,6 @@ class _HospitalState extends State<Hospital> {
       if(finalResult['error'] == false){
         int? otp = finalResult['data']['otp'];
         String?  mobile = finalResult['data']['mobile'];
-        print('____otp______${otp}_____${mobile}____');
 
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NewCerification (
           otp: otp,mobile:mobile.toString(),title: widget.title,roll: widget.roll,categoryId:
@@ -186,7 +180,6 @@ class _HospitalState extends State<Hospital> {
           email: widget.email,experience: widget.experience,gender: widget.gender,
           pass: widget.pass,name: widget.name,profileImages: widget.profileImages,
           placeID: widget.placeID,stateID: widget.stateID,cityName: widget.cityName,newList1:newList ,)));
-        print('______ddddd____${newList}_________');
       }
       Fluttertoast.showToast(msg: "${finalResult['message']}");
     }
@@ -201,7 +194,6 @@ class _HospitalState extends State<Hospital> {
   String? daysHos;
   @override
   Widget build(BuildContext context) {
-    print('____xxxxzx______${widget.profileImages}_________');
     return  Scaffold(
       appBar: customAppBar(context: context, text:"Clinic/Hospital Details", isTrue: true, ),
       body:  Padding(
@@ -666,7 +658,6 @@ class _MultiSelectState extends State<MultiSelect> {
        });
       }
     });
-    print("this is selected values ${_selectedItems2.toString()}");
   }
   void _cancel() {
     Navigator.pop(context);
@@ -727,9 +718,6 @@ class _MultiSelectState extends State<MultiSelect> {
                   ),
                   child: Text('Submit'),
                   onPressed: () {
-                    print("selected values are here ${_selectedItems2}");
-                    //_submit();
-
                     Navigator.pop(context, _selectedItems2);
 
                   }
@@ -763,7 +751,6 @@ class _HospitalDayState extends State<HospitalDay> {
         });
       }
     });
-    print("this is selected values ${_selectedItems3.toString()}");
   }
   void _cancel() {
     Navigator.pop(context);
@@ -824,7 +811,6 @@ class _HospitalDayState extends State<HospitalDay> {
                     ),
                     child: Text('Submit'),
                     onPressed: () {
-                      print("selected values are here ${_selectedItems3}");
                       //_submit();
 
                       Navigator.pop(context, _selectedItems3);

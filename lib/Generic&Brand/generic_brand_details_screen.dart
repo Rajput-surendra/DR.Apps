@@ -38,31 +38,26 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                 return
 
                   AlertDialog(
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                  content: Text(
+                  content: const Text(
                       "Are you sure you want \nto delete Generics & Brands ?",
                       style: TextStyle(color: colors.secondary,fontSize: 16)
                   ),
                   actions: <Widget>[
                     TextButton(
-                        child: Text( "NO",style: TextStyle(color: Colors.black),
+                        child: const Text( "NO",style: TextStyle(color: Colors.black),
                         ),
                         onPressed: () {
                           Navigator.of(context).pop(false);
                         }),
                     TextButton(
-                        child:  Text( "YES",style: TextStyle(color: Colors.black),
+                        child:  const Text( "YES",style: TextStyle(color: Colors.black),
                         ),
                         onPressed: () {
                           brandDeleteApi(brandId);
                           Navigator.of(context).pop(false);
-                          // SettingProvider settingProvider =
-                          // Provider.of<SettingProvider>(context, listen: false);
-                          // settingProvider.clearUserSession(context);
-                          // //favList.clear();
-                          // Navigator.of(context).pushNamedAndRemoveUntil(
-                          //     '/home', (Route<dynamic> route) => false);
+
                         })
                   ],
                 );
@@ -78,7 +73,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
             child: Opacity(opacity: a1.value, child: dialge),
           );
         },
-        transitionDuration: Duration(milliseconds: 200),
+        transitionDuration: const Duration(milliseconds: 200),
         barrierDismissible: true,
         barrierLabel: '',
         context: context,
@@ -90,7 +85,6 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    print('____cardId______${cardId}_________');
     return RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: _refresh,
@@ -112,28 +106,28 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                 height: 50,
                    decoration: BoxDecoration(
                 color: colors.primary, borderRadius: BorderRadius.circular(15)),
-               child: Center(
+               child: const Center(
               child: Text(
             "Add your brand to promote in Doctor's side in apps",
             style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold),
           )),
          ),
        ),
-             ): SizedBox.shrink(),
+             ): const SizedBox.shrink(),
 
          appBar:
         AppBar(
-           title: Text("Generics & Brands"),
+           title: const Text("Generics & Brands"),
            backgroundColor: colors.secondary,
            centerTitle: true,
           leading: InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericBrandScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const GenericBrandScreen()));
             },
-              child: Icon(Icons.arrow_back_ios)),
+              child: const Icon(Icons.arrow_back_ios)),
          ),
         //customAppBar (context: context, text: "Generics & Brands", isTrue: true,),
-        body: getBrandModel == null || getBrandModel  == "" ?   Center(child: CircularProgressIndicator()): Padding(
+        body: getBrandModel == null || getBrandModel  == "" ?   const Center(child: CircularProgressIndicator()): Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
             child: Column(
@@ -147,24 +141,24 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                     child: Center(
                         child: Text(
                       "${catName}",
-                      style: TextStyle(color: colors.black54),
+                      style: const TextStyle(color: colors.black54),
                     )),
                   ),
                 ),
-                SizedBox(height: 8,),
-              role == "2" ? SizedBox.shrink():  searchCard(),
-                SizedBox(height: 8,),
+                const SizedBox(height: 8,),
+              role == "2" ? const SizedBox.shrink():  searchCard(),
+                const SizedBox(height: 8,),
                 getBrandModel == null
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : getBrandModel?.data?.length == 0
-                    ? Center(child: Padding(
-                      padding: const EdgeInsets.all(80),
+                    ? const Center(child: Padding(
+                      padding: EdgeInsets.all(80),
                       child: Text("No brand list ??"),
                     ))
                     :   ListView.builder(
                             shrinkWrap: true,
                             reverse: true ,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: getBrandModel!.data == null ||
                                     getBrandModel!.data == ""
                                 ? 0
@@ -177,23 +171,23 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Text(
                                         "${branddata[i].name}",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: colors.secondary, fontSize: 25),
                                       ),
                                       Text(
                                         "${branddata[i].genericName}",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: colors.black54,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Row(
@@ -202,7 +196,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                             child: Container(
                                               height: 38,
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.only(
+                                                  borderRadius: const BorderRadius.only(
                                                       bottomLeft:
                                                       Radius.circular(10)),
                                                   color: colors.darkIcon.withOpacity(0.6)),
@@ -210,7 +204,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                   child: Text(
                                                     "By ${branddata[i].companyName}",
                                                     textAlign: TextAlign.center,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: colors.whiteTemp,
                                                         fontSize: 12),
                                                   )),
@@ -258,7 +252,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                 child: branddata[i].isDetailsAdded == true ?  InkWell(
                                                   child: Container(
                                                     height: 38,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                         borderRadius: BorderRadius.only(
                                                             bottomRight:
                                                             Radius.circular(10)),
@@ -277,7 +271,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                   ),
                                                 ) :  Container(
                                                   height: 38,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                       borderRadius: BorderRadius.only(
                                                           bottomRight:
                                                           Radius.circular(10)),
@@ -287,13 +281,13 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     BlinkText(
                                                         '${branddata[i].detailText}',
                                                         textAlign: TextAlign.center,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 12),
                                                         beginColor: colors.blackTemp,
                                                         endColor: colors.whiteTemp,
                                                         times: 1000,
-                                                        duration: Duration(seconds: 1)),
+                                                        duration: const Duration(seconds: 1)),
                                                   ),
                                                 )
 
@@ -309,23 +303,23 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Text(
                                         "${branddata[i].name}",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: colors.secondary, fontSize: 25),
                                       ),
                                       Text(
                                         "${branddata[i].genericName}",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: colors.black54,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       Row(
@@ -334,7 +328,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                             child: Container(
                                               height: 38,
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.only(
+                                                  borderRadius: const BorderRadius.only(
                                                       bottomLeft:
                                                       Radius.circular(10)),
                                                   color: colors.darkIcon.withOpacity(0.6)),
@@ -342,7 +336,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                   child: Text(
                                                     "By ${branddata[i].companyName}",
                                                     textAlign: TextAlign.center,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: colors.whiteTemp,
                                                         fontSize: 12),
                                                   )),
@@ -352,14 +346,6 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                             child: InkWell(
                                                 onTap: () {
                                                   if(role == "1"){
-                                                    /*setState((){
-                                                      cardId = branddata[i].id;
-                                                      brandName =  branddata[i].name;
-                                                      brandDes =  branddata[i].genericName;
-                                                    });
-                                                    if(branddata[i].userPlanPurchased == true ){
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GenericRxDosageDetailsScreen(Id:branddata[i].id,isTrueId: true,brand:branddata[i].name,des: branddata[i].genericName,)));
-                                                    }*/
 
                                                   }else {
                                                     setState((){
@@ -390,7 +376,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                 child: /*branddata[i].isDetailsAdded == true ? */ InkWell(
                                                   child: Container(
                                                     height: 38,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                         borderRadius: BorderRadius.only(
                                                             bottomRight:
                                                             Radius.circular(10)),
@@ -408,28 +394,6 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     ),
                                                   ),
                                                 )
-                                             /*       :  Container(
-                                                  height: 38,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.only(
-                                                          bottomRight:
-                                                          Radius.circular(10)),
-                                                      color: colors.red ),
-                                                  child: Center(
-                                                    child:
-                                                    BlinkText(
-                                                        '${branddata[i].detailText}',
-                                                        textAlign: TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12),
-                                                        beginColor: colors.blackTemp,
-                                                        endColor: colors.whiteTemp,
-                                                        times: 1000,
-                                                        duration: Duration(seconds: 1)),
-                                                  ),
-                                                )*/
-
 
                                             ),
                                           ),
@@ -446,7 +410,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         Row(
@@ -458,13 +422,13 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                 Text(
                                                   "${branddata[i].name}",
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: colors.secondary, fontSize: 25),
                                                 ),
                                                 Text(
                                                   "${branddata[i].genericName}",
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: colors.black54,
                                                   ),
                                                 ),
@@ -474,10 +438,10 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                 onTap: (){
                                                   deleteAccountDailog(branddata[i].id);
                                                 },
-                                                child: Icon(Icons.delete))
+                                                child: const Icon(Icons.delete))
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         Row(
@@ -486,7 +450,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                               child: Container(
                                                 height: 38,
                                                 decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.only(
+                                                    borderRadius: const BorderRadius.only(
                                                         bottomLeft:
                                                         Radius.circular(10)),
                                                     color: colors.darkIcon.withOpacity(0.6)),
@@ -494,7 +458,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     child: Text(
                                                       "By ${branddata[i].companyName}",
                                                       textAlign: TextAlign.center,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: colors.whiteTemp,
                                                           fontSize: 12),
                                                     )),
@@ -543,7 +507,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                   child: branddata[i].isDetailsAdded == true ?  InkWell(
                                                     child: Container(
                                                       height: 38,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                           borderRadius: BorderRadius.only(
                                                               bottomRight:
                                                               Radius.circular(10)),
@@ -553,7 +517,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                         Text(
                                                           '${branddata[i].detailText}',
                                                           textAlign: TextAlign.center,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color: Colors.white,
                                                               fontSize: 12),
 
@@ -562,7 +526,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                     ),
                                                   ) : Container(
                                                     height: 38,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                         borderRadius: BorderRadius.only(
                                                             bottomRight:
                                                             Radius.circular(10)),
@@ -572,13 +536,13 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                                                       BlinkText(
                                                           '${branddata[i].detailText}',
                                                           textAlign: TextAlign.center,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               color: Colors.white,
                                                               fontSize: 12),
                                                           beginColor: colors.blackTemp,
                                                           endColor: colors.whiteTemp,
                                                           times: 1000,
-                                                          duration: Duration(seconds: 1)),
+                                                          duration: const Duration(seconds: 1)),
                                                     ),
                                                   )
 
@@ -595,9 +559,9 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                               }
 
                             }),
-                SizedBox(height: 20,),
-                getBrandModel?.data == null ? SizedBox() :
-                role == "1" ? SizedBox.shrink():getBrandModel?.data?.length == 0 ? SizedBox.shrink():  Text(
+                const SizedBox(height: 20,),
+                getBrandModel?.data == null ? const SizedBox() :
+                role == "1" ? const SizedBox.shrink():getBrandModel?.data?.length == 0 ? const SizedBox.shrink():  const Text(
                   "Thank you,\nYour brand with generic name and\n"
                       "company name uploaded successfully\n"
                       "for Doctor's side in this app for promotion\n"
@@ -647,7 +611,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                 searchProduct(value);
               });
             },
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
       ),
@@ -684,7 +648,6 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
           'category_id': catId.toString(),
           'type':"0"
         });
-    print('_____ddddd_____${request.fields}____${ApiService.getBrandApi}_____');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -693,7 +656,6 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
       setState(() {
         getBrandModel = finalResult;
         brandList = finalResult.data ?? [];
-        print('______dddd____${result}_________');
       });
     } else {
       print(response.reasonPhrase);
@@ -704,7 +666,6 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString("userId");
     role = preferences.getString("roll");
-    print('_____userId_____${role}_________');
   }
   brandDeleteApi(String? brandId) async {
     var headers = {
@@ -733,7 +694,6 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    print('__________ffffffffffffffffffffff_________');
     getRole();
     getBrandApi();
     callApi();
@@ -768,14 +728,6 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                   ),
                   const SizedBox(height: 5,),
                   Image.asset("assets/images/generic.png"),
-                  // Container(
-                  //   height: 50,
-                  //  decoration: BoxDecoration(
-                  //    border: Border.all(color: colors.blackTemp)
-                  //  ),
-                  //   child: Center(child: Text("Logo upload area\n image size : 200 pixel * 100 pixed",style: TextStyle(fontSize: 12),)),
-                  // ),
-
                   const SizedBox(height: 30,),
                   role == "2" ? InkWell(
                     onTap: (){
@@ -796,9 +748,9 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                         ),
                         child: Center(
                           child: RichText(
-                            text: TextSpan(
+                            text: const TextSpan(
                               text: 'Subscribe now to upload ',style: TextStyle(fontSize: 11),
-                              children: const <TextSpan>[
+                              children: <TextSpan>[
                                 TextSpan(text: 'BRAND MODEL', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
                               ],
                             ),
@@ -806,7 +758,7 @@ class _GenericBrandDetailsScreenState extends State<GenericBrandDetailsScreen> {
                         )
 
                     ),
-                  ):SizedBox.shrink()
+                  ):const SizedBox.shrink()
                 ],
               )),
           // actions: [],

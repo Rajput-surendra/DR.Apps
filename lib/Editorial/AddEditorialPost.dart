@@ -70,9 +70,7 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
     });
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
 
     var headers = {
       'Cookie': 'ci_session=f5c119f5040eaef28e6a4c420b14b794a449a6c4'
@@ -84,17 +82,14 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
       'title': titleController.text,
       'description': decController.text
     });
-    print("getEventUserId--------------->${request.fields}");
     if(files != null){
       request.files.add(await http.MultipartFile.fromPath('image', files[0].path ?? ''));
     }
-    print("files--------------->${request.files}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
       Fluttertoast.showToast(msg: finalResult['message']);
       titleController.clear();
       decController.clear();
@@ -170,7 +165,7 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
                   child: DottedBorder(
                     borderType: BorderType.RRect,
                     radius: Radius.circular(5),
-                    dashPattern: [5, 5],
+                    dashPattern: const [5, 5],
                     color: Colors.grey,
                     strokeWidth: 2,
                     child: files1.length > 0  ? Padding(
@@ -182,7 +177,7 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
                       child: Center(
                           child:
                           Column(
-                            children: [
+                            children: const [
                               Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 30,),
                               Text("jpeg file",style: TextStyle(color: colors.red),)
                             ],
@@ -206,7 +201,7 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
                   child: DottedBorder(
                     borderType: BorderType.RRect,
                     radius: Radius.circular(5),
-                    dashPattern: [5, 5],
+                    dashPattern: const [5, 5],
                     color: Colors.grey,
                     strokeWidth: 2,
                     child: files2.length > 0  ? Padding(
@@ -218,7 +213,7 @@ class _AddEditoilPostState extends State<AddEditoilPost> {
                       child: Center(
                           child:
                           Column(
-                            children: [
+                            children: const [
                               Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 30,),
                               Text("pdf File",style: TextStyle(color: colors.red),)
                             ],

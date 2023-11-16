@@ -24,7 +24,6 @@ class _AddToCartState extends State<AddToCart> {
   getUserCartApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     var headers = {
       'Cookie': 'ci_session=472e980cd4075e2ad3588b57ee360c52cf204358'
     };
@@ -32,17 +31,14 @@ class _AddToCartState extends State<AddToCart> {
     request.fields.addAll({
       'user_id': '$userId'
     });
-    print("this--------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result = await response.stream.bytesToString();
       final finalResult = GetUserCartModel.fromJson(jsonDecode(result));
-      print("getEventUserId--------------->${finalResult}");
       setState(() {
         userCartModel = finalResult;
       });
-      print("is empty===========>${userCartModel}");
     }
     else {
     print(response.reasonPhrase);
@@ -63,7 +59,6 @@ class _AddToCartState extends State<AddToCart> {
   getRemoveCart() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     var headers = {
       'Cookie': 'ci_session=51a471437729ba5f9b1d085be010c59cf36ebf24'
     };
@@ -79,7 +74,6 @@ class _AddToCartState extends State<AddToCart> {
      final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
-      print('thi i si  mi========?${finalResult}');
     }
     else {
     print(response.reasonPhrase);
@@ -91,7 +85,6 @@ class _AddToCartState extends State<AddToCart> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
     String? mobile = preferences.getString('userMobile');
-    print("getEventUserId1111111111111--------------->${mobile}");
     var headers = {
       'Cookie': 'ci_session=c4961f2c1bf92b901ce6f6097b19128aa6382998'
     };
@@ -103,7 +96,6 @@ class _AddToCartState extends State<AddToCart> {
       'final_total': '120',
       'address_id': '${result}'
     });
-    print("getEventUserId222222222222222222--------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -112,7 +104,6 @@ class _AddToCartState extends State<AddToCart> {
       final finalResult = json.decode(resutl);
       Navigator.pop(context);
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
-      print("ttttttttttttttttt=>${finalResult}");
      setState(() {
        result == null;
      });
@@ -133,10 +124,7 @@ class _AddToCartState extends State<AddToCart> {
    mobile1 = preferences.getString('mobile1');
    address = preferences.getString('address');
    email = preferences.getString('email');
-    print("Surendra name------------------>${name}");
-    print("Surendra-mobile1----------------->${mobile1}");
-    print("Surendra-address----------------->${address}");
-    print("Surendra-email----------------->${email}");
+
   }
   @override
   void initState() {
@@ -176,45 +164,6 @@ class _AddToCartState extends State<AddToCart> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
 
-                            /*  InkWell(
-                                  onTap: ()async{
-                                    var result = await  Navigator.push(context, MaterialPageRoute(builder: (context) => AddAddress()));
-                                    print("sfsfsfsdsssf ${result}");
-                                    if(result == "" || result == null){
-                                    }
-                                    else{
-                                     setState(() {
-                                       deliveryAddres = result;
-                                     });
-                                    }
-                                    // }else
-                                    //   deliveryAddres == null || deliveryAddres == "" ?
-                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => AddAddress())):SizedBox();
-                                  },
-                                  child: Center(
-                                    child: Center(child: Text("Add Address")
-                                    // Padding(
-                                    //   padding: const EdgeInsets.all(8.0),
-                                    //   child: TextFormField(
-                                    //     autofocus: true,
-                                    //     readOnly: false,
-                                    //     decoration: InputDecoration(
-                                    //       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                                    //     hintText: "Add Address"
-                                    //   ),),
-                                    // )
-                                    ),
-                                  )
-                                // Container(
-                                //   height: 40,
-                                //   decoration: BoxDecoration(
-                                //       borderRadius: BorderRadius.circular(5),
-                                //       color: colors.primary
-                                //   ),
-                                //   alignment: Alignment.center,
-                                //   child: Text("Add Address",style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.w500),),
-                                // ),
-                              ) : SizedBox.shrink(),*/
                                deliveryAddres == null || deliveryAddres == ""  ?
                               Container(
                                 height: 150,
@@ -248,22 +197,7 @@ class _AddToCartState extends State<AddToCart> {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              // Text("Name: ${name}",style: TextStyle(color: colors.blackTemp,fontSize: 16),),
-                                              // name == null ?  Padding(
-                                              //     padding: const EdgeInsets.only(),
-                                              //     child: TextButton(onPressed: () async {
-                                              //       var result = await  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(name: name,address: address,email: email,mobile: mobile1,)));
-                                              //       // if(result != null){
-                                              //       //   name = result['name'];
-                                              //       //   mobile1 = result['mobile1'];
-                                              //       //   email = result['email'];
-                                              //       //   address = result['address'];
-                                              //       //   getAddressList();
-                                              //       //   getUserCartApi();
-                                              //       // }
-                                              //
-                                              //     }, child:Text("Add Address",style: TextStyle(color: Colors.deepOrangeAccent,)))
-                                              // ):
+
                                               Padding(
                                                 padding: const EdgeInsets.all(8.0),
                                                 child: TextButton(
@@ -303,9 +237,7 @@ class _AddToCartState extends State<AddToCart> {
                              InkWell(
                                 onTap: (){
                                   if(deliveryAddres == null || deliveryAddres == " ") {
-                                    // Fluttertoast.showToast(msg: "please Add Address");
-                                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress()));
-                                    // Navigator.pop(context);
+
                                     getPlaceOrderApi();
                                   }else{
                                     Navigator.pop(context);
@@ -349,21 +281,7 @@ class _AddToCartState extends State<AddToCart> {
               ),
             )
         ),
-        //
-        //   Btn(
-        //     height: 50,
-        //     width: MediaQuery.of(context).size.width/1.5,
-        //     title: 'Generate Enquiry ',
-        //     onPress: () {
-        //       if(deliveryAddres == null || deliveryAddres == ""){
-        //         Navigator.push(context, MaterialPageRoute(builder: (context) => AddAddress()));
-        //       }else
-        //         deliveryAddres == null || deliveryAddres == "" ?
-        //         Navigator.push(context, MaterialPageRoute(builder: (context) => AddAddress())):
-        //         getPlaceOrderApi();
-        //     },
-        //   ),
-        // ),
+
         appBar: customAppBar(context: context, text:"Cart", isTrue: true, ),
         body: userCartModel?.data  == null ?Center(child: CircularProgressIndicator()) : userCartModel?.data?.length == 0 ? Center(child: Text("cart is Empty!!")):Padding(
           padding: const EdgeInsets.only(top: 10,left: 5,right: 5),

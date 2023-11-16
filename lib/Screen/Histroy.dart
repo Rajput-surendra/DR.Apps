@@ -41,22 +41,16 @@ class _HistoryState extends State<History> {
       final folderName = folderNames;
       final path= Directory("storage/emulated/0/$folderName");
       final path1 =  await getExternalStorageDirectory();
-      print("ssdsds ${path1}");
-      print("11111111111 ${path}");
+
       var status = await Permission.storage.status;
-      print("mmmmmmmmmmm ${status} and ${status.isGranted}");
       if (!status.isGranted) {
-        print("chacking status ${status.isGranted}");
+
         await Permission.storage.request();
       }
-      print(" path here ${path} and ${await path.exists()}");
       if ((await path.exists())) {
-        print("here path is ${path}");
         // var dir = await DownloadsPathProvider.
-        print("ooooooooo and $path/$folderNames");
         return path.path;
       } else {
-        print("here path is 1 ${path}");
         path.create();
         return path.path;
       }}else{
@@ -73,9 +67,7 @@ class _HistoryState extends State<History> {
   getHistroyApi(int i, ) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=579af58e6f03e48e089abbbe963a0b6ff69888d3'
     };
@@ -85,7 +77,6 @@ class _HistoryState extends State<History> {
       'user_id': '$userId',
 
     });
-    print("this is a history=============>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -108,7 +99,6 @@ class _HistoryState extends State<History> {
       'type': '$allType',
       'id': '$id'
     });
-    print('___dgsdg_______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -135,31 +125,7 @@ class _HistoryState extends State<History> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          // Container(
-          //   height: 30,
-          //   width: 100,
-          //   decoration: ShapeDecoration(
-          //       shape: const StadiumBorder(),
-          //       gradient: LinearGradient(
-          //           begin: Alignment.topCenter,
-          //           end: Alignment.bottomCenter,
-          //           colors: selectedSegmentVal == 0
-          //               ? [colors.primary, colors.primary]
-          //               : [Colors.transparent, Colors.transparent])),
-          //   child: MaterialButton(
-          //     shape: const StadiumBorder(),
-          //     onPressed: () => setSegmentValue(0),
-          //     child: Text(
-          //       'News',
-          //       style: TextStyle(
-          //           fontWeight: FontWeight.bold,
-          //           fontSize: 14,
-          //           color: selectedSegmentVal == 0
-          //               ? Colors.white
-          //               : Colors.black),
-          //     ),
-          //   ),
-          // ),
+
           Container(
             height: 30,
             width: 90,
@@ -559,7 +525,6 @@ class _HistoryState extends State<History> {
       await dio.download(url, filePath);
       // Open PDF using FlutterPdfView plugin
       if (await File(filePath).exists()) {
-        print('This is file path is here------${filePath}');
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -591,12 +556,7 @@ class _HistoryState extends State<History> {
           displayPDF(url);
           //  setSnackbar("File Downloaded successfully!", context);
           Fluttertoast.showToast(msg: "File View successfully!");
-          // var snackBar = SnackBar(
-          //   backgroundColor: colors.primary,
-          //   // content: Text('File Download Successfully '),
-          // );
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          //This will be the path of the downloaded file
+
         });
   }
   downloadFile(String url, String filename, ) async {
@@ -621,7 +581,7 @@ class _HistoryState extends State<History> {
   List ? strObjEvent;
   eventCustomCards(model, int i) {
     strObjEvent = getWishListModel!.data!.event![i].image?.split(".");
-    print('_____saaaaaaaasxsssssadasdadasdadawrwerraaaaaaaa_____${strObjEvent![2]}_________');
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child:Card(
@@ -634,8 +594,7 @@ class _HistoryState extends State<History> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // _currentIndex == 1
-                //     ?
+
                 Row(
 
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -801,7 +760,6 @@ class _HistoryState extends State<History> {
   List?strObjWeb;
   webinarsCustomCards(model,int i){
     strObjWeb  = getWishListModel!.data!.webinar![i].image?.split(".");
-    print('_____saaaaaaaasxsssssadasdadasdadawrwerraaaaaaaa_____${strObjEvent![2]}_________');
     return Column(
       children: [
         SizedBox(
@@ -961,16 +919,7 @@ class _HistoryState extends State<History> {
                                 style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.indigo),),
                                 child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
                           ),
-                          // Row(
-                          //   children: [
-                          //     IconButton(onPressed: (){
-                          //       setState(() {
-                          //         getNewWishlistApi(webinarModel?.data[index].id??'');
-                          //         webinarModel?.data[index].isSelected = !(webinarModel?.data[index].isSelected ?? false );
-                          //       });
-                          //     },icon: webinarModel?.data[index].isSelected?? false ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,))
-                          //   ],
-                          // )
+
                         ],
                       ),
 
@@ -1047,11 +996,7 @@ class _HistoryState extends State<History> {
                                         child: Text('Detail PDF/Jpeg',style: TextStyle(color: Colors.white,fontSize: 10),)),
                                   ),
                                   SizedBox(width: 20,),
-                                  // IconButton(onPressed: (){
-                                  //   setState(() {
-                                  //     isSelected =!isSelected;
-                                  //   });
-                                  // },icon: isSelected ?Icon(Icons.favorite,color: colors.red,):Icon(Icons.favorite_outline,color: colors.red,))
+
                                 ],
                               ),
                             ],
@@ -1178,10 +1123,7 @@ class _HistoryState extends State<History> {
                                           (e) => InkWell(
                                         onTap: () async {
                                           getHistoryDeleteApi(getWishListModel?.data?.awareness![i].type ??  "" , getWishListModel?.data?.awareness![i].id);
-                                          // removeWishListApi(
-                                          //     getWishListModel
-                                          //         ?.data?.news!.first.id ??
-                                          //         "", 0);
+
                                           Navigator.of(context).pop();
                                         },
                                         child: Container(
@@ -1314,10 +1256,7 @@ class _HistoryState extends State<History> {
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
                       child:
-                      // getWishListModel?.data?.products![i].image == null ||
-                      //     getWishListModel?.data?.products![i].image == ""
-                      //     ? Image.asset("assets/splash/splashimages.png")
-                         // :
+
                     Image.network(
                         "${getWishListModel?.data?.products![i].image}",
                         fit: BoxFit.fill,

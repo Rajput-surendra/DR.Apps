@@ -40,26 +40,17 @@ class _CustomCommanSliderState extends State<CustomCommanSlider> {
 
   @override
   Widget build(BuildContext context) {
-    print('____this ios mooo smoks______${widget.typeID}_________');
     Uri uri = Uri.parse(widget.file);
     String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
     return Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(1)),
-// height: 180,
-// width: MediaQuery.of(context).size.width,
+
         child: typeString == "jpg"
             ? InkWell(
           onTap: () async{
             Navigator.push(context, MaterialPageRoute(builder: (context)=>IpcaProductScreen2(PharmaProduct: widget.typeID,companyName: "Product" ,isTrue1: true,)));
-            // Uri url = Uri.parse(widget.typeID);
-            // if (!await launchUrl(
-            //   url,
-            //   mode: LaunchMode.inAppWebView,
-            //   webViewConfiguration: const WebViewConfiguration(enableJavaScript: false),
-            // )) {
-            //   throw Exception('Could not launch $url');
-            // }
+
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(1),
@@ -72,7 +63,6 @@ class _CustomCommanSliderState extends State<CustomCommanSlider> {
             : InkWell(
           onTap: ()async {
             widget.typeID;
-            print('____typeId______${widget.typeID}_________');
           },
 
           child: Stack(

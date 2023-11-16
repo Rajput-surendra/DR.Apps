@@ -75,55 +75,6 @@ class getAppbar extends StatelessWidget {
             ],
           ),
 
-          // Padding(
-          //     padding: const EdgeInsets.only(left: 0, right: 0),
-          //     child: AppBar(
-          //         flexibleSpace: Container(
-          //             decoration: BoxDecoration(
-          //             gradient: LinearGradient(
-          //               begin: Alignment.bottomLeft,
-          //               end: Alignment.bottomRight,
-          //               colors: [
-          //                 CustomColors.grade1,
-          //                 CustomColors.grade,
-          //               ],
-          //
-          //             ),
-          //           ),
-          //         ),
-          //       centerTitle: true,
-          //         leading: Icon(
-          //           Icons.add,color:CustomColors.grade1,
-          //         ),
-          //         title: Text(
-          //           '${text}',
-          //           style: TextStyle(color: Colors.white, fontSize: 20),
-          //         ),
-          //         actions: [
-          //           InkWell(
-          //             onTap: () {
-          //               Navigator.pop(context);
-          //             },
-          //             child: Padding(
-          //               padding: const EdgeInsets.all(8),
-          //               child: Container(
-          //                 height: 45,
-          //                 width: 45,
-          //                 decoration: BoxDecoration(
-          //                     borderRadius: BorderRadius.circular(10),
-          //                     color:
-          //                         CustomColors.AppbarColor1.withOpacity(0.4)),
-          //                 child: Icon(
-          //                   Icons.notifications_none,
-          //                   color: CustomColors.AppbarColor1,
-          //                 ),
-          //               ),
-          //             ),
-          //           ),
-          //         ])
-          //
-          //
-          //     ),
         ),
       ],
     );

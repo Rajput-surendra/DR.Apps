@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final addAwarenessMultiDataTypeResponse = addAwarenessMultiDataTypeResponseFromJson(jsonString);
+
 
 import 'dart:convert';
 

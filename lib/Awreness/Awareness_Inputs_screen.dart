@@ -49,7 +49,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     getAwarenessList();
     String date = dateTime.substring(11,16);
     getrole();
-    print("aaaaaaaaaaaaa====>${date}");
   }
   String dateTime = '2023-03-24 16:09:30';
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -61,7 +60,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     Roll = preferences.getString('roll');
     specialityId = preferences.getString('specialityId');
      localId = preferences.getString('LocalId');
-    print('___Roll____Roll________${specialityId}___${localId}_');
   }
 
   bool isSliderLoading = false ;
@@ -84,7 +82,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     String? userId = preferences.getString('userId');
     specialityId = preferences.getString('specialityId');
       String? localId = preferences.getString('LocalId');
-     print('______specialityId1____${specialityId}_________');
     var headers = {
       'Cookie': 'ci_session=24cf09ce78eebd805097f2d1bcece02c6e418346'
     };
@@ -104,22 +101,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
         isScreenLoading = false;
       });
 
-      // for(var i=0;i<FinalResult.data.video.length;i++){
-      //   FinalResult.data.video.forEach((element) {
-      //     Uri uri = Uri.parse(element.image?? '');
-      //     String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
-      //
-      //     if(typeString == "mp4")
-      //     _vController.add(VideoPlayerController.network(element.image ?? '')..initialize().then((value){
-      //       setState(() {
-      //       });
-      //     }));
-      //     isPlayed.add(false);
-      //   });
-      //   //_vController.add(VideoPlayerController.network(jsonResponse.data![i].video.toString()));
-      //
-      //   print("video controller length ${_vController.length}");
-      // }
       for(var i=0;i<(getAwareNess?.data.video?.length ?? 5);i++){
         // _vController.add(VideoPlayerController.network(jsonResponse.data![i].video.toString()));
           _vController.add(VideoPlayerController.network(getAwareNess!.data.video![i].image.toString())..initialize().then((value){
@@ -127,7 +108,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
           });
         }));
         isPlayed.add(false);
-        print("video controller length ${getAwareNess?.data.video?[i].image}");
       }
     }
     else {
@@ -203,14 +183,10 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
     request.headers.addAll(headers);
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetSliderModel.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         _sliderModel = finalResult;
 
@@ -226,7 +202,6 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
   getSearchListApi(String v) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getRoll--------------->${userId}");
     var headers = {
       'Cookie': 'ci_session=73057c266192adca72d009505c074949facaf6b7'
     };
@@ -238,11 +213,9 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    print("Response here ${response}");
     if (response.statusCode == 200) {
       getAwarenessList();
      final result =  await response.stream.bytesToString();
-      print("hello data here ${result}");
      final finalResult = GetSearchModel.fromJson(jsonDecode(result));
      setState(() {
        getSearchModel = finalResult;
@@ -255,16 +228,11 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
 
   }
   getNewWishlistApi(String id, String event) async {
-
     isScreenLoading = true ;
-    setState(() {
-
-    });
+    setState(() {});
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
     specialityId = preferences.getString('specialityId');
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
@@ -278,14 +246,12 @@ class _AwarenessScreenState extends State<AwarenessScreen> {
       'type': '$event',
       'speciality_id':specialityId.toString()
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
-      print("thi os ojon=result=========>${result}");
+
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
       isScreenLoading = false ;
@@ -761,7 +727,6 @@ searchProduct(String value) {
           } catch (error) {}
         }
       }).catchError((onError) {
-        print('Error --->> $onError');
       });
     } else if (storagePermission == PermissionStatus.denied) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -1159,7 +1124,6 @@ searchProduct(String value) {
             _showThumbnail?
             FloatingActionButton(
               onPressed: () {
-                print('______cccccc____${_showThumbnail}_________');
                 setState(() {
                      _showThumbnail = true;
                      isPlayed[index] = false;
@@ -1177,14 +1141,12 @@ searchProduct(String value) {
               child: isPlayed[index] == true ? InkWell(
                   onTap: (){
                     setState(() {
-                      print('____ddddddddddd______${_showThumbnail}_________');
                       isPlayed[index] = false;
                       _vController[index].pause();
                     });
                   },
                   child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
                   onTap: (){
-                    print('____ddddddddddd__surendra____${_showThumbnail}_________');
                     setState(() {
                       isPlayed[index] = true;
                       _vController[index].play();
@@ -1196,72 +1158,6 @@ searchProduct(String value) {
           ],
         ),
 
-
-        // Stack(
-        //   children: [
-        //     // _showThumbnail ==  true
-        //     //     ? Image.network(
-        //     //   'https://developmentalphawizz.com/dr_booking/uploads/media/2023/Is-Sensodyne-world’s-no-1-sensitivity-toothpaste-2_(1).jpg',
-        //     //   // Replace 'thumbnail_url_here' with the actual URL of the thumbnail image
-        //     //   width: double.infinity,
-        //     //   height: double.infinity,
-        //     //   fit: BoxFit.cover,
-        //     // ):
-        //     Padding(
-        //       padding: const EdgeInsets.all(8.0),
-        //       child: Container(
-        //           width: MediaQuery.of(context).size.width,
-        //           height: 220,
-        //           decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(10),
-        //             color: colors.secondary,
-        //           ),
-        //           child: Column(
-        //             children: [
-        //               Container(
-        //                   height:180,
-        //                   width: MediaQuery.of(context).size.width,
-        //                   decoration: BoxDecoration(
-        //                     borderRadius: BorderRadius.circular(10),
-        //                   ),
-        //                   child: AspectRatio(aspectRatio: _vController[index].value.aspectRatio,child: ClipRRect(
-        //                       borderRadius: BorderRadius.circular(10),
-        //                       child: VideoPlayer(_vController[index])),)),
-        //              const SizedBox(height: 10,),
-        //              Column(
-        //                crossAxisAlignment: CrossAxisAlignment.start,
-        //                children: [
-        //                  Text("${getAwareNess?.data.video?[index].title}",style: const TextStyle(color: colors.whiteTemp),),
-        //
-        //                ],
-        //              )
-        //
-        //             ],
-        //           )),
-        //     ),
-        //     Positioned(
-        //         left: 1,right: 1,
-        //         top: 0,
-        //         bottom: 1,
-        //         //alignment: Alignment.center,
-        //         child: isPlayed[index] == true ? InkWell(
-        //             onTap: (){
-        //               setState(() {
-        //                 isPlayed[index] = false;
-        //                 _vController[index].pause();
-        //               });
-        //             },
-        //             child: Icon(Icons.pause,color: Colors.white,)) : InkWell(
-        //             onTap: (){
-        //               setState(() {
-        //                 isPlayed[index] = true;
-        //                 _vController[index].play();
-        //               });
-        //             },
-        //             child: Icon(Icons.play_arrow,color: Colors.white,))),
-        //
-        //   ],
-        // ),
       ),
     );
   }
@@ -1424,7 +1320,6 @@ searchProduct(String value) {
   getGarphiApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     var headers = {
       'Cookie': 'ci_session=e4dfc99e63f5c529a622db46e6cf829e5af991d9'
     };
@@ -1432,13 +1327,11 @@ searchProduct(String value) {
     request.fields.addAll({
       'user_id': userId.toString()
     });
-    print('____surendra______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result =   await response.stream.bytesToString();
       var finalResult = GetGraphicModel.fromJson(json.decode(result));
-      print('_______ssssssss___${finalResult}_________');
       setState(() {
         getGraphicModel =  finalResult;
       });

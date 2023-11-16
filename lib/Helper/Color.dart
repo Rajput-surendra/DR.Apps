@@ -1,13 +1,6 @@
 
 import 'package:flutter/material.dart';
 
-// Color getColor(number) {
-//   if (number > 0 && number < 100) return Colors. red;
-//   if (number >= 100 && number < 200) return Colors. blue;
-//
-//
-//
-// }
 
 var milestoneCount;
 

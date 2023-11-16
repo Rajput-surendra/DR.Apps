@@ -89,29 +89,7 @@ class _SponsoredListPostState extends State<SponsoredListPost> {
                 ),
               ),
               SizedBox(height: 10,),
-              // InkWell(
-              //   onTap: (){
-              //     // showExitPopup();
-              //     //_getFromGallery();
-              //   },
-              //   child: Container(
-              //     // height: MediaQuery.of(context).size.height/6,
-              //     height: imageFile == null ?50:100,
-              //     child: DottedBorder(
-              //         borderType: BorderType.RRect,
-              //         radius: Radius.circular(5),
-              //         dashPattern: [5, 5],
-              //         color: Colors.grey,
-              //         strokeWidth: 2,
-              //         child: files.length > 0  ? Padding(
-              //           padding: const EdgeInsets.all(8.0),
-              //           child: Center(child: Text("${files[0]}")),
-              //         ) :
-              //         Center(child:Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 30,))
-              //
-              //     ),
-              //   ),
-              // ),
+
               SizedBox(height: 20,),
               Btn(
                 height: 50,

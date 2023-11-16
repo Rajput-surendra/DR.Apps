@@ -176,9 +176,7 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
     });
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
 
     var headers = {
       'Cookie': 'ci_session=f5c119f5040eaef28e6a4c420b14b794a449a6c4'
@@ -198,14 +196,12 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
      // "description":decController.text,
 
     });
-    print("getWebinarUserId--------------->${files.length}");
 
 
     if(files.isNotEmpty){
       request.files.add(await http.MultipartFile.fromPath('image', files[0].path ?? ''));
 
     }
-    print("getWebinarUserId--------------->${request.files}");
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -213,7 +209,6 @@ class _AddPostWebinerState extends State<AddPostWebiner> {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(jsonEncode(result));
 
-      print("thi os ojon==========>${finalResult}--------${result}-------");
       Fluttertoast.showToast(msg: 'Your input will be displayed in a few times after verification',backgroundColor: colors.secondary);
       Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
      doctoreController.clear();

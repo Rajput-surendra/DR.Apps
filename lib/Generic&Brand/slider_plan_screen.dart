@@ -36,11 +36,9 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
                     scrollDirection: Axis.horizontal,
                     itemCount: sliderModel!.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      print("ccccccccccccccc ${sliderModel!.data![index].isPurchased}");
                       return InkWell(
                         onTap: (){
-                          // price = int.parse(sliderModel!.data![index].amount ?? '') ;
-                          // print("checking razorpay price ${price}");
+
                           if(sliderModel!.data![index].isPurchased ?? true){
                             Fluttertoast.showToast(msg: "You all ready purchased plan",
                                 toastLength: Toast.LENGTH_SHORT,
@@ -170,7 +168,6 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
       'user_id': '$userId',
       'transaction_id': 'TestingTransactions',
     });
-    print('_____fields_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -178,7 +175,6 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
       final finalResult = json.decode(result);
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddPosterScreen()));
-      print('____Sdfdfdfdff______${finalResult}_________');
       setState(() {
 
       });
@@ -196,7 +192,6 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
 
     userId = preferences.getString("userId");
     role = preferences.getString("roll");
-    print('_____roll_____${role}_________');
     var headers = {
       'Cookie': 'ci_session=8adadafc30f808d5fdbbf9f73cd30f51941ac5bc'
     };
@@ -205,7 +200,6 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
       'user_id': userId.toString(),
       'user_type': role == "2" ? 'pharma' : 'doctor'
     });
-    print('______finalResult____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -213,7 +207,6 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
       var finalResult = SliderModel.fromJson(jsonDecode(result));
       setState(() {
         sliderModel =  finalResult ;
-        print('______finalResult____${finalResult}_________');
       });
     }
     else {
@@ -236,9 +229,7 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
   void openCheckout(amount) async {
     double res = double.parse(amount.toString());
     priceRazorpay= int.parse(res.toStringAsFixed(0)) * 100;
-    print("checking razorpay price ${priceRazorpay.toString()}");
 
-    print("checking razorpay price ${priceRazorpay.toString()}");
     // Navigator.of(context).pop();
     var options = {
       'key': 'rzp_test_1DP5mmOlF5G5ag',
@@ -260,8 +251,7 @@ class _SliderPlanScreenState extends State<SliderPlanScreen> {
   }
   void _handlePaymentError(PaymentFailureResponse response) {
     Fluttertoast.showToast(msg: "Payment cancelled by user",backgroundColor: colors.secondary);
-    // setSnackbar("ERROR", context);
-    // setSnackbar("Payment cancelled by user", context);
+
   }
   void _handleExternalWallet(ExternalWalletResponse response) {
   }

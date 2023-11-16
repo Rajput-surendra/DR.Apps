@@ -51,40 +51,7 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
                   ],
                 ),
                 Text("image size : 200 pixel * 100 pixel",style: TextStyle(fontSize: 13)),
-                // SizedBox(height: 5,),
-                // InkWell(
-                //   onTap: () {
-                //     showExitPopup();
-                //   },
-                //   child: Container(
-                //     height: imageFile == null ? 50:150,
-                //     child: Container(
-                //       decoration: BoxDecoration(
-                //           color: colors.primary,
-                //           border: Border.all(color: colors.black54)
-                //       ),
-                //       child: imageFile == null || imageFile == ""
-                //           ? const Center(
-                //           child: Text("Upload image",style: TextStyle(
-                //               color: colors.blackTemp
-                //           ),))
-                //           : Column(
-                //         children: [
-                //           ClipRRect(
-                //             borderRadius: BorderRadius.circular(0),
-                //             child: Image.file(
-                //               imageFile!,
-                //               height: 148,
-                //               width: double.infinity,
-                //               fit: BoxFit.fill,
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // SizedBox(height: 10,),
+
                 Row(
                   children: [
                     Text("Select Type of ad" ,textAlign: TextAlign.start),  Text("*" ,style: TextStyle(color: colors.red),)
@@ -418,7 +385,6 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userId = preferences.getString('userId');
     role = preferences.getString('roll');
-    print('_______sadsadasdas___${role}_________');
   }
   final _formKey = GlobalKey<FormState>();
   File? imageFile;
@@ -532,9 +498,7 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
       //  'type': role == "1" ? "" : dropdownInput
       'type': dropdownInput
     });
-    print("getEventUserId--------------->${request.fields}");
     if(files == null) {
-      print('________2__________');
       if (filesVideo != null) {
         request.files.add(await http.MultipartFile.fromPath(
             'image',  filesVideo[0].path ?? '' ));
@@ -542,7 +506,6 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
     }
     else{
       if (files != null) {
-        print('__________3_________');
         request.files.add(await http.MultipartFile.fromPath(
             'image',  files[0].path ?? '' ));
       }
@@ -605,7 +568,6 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
   getSpecialityApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? Roll = preferences.getString('roll');
-    print("getRoll--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
     };
@@ -613,13 +575,11 @@ class _AdvertisementScreenState extends State<AdvertisementScreen> {
     request.fields.addAll({
       'roll':"1",
     });
-    print("this is a Response==========>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = GetSelectCatModel.fromJson(jsonDecode(result));
-      print("this is =============>${finalResult}");
       setState(() {
         selectCatModel = finalResult;
         speciplyData =  finalResult.data ?? [];

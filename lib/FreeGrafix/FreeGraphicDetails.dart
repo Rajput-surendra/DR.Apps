@@ -61,7 +61,6 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('____childList______${widget.childList}_________');
     return Scaffold(
       appBar: customAppBar(context: context, text:"Free Graphic Details", isTrue: true, ),
       body: widget.childList == null
@@ -89,23 +88,7 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
                  ),
                   child: Column(
                     children: [
-                      // AspectRatio(
-                      //   aspectRatio: 1,
-                      //   child: PhotoViewGallery.builder(
-                      //     backgroundDecoration: BoxDecoration(color: Colors.white),
-                      //     scrollPhysics: BouncingScrollPhysics(),
-                      //     builder: (BuildContext context, int index) {
-                      //       return PhotoViewGalleryPageOptions(
-                      //         maxScale: PhotoViewComputedScale.contained,
-                      //         minScale: PhotoViewComputedScale.contained,
-                      //         imageProvider: NetworkImage(
-                      //             "${widget.childList![index].image}",),
-                      //         initialScale: PhotoViewComputedScale.contained,
-                      //       );
-                      //     },
-                      //     itemCount: 1,
-                      //   ),
-                      // )
+
                       InkWell(
                         onTap: (){
                           showDialogBox(index);
@@ -148,7 +131,7 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
                           ],
                         )
                       ),
-                      // Text("${widget.childList![index].title}")
+
 
                     ],
                   ),
@@ -164,14 +147,12 @@ class _FreeGraphicDetailsScreenState extends State<FreeGraphicDetailsScreen> {
   downloadFile(String url, String filename, ) async {
     FileDownloader.downloadFile(
         url:  "${url}",
-        //'https://completewomencares.com/public/upload/1686124273.pdf',
         name: "${filename}",
         onDownloadCompleted: (path) {
           print(path);
           String tempPath = path.toString().replaceAll("Download", "DR.Apps");
           final File file = File(tempPath);
-          print("path here ${file}");
-          //  setSnackbar("File Downloaded successfully!", context);
+
           var snackBar = SnackBar(
             backgroundColor: colors.secondary,
             content: Text('File Download Successfully'),

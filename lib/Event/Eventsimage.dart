@@ -34,8 +34,6 @@ class _EventsEmageScreenState extends State<EventsEmageScreen> {
     String? userId = preferences.getString('userId');
     String? Roll = preferences.getString('roll');
     String? specialityId = preferences.getString('specialityId');
-    print("getEventUserId--------------->${userId}");
-    print("getRoll--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=2a74e1313ac4372b572217b9fc2f2d145677f21a'
     };
@@ -47,14 +45,14 @@ class _EventsEmageScreenState extends State<EventsEmageScreen> {
       'user_id': '$userId',
       'speciality_id':"${specialityId}"
     });
-    print("event_id================>${request.fields}");
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result = await response.stream.bytesToString();
       final FinalResult = GetEventListDeteilsModel.fromJson(
           json.decode(result));
-      print("this is a Event=============>${FinalResult}");
+
       setState(() {
         eventListDeteilsModel = FinalResult;
         eventListDeteilsModel?.data?[0].address;
@@ -77,7 +75,6 @@ class _EventsEmageScreenState extends State<EventsEmageScreen> {
   getS() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     specialityId = preferences.getString('specialityId');
-    print('_____specialityId_____${specialityId}_________');
   }
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -99,7 +96,6 @@ class _EventsEmageScreenState extends State<EventsEmageScreen> {
           print(path);
           String tempPath = path.toString().replaceAll("Download", "doctorapp");
           final File file = File(tempPath);
-          print("path here ${file}");
           var snackBar = SnackBar(
             backgroundColor: colors.primary,
             content: Row(
@@ -124,31 +120,24 @@ class _EventsEmageScreenState extends State<EventsEmageScreen> {
     // var manage = await Permission.manageExternalStorage.status;
     var media = await Permission.accessMediaLocation.status;
     if (media == PermissionStatus.granted) {
-      print(statuses[Permission.location]);
+
       final folderName = folderNames;
       final path = Directory("storage/emulated/0/$folderName");
       final path1 = await getExternalStorageDirectory();
-      print("ssdsds ${path1}");
-      print("11111111111 ${path}");
+
       var status = await Permission.storage.status;
-      print("mmmmmmmmmmm ${status} and ${status.isGranted}");
+
       if (!status.isGranted) {
-        print("chacking status ${status.isGranted}");
         await Permission.storage.request();
       }
-      print(" path here ${path} and ${await path.exists()}");
       if ((await path.exists())) {
-        print("here path is ${path}");
-        // var dir = await DownloadsPathProvider.
-        print("ooooooooo and $path/$folderNames");
+
         return path.path;
       } else {
-        print("here path is 1 ${path}");
         path.create();
         return path.path;
       }
     } else {
-      print("permission denied");
     }
     return "";
   }
@@ -228,10 +217,7 @@ class _EventsEmageScreenState extends State<EventsEmageScreen> {
                             .startDate ?? '2023-05-25'), style: TextStyle(
                             color: Colors.white,
                             fontSize: 14),)
-                        /*Text(getDate(eventListDeteilsModel?.data?[0]
-                            .endDate ?? ''), style: TextStyle(
-                            color: colors.blackTemp,
-                            fontSize: 20),),*/
+
                       ],
                     ),
                   ],
@@ -342,22 +328,15 @@ class _EventsEmageScreenState extends State<EventsEmageScreen> {
   }
 
  String getDate(String startDate){
-    print('__________${startDate}_________');
 
-  // var date  =  DateTime.parse(dateString);
-  // DateFormat format =  DateFormat('LLLL');
-  // var formattedDate = format.parse(dateString);
    var formattedDate =  DateTime.parse(startDate).formatted(format: 'MMMM')
        .toUpperCase();
    return formattedDate ;
 
  }
   String getDateYear(String startDate){
-    print('__________${startDate}_________');
 
-    // var date  =  DateTime.parse(dateString);
-    // DateFormat format =  DateFormat('LLLL');
-    // var formattedDate = format.parse(dateString);
+
     var formattedDate =  DateTime.parse(startDate).formatted(format: 'yyyy')
         .toUpperCase();
     return formattedDate ;

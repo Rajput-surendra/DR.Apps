@@ -216,13 +216,11 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('______localId____${specialityId}____${localId}_____');
     String type = '/free_graphic_slide';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
-    print('____url______${request.url}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -242,7 +240,6 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
   getGenericApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     role = preferences.getString('roll');
-    print("getRoll--------------->${role}");
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
     };
@@ -251,7 +248,6 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
       'roll': '1',
       'cat_type':"5"
     });
-  print('___ssssssss_______${request.url}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -260,7 +256,6 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
       setState(() {
         selectCatModel = finalResult;
         specList = finalResult.data ?? [];
-        print('_____finalResult_____${specList}_________');
       });
 
     }
@@ -287,31 +282,4 @@ class _BrandSpecializationState extends State<BrandSpecialization> {
     }
   }
 }
-// searchProduct(String value) {
-//   if (value.isEmpty) {
-//     busSearchApi(value);
-//     setState(() {});
-//   } else if(value.length==4){
-//     busSearchApi(value);
-//     final suggestions = busCity.where((element) {
-//       final productTitle = element.title!.toLowerCase();
-//       final input = value.toLowerCase();
-//       return productTitle.contains(input);
-//     }).toList();
-//     busCity = suggestions;
-//     setState(() {
-//
-//     });
-//   }
-//   else{
-//     final suggestions = busCity.where((element) {
-//       final productTitle = element.title!.toLowerCase();
-//       final input = value.toLowerCase();
-//       return productTitle.contains(input);
-//     }).toList();
-//     busCity = suggestions;
-//     setState(() {
-//
-//     });
-//   }
-// }
+

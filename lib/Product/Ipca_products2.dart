@@ -50,7 +50,6 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
   getProoductListDetails() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId----------surendra----->${userId}");
     var headers = {
       'Cookie': 'ci_session=a630fb673049b6a5421081e350d6b8be2b23ab2c'
     };
@@ -58,14 +57,11 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
     request.fields.addAll({
       'product_variant_ids': widget.PharmaProduct,
     });
-    print("thi si i9 s=------------>${request.fields}----------${ApiService.getPharmaProducts}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetPharmaProducts.fromJson(json.decode(result));
-      print("thi i smom 00000000000000=========>${finalResult}");
       setState(() {
         pharmaProducts = finalResult;
       });
@@ -78,7 +74,6 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
   getManageCartApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     var headers = {
       'Cookie': 'ci_session=c4961f2c1bf92b901ce6f6097b19128aa6382998'
     };
@@ -88,7 +83,6 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
       'product_variant_id': widget.PharmaProduct,
       'qty': '1'
     });
-    print("thi si i9 s=------------>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -96,7 +90,6 @@ class _IpcaProductScreen2State extends State<IpcaProductScreen2> {
      final resutl =  await response.stream.bytesToString();
      final finalResult = json.decode(resutl);
      Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
-     print("ttttttttttttttttt=>${finalResult}");
     }
     else {
     print(response.reasonPhrase);

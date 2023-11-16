@@ -40,7 +40,6 @@ class _EditorialState extends State<Editorial> {
     getEdiorialApi();
 
     String date = dateTime.substring(11,16);
-    print("aaaaaaaaaaaaa====>${date}");
   }
   String? specialityId;
   String dateTime = '2023-03-24 16:09:30';
@@ -59,13 +58,11 @@ class _EditorialState extends State<Editorial> {
       'user_id': '$userId',
       'speciality_id': localId == null || localId == '' ?  specialityId ?? '' : localId.toString()
     });
-    print("getRollwwwwwwwwwww---------ddddddd------>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
      final result =  await response.stream.bytesToString();
      final finalResult = GetEditorialmodel.fromJson(jsonDecode(result));
-     print("getEventUserId---------------fdfdgfdgdgfdgd>${finalResult}");
      setState(() {
        editorialmodel =  finalResult;
        geteditorialList = editorialmodel?.data ?? [] ;
@@ -125,26 +122,25 @@ class _EditorialState extends State<Editorial> {
       final folderName = folderNames;
       final path= Directory("storage/emulated/0/$folderName");
       final path1 =  await getExternalStorageDirectory();
-      print("ssdsds ${path1}");
-      print("11111111111 ${path}");
+
       var status = await Permission.storage.status;
-      print("mmmmmmmmmmm ${status} and ${status.isGranted}");
+
       if (!status.isGranted) {
-        print("chacking status ${status.isGranted}");
+
         await Permission.storage.request();
       }
-      print(" path here ${path} and ${await path.exists()}");
+
       if ((await path.exists())) {
-        print("here path is ${path}");
+
         // var dir = await DownloadsPathProvider.
-        print("ooooooooo and $path/$folderNames");
+
         return path.path;
       } else {
-        print("here path is 1 ${path}");
+
         path.create();
         return path.path;
       }}else{
-      print("permission denied");
+
     }
     return "";
   }
@@ -211,9 +207,7 @@ class _EditorialState extends State<Editorial> {
   getNewWishlistApi(String id, String event) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     String? Roll = preferences.getString('roll');
-    print("getEventUserId--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=3d55d84af76cc51db413ee4ccdea5fff824134e1'
     };
@@ -225,13 +219,11 @@ class _EditorialState extends State<Editorial> {
       'status': '1',
       'type': '$event'
     });
-    print("this is data------------->${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result =  await response.stream.bytesToString();
       final finalResult = json.decode(result);
-      print("thi os ojon==========>${finalResult}");
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
 
@@ -249,14 +241,10 @@ class _EditorialState extends State<Editorial> {
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getSlider}$type'));
     request.headers.addAll(headers);
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetSliderModel.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         _sliderModel = finalResult;
 
@@ -275,7 +263,6 @@ class _EditorialState extends State<Editorial> {
       'id': editorialsId,
       'type':'editorials'
     });
-    print('____sdsdfsdfsdf______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -306,12 +293,6 @@ class _EditorialState extends State<Editorial> {
             body: SingleChildScrollView(
              child: Column(
               children:<Widget> [
-                // SizedBox(height: 10,),
-                // _sliderModel== null ? Center(child: CircularProgressIndicator(),) :_CarouselSlider1(),
-                // SizedBox(height: 5,),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children:  _buildDots(),),
 
                 Stack(
                   alignment: Alignment.bottomCenter,

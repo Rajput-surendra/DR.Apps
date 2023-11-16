@@ -37,7 +37,6 @@ class _CatListDataState extends State<CatListData> {
   getProductroll() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     roll = preferences.getString('roll');
-    print("this is reeeeeeeeererererer==============>${roll}");
   }
   GetPharmaProductsCategory? getPharmaProductsCategory;
   getProductsCategory() async {
@@ -52,15 +51,12 @@ class _CatListDataState extends State<CatListData> {
       'roll': '$roll',
       'company_id': widget.companyid.toString()
     });
-    print('____dgfdgdfdgfdgfd______${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response=========ggfgg==>${roll}");
       final finalResult = GetPharmaProductsCategory.fromJson(
           json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         getPharmaProductsCategory = finalResult;
       });
@@ -78,18 +74,13 @@ class _CatListDataState extends State<CatListData> {
         'GET', Uri.parse('${ApiService.getPharmaProductsCategoryNew}'));
     request.headers.addAll(headers);
 
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     roll = preferences.getString('roll');
-    print('__________${roll}_____________');
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response=========ggfgg==>${roll}");
       final finalResult =
       GetPharmaProductsCategory.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         pharmaProductList = finalResult.data ?? [];
       });

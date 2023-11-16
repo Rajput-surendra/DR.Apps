@@ -204,7 +204,6 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
       'speciality': results.join(','),
       'type':"1",
     });
-  print('______surendra____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -285,7 +284,6 @@ class _BrandUploadScreenState extends State<BrandUploadScreen> {
   getSpecialityApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? Roll = preferences.getString('roll');
-    print("getRoll--------------->${Roll}");
     var headers = {
       'Cookie': 'ci_session=742f7d5e34b7f410d122da02dbbe7e75f06cadc8'
     };

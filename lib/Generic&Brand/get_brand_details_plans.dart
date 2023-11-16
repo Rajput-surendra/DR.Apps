@@ -39,11 +39,9 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: getBrandPlanModel!.data!.length,
                 itemBuilder: (BuildContext context, int index) {
-                  print("ccccccccccccccc ${getBrandPlanModel!.data![index].isPurchased}");
                   return InkWell(
                     onTap: (){
-                      // price = int.parse(getBrandPlanModel!.data![index].amount ?? '') ;
-                      // print("checking razorpay price ${price}");
+
                       if(getBrandPlanModel!.data![index].isPurchased ?? false){
                         Fluttertoast.showToast(msg: "You all ready purchased plan",
                             toastLength: Toast.LENGTH_SHORT,
@@ -168,7 +166,6 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
     request.fields.addAll({
       'user_id': userId.toString()
     });
-    print('______finalResult____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -176,7 +173,6 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
        var finalResult = GetBrandPlanModel.fromJson(jsonDecode(result));
        setState(() {
          getBrandPlanModel =  finalResult ;
-         print('______finalResult____${finalResult}_________');
        });
     }
     else {
@@ -197,7 +193,6 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
       'user_id': '$userId',
       'transaction_id': 'TestingTransactions',
     });
-    print('_____fields_____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -205,7 +200,6 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
       final finalResult = json.decode(result);
       Fluttertoast.showToast(msg: finalResult['message'],backgroundColor: colors.secondary);
 
-      print('____Sdfdfdfdff______${finalResult}_________');
       setState(() {
 
       });
@@ -231,10 +225,6 @@ class _BrandDetailsPlansScreenState extends State<BrandDetailsPlansScreen> {
   void openCheckout(amount) async {
     double res = double.parse(amount.toString());
     priceRazorpay= int.parse(res.toStringAsFixed(0)) * 100;
-    print("checking razorpay price ${priceRazorpay.toString()}");
-
-    print("checking razorpay price ${priceRazorpay.toString()}");
-    // Navigator.of(context).pop();
     var options = {
       'key': 'rzp_test_1DP5mmOlF5G5ag',
       'amount': "${priceRazorpay}",

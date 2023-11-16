@@ -72,7 +72,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
   getRole()async{
     SharedPreferences preferences  = await  SharedPreferences.getInstance();
     role = preferences.getString("roll");
-    print('_____role_____${role}_________');
+
   }
   bool iconVisible = true;
   bool _isReady = true ;
@@ -90,7 +90,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
          child: Container(
            height: 50,
            decoration: BoxDecoration(color: colors.secondary,borderRadius: BorderRadius.circular(10)),
-           child: Center(
+           child: const Center(
              child: Text(
                "Add Request",style: TextStyle(color: colors.whiteTemp,fontWeight: FontWeight.bold,fontSize: 20),
              ),
@@ -104,7 +104,6 @@ class _DoctorRequestState extends State<DoctorRequest> {
          children: [
            getSlider(),
            button(),
-
            getRequestModel  ==  null ?
            Center(child: CircularProgressIndicator(color: colors.primary,)) :
            getRequestModel!.data!.length == 0 ? Center(child: Text("No Doctor Request !!")): viewCard(),
@@ -115,37 +114,6 @@ class _DoctorRequestState extends State<DoctorRequest> {
     );
   }
 
-  _shareQrCode({String? text}) async {
-    iconVisible = true ;
-    var status =  await Permission.photos.request();
-
-    if ( status.isGranted/*storagePermission == PermissionStatus.denied*/) {
-      final directory = (await getApplicationDocumentsDirectory()).path;
-      RenderRepaintBoundary bound = keyList.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await bound.toImage(pixelRatio: 10);
-      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-
-      print('${byteData?.buffer.lengthInBytes}___________');
-      // this will save image screenshot in gallery
-      if(byteData != null ){
-        Uint8List pngBytes = byteData.buffer.asUint8List();
-        String fileName = DateTime
-            .now()
-            .microsecondsSinceEpoch
-            .toString();
-        final imagePath = await File('$directory/$fileName.png').create();
-        await imagePath.writeAsBytes(pngBytes);
-        Share.shareFiles([imagePath.path],text: text);
-      }
-    } else if (await status.isDenied/*storagePermission == PermissionStatus.denied*/) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('This Permission is recommended')));
-    } else if (await status.isPermanentlyDenied/*storagePermission == PermissionStatus.permanentlyDenied*/) {
-      openAppSettings().then((value) {
-
-      });
-    }
-  }
   wishListApi(String ? requestId) async {
     var headers = {
       'Cookie': 'ci_session=6f1de5370d8c25e7d0c07b421f024a150f5afda9'
@@ -155,7 +123,6 @@ class _DoctorRequestState extends State<DoctorRequest> {
       'user_id': userId.toString(),
       'request_id': requestId.toString()
     });
-    print('_____request.fields_____${request.fields}_________');
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -182,491 +149,9 @@ class _DoctorRequestState extends State<DoctorRequest> {
         itemBuilder: (BuildContext context, int index) {
 
           return
-            // userIdNew == null ? CircularProgressIndicator():  userIdNew == getRequestModel!.data![index].userId  ?
             RequestListCard(index: requestDataList.length,getRequestModel:
             requestDataList[index] ,i: index,onTop: (){requetDeleteApi(getRequestModel!.data![index].id ??"");},);
-          // :SizedBox();
-          //   RepaintBoundary(
-          //   key: keyList,
-          //   child: _isReady ? Card(
-          //     shape: RoundedRectangleBorder(
-          //       borderRadius: BorderRadius.circular(10)
-          //     ),
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Row(
-          //             children: [
-          //               ClipRRect(
-          //                 child:  getRequestModel!.data![index].userImage == null ? Container(
-          //                     height: 70,
-          //                     width: 70  ,
-          //                     child: CircleAvatar()):ClipRRect(
-          //                   borderRadius: BorderRadius.circular(100),
-          //                       child: Container(
-          //                         color: colors.blackTemp,
-          //
-          //                   height: 70,
-          //                   width: 70,
-          //                   child: Image.network("${getRequestModel!.data![index].userImage}")),
-          //                     )
-          //               ),
-          //              SizedBox(width: 5,),
-          //              Column(
-          //                crossAxisAlignment: CrossAxisAlignment.start,
-          //                mainAxisAlignment: MainAxisAlignment.start,
-          //                children: [
-          //                  Text("Dr.${getRequestModel!.data![index].name}",style: TextStyle(
-          //                      color: colors.secondary,fontWeight: FontWeight.bold
-          //                  ),),
-          //                  Text("Degree-${getRequestModel!.data![index].docDigree}",style: TextStyle(color: colors.blackTemp),),
-          //
-          //                ],
-          //              ),
-          //              SizedBox(width: MediaQuery.of(context).size.width/5.5,),
-          //              iconVisible ? Row(
-          //                children: [
-          //                  InkWell(
-          //                      onTap: (){
-          //                        setState(() {
-          //                          iconVisible = false;
-          //                        });
-          //                        Future.delayed(Duration(seconds: 1), (){
-          //                          _shareQrCode(text: getRequestModel!.data![index].json!.message ?? '');
-          //                        });
-          //                      },
-          //                      child: Icon(Icons.share)),
-          //                  IconButton(onPressed: (){
-          //                    setState(() {
-          //                      wishListApi(getRequestModel!.data![index].id  ?? '',);
-          //                      getRequestModel!.data![index].isSelected  = !(getRequestModel!.data![index].isSelected ?? false );
-          //                    });
-          //                  },
-          //                      icon: getRequestModel!.data![index].isFavorite  ?? false ?
-          //                      Icon(Icons.favorite,color: colors.red,): getRequestModel!.data![index].isSelected ?? false ? Icon(Icons.favorite,color: colors.red,) :
-          //                      Icon(Icons.favorite_outline,color: colors.red,)),
-          //                     if(userId == getRequestModel!.data![index].userId)
-          //                       InkWell(
-          //                           onTap: (){
-          //                             requetDeleteApi(getRequestModel!.data![index].id ?? "");
-          //                           },
-          //                           child: Icon(Icons.delete))
-          //
-          //                ],
-          //              ):SizedBox.shrink(),
-          //
-          //
-          //
-          //             ],
-          //           ),
-          //             Padding(
-          //               padding: const EdgeInsets.all(8.0),
-          //               child: Column(
-          //                 crossAxisAlignment: CrossAxisAlignment.start,
-          //                 children: [
-          //                   SizedBox(height: 10,),
-          //                   Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       getRequestModel!.data![index].type == "Personalized Standy, Poster & Video" ?  Text("Request For Personalized :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),):Text("Request for :",style: TextStyle(color: colors.blackTemp,fontWeight: FontWeight.bold),),
-          //                       getRequestModel!.data![index].type ==  "Personalized Standy, Poster & Video" ? Text("${getRequestModel!.data![index].json!.drPersonalized}",): getRequestModel!.data![index].type  == "Awareness inputs" ?Text("${getRequestModel!.data![index].json!.request}",):Text("${getRequestModel!.data![index].json!.awarenessRequest}",)
-          //                     ],
-          //                   ),
-          //                   Divider(
-          //                     color: colors.black54,
-          //                   ),
-          //
-          //                   getRequestModel!.data![index].type == "Personalized Standy, Poster & Video" ?SizedBox.shrink():  Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Text("Mobile No :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                     Text("${getRequestModel!.data![index].json!.mobileNo}",),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ),
-          //
-          //                   getRequestModel!.data![index].type  == "Personalized Standy, Poster & Video" ?
-          //                   SizedBox.shrink():getRequestModel!.data![index].type  == "Awareness inputs" ||
-          //                       getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Dr.Association Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.drAssociation}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ) ,
-          //                   getRequestModel!.data![index].type == "Event Invitation Designs" ?  Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Event Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.eventName}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                 getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
-          //                   crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.place}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         // indent: 5,
-          //                         // endIndent: 5,
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  SizedBox.shrink(): Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Topic :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.topic}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ) ,
-          //                   getRequestModel!.data![index].type  == "Personalized Standy, Poster & Video" ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Dr. Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.drName}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //
-          //
-          //                   getRequestModel!.data![index].type  == "Personalized Standy, Poster & Video" ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Degree :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.degreeSpeakerName}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //
-          //
-          //
-          //
-          //
-          //
-          //                   getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Awarenes Day:",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.awarenessDay}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type == "CME Invitation Designs" ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Speaker Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.speakerName}",),
-          //                           SizedBox(height: 3,),
-          //                           Text("${getRequestModel!.data![index].json!.degreeSpeakerName}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type == "CME Invitation Designs"  ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Moderator Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.moderator}",),
-          //                           SizedBox(height: 3,),
-          //                           Text("${getRequestModel!.data![index].json!.degreeModerator}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //
-          //                   getRequestModel!.data![index].type == "CME Invitation Designs" ||getRequestModel!.data![index].type == "Event Invitation Designs" ||  getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Date :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.date}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type == "CME Invitation Designs" ||getRequestModel!.data![index].type == "Event Invitation Designs" ||  getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Time :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.time}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type == "CME Invitation Designs" ?  Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.place}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         // indent: 5,
-          //                         // endIndent: 5,
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type == "Event Invitation Designs" ?  Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.place}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         // indent: 5,
-          //                         // endIndent: 5,
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                    getRequestModel!.data![index].type == "Online Webinar Invitation Designs" ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Speaker Dr.Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.speakerName}",),
-          //                          SizedBox(height: 2,),
-          //                          Text("${getRequestModel!.data![index].json!.degreeSpeakerName}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //               getRequestModel!.data![index].type == "Online Webinar Invitation Designs"   ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Moderator :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.moderator}",),
-          //                           Text("${getRequestModel!.data![index].json!.degreeModerator}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                  getRequestModel!.data![index].type == "Event Invitation Designs" ? Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Conference Secretariat Dr Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.conference}",),
-          //                           SizedBox.shrink(),
-          //                           Text("${getRequestModel!.data![index].json!.degreeConference}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("For Clinic or Hospital Name :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.clinicHospital}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ),
-          //                   getRequestModel!.data![index].type  == "Personalized Standy, Poster & Video" ?  Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.place}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         // indent: 5,
-          //                         // endIndent: 5,
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type  == "Personalized Standy, Poster & Video" ?  Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Dr.Photo Require On Input  :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.drPhoto}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         // indent: 5,
-          //                         // endIndent: 5,
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   getRequestModel!.data![index].type == "Awareness inputs" || getRequestModel!.data![index].type == "Worlds Awareness Day inputs" ?  Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Place :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.place}",),
-          //                         ],
-          //                       ),
-          //                       Divider(
-          //                         // indent: 5,
-          //                         // endIndent: 5,
-          //                         color: colors.black54,
-          //                       ),
-          //                     ],
-          //                   ):SizedBox.shrink(),
-          //                   Column(
-          //                     crossAxisAlignment: CrossAxisAlignment.start,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text("Dr.Contact Email Id  :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                           Text("${getRequestModel!.data![index].json!.email}",),
-          //                         ],
-          //                       ),
-          //
-          //                     ],
-          //                   ),
-          //                   SizedBox(height: 10,),
-          //                   Container(
-          //                     decoration: BoxDecoration(
-          //                       borderRadius: BorderRadius.circular(10),
-          //                       border: Border.all(color: colors.blackTemp.withOpacity(0.4))
-          //                     ),
-          //                     child: Padding(
-          //                       padding: const EdgeInsets.all(8.0),
-          //                       child: Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Column(
-          //                             crossAxisAlignment: CrossAxisAlignment.start,
-          //                             children: [
-          //                               Text("Message for Pharma Company :",style: TextStyle(color: colors.black54,fontWeight: FontWeight.bold),),
-          //                               Text("${getRequestModel!.data![index].json!.message}",),
-          //                             ],
-          //                           ),
-          //
-          //                         ],
-          //                       ),
-          //                     ),
-          //                   )
-          //
-          //                 ],
-          //               ),
-          //             )
-          //
-          //         ],
-          //       ),
-          //     ),
-          //   ):SizedBox.shrink(),
-          // );
+
         },
       )
     );
@@ -762,13 +247,12 @@ class _DoctorRequestState extends State<DoctorRequest> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('______localId____${specialityId}____${localId}_____');
     String type = '/Doctor_Request';
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type?speciality_id=${localId==null || localId== '' ? specialityId ?? '' : localId}'));
-    print('____url______${request.url}_________');
+
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -791,7 +275,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
     role =  preferences.getString('roll');
     String? specialityId = preferences.getString('specialityId');
     String? localId = preferences.getString('LocalId');
-    print('_____userIdNew_____${userIdNew}______${role}___');
+
     var headers = {
       'Cookie': 'ci_session=c09a9cb1d96b25ad537166ce10be5c5b1dfd73b0'
     };
@@ -801,7 +285,6 @@ class _DoctorRequestState extends State<DoctorRequest> {
       'type': role == "2" ?"pharma": "doctor",
       'speciality_id': localId == null || localId == '' ? specialityId ?? '' : localId.toString()
     });
-    print('_____request.fields_____${request.fields}_________');
 
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
@@ -811,7 +294,7 @@ class _DoctorRequestState extends State<DoctorRequest> {
      setState(() {
        getRequestModel = finalResult;
        requestDataList = finalResult.data!;
-       print('__finalResult________${finalResult}_________');
+
      });
     }
     else {

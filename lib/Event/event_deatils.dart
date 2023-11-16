@@ -173,52 +173,5 @@ class _EventDeatilsState extends State<EventDeatils> {
       ),
     );
   }
-  // int currentindex = 0;
-  // _CarouselSlider(){
-  //   return  Padding(
-  //     padding: EdgeInsets.only(
-  //         top: 18, bottom: 18, left: 10, right: 10),
-  //     child: CarouselSlider(
-  //       options: CarouselOptions(
-  //         viewportFraction: 1.0,
-  //         initialPage: 0,
-  //         enableInfiniteScroll: true,
-  //         reverse: false,
-  //         autoPlay: true,
-  //         autoPlayInterval: Duration(seconds: 3),
-  //         autoPlayAnimationDuration:
-  //         Duration(milliseconds: 150),
-  //         enlargeCenterPage: false,
-  //         scrollDirection: Axis.horizontal,
-  //         height: 350,
-  //         onPageChanged: (position, reason) {
-  //           setState(() {
-  //             currentindex = position;
-  //           });
-  //           print(reason);
-  //           print(
-  //               CarouselPageChangedReason.controller);
-  //         },
-  //       ),
-  //       items: widget.getEventModel.map((val) {
-  //         return Container(
-  //           width: MediaQuery.of(context).size.width,
-  //           decoration: BoxDecoration(
-  //               borderRadius:
-  //               BorderRadius.circular(10)),
-  //           // height: 180,
-  //           // width: MediaQuery.of(context).size.width,
-  //           child: ClipRRect(
-  //               borderRadius:
-  //               BorderRadius.circular(10),
-  //               child: Image.network(
-  //                 "${val.image}",
-  //                 fit: BoxFit.fill,
-  //               )),
-  //         );
-  //       }).toList(),
-  //     ),
-  //   );
-  //
-  // }
+
 }

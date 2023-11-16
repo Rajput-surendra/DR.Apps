@@ -37,7 +37,6 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     roll = preferences.getString('roll');
     userId = preferences.getString('userId');
-    print("this is reeeeeeeeererererer==============>${userId}");
   }
 
   List <PharmaProductCategoryDataList> pharmaProductList = [];
@@ -131,18 +130,7 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
                       }).toList(),
                     ),
                   ),
-              /*SizedBox(height: 20,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text('Ipca laboratories ltd',style: TextStyle(fontWeight: FontWeight.w700),),
-                  SizedBox(width: 10,),
-                  Container(height: 10,width: 10,
-                    decoration:BoxDecoration(
-                        color: colors.red,
-                        borderRadius: BorderRadius.circular(20)) ,)
-                ],
-              ),*/
+
               SizedBox(height: 5,),
 
               Row(
@@ -270,10 +258,8 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
       final finalResult = NewSliderModel.fromJson(json.decode(result));
-      print('____hhhhhhhhh00______${newSliderModel?.data[0].image}_________');
       setState(() {
         newSliderModel = finalResult;
-        print('____hhhhhhhhh00______${newSliderModel?.data[0].image}_________');
       });
     } else {
       print(response.reasonPhrase);
@@ -293,13 +279,11 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
     request.fields.addAll({
       'user_id': roll== "2"?userId.toString():""
     });
-   print('______request.fields____${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result =    await response.stream.bytesToString();
       var finalResult  = GetCompanyModel.fromJson(json.decode(result));
-      print('____sdsdfsdd______${finalResult}_________');
       setState(() {
         getCompanyModel = finalResult;
         companyList = finalResult.data ?? [];
@@ -311,28 +295,7 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
     }
 
   }
-  // getCompanyName() async {
-  //   var headers = {
-  //     'Cookie': 'ci_session=e5dbfebfc51701fd8aba3e57be6c399b3a13750d'
-  //   };
-  //   var request = http.Request('GET', Uri.parse('${ApiService.getCompaniesApi}'));
-  //   request.headers.addAll(headers);
-  //   http.StreamedResponse response = await request.send();
-  //   if (response.statusCode == 200) {
-  //  var result =    await response.stream.bytesToString();
-  //  var finalResult  = GetCompanyModel.fromJson(json.decode(result));
-  //  print('____sdsdfsdd______${finalResult}_________');
-  //  setState(() {
-  //    getCompanyModel = finalResult;
-  //   companyList = finalResult.data ?? [];
-  //  });
-  //   }
-  //
-  //   else {
-  //   print(response.reasonPhrase);
-  //   }
-  //
-  // }
+
   getPharmaProductsCategory() async {
     var headers = {
       'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
@@ -346,13 +309,10 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     roll = preferences.getString('roll');
 
-    print('__________${roll}_____________');
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response=========ggfgg==>${roll}");
       final finalResult =
           GetPharmaProductsCategory.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         pharmaProductListOld = finalResult.data ?? [];
       });
@@ -368,18 +328,13 @@ class _PharmaProductScreenState extends State<PharmaProductScreen> {
         'GET', Uri.parse('${ApiService.getPharmaProductsCategoryNew}'));
     request.headers.addAll(headers);
 
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     SharedPreferences preferences = await SharedPreferences.getInstance();
     roll = preferences.getString('roll');
-    print('__________${roll}_____________');
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response=========ggfgg==>${roll}");
       final finalResult =
       GetPharmaProductsCategory.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         pharmaProductList = finalResult.data ?? [];
       });

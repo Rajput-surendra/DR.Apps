@@ -31,26 +31,6 @@ class _AddEventPostState extends State<AddEventPost> {
   List<File> files = [];
   List<File> files1 = [];
   List<File> files2 = [];
-  // _getFromGallery(bool type) async {
-  //   FilePickerResult? result;
-  //   if(type){
-  //  result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpeg', 'jpg']);}
-  //   if (result != null) {
-  //     setState(() {
-  //       files = result!.paths.map((path) => File(path!)).toList();
-  //     });}
-  //   else {
-  //     result = await FilePicker.platform.pickFiles(
-  //         type: FileType.custom, allowedExtensions: ['pdf']);
-  //     if (result != null) {
-  //       setState(() {
-  //         files1 = result!.paths.map((path) => File(path!)).toList();
-  //       });
-  //     }
-  //   }
-  //
-  // }
-
   Future<void> _getFromGallery(String type) async {
     PermissionStatus status = await Permission.mediaLibrary.request();
     if ( status.isGranted) {
@@ -184,7 +164,6 @@ class _AddEventPostState extends State<AddEventPost> {
       'address':addressController.text
 
     });
-    print("getEventPostApi--------------->${request.fields}");
     if(files != null){
         request.files.add(await http.MultipartFile.fromPath('image', files[0].path ?? ''));
     }
@@ -195,16 +174,7 @@ class _AddEventPostState extends State<AddEventPost> {
       final result =  await response.stream.bytesToString();
       final finalResult = jsonDecode(result);
       Fluttertoast.showToast(msg: 'Your input will be displayed in a few times after verification',backgroundColor: colors.secondary);
-       print("thi os ojon==========>${finalResult}=============${result}");
-     // Fluttertoast.showToast(msg: "${finalResult['message']}");
-     //  titleController.clear();
-     //  endDateController.clear();
-     //  startDateController.clear();
-     //  linkController.clear();
-     //  addressController.clear();
-     //  nameController.clear();
-     //  designController.clear();
-     //  mobileController.clear();
+
       Navigator.pop(context);
       files.clear();
       setState(() {
@@ -232,7 +202,7 @@ class _AddEventPostState extends State<AddEventPost> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                Row(
-                 children: [
+                 children: const [
                    Text("Event Name",style: TextStyle(
                        color: colors.blackTemp,fontSize: 15
                    ),),
@@ -263,7 +233,7 @@ class _AddEventPostState extends State<AddEventPost> {
                 ),
                 SizedBox(height: 10,),
                 Row(
-                  children: [
+                  children: const [
                     Text("City Name",style: TextStyle(
                         color: colors.blackTemp,fontSize: 15
                     ),),
@@ -294,7 +264,7 @@ class _AddEventPostState extends State<AddEventPost> {
                 ),
                 SizedBox(height: 10,),
                 Row(
-                  children: [
+                  children: const [
                     Text("Start Date",style: TextStyle(
                         color: colors.blackTemp,fontSize: 15
                     ),),
@@ -326,7 +296,7 @@ class _AddEventPostState extends State<AddEventPost> {
                 ),
                 SizedBox(height: 10,),
                 Row(
-                  children: [
+                  children: const [
                     Text("End Date",style: TextStyle(
                         color: colors.blackTemp,fontSize: 15
                     ),),
@@ -386,7 +356,7 @@ class _AddEventPostState extends State<AddEventPost> {
 
                 SizedBox(height: 5,),
                 Row(
-                  children: [
+                  children: const [
                     Text("Name ",style: TextStyle(
                         color: colors.blackTemp,fontSize: 15
                     ),),
@@ -417,7 +387,7 @@ class _AddEventPostState extends State<AddEventPost> {
                 ),
                 SizedBox(height: 10,),
                 Row(
-                  children: [
+                  children: const [
                     Text("Mobile No",style: TextStyle(
                         color: colors.blackTemp,fontSize: 15
                     ),),
@@ -451,7 +421,7 @@ class _AddEventPostState extends State<AddEventPost> {
                 ),
                 SizedBox(height: 10,),
                 Row(
-                  children: [
+                  children: const [
                     Text("Designation",style: TextStyle(
                         color: colors.blackTemp,fontSize: 15
                     ),),
@@ -492,7 +462,7 @@ class _AddEventPostState extends State<AddEventPost> {
                     child: DottedBorder(
                       borderType: BorderType.RRect,
                       radius: Radius.circular(5),
-                      dashPattern: [5, 5],
+                      dashPattern: const [5, 5],
                       color: Colors.grey,
                       strokeWidth: 2,
                       child: files1.length > 0  ? Padding(
@@ -504,7 +474,7 @@ class _AddEventPostState extends State<AddEventPost> {
                         child: Center(
                             child:
                             Column(
-                              children: [
+                              children: const [
                                 Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 30,),
                                 Text("jpeg file",style: TextStyle(color: colors.red),)
                               ],
@@ -528,7 +498,7 @@ class _AddEventPostState extends State<AddEventPost> {
                     child: DottedBorder(
                         borderType: BorderType.RRect,
                         radius: Radius.circular(5),
-                        dashPattern: [5, 5],
+                        dashPattern: const [5, 5],
                         color: Colors.grey,
                         strokeWidth: 2,
                         child: files2.length > 0  ? Padding(
@@ -540,7 +510,7 @@ class _AddEventPostState extends State<AddEventPost> {
                           child: Center(
                               child:
                                   Column(
-                                    children: [
+                                    children: const [
                                       Icon(Icons.drive_folder_upload_outlined,color: Colors.grey,size: 30,),
                                       Text("pdf File",style: TextStyle(color: colors.red),)
                                     ],

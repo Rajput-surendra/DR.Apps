@@ -48,11 +48,7 @@ class _TermsConditionState extends State<TermsCondition> {
      setState(() {
        termsConditions = jsonResponse['data']['terms_conditions'][0];
      });
-     // var FinalResult = GetSettingModel.fromJson(jsonDecode(result));
-     // print("thi osoks0  ============>${FinalResult}");
-     // setState(() {
-     //   settingModel = FinalResult;
-     // });
+
     }
     else {
     print(response.reasonPhrase);

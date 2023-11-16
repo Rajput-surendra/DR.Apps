@@ -23,7 +23,6 @@ class _RazarPayState extends State<RazarPay> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    // Handle payment success
     print('Payment Success: ${response.paymentId}');
   }
 

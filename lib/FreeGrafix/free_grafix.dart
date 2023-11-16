@@ -225,7 +225,6 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
   getGarphiApi() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString('userId');
-    print("getEventUserId--------------->${userId}");
     var headers = {
       'Cookie': 'ci_session=e4dfc99e63f5c529a622db46e6cf829e5af991d9'
     };
@@ -233,13 +232,11 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
     request.fields.addAll({
       'user_id': userId.toString()
     });
-    print('__________${request.fields}_________');
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
     var result =   await response.stream.bytesToString();
     var finalResult = GetGraphicModel.fromJson(json.decode(result));
-    print('_______ssssssss___${finalResult}_________');
     setState(() {
       getGraphicModel =  finalResult;
     });
@@ -257,14 +254,10 @@ class _FreeGraphicScreenState extends State<FreeGraphicScreen> {
     };
     var request = http.Request('GET', Uri.parse('${ApiService.getPharmaSlider}$type'));
     request.headers.addAll(headers);
-    print("fieldss===========>${request.url}");
     http.StreamedResponse response = await request.send();
-    print("response.statusCode===========>${response.statusCode}");
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetSliderModel.fromJson(json.decode(result));
-      print("this is a response===========>${finalResult}");
       setState(() {
         _sliderModel = finalResult;
 

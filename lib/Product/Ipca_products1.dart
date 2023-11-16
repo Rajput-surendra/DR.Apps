@@ -31,15 +31,9 @@ final  String? pharmaCategory ,ProdectName ,SliderId, companyName;
     // TODO: implement initState
     getPharmaProducts();
     super.initState();
-    //getUserId();
+
 
   }
-  // String? userId;
-  // getUserId() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   userId  =  preferences.getString('userId');
-  // print('_____aaaaaaaa_____${userId}_________');
-  // }
 
 
   getPharmaProducts() async {
@@ -54,14 +48,11 @@ final  String? pharmaCategory ,ProdectName ,SliderId, companyName;
       'category_id': widget.pharmaCategory.toString(),
       'user_id': userId.toString()
     });
-    print("this is a response===========>${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       var result = await response.stream.bytesToString();
-      print("this is a response===========>${result}");
       final finalResult = GetPharmaProducts.fromJson(json.decode(result));
-      print('____finalResult______${finalResult}_________');
       setState(() {
         pharmaProductsList = finalResult.data ?? [];
         isLoading = false;
@@ -73,55 +64,10 @@ final  String? pharmaCategory ,ProdectName ,SliderId, companyName;
       });
     }
   }
-  // getPharmaProducts() async {
-  //   isLoading = false ;
-  //   setState(() {
-  //   });
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   String?  userId  =  preferences.getString('userId');
-  //  // String? userId;
-  //   // SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   // String? roll  =  preferences.getString('roll');
-  //   // if(roll == '1')
-  //   // {
-  //   //  userId  =  preferences.getString('userId');
-  //   // }
-  //   var headers = {
-  //     'Cookie': 'ci_session=2c9c44fe592a74acad0121151a1d8648d7a78062'
-  //   };
-  //   var request = http.MultipartRequest('POST', Uri.parse('${ApiService.getPharmaProducts}'));
-  //
-  //   request.headers.addAll(headers);
-  //   request.fields.addAll({
-  //     'category_id': widget.pharmaCategory.toString(),
-  //      'user_id': userId.toString(),
-  //   });
-  //   print("fieldss===========>11111111111111111${request.fields}");
-  //   print("fieldss===========>11111111111111111${request.fields}");
-  //   http.StreamedResponse response = await request.send();
-  //   print("response.statusCode===========>${response.statusCode}");
-  //   if (response.statusCode == 200) {
-  //     var result = await response.stream.bytesToString();
-  //     print("this is a response===========>${result}");
-  //     final finalResult = GetPharmaProducts.fromJson(json.decode(result));
-  //     print('____finalResult______${finalResult}_________');
-  //     setState(() {
-  //       pharmaProductsList = finalResult.data ?? [];
-  //
-  //       isLoading = false ;
-  //
-  //     });
-  //   } else {
-  //     isLoading = false ;
-  //     setState(() {
-  //
-  //     });
-  //     print(response.reasonPhrase);
-  //   }
-  // }
+
   @override
   Widget build(BuildContext context)  {
-    print('__________${pharmaProducts?.data?.length}_____________');
+
     return SafeArea(
       child: Scaffold(
         appBar: customAppBar(context: context, text:"${widget.companyName}", isTrue: true, ),
@@ -131,35 +77,7 @@ final  String? pharmaCategory ,ProdectName ,SliderId, companyName;
 
             children:<Widget>[
               const SizedBox(height: 10,),
-              // InkWell(
-              //   onTap: () {
-              //     //Navigator.push(context,MaterialPageRoute(builder: (context)=>const IpcaProductScreen2()));
-              //   },
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: Container(
-              //       height:MediaQuery.of(context).size.height/13,
-              //       width:MediaQuery.of(context).size.width/1.09,
-              //       decoration: BoxDecoration(
-              //         border: Border.all(color: colors.grad1Color),borderRadius: BorderRadius.circular(11),
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.start,
-              //         children: [
-              //           Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: CircleAvatar(
-              //               radius: 27,
-              //               backgroundColor:colors.purpleColor,child: Text('Rheumatology'.substring(0,1),style:
-              //             const TextStyle(fontSize: 20,color:colors.lightWhite2),),),
-              //           ),
-              //           const SizedBox(width: 20,),
-              //           const Text('Rheumatology',style: TextStyle(fontWeight: FontWeight.w700),)
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
+
               const SizedBox(height: 10,),
               pharmaProductsList == null ?  Center(child: CircularProgressIndicator(),) : pharmaProductsList.length == "0" ? Center(child: Text('No Data Found !!'),) :
               ListView.builder(
