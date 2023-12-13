@@ -38,7 +38,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
       var headers = {
         'Cookie': 'ci_session=8aab49b6e6c12572dfec865bf8b192a8a73d19de'
       };
-      var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/verify_otp'));
+      var request = http.MultipartRequest('POST', Uri.parse('https://drplusapp.in/app/v1/api/verify_otp'));
       request.fields.addAll({
         'mobile': widget.MOBILE.toString(),
         'otp': pinController.text,

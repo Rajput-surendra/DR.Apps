@@ -1,6 +1,6 @@
 /// error : false
 /// message : "All Counter success"
-/// data : [{"slug":"news","title":"News Update","image":"https://developmentalphawizz.com/dr_booking/uploads/img/news.png","counter":"2"},{"slug":"event","title":"Events & Webinars","image":"https://developmentalphawizz.com/dr_booking/uploads/img/event.png","counter":"0"},{"slug":"product","title":"Pharma Products","image":"https://developmentalphawizz.com/dr_booking/uploads/img/product.png","counter":"0"},{"slug":"editorial","title":"Editorial","image":"https://developmentalphawizz.com/dr_booking/uploads/img/editorial.png","counter":"0"},{"slug":"awareness","title":"Awareness Inputs","image":"https://developmentalphawizz.com/dr_booking/uploads/img/awareness.png","counter":"0"},{"slug":"advertisement","title":"Advertisement","image":"https://developmentalphawizz.com/dr_booking/uploads/img/advertisement.png","counter":"0"}]
+/// data : [{"slug":"news","title":"News Update","image":"https://drplusapp.in/uploads/img/news.png","counter":"2"},{"slug":"event","title":"Events & Webinars","image":"https://drplusapp.in/uploads/img/event.png","counter":"0"},{"slug":"product","title":"Pharma Products","image":"https://drplusapp.in/uploads/img/product.png","counter":"0"},{"slug":"editorial","title":"Editorial","image":"https://drplusapp.in/uploads/img/editorial.png","counter":"0"},{"slug":"awareness","title":"Awareness Inputs","image":"https://drplusapp.in/uploads/img/awareness.png","counter":"0"},{"slug":"advertisement","title":"Advertisement","image":"https://drplusapp.in/uploads/img/advertisement.png","counter":"0"}]
 
 class GetCountingModel {
   GetCountingModel({
@@ -50,7 +50,7 @@ GetCountingModel copyWith({  bool? error,
 
 /// slug : "news"
 /// title : "News Update"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/img/news.png"
+/// image : "https://drplusapp.in/uploads/img/news.png"
 /// counter : "2"
 
 class Data {

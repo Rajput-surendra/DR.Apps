@@ -1,5 +1,5 @@
 /// error : false
-/// data : [{"id":"1","type":"link","type_id":"0","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(58).jpg","link":"https://youtube.com/","date_added":"2023-03-25 13:23:26","data":[{"id":"1","type":"link","type_id":"0","image":"uploads/media/2023/download_(58).jpg","link":"https://youtube.com/","date_added":"2023-03-25 13:23:26"},{"id":"2","type":"default","type_id":"0","image":"uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","link":null,"date_added":"2023-03-25 13:23:57"}]},{"id":"2","type":"default","type_id":"0","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","link":null,"date_added":"2023-03-25 13:23:57","data":[]}]
+/// data : [{"id":"1","type":"link","type_id":"0","image":"https://drplusapp.in/uploads/media/2023/download_(58).jpg","link":"https://youtube.com/","date_added":"2023-03-25 13:23:26","data":[{"id":"1","type":"link","type_id":"0","image":"uploads/media/2023/download_(58).jpg","link":"https://youtube.com/","date_added":"2023-03-25 13:23:26"},{"id":"2","type":"default","type_id":"0","image":"uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","link":null,"date_added":"2023-03-25 13:23:57"}]},{"id":"2","type":"default","type_id":"0","image":"https://drplusapp.in/uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","link":null,"date_added":"2023-03-25 13:23:57","data":[]}]
 
 class GetSliderModel {
   GetSliderModel({
@@ -42,7 +42,7 @@ class GetSliderModel {
 /// id : "1"
 /// type : "link"
 /// type_id : "0"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(58).jpg"
+/// image : "https://drplusapp.in/uploads/media/2023/download_(58).jpg"
 /// link : "https://youtube.com/"
 /// date_added : "2023-03-25 13:23:26"
 /// data : [{"id":"1","type":"link","type_id":"0","image":"uploads/media/2023/download_(58).jpg","link":"https://youtube.com/","date_added":"2023-03-25 13:23:26"},{"id":"2","type":"default","type_id":"0","image":"uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","link":null,"date_added":"2023-03-25 13:23:57"}]

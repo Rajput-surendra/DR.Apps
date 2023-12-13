@@ -1,6 +1,6 @@
 /// error : false
 /// message : "All Awareness Lists"
-/// data : {"poster":[{"user_name":"Shashank Saxena","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"MAHARAJA YESHWANT RAO HOSPITAL,INDORE ; Address, M.Y. Hospital, Indore","user_phone":"7828876950","user_digree":"M.B.B.S","id":"16","title":"test","aware_input":"poster","aware_language":"assam","date":"2023-04-06 12:51:50","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(58).jpg","status":"1","pharma_id":"42","type":"doctor-awareness","is_fav":false},{"user_name":"Atul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"12","title":"atatatata","aware_input":"poster","aware_language":"bengali","date":"2023-04-10 15:21:18","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(60).jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":false}],"leaflets":[{"user_name":"Shivansh Shukla","user_image":"https://developmentalphawizz.com/dr_booking/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"13","title":"dedemdoed","aware_input":"leaflets","aware_language":"hindi","date":"2023-03-31 16:44:38","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/6426996853359.jpg","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":false},{"user_name":"gautamatul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"ytutut","user_phone":"7978778787","user_digree":null,"id":"7","title":"demo","aware_input":"leaflets","aware_language":"kanada","date":"2023-04-06 18:29:15","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(60).jpg","pharma_id":"98","status":"1","type":"pharma-awareness","is_fav":false}],"booklets":[{"user_name":"Atul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"18","title":"its fine","aware_input":"booklets","aware_language":"bengali","date":"2023-04-10 15:23:15","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_-_2023-04-07T135509_087.jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":true},{"user_name":"Shivansh Shukla","user_image":"https://developmentalphawizz.com/dr_booking/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"11","title":"deded","aware_input":"booklets","aware_language":"hindi","date":"2023-04-10 15:21:20","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(59).jpg","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":true}],"m-poster":[{"user_name":"Atul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"19","title":"super Liine poster","aware_input":"m-poster","aware_language":"hindi","date":"2023-04-10 15:23:14","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_-_2023-04-07T135056_991.jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":true}],"video":[{"user_name":"Shivansh Shukla","user_image":"https://developmentalphawizz.com/dr_booking/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"22","title":"Multi Talented View","aware_input":"video","aware_language":"Marathi","date":"2023-04-11 15:42:31","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/6434f4800362c.png","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":false},{"user_name":"Atul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"17","title":"adsfsdfsd","aware_input":"video","aware_language":"assam","date":"2023-04-06 18:22:22","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":false}]}
+/// data : {"poster":[{"user_name":"Shashank Saxena","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"MAHARAJA YESHWANT RAO HOSPITAL,INDORE ; Address, M.Y. Hospital, Indore","user_phone":"7828876950","user_digree":"M.B.B.S","id":"16","title":"test","aware_input":"poster","aware_language":"assam","date":"2023-04-06 12:51:50","image":"https://drplusapp.in/uploads/media/2023/download_(58).jpg","status":"1","pharma_id":"42","type":"doctor-awareness","is_fav":false},{"user_name":"Atul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"12","title":"atatatata","aware_input":"poster","aware_language":"bengali","date":"2023-04-10 15:21:18","image":"https://drplusapp.in/uploads/media/2023/download_(60).jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":false}],"leaflets":[{"user_name":"Shivansh Shukla","user_image":"https://drplusapp.in/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"13","title":"dedemdoed","aware_input":"leaflets","aware_language":"hindi","date":"2023-03-31 16:44:38","image":"https://drplusapp.in/uploads/media/2023/6426996853359.jpg","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":false},{"user_name":"gautamatul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"ytutut","user_phone":"7978778787","user_digree":null,"id":"7","title":"demo","aware_input":"leaflets","aware_language":"kanada","date":"2023-04-06 18:29:15","image":"https://drplusapp.in/uploads/media/2023/download_(60).jpg","pharma_id":"98","status":"1","type":"pharma-awareness","is_fav":false}],"booklets":[{"user_name":"Atul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"18","title":"its fine","aware_input":"booklets","aware_language":"bengali","date":"2023-04-10 15:23:15","image":"https://drplusapp.in/uploads/media/2023/download_-_2023-04-07T135509_087.jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":true},{"user_name":"Shivansh Shukla","user_image":"https://drplusapp.in/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"11","title":"deded","aware_input":"booklets","aware_language":"hindi","date":"2023-04-10 15:21:20","image":"https://drplusapp.in/uploads/media/2023/download_(59).jpg","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":true}],"m-poster":[{"user_name":"Atul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"19","title":"super Liine poster","aware_input":"m-poster","aware_language":"hindi","date":"2023-04-10 15:23:14","image":"https://drplusapp.in/uploads/media/2023/download_-_2023-04-07T135056_991.jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":true}],"video":[{"user_name":"Shivansh Shukla","user_image":"https://drplusapp.in/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"22","title":"Multi Talented View","aware_input":"video","aware_language":"Marathi","date":"2023-04-11 15:42:31","image":"https://drplusapp.in/uploads/media/2023/6434f4800362c.png","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":false},{"user_name":"Atul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"17","title":"adsfsdfsd","aware_input":"video","aware_language":"assam","date":"2023-04-06 18:22:22","image":"https://drplusapp.in/uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":false}]}
 
 class GetSearchModel {
   GetSearchModel({
@@ -43,11 +43,11 @@ GetSearchModel copyWith({  bool? error,
 
 }
 
-/// poster : [{"user_name":"Shashank Saxena","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"MAHARAJA YESHWANT RAO HOSPITAL,INDORE ; Address, M.Y. Hospital, Indore","user_phone":"7828876950","user_digree":"M.B.B.S","id":"16","title":"test","aware_input":"poster","aware_language":"assam","date":"2023-04-06 12:51:50","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(58).jpg","status":"1","pharma_id":"42","type":"doctor-awareness","is_fav":false},{"user_name":"Atul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"12","title":"atatatata","aware_input":"poster","aware_language":"bengali","date":"2023-04-10 15:21:18","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(60).jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":false}]
-/// leaflets : [{"user_name":"Shivansh Shukla","user_image":"https://developmentalphawizz.com/dr_booking/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"13","title":"dedemdoed","aware_input":"leaflets","aware_language":"hindi","date":"2023-03-31 16:44:38","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/6426996853359.jpg","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":false},{"user_name":"gautamatul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"ytutut","user_phone":"7978778787","user_digree":null,"id":"7","title":"demo","aware_input":"leaflets","aware_language":"kanada","date":"2023-04-06 18:29:15","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(60).jpg","pharma_id":"98","status":"1","type":"pharma-awareness","is_fav":false}]
-/// booklets : [{"user_name":"Atul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"18","title":"its fine","aware_input":"booklets","aware_language":"bengali","date":"2023-04-10 15:23:15","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_-_2023-04-07T135509_087.jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":true},{"user_name":"Shivansh Shukla","user_image":"https://developmentalphawizz.com/dr_booking/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"11","title":"deded","aware_input":"booklets","aware_language":"hindi","date":"2023-04-10 15:21:20","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(59).jpg","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":true}]
-/// m-poster : [{"user_name":"Atul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"19","title":"super Liine poster","aware_input":"m-poster","aware_language":"hindi","date":"2023-04-10 15:23:14","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_-_2023-04-07T135056_991.jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":true}]
-/// video : [{"user_name":"Shivansh Shukla","user_image":"https://developmentalphawizz.com/dr_booking/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"22","title":"Multi Talented View","aware_input":"video","aware_language":"Marathi","date":"2023-04-11 15:42:31","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/6434f4800362c.png","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":false},{"user_name":"Atul","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"17","title":"adsfsdfsd","aware_input":"video","aware_language":"assam","date":"2023-04-06 18:22:22","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":false}]
+/// poster : [{"user_name":"Shashank Saxena","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"MAHARAJA YESHWANT RAO HOSPITAL,INDORE ; Address, M.Y. Hospital, Indore","user_phone":"7828876950","user_digree":"M.B.B.S","id":"16","title":"test","aware_input":"poster","aware_language":"assam","date":"2023-04-06 12:51:50","image":"https://drplusapp.in/uploads/media/2023/download_(58).jpg","status":"1","pharma_id":"42","type":"doctor-awareness","is_fav":false},{"user_name":"Atul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"12","title":"atatatata","aware_input":"poster","aware_language":"bengali","date":"2023-04-10 15:21:18","image":"https://drplusapp.in/uploads/media/2023/download_(60).jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":false}]
+/// leaflets : [{"user_name":"Shivansh Shukla","user_image":"https://drplusapp.in/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"13","title":"dedemdoed","aware_input":"leaflets","aware_language":"hindi","date":"2023-03-31 16:44:38","image":"https://drplusapp.in/uploads/media/2023/6426996853359.jpg","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":false},{"user_name":"gautamatul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"ytutut","user_phone":"7978778787","user_digree":null,"id":"7","title":"demo","aware_input":"leaflets","aware_language":"kanada","date":"2023-04-06 18:29:15","image":"https://drplusapp.in/uploads/media/2023/download_(60).jpg","pharma_id":"98","status":"1","type":"pharma-awareness","is_fav":false}]
+/// booklets : [{"user_name":"Atul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"18","title":"its fine","aware_input":"booklets","aware_language":"bengali","date":"2023-04-10 15:23:15","image":"https://drplusapp.in/uploads/media/2023/download_-_2023-04-07T135509_087.jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":true},{"user_name":"Shivansh Shukla","user_image":"https://drplusapp.in/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"11","title":"deded","aware_input":"booklets","aware_language":"hindi","date":"2023-04-10 15:21:20","image":"https://drplusapp.in/uploads/media/2023/download_(59).jpg","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":true}]
+/// m-poster : [{"user_name":"Atul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"19","title":"super Liine poster","aware_input":"m-poster","aware_language":"hindi","date":"2023-04-10 15:23:14","image":"https://drplusapp.in/uploads/media/2023/download_-_2023-04-07T135056_991.jpg","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":true}]
+/// video : [{"user_name":"Shivansh Shukla","user_image":"https://drplusapp.in/istockphoto-1095468748-612x612.jpg","user_address":"dbjdhehbbsNZmgmdmgf","user_phone":"6868635538","user_digree":"B- Pharma","id":"22","title":"Multi Talented View","aware_input":"video","aware_language":"Marathi","date":"2023-04-11 15:42:31","image":"https://drplusapp.in/uploads/media/2023/6434f4800362c.png","status":"1","pharma_id":"49","type":"doctor-awareness","is_fav":false},{"user_name":"Atul","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"fjghj","user_phone":"98798798778","user_digree":"jhgdfjhg","id":"17","title":"adsfsdfsd","aware_input":"video","aware_language":"assam","date":"2023-04-06 18:22:22","image":"https://drplusapp.in/uploads/media/2023/file_example_MP4_480_1_5MG1.mp4","status":"1","pharma_id":"47","type":"doctor-awareness","is_fav":false}]
 
 class Data {
   Data({
@@ -140,7 +140,7 @@ Data copyWith({  List<Poster>? poster,
 }
 
 /// user_name : "Shivansh Shukla"
-/// user_image : "https://developmentalphawizz.com/dr_booking/istockphoto-1095468748-612x612.jpg"
+/// user_image : "https://drplusapp.in/istockphoto-1095468748-612x612.jpg"
 /// user_address : "dbjdhehbbsNZmgmdmgf"
 /// user_phone : "6868635538"
 /// user_digree : "B- Pharma"
@@ -149,7 +149,7 @@ Data copyWith({  List<Poster>? poster,
 /// aware_input : "video"
 /// aware_language : "Marathi"
 /// date : "2023-04-11 15:42:31"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/6434f4800362c.png"
+/// image : "https://drplusapp.in/uploads/media/2023/6434f4800362c.png"
 /// status : "1"
 /// pharma_id : "49"
 /// type : "doctor-awareness"
@@ -291,7 +291,7 @@ Video copyWith({  String? userName,
 }
 
 /// user_name : "Atul"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png"
+/// user_image : "https://drplusapp.in/uploads/user_image/no-image.png"
 /// user_address : "fjghj"
 /// user_phone : "98798798778"
 /// user_digree : "jhgdfjhg"
@@ -300,7 +300,7 @@ Video copyWith({  String? userName,
 /// aware_input : "m-poster"
 /// aware_language : "hindi"
 /// date : "2023-04-10 15:23:14"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_-_2023-04-07T135056_991.jpg"
+/// image : "https://drplusapp.in/uploads/media/2023/download_-_2023-04-07T135056_991.jpg"
 /// status : "1"
 /// pharma_id : "47"
 /// type : "doctor-awareness"
@@ -442,7 +442,7 @@ MPoster copyWith({  String? userName,
 }
 
 /// user_name : "Atul"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png"
+/// user_image : "https://drplusapp.in/uploads/user_image/no-image.png"
 /// user_address : "fjghj"
 /// user_phone : "98798798778"
 /// user_digree : "jhgdfjhg"
@@ -451,7 +451,7 @@ MPoster copyWith({  String? userName,
 /// aware_input : "booklets"
 /// aware_language : "bengali"
 /// date : "2023-04-10 15:23:15"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_-_2023-04-07T135509_087.jpg"
+/// image : "https://drplusapp.in/uploads/media/2023/download_-_2023-04-07T135509_087.jpg"
 /// status : "1"
 /// pharma_id : "47"
 /// type : "doctor-awareness"
@@ -593,7 +593,7 @@ Booklets copyWith({  String? userName,
 }
 
 /// user_name : "Shivansh Shukla"
-/// user_image : "https://developmentalphawizz.com/dr_booking/istockphoto-1095468748-612x612.jpg"
+/// user_image : "https://drplusapp.in/istockphoto-1095468748-612x612.jpg"
 /// user_address : "dbjdhehbbsNZmgmdmgf"
 /// user_phone : "6868635538"
 /// user_digree : "B- Pharma"
@@ -602,7 +602,7 @@ Booklets copyWith({  String? userName,
 /// aware_input : "leaflets"
 /// aware_language : "hindi"
 /// date : "2023-03-31 16:44:38"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/6426996853359.jpg"
+/// image : "https://drplusapp.in/uploads/media/2023/6426996853359.jpg"
 /// status : "1"
 /// pharma_id : "49"
 /// type : "doctor-awareness"
@@ -744,7 +744,7 @@ Leaflets copyWith({  String? userName,
 }
 
 /// user_name : "Shashank Saxena"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png"
+/// user_image : "https://drplusapp.in/uploads/user_image/no-image.png"
 /// user_address : "MAHARAJA YESHWANT RAO HOSPITAL,INDORE ; Address, M.Y. Hospital, Indore"
 /// user_phone : "7828876950"
 /// user_digree : "M.B.B.S"
@@ -753,7 +753,7 @@ Leaflets copyWith({  String? userName,
 /// aware_input : "poster"
 /// aware_language : "assam"
 /// date : "2023-04-06 12:51:50"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/download_(58).jpg"
+/// image : "https://drplusapp.in/uploads/media/2023/download_(58).jpg"
 /// status : "1"
 /// pharma_id : "42"
 /// type : "doctor-awareness"

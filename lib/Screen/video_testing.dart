@@ -16,7 +16,7 @@ class _VideoThumbnailScreenState extends State<VideoThumbnailScreen> {
   void initState() {
     super.initState();
 
-    _videoPlayerController = VideoPlayerController.network('https://developmentalphawizz.com/dr_booking/uploads/media/2023/WhatsApp_Video_2023-06-14_at_12_44_09_PM.mp4')
+    _videoPlayerController = VideoPlayerController.network('https://drplusapp.in/uploads/media/2023/WhatsApp_Video_2023-06-14_at_12_44_09_PM.mp4')
       ..initialize().then((_) {
         _videoPlayerController.setLooping(true);
         setState(() {
@@ -43,7 +43,7 @@ class _VideoThumbnailScreenState extends State<VideoThumbnailScreen> {
           children: [
             _showThumbnail
                 ? Image.network(
-              'https://developmentalphawizz.com/dr_booking/uploads/media/2023/Is-Sensodyne-world’s-no-1-sensitivity-toothpaste-2_(1).jpg',
+              'https://drplusapp.in/uploads/media/2023/Is-Sensodyne-world’s-no-1-sensitivity-toothpaste-2_(1).jpg',
               // Replace 'thumbnail_url_here' with the actual URL of the thumbnail image
               width: double.infinity,
               height: double.infinity,

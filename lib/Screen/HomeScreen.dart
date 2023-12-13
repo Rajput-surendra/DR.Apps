@@ -1089,7 +1089,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await FlutterShare.share(
         title: 'DR.Apps',
         // text: 'Example share text',
-        linkUrl: 'https://developmentalphawizz.com/dr_booking/',
+        linkUrl: 'https://drplusapp.in/',
         chooserTitle: 'DR.Apps'
     );
   }

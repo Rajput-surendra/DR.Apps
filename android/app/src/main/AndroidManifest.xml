@@ -1,30 +1,70 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.dr.applications">
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-
 <!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE" />
 <!--    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"-->
 <!--        tools:ignore="QueryAllPackagesPermission" />-->
+    <queries>
+        <!-- If your app opens https URLs -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+
+        </intent>
+        <!-- If your app makes calls -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+
+        <!-- If your sends SMS messages -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto" />
+        </intent>
+        <!-- If your app sends emails -->
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
 
     <application
         android:requestLegacyExternalStorage="true"
         android:enableOnBackInvokedCallback="true"
         android:label="DR Apps"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/ic_launcher">
+
+<!--        <activity-->
+<!--            android:name="com.razorpay.CheckoutActivity"-->
+<!--            android:exported="true"-->
+<!--            />-->
+<!--        <receiver android:name="com.razorpay.RzpTokenReceiver"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="rzp.device_token.share"/>-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                &lt;!&ndash; Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST &ndash;&gt;-->
+<!--                <data-->
+<!--                    android:scheme="https"-->
+<!--                    android:host="https://alphawizzserver.com" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
         <activity
             android:name=".MainActivity"
@@ -41,15 +81,17 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
-
         </activity>
-
+        <meta-data
+            android:name="vn.hunghd.flutterdownloader.NOTIFICATION_ICON"
+            android:resource="@drawable/ic_launcher" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher" />
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

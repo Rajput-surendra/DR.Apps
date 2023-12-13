@@ -326,7 +326,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
       ) ??
           false; //if showDialouge had returned null, then return false
     }
-
     void requestPermission(BuildContext context,int i) async{
       print("okay");
       Map<Permission, PermissionStatus> statuses = await [
@@ -341,7 +340,6 @@ class _DoctorResignationState extends State<DoctorResignation> {
         getImageCmera(ImageSource.camera,context,1);
       }
     }
-
     Future getImage(ImageSource source, BuildContext context, int i) async {
       var image = await ImagePicker().pickImage(
         source: source,
@@ -383,7 +381,7 @@ class _DoctorResignationState extends State<DoctorResignation> {
     var headers = {
       'Cookie': 'ci_session=df570ff9aff445c600c3dbfa4fe01f9e4b8a7004'
     };
-    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/send_otp'));
+    var request = http.MultipartRequest('POST', Uri.parse('https://drplusapp.in/app/v1/api/send_otp'));
     request.fields.addAll({
       'roll': '1',
       'mobile': mobileController.text

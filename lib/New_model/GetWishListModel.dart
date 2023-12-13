@@ -1,6 +1,6 @@
 /// status : true
 /// message : "Users wishlist"
-/// data : {"webinar":[{"user_name":"gdgdsgg","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"","user_phone":"5454848448","user_digree":"mbbs","id":"107","title":"tvtgvtvvtvt","from_time":"8:35 AM","to_time":null,"start_date":"2023-08-30","end_date":null,"description":null,"link":"gtgttg","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ea136fc02b5.png","topic":"tgvvtvtvvt","speaker":"tvgtvy","moderator":"v g vgbgvg","status":"1","date":"2023-08-26 20:29:59","pharma_id":"726","type":"doctor-webinar","is_fav":false}],"event":[{"user_name":"gdgdsgg","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"","user_phone":"5454848448","user_digree":"mbbs","id":"106","title":"gdvddbbfn","name":"svgdbdvdvsv","mobile":"8494548845","start_date":"2023-08-30","end_date":"2023-08-29","designation":"bddbddhd","status":"1","description":"","link":"vsvdbd","address":"geegegrg","date":"2023-08-26 19:48:23","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ea099f405a1.png","pharma_id":"726","type":"doctor-event","is_fav":false}],"requests":[{"id":"90","user_id":"726","type":"Awareness inputs","json":{"mobile_no":"5858508585","dr_name":"","dr_association":"","degree":"","place":"fcfcfcfcf","request":"Poster","awareness_request":null,"topic":"gvvgvgvgvggvvgvf","clinic_hospital":"fcfvfvvffv","email":"test12345@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":null,"dr_personalized":null},"created_at":"2023-08-26 18:06:01","updated_at":"2023-08-26 18:06:01","name":"gdgdsgg","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","is_favorite":true},{"id":"91","user_id":"726","type":"Worlds Awareness Day inputs","json":{"mobile_no":"","dr_name":"","dr_association":"","degree":"","place":"vgvggvgv","request":null,"awareness_request":"Video","topic":"","clinic_hospital":"rcrvvtvtvt","email":"test12345@gmail.com","message":" I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.","awareness_day":"vffvrvtvvft","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":null,"dr_personalized":null},"created_at":"2023-08-26 18:14:26","updated_at":"2023-08-26 18:14:26","name":"gdgdsgg","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","is_favorite":true}],"awareness":[{"user_name":"yhhby","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"","user_phone":"8962272839","user_digree":null,"id":"115","title":"hell","aware_input":"poster","aware_language":"Gujrati","date":"2023-08-17 13:39:59","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ddd5993cd95.jpg","pharma_id":"685","status":"1","thumbnail":null,"type":"pharma-awareness","is_fav":false}],"products":[{"user_name":"yhhby","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"","user_phone":"8962272839","user_digree":null,"id":"115","title":"hell","aware_input":"poster","aware_language":"Gujrati","date":"2023-08-17 13:39:59","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ddd5993cd95.jpg","pharma_id":"685","status":"1","thumbnail":null,"type":"pharma-awareness","is_fav":false}]}
+/// data : {"webinar":[{"user_name":"gdgdsgg","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"","user_phone":"5454848448","user_digree":"mbbs","id":"107","title":"tvtgvtvvtvt","from_time":"8:35 AM","to_time":null,"start_date":"2023-08-30","end_date":null,"description":null,"link":"gtgttg","image":"https://drplusapp.in/uploads/media/2023/64ea136fc02b5.png","topic":"tgvvtvtvvt","speaker":"tvgtvy","moderator":"v g vgbgvg","status":"1","date":"2023-08-26 20:29:59","pharma_id":"726","type":"doctor-webinar","is_fav":false}],"event":[{"user_name":"gdgdsgg","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"","user_phone":"5454848448","user_digree":"mbbs","id":"106","title":"gdvddbbfn","name":"svgdbdvdvsv","mobile":"8494548845","start_date":"2023-08-30","end_date":"2023-08-29","designation":"bddbddhd","status":"1","description":"","link":"vsvdbd","address":"geegegrg","date":"2023-08-26 19:48:23","image":"https://drplusapp.in/uploads/media/2023/64ea099f405a1.png","pharma_id":"726","type":"doctor-event","is_fav":false}],"requests":[{"id":"90","user_id":"726","type":"Awareness inputs","json":{"mobile_no":"5858508585","dr_name":"","dr_association":"","degree":"","place":"fcfcfcfcf","request":"Poster","awareness_request":null,"topic":"gvvgvgvgvggvvgvf","clinic_hospital":"fcfvfvvffv","email":"test12345@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":null,"dr_personalized":null},"created_at":"2023-08-26 18:06:01","updated_at":"2023-08-26 18:06:01","name":"gdgdsgg","doc_digree":"mbbs","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","is_favorite":true},{"id":"91","user_id":"726","type":"Worlds Awareness Day inputs","json":{"mobile_no":"","dr_name":"","dr_association":"","degree":"","place":"vgvggvgv","request":null,"awareness_request":"Video","topic":"","clinic_hospital":"rcrvvtvtvt","email":"test12345@gmail.com","message":" I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.","awareness_day":"vffvrvtvvft","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":null,"dr_personalized":null},"created_at":"2023-08-26 18:14:26","updated_at":"2023-08-26 18:14:26","name":"gdgdsgg","doc_digree":"mbbs","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","is_favorite":true}],"awareness":[{"user_name":"yhhby","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"","user_phone":"8962272839","user_digree":null,"id":"115","title":"hell","aware_input":"poster","aware_language":"Gujrati","date":"2023-08-17 13:39:59","image":"https://drplusapp.in/uploads/media/2023/64ddd5993cd95.jpg","pharma_id":"685","status":"1","thumbnail":null,"type":"pharma-awareness","is_fav":false}],"products":[{"user_name":"yhhby","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"","user_phone":"8962272839","user_digree":null,"id":"115","title":"hell","aware_input":"poster","aware_language":"Gujrati","date":"2023-08-17 13:39:59","image":"https://drplusapp.in/uploads/media/2023/64ddd5993cd95.jpg","pharma_id":"685","status":"1","thumbnail":null,"type":"pharma-awareness","is_fav":false}]}
 
 class GetWishListModel {
   GetWishListModel({
@@ -43,11 +43,11 @@ GetWishListModel copyWith({  bool? status,
 
 }
 
-/// webinar : [{"user_name":"gdgdsgg","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"","user_phone":"5454848448","user_digree":"mbbs","id":"107","title":"tvtgvtvvtvt","from_time":"8:35 AM","to_time":null,"start_date":"2023-08-30","end_date":null,"description":null,"link":"gtgttg","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ea136fc02b5.png","topic":"tgvvtvtvvt","speaker":"tvgtvy","moderator":"v g vgbgvg","status":"1","date":"2023-08-26 20:29:59","pharma_id":"726","type":"doctor-webinar","is_fav":false}]
-/// event : [{"user_name":"gdgdsgg","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"","user_phone":"5454848448","user_digree":"mbbs","id":"106","title":"gdvddbbfn","name":"svgdbdvdvsv","mobile":"8494548845","start_date":"2023-08-30","end_date":"2023-08-29","designation":"bddbddhd","status":"1","description":"","link":"vsvdbd","address":"geegegrg","date":"2023-08-26 19:48:23","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ea099f405a1.png","pharma_id":"726","type":"doctor-event","is_fav":false}]
-/// requests : [{"id":"90","user_id":"726","type":"Awareness inputs","json":{"mobile_no":"5858508585","dr_name":"","dr_association":"","degree":"","place":"fcfcfcfcf","request":"Poster","awareness_request":null,"topic":"gvvgvgvgvggvvgvf","clinic_hospital":"fcfvfvvffv","email":"test12345@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":null,"dr_personalized":null},"created_at":"2023-08-26 18:06:01","updated_at":"2023-08-26 18:06:01","name":"gdgdsgg","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","is_favorite":true},{"id":"91","user_id":"726","type":"Worlds Awareness Day inputs","json":{"mobile_no":"","dr_name":"","dr_association":"","degree":"","place":"vgvggvgv","request":null,"awareness_request":"Video","topic":"","clinic_hospital":"rcrvvtvtvt","email":"test12345@gmail.com","message":" I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.","awareness_day":"vffvrvtvvft","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":null,"dr_personalized":null},"created_at":"2023-08-26 18:14:26","updated_at":"2023-08-26 18:14:26","name":"gdgdsgg","doc_digree":"mbbs","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","is_favorite":true}]
-/// awareness : [{"user_name":"yhhby","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"","user_phone":"8962272839","user_digree":null,"id":"115","title":"hell","aware_input":"poster","aware_language":"Gujrati","date":"2023-08-17 13:39:59","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ddd5993cd95.jpg","pharma_id":"685","status":"1","thumbnail":null,"type":"pharma-awareness","is_fav":false}]
-/// products : [{"user_name":"yhhby","user_image":"https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png","user_address":"","user_phone":"8962272839","user_digree":null,"id":"115","title":"hell","aware_input":"poster","aware_language":"Gujrati","date":"2023-08-17 13:39:59","image":"https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ddd5993cd95.jpg","pharma_id":"685","status":"1","thumbnail":null,"type":"pharma-awareness","is_fav":false}]
+/// webinar : [{"user_name":"gdgdsgg","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"","user_phone":"5454848448","user_digree":"mbbs","id":"107","title":"tvtgvtvvtvt","from_time":"8:35 AM","to_time":null,"start_date":"2023-08-30","end_date":null,"description":null,"link":"gtgttg","image":"https://drplusapp.in/uploads/media/2023/64ea136fc02b5.png","topic":"tgvvtvtvvt","speaker":"tvgtvy","moderator":"v g vgbgvg","status":"1","date":"2023-08-26 20:29:59","pharma_id":"726","type":"doctor-webinar","is_fav":false}]
+/// event : [{"user_name":"gdgdsgg","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"","user_phone":"5454848448","user_digree":"mbbs","id":"106","title":"gdvddbbfn","name":"svgdbdvdvsv","mobile":"8494548845","start_date":"2023-08-30","end_date":"2023-08-29","designation":"bddbddhd","status":"1","description":"","link":"vsvdbd","address":"geegegrg","date":"2023-08-26 19:48:23","image":"https://drplusapp.in/uploads/media/2023/64ea099f405a1.png","pharma_id":"726","type":"doctor-event","is_fav":false}]
+/// requests : [{"id":"90","user_id":"726","type":"Awareness inputs","json":{"mobile_no":"5858508585","dr_name":"","dr_association":"","degree":"","place":"fcfcfcfcf","request":"Poster","awareness_request":null,"topic":"gvvgvgvgvggvvgvf","clinic_hospital":"fcfvfvvffv","email":"test12345@gmail.com","message":"I Request to pharma companies can you please provide above awareness input for my clinic/hospital my social media a/c for awareness purpose only.","awareness_day":"","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":null,"dr_personalized":null},"created_at":"2023-08-26 18:06:01","updated_at":"2023-08-26 18:06:01","name":"gdgdsgg","doc_digree":"mbbs","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","is_favorite":true},{"id":"91","user_id":"726","type":"Worlds Awareness Day inputs","json":{"mobile_no":"","dr_name":"","dr_association":"","degree":"","place":"vgvggvgv","request":null,"awareness_request":"Video","topic":"","clinic_hospital":"rcrvvtvtvt","email":"test12345@gmail.com","message":" I Request to pharma companies can you please provide awareness input for my clinic/hospital/my social media a/c for awareness purpose only.","awareness_day":"vffvrvtvvft","moderator":"","degree_moderator":"","speaker_name":"","degree_speaker_name":"","degree_conference":"","date":"","time":"","event_name":"","conference":"","dr_photo":null,"dr_personalized":null},"created_at":"2023-08-26 18:14:26","updated_at":"2023-08-26 18:14:26","name":"gdgdsgg","doc_digree":"mbbs","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","is_favorite":true}]
+/// awareness : [{"user_name":"yhhby","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"","user_phone":"8962272839","user_digree":null,"id":"115","title":"hell","aware_input":"poster","aware_language":"Gujrati","date":"2023-08-17 13:39:59","image":"https://drplusapp.in/uploads/media/2023/64ddd5993cd95.jpg","pharma_id":"685","status":"1","thumbnail":null,"type":"pharma-awareness","is_fav":false}]
+/// products : [{"user_name":"yhhby","user_image":"https://drplusapp.in/uploads/user_image/no-image.png","user_address":"","user_phone":"8962272839","user_digree":null,"id":"115","title":"hell","aware_input":"poster","aware_language":"Gujrati","date":"2023-08-17 13:39:59","image":"https://drplusapp.in/uploads/media/2023/64ddd5993cd95.jpg","pharma_id":"685","status":"1","thumbnail":null,"type":"pharma-awareness","is_fav":false}]
 
 class Data {
   Data({
@@ -140,7 +140,7 @@ Data copyWith({  List<Webinar>? webinar,
 }
 
 /// user_name : "yhhby"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png"
+/// user_image : "https://drplusapp.in/uploads/user_image/no-image.png"
 /// user_address : ""
 /// user_phone : "8962272839"
 /// user_digree : null
@@ -149,7 +149,7 @@ Data copyWith({  List<Webinar>? webinar,
 /// aware_input : "poster"
 /// aware_language : "Gujrati"
 /// date : "2023-08-17 13:39:59"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ddd5993cd95.jpg"
+/// image : "https://drplusapp.in/uploads/media/2023/64ddd5993cd95.jpg"
 /// pharma_id : "685"
 /// status : "1"
 /// thumbnail : null
@@ -300,7 +300,7 @@ Products copyWith({  String? userName,
 }
 
 /// user_name : "yhhby"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png"
+/// user_image : "https://drplusapp.in/uploads/user_image/no-image.png"
 /// user_address : ""
 /// user_phone : "8962272839"
 /// user_digree : null
@@ -309,7 +309,7 @@ Products copyWith({  String? userName,
 /// aware_input : "poster"
 /// aware_language : "Gujrati"
 /// date : "2023-08-17 13:39:59"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ddd5993cd95.jpg"
+/// image : "https://drplusapp.in/uploads/media/2023/64ddd5993cd95.jpg"
 /// pharma_id : "685"
 /// status : "1"
 /// thumbnail : null
@@ -467,7 +467,7 @@ Awareness copyWith({  String? userName,
 /// updated_at : "2023-08-26 18:06:01"
 /// name : "gdgdsgg"
 /// doc_digree : "mbbs"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png"
+/// user_image : "https://drplusapp.in/uploads/user_image/no-image.png"
 /// is_favorite : true
 
 class Requests {
@@ -791,7 +791,7 @@ Json copyWith({  String? mobileNo,
 }
 
 /// user_name : "gdgdsgg"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png"
+/// user_image : "https://drplusapp.in/uploads/user_image/no-image.png"
 /// user_address : ""
 /// user_phone : "5454848448"
 /// user_digree : "mbbs"
@@ -807,7 +807,7 @@ Json copyWith({  String? mobileNo,
 /// link : "vsvdbd"
 /// address : "geegegrg"
 /// date : "2023-08-26 19:48:23"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ea099f405a1.png"
+/// image : "https://drplusapp.in/uploads/media/2023/64ea099f405a1.png"
 /// pharma_id : "726"
 /// type : "doctor-event"
 /// is_fav : false
@@ -996,7 +996,7 @@ Event copyWith({  String? userName,
 }
 
 /// user_name : "gdgdsgg"
-/// user_image : "https://developmentalphawizz.com/dr_booking/uploads/user_image/no-image.png"
+/// user_image : "https://drplusapp.in/uploads/user_image/no-image.png"
 /// user_address : ""
 /// user_phone : "5454848448"
 /// user_digree : "mbbs"
@@ -1008,7 +1008,7 @@ Event copyWith({  String? userName,
 /// end_date : null
 /// description : null
 /// link : "gtgttg"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/media/2023/64ea136fc02b5.png"
+/// image : "https://drplusapp.in/uploads/media/2023/64ea136fc02b5.png"
 /// topic : "tgvvtvtvvt"
 /// speaker : "tvgtvy"
 /// moderator : "v g vgbgvg"
