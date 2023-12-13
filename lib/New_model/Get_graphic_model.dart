@@ -1,6 +1,6 @@
 /// error : false
 /// message : "Free Graphics"
-/// data : [{"id":"1","title":"Dr Panel","image":"https://developmentalphawizz.com/dr_booking/uploads/no-image.png","is_parent":"1","parent_id":"0","status":"1","created_at":"2023-08-02 17:43:32","updated_at":"2023-08-02 17:34:45","total":"1","childs":[{"id":"3","title":"Dummy Image","image":"https://developmentalphawizz.com/dr_booking/uploads/no-image.png","is_parent":"0","parent_id":"1","status":"1","created_at":"2023-08-02 17:36:47","updated_at":"2023-08-02 17:36:47"}]},{"id":"2","title":"Graphics","image":"https://developmentalphawizz.com/dr_booking/uploads/no-image.png","is_parent":"1","parent_id":"0","status":"1","created_at":"2023-08-02 17:43:37","updated_at":"2023-08-02 17:34:56","total":"1","childs":[{"id":"4","title":"Dummy Image","image":"https://developmentalphawizz.com/dr_booking/uploads/no-image.png","is_parent":"0","parent_id":"2","status":"1","created_at":"2023-08-02 17:36:47","updated_at":"2023-08-02 17:36:47"}]}]
+/// data : [{"id":"1","title":"Dr Panel","image":"https://drplusapp.in/uploads/no-image.png","is_parent":"1","parent_id":"0","status":"1","created_at":"2023-08-02 17:43:32","updated_at":"2023-08-02 17:34:45","total":"1","childs":[{"id":"3","title":"Dummy Image","image":"https://drplusapp.in/uploads/no-image.png","is_parent":"0","parent_id":"1","status":"1","created_at":"2023-08-02 17:36:47","updated_at":"2023-08-02 17:36:47"}]},{"id":"2","title":"Graphics","image":"https://drplusapp.in/uploads/no-image.png","is_parent":"1","parent_id":"0","status":"1","created_at":"2023-08-02 17:43:37","updated_at":"2023-08-02 17:34:56","total":"1","childs":[{"id":"4","title":"Dummy Image","image":"https://drplusapp.in/uploads/no-image.png","is_parent":"0","parent_id":"2","status":"1","created_at":"2023-08-02 17:36:47","updated_at":"2023-08-02 17:36:47"}]}]
 
 class GetGraphicModel {
   GetGraphicModel({
@@ -50,14 +50,14 @@ GetGraphicModel copyWith({  bool? error,
 
 /// id : "1"
 /// title : "Dr Panel"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/no-image.png"
+/// image : "https://drplusapp.in/uploads/no-image.png"
 /// is_parent : "1"
 /// parent_id : "0"
 /// status : "1"
 /// created_at : "2023-08-02 17:43:32"
 /// updated_at : "2023-08-02 17:34:45"
 /// total : "1"
-/// childs : [{"id":"3","title":"Dummy Image","image":"https://developmentalphawizz.com/dr_booking/uploads/no-image.png","is_parent":"0","parent_id":"1","status":"1","created_at":"2023-08-02 17:36:47","updated_at":"2023-08-02 17:36:47"}]
+/// childs : [{"id":"3","title":"Dummy Image","image":"https://drplusapp.in/uploads/no-image.png","is_parent":"0","parent_id":"1","status":"1","created_at":"2023-08-02 17:36:47","updated_at":"2023-08-02 17:36:47"}]
 
 class Data {
   Data({
@@ -163,7 +163,7 @@ Data copyWith({  String? id,
 
 /// id : "3"
 /// title : "Dummy Image"
-/// image : "https://developmentalphawizz.com/dr_booking/uploads/no-image.png"
+/// image : "https://drplusapp.in/uploads/no-image.png"
 /// is_parent : "0"
 /// parent_id : "1"
 /// status : "1"

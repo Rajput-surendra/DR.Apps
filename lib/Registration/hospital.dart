@@ -160,7 +160,7 @@ class _HospitalState extends State<Hospital> {
     var headers = {
       'Cookie': 'ci_session=df570ff9aff445c600c3dbfa4fe01f9e4b8a7004'
     };
-    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/send_otp'));
+    var request = http.MultipartRequest('POST', Uri.parse('https://drplusapp.in/app/v1/api/send_otp'));
     request.fields.addAll({
       'roll': widget.roll.toString(),
       'mobile': widget.mobile

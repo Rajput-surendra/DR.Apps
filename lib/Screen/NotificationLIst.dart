@@ -38,7 +38,7 @@ class StateNoti extends State<NotificationList> with TickerProviderStateMixin {
     var headers = {
       'Cookie': 'ci_session=df5d2c0086921174ef313c606ea7aa6bc52cc05f'
     };
-    var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/dr_booking/app/v1/api/get_notification'));
+    var request = http.MultipartRequest('POST', Uri.parse('https://drplusapp.in/app/v1/api/get_notification'));
     request.fields.addAll({
       'user_id': userId.toString()
     });

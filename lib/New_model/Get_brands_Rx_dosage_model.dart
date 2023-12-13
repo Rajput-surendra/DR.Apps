@@ -1,6 +1,6 @@
 /// error : false
 /// message : "Record Found Successfully"
-/// data : [{"id":"128","user_id":"746","category_id":"101","name":"ff","generic_name":"ccc x","company_name":"cfd","details":{"indication":"bxbxh","dosage":"hzbzzb","rx_info":"vzbxbs"},"images":["https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440712838.png","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440716762.png","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440722848.png"],"logo":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440707951.jpg","contact_details":[{"name":"zxzv","mobile":"7997979788"},{"name":"bdbd","mobile":"8989789889"},{"name":"bzbzb","mobile":"9589898989"}],"created_at":"2023-09-11 19:26:58","updated_at":"2023-09-11 19:17:58","images0":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440712838.png","images1":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440716762.png","images2":"https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440722848.png","is_details_added":true,"detail_text":"Click to view detail of brand","is_detail_plan_subscribed":true,"is_add_plan_subscribed":true,"user_plan_purchased":true}]
+/// data : [{"id":"128","user_id":"746","category_id":"101","name":"ff","generic_name":"ccc x","company_name":"cfd","details":{"indication":"bxbxh","dosage":"hzbzzb","rx_info":"vzbxbs"},"images":["https://drplusapp.in/uploads/review_image/image_cropper_1694440712838.png","https://drplusapp.in/uploads/review_image/image_cropper_1694440716762.png","https://drplusapp.in/uploads/review_image/image_cropper_1694440722848.png"],"logo":"https://drplusapp.in/uploads/review_image/image_cropper_1694440707951.jpg","contact_details":[{"name":"zxzv","mobile":"7997979788"},{"name":"bdbd","mobile":"8989789889"},{"name":"bzbzb","mobile":"9589898989"}],"created_at":"2023-09-11 19:26:58","updated_at":"2023-09-11 19:17:58","images0":"https://drplusapp.in/uploads/review_image/image_cropper_1694440712838.png","images1":"https://drplusapp.in/uploads/review_image/image_cropper_1694440716762.png","images2":"https://drplusapp.in/uploads/review_image/image_cropper_1694440722848.png","is_details_added":true,"detail_text":"Click to view detail of brand","is_detail_plan_subscribed":true,"is_add_plan_subscribed":true,"user_plan_purchased":true}]
 
 class GetBrandsRxDosageModel {
   GetBrandsRxDosageModel({
@@ -55,14 +55,14 @@ GetBrandsRxDosageModel copyWith({  bool? error,
 /// generic_name : "ccc x"
 /// company_name : "cfd"
 /// details : {"indication":"bxbxh","dosage":"hzbzzb","rx_info":"vzbxbs"}
-/// images : ["https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440712838.png","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440716762.png","https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440722848.png"]
-/// logo : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440707951.jpg"
+/// images : ["https://drplusapp.in/uploads/review_image/image_cropper_1694440712838.png","https://drplusapp.in/uploads/review_image/image_cropper_1694440716762.png","https://drplusapp.in/uploads/review_image/image_cropper_1694440722848.png"]
+/// logo : "https://drplusapp.in/uploads/review_image/image_cropper_1694440707951.jpg"
 /// contact_details : [{"name":"zxzv","mobile":"7997979788"},{"name":"bdbd","mobile":"8989789889"},{"name":"bzbzb","mobile":"9589898989"}]
 /// created_at : "2023-09-11 19:26:58"
 /// updated_at : "2023-09-11 19:17:58"
-/// images0 : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440712838.png"
-/// images1 : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440716762.png"
-/// images2 : "https://developmentalphawizz.com/dr_booking/uploads/review_image/image_cropper_1694440722848.png"
+/// images0 : "https://drplusapp.in/uploads/review_image/image_cropper_1694440712838.png"
+/// images1 : "https://drplusapp.in/uploads/review_image/image_cropper_1694440716762.png"
+/// images2 : "https://drplusapp.in/uploads/review_image/image_cropper_1694440722848.png"
 /// is_details_added : true
 /// detail_text : "Click to view detail of brand"
 /// is_detail_plan_subscribed : true

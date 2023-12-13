@@ -18,8 +18,9 @@ final int timeOut = 50;
 const int perPage = 10;
 
 // final String baseUrl = 'https://vizzvefoods.com/app/v1/api/';
-final String baseUrl = 'https://developmentalphawizz.com/dr_booking/app/v1/api/';
-final String imageUrl = 'https://developmentalphawizz.com/';
+// final String baseUrl = 'https://drplusapp.in/app/v1/api/';
+final String baseUrl = 'https://drplusapp.in/app/v1/api/';
+final String imageUrl = 'https://drplusapp.in/';
 final String jwtKey = "78084f1698c9fcff5a668b68dcd103db39be2605";
 
 List<User> addressList = [];

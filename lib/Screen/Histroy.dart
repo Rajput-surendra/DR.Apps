@@ -77,12 +77,13 @@ class _HistoryState extends State<History> {
       'user_id': '$userId',
 
     });
+    print("this is a =============>${userId}===============>${ApiService.getHistoryApi}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
       final result = await response.stream.bytesToString();
       final finalResult = GetHistory.fromJson(jsonDecode(result));
-      print("this is a ddgfdgdf=============>${finalResult}");
+
       setState(() {
         getWishListModel = finalResult;
       });
@@ -757,7 +758,7 @@ class _HistoryState extends State<History> {
           )),
     );
   }
-  List?strObjWeb;
+  List? strObjWeb;
   webinarsCustomCards(model,int i){
     strObjWeb  = getWishListModel!.data!.webinar![i].image?.split(".");
     return Column(
@@ -802,7 +803,6 @@ class _HistoryState extends State<History> {
                             children: [
                               strObjWeb![2] == "pdf" ? Column(
                                 children: [
-
                                   InkWell(
                                     onTap: (){
                                       downloadFile('${getWishListModel?.data?.webinar![i].image}', getWishListModel?.data?.webinar![i].title ?? '');
